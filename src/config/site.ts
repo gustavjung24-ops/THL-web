@@ -1,30 +1,40 @@
 export const siteConfig = {
   brandName: "Luan Phu Tung",
   domain: "luanphutung.vn",
-  slogan: "Tra dung ma - tu van dung hang - ho tro nhanh",
-  personalName: "[Ten ca nhan]",
-  phone: "[So dien thoai]",
-  phoneHref: "tel:[So dien thoai]",
-  zaloLabel: "[Zalo Placeholder]",
+  slogan: "Tra đúng mã - tư vấn đúng hàng - hỗ trợ nhanh",
+  personalName: "[Tên cá nhân]",
+  phone: "[Số điện thoại]",
+  phoneHref: "tel:[so-dien-thoai]",
+  zaloLabel: "[Zalo cá nhân]",
   zaloLink: "https://zalo.me/[zalo-id]",
-  email: "[Email Placeholder]",
-  supportArea: "[Khu vuc ho tro]",
-  responseTime: "07:30 - 21:00 moi ngay",
-  defaultOgImage: "/images/og-industrial.jpg",
+  email: "[Email liên hệ]",
+  supportArea: "[Khu vực hỗ trợ]",
+  responseTime: "07:30 - 21:00 mỗi ngày",
+  address: "[Địa chỉ hoặc điểm hỗ trợ]",
+  defaultOgImage: "/images/og-industrial.svg",
+  footerCredit: "By Khương Bình",
 };
 
 export const mainMenu = [
-  { label: "Trang chu", href: "/" },
-  { label: "Gioi thieu", href: "/gioi-thieu" },
-  { label: "San pham", href: "/san-pham" },
-  { label: "Giai phap theo khach hang", href: "/giai-phap-theo-khach-hang" },
-  { label: "Tra ma / Bao gia", href: "/tra-ma-bao-gia" },
-  { label: "Kien thuc", href: "/kien-thuc" },
-  { label: "Lien he", href: "/lien-he" },
+  { label: "Trang chủ", href: "/" },
+  { label: "Giới thiệu", href: "/gioi-thieu" },
+  { label: "Sản phẩm", href: "/san-pham" },
+  { label: "Giải pháp theo khách hàng", href: "/giai-phap-theo-khach-hang" },
+  { label: "Tra mã / Báo giá", href: "/tra-ma-bao-gia" },
+  { label: "Kiến thức", href: "/kien-thuc" },
+  { label: "Liên hệ", href: "/lien-he" },
+] as const;
+
+export const footerMenu = [
+  { label: "Tra mã / Báo giá", href: "/tra-ma-bao-gia" },
+  { label: "Sản phẩm", href: "/san-pham" },
+  { label: "Giải pháp theo khách hàng", href: "/giai-phap-theo-khach-hang" },
+  { label: "Kiến thức", href: "/kien-thuc" },
+  { label: "Liên hệ", href: "/lien-he" },
 ] as const;
 
 export const quickActions = [
-  { label: "Gui ma can tim", href: "/tra-ma-bao-gia" },
+  { label: "Gửi mã cần tìm", href: "/tra-ma-bao-gia" },
   { label: "Chat Zalo", href: siteConfig.zaloLink, external: true },
-  { label: "Goi ngay", href: siteConfig.phoneHref },
+  { label: "Gọi ngay", href: siteConfig.phoneHref },
 ] as const;

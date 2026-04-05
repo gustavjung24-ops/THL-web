@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { productGroups } from "@/data/site-content";
+import { leadFormNote, productGroups } from "@/data/site-content";
 import { uploadProvider, type UploadedImage } from "@/lib/upload";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -14,11 +14,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 
 const leadSchema = z.object({
-  fullName: z.string().min(2, "Vui long nhap ho ten"),
-  phone: z.string().min(8, "Vui long nhap so dien thoai"),
-  area: z.string().min(2, "Vui long nhap khu vuc"),
-  productGroup: z.string().min(1, "Vui long chon nhom san pham"),
-  requestedCode: z.string().min(2, "Vui long nhap ma can tim"),
+  fullName: z.string().min(2, "Vui lòng nhập họ tên"),
+  phone: z.string().min(8, "Vui lòng nhập số điện thoại"),
+  area: z.string().min(2, "Vui lòng nhập khu vực"),
+  productGroup: z.string().min(1, "Vui lòng chọn nhóm sản phẩm"),
+  requestedCode: z.string().min(2, "Vui lòng nhập mã cần tìm"),
   application: z.string().optional(),
   quantity: z.string().optional(),
   notes: z.string().optional(),
@@ -66,7 +66,7 @@ export function LeadForm() {
   async function onSubmit(values: LeadFormValues) {
     await new Promise((resolve) => setTimeout(resolve, 700));
     setSubmitMessage(
-      `Da tiep nhan yeu cau cua ${values.fullName}. Day la mock local, san sang ket noi API/CRM sau.`,
+      `Đã tiếp nhận yêu cầu của ${values.fullName}. Đây là bản mock local, sẵn sàng kết nối API/CRM sau.`,
     );
     reset(defaultValues);
     setUploadedImages([]);
@@ -78,12 +78,12 @@ export function LeadForm() {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="fullName">Ho ten</Label>
-              <Input id="fullName" placeholder="Nguyen Van A" {...register("fullName")} />
+              <Label htmlFor="fullName">Họ tên</Label>
+              <Input id="fullName" placeholder="Nguyễn Văn A" {...register("fullName")} />
               {errors.fullName ? <p className="text-xs text-red-600">{errors.fullName.message}</p> : null}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="phone">So dien thoai</Label>
+              <Label htmlFor="phone">Số điện thoại</Label>
               <Input id="phone" placeholder="09xx xxx xxx" {...register("phone")} />
               {errors.phone ? <p className="text-xs text-red-600">{errors.phone.message}</p> : null}
             </div>
@@ -91,18 +91,20 @@ export function LeadForm() {
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="area">Khu vuc</Label>
-              <Input id="area" placeholder="TP.HCM / Binh Duong..." {...register("area")} />
+              <Label htmlFor="area">Khu vực</Label>
+              <Input id="area" placeholder="TP.HCM / Bình Dương..." {...register("area")} />
               {errors.area ? <p className="text-xs text-red-600">{errors.area.message}</p> : null}
             </div>
             <div className="space-y-2">
-              <Label>Nhom san pham</Label>
+              <Label>Nhóm sản phẩm</Label>
               <Select
                 value={selectedProductGroup}
-                onValueChange={(value) => setValue("productGroup", value, { shouldValidate: true })}
+                onValueChange={(value) =>
+                  setValue("productGroup", value ?? "", { shouldValidate: true, shouldDirty: true })
+                }
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Chon nhom san pham" />
+                  <SelectValue placeholder="Chọn nhóm sản phẩm" />
                 </SelectTrigger>
                 <SelectContent>
                   {productGroups.map((group) => (
@@ -117,33 +119,31 @@ export function LeadForm() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="requestedCode">Ma hang can tim</Label>
-            <Input id="requestedCode" placeholder="Vi du: 6205-2RS" {...register("requestedCode")} />
+            <Label htmlFor="requestedCode">Mã hàng cần tìm</Label>
+            <Input id="requestedCode" placeholder="Ví dụ: 6205-2RS" {...register("requestedCode")} />
             {errors.requestedCode ? <p className="text-xs text-red-600">{errors.requestedCode.message}</p> : null}
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="application">Ung dung / may dang dung</Label>
-              <Input id="application" placeholder="May nen khi, may det..." {...register("application")} />
+              <Label htmlFor="application">Ứng dụng / máy đang dùng</Label>
+              <Input id="application" placeholder="Máy nén khí, máy dệt..." {...register("application")} />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="quantity">So luong</Label>
-              <Input id="quantity" placeholder="Vi du: 10 cai" {...register("quantity")} />
+              <Label htmlFor="quantity">Số lượng</Label>
+              <Input id="quantity" placeholder="Ví dụ: 10 cái" {...register("quantity")} />
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="notes">Ghi chu</Label>
-            <Textarea id="notes" placeholder="Thong tin bo sung de doi chieu nhanh hon" rows={4} {...register("notes")} />
+            <Label htmlFor="notes">Ghi chú</Label>
+            <Textarea id="notes" placeholder="Thông tin bổ sung để đối chiếu nhanh hơn" rows={4} {...register("notes")} />
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="images">Upload anh</Label>
             <Input id="images" type="file" multiple accept="image/*" onChange={onUploadChange} />
-            <p className="text-xs text-slate-500">
-              Anh/chi co the gui anh tem, anh mau cu hoac anh vi tri lap de ho tro nhanh hon.
-            </p>
+            <p className="text-xs text-slate-500">{leadFormNote}</p>
             {uploadedImages.length ? (
               <ul className="space-y-1 text-xs text-slate-600">
                 {uploadedImages.map((image) => (
@@ -154,7 +154,7 @@ export function LeadForm() {
           </div>
 
           <Button type="submit" className="w-full bg-blue-700 hover:bg-blue-800" disabled={isSubmitting}>
-            {isSubmitting ? "Dang gui..." : "Gui yeu cau ngay"}
+            {isSubmitting ? "Đang gửi..." : "Gửi yêu cầu ngay"}
           </Button>
 
           {submitMessage ? <p className="rounded-md bg-blue-50 p-3 text-sm text-blue-700">{submitMessage}</p> : null}

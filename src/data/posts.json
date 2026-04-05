@@ -1,44 +1,50 @@
 [
   {
     "slug": "2rs-va-zz-khac-nhau-ra-sao",
-    "title": "2RS la gi, ZZ la gi, khac nhau ra sao?",
-    "excerpt": "Huong dan nhanh cach phan biet 2RS va ZZ theo moi truong bui, nuoc va toc do quay.",
-    "category": "Vong bi",
-    "publishedAt": "2026-03-10"
+    "title": "2RS là gì, ZZ là gì, khác nhau ra sao?",
+    "excerpt": "Hướng dẫn phân biệt nhanh 2RS và ZZ theo môi trường bụi, nước và tốc độ quay.",
+    "category": "Vòng bi",
+    "publishedAt": "2026-03-10",
+    "readTime": "4 phút đọc"
   },
   {
     "slug": "bi-dua-con-dung-khi-nao",
-    "title": "Bi dua con dung khi nao?",
-    "excerpt": "Tinh huong thuc te nen dung bi dua con va nhung luu y khi lap dat.",
-    "category": "Vong bi",
-    "publishedAt": "2026-03-07"
+    "title": "Bi đũa côn dùng khi nào?",
+    "excerpt": "Các tình huống thực tế nên dùng bi đũa côn và lưu ý khi lắp đặt.",
+    "category": "Vòng bi",
+    "publishedAt": "2026-03-07",
+    "readTime": "5 phút đọc"
   },
   {
     "slug": "cach-doc-ma-vong-bi-co-ban",
-    "title": "Cach doc ma vong bi co ban cho nguoi moi",
-    "excerpt": "Giai thich de hieu cac ky tu pho bien trong ma vong bi de han che dat sai.",
-    "category": "Huong dan co ban",
-    "publishedAt": "2026-02-28"
+    "title": "Cách đọc mã vòng bi cơ bản cho người mới",
+    "excerpt": "Giải thích dễ hiểu các ký tự phổ biến trong mã vòng bi để hạn chế đặt sai.",
+    "category": "Hướng dẫn cơ bản",
+    "publishedAt": "2026-02-28",
+    "readTime": "6 phút đọc"
   },
   {
     "slug": "khi-nao-nen-kiem-tra-c3",
-    "title": "Khi nao nen kiem tra C3?",
-    "excerpt": "Nhung truong hop can luu y do ro huong kinh C3 trong van hanh may.",
+    "title": "Khi nào nên kiểm tra C3?",
+    "excerpt": "Các trường hợp cần lưu ý độ rơ hướng kính C3 trong vận hành máy.",
     "category": "Ky thuat",
-    "publishedAt": "2026-02-22"
+    "publishedAt": "2026-02-22",
+    "readTime": "4 phút đọc"
   },
   {
     "slug": "cach-chon-phot-dung-kich-thuoc",
-    "title": "Cach chon phot dung kich thuoc",
-    "excerpt": "Cach do kich thuoc truc, vo va nhung loi hay gap khi thay phot.",
-    "category": "Phot chan dau",
-    "publishedAt": "2026-02-18"
+    "title": "Cách chọn phớt đúng kích thước",
+    "excerpt": "Cách đo kích thước trục, vỏ và những lỗi thường gặp khi thay phớt.",
+    "category": "Phớt chặn dầu",
+    "publishedAt": "2026-02-18",
+    "readTime": "5 phút đọc"
   },
   {
     "slug": "cach-kiem-tra-buoc-xich",
-    "title": "Cach kiem tra buoc xich truoc khi thay",
-    "excerpt": "Checklist nhanh de xac dinh dung buoc xich va tranh dat nham quy cach.",
-    "category": "Xich cong nghiep",
-    "publishedAt": "2026-02-12"
+    "title": "Cách kiểm tra bước xích trước khi thay",
+    "excerpt": "Checklist nhanh để xác định đúng bước xích và tránh đặt nhầm quy cách.",
+    "category": "Xích công nghiệp",
+    "publishedAt": "2026-02-12",
+    "readTime": "4 phút đọc"
   }
 ]

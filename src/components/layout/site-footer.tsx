@@ -1,20 +1,23 @@
 import Link from "next/link";
-import { mainMenu, siteConfig } from "@/config/site";
+import { footerMenu, siteConfig } from "@/config/site";
 
 export function SiteFooter() {
   return (
     <footer className="border-t border-slate-200 bg-slate-50">
       <div className="mx-auto grid w-full max-w-6xl gap-8 px-4 py-10 sm:grid-cols-2 sm:px-6 lg:grid-cols-3">
         <div className="space-y-3">
-          <h3 className="text-base font-semibold text-slate-900">{siteConfig.brandName}</h3>
+          <h3 className="font-heading text-base font-semibold text-slate-900">{siteConfig.brandName}</h3>
           <p className="text-sm text-slate-600">{siteConfig.slogan}</p>
-          <p className="text-sm text-slate-600">Kenh tu van ca nhan ve phu tung cong nghiep, tap trung xu ly nhu cau thuc te.</p>
+          <p className="text-sm text-slate-600">
+            Kênh tư vấn cá nhân về phụ tùng công nghiệp, tập trung xử lý nhu cầu thực tế cho khách thương mại và khách công nghiệp nhỏ.
+          </p>
+          <p className="text-xs text-slate-500">Đây là website thương hiệu cá nhân, không phải website chính thức của công ty.</p>
         </div>
 
         <div className="space-y-3">
-          <h3 className="text-base font-semibold text-slate-900">Menu</h3>
+          <h3 className="font-heading text-base font-semibold text-slate-900">Menu phụ</h3>
           <ul className="space-y-2 text-sm text-slate-600">
-            {mainMenu.map((item) => (
+            {footerMenu.map((item) => (
               <li key={item.href}>
                 <Link href={item.href} className="hover:text-blue-700">
                   {item.label}
@@ -25,7 +28,7 @@ export function SiteFooter() {
         </div>
 
         <div className="space-y-3">
-          <h3 className="text-base font-semibold text-slate-900">Lien he</h3>
+          <h3 className="font-heading text-base font-semibold text-slate-900">Thông tin liên hệ</h3>
           <ul className="space-y-2 text-sm text-slate-600">
             <li>{siteConfig.personalName}</li>
             <li>
@@ -39,11 +42,13 @@ export function SiteFooter() {
               </a>
             </li>
             <li>{siteConfig.email}</li>
+            <li>{siteConfig.address}</li>
             <li>{siteConfig.supportArea}</li>
+            <li>Giờ phản hồi: {siteConfig.responseTime}</li>
           </ul>
         </div>
       </div>
-      <div className="border-t border-slate-200 px-4 py-4 text-right text-xs text-slate-400 sm:px-6">By Khuong Binh</div>
+      <div className="border-t border-slate-200 px-4 py-4 text-right text-xs text-slate-400 sm:px-6">{siteConfig.footerCredit}</div>
     </footer>
   );
 }
