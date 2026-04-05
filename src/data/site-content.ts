@@ -79,7 +79,7 @@ export const productGroups: ProductGroup[] = [
     detailDescription:
       "Phù hợp cho các hệ truyền động và cụm quay cần vận hành ổn định trong nhà máy chạy theo ca.",
     popularApplications: ["Động cơ điện", "Máy bơm", "Quạt công nghiệp", "Hộp số", "Trục quay", "Con lăn"],
-    commonBuyers: ["Nhà máy sản xuất", "Bộ phận bảo trì", "Bộ phận kỹ thuật", "Bộ phận mua hàng"],
+    commonBuyers: ["Bộ phận bảo trì", "Kỹ thuật nhà máy", "Mua hàng kỹ thuật", "Xưởng cơ khí trong KCN"],
   },
   {
     slug: "goi-do",
@@ -89,7 +89,7 @@ export const productGroups: ProductGroup[] = [
     detailDescription:
       "Ưu tiên phương án đồng bộ với cụm đỡ trục trong dây chuyền để giảm thời gian chỉnh sửa khi thay thế.",
     popularApplications: ["Băng tải", "Trục truyền động", "Cụm đỡ trong dây chuyền", "Máy đóng gói"],
-    commonBuyers: ["Nhà máy sản xuất", "Bộ phận bảo trì", "Xưởng cơ khí trong KCN", "Xưởng chế tạo máy"],
+    commonBuyers: ["Bảo trì nhà máy", "Kỹ thuật dây chuyền", "Xưởng cơ khí", "Nhà thầu lắp đặt"],
   },
   {
     slug: "day-curoa",
@@ -98,7 +98,7 @@ export const productGroups: ProductGroup[] = [
     detailDescription:
       "Tập trung cho các cụm truyền động phụ cần thay thế định kỳ để giữ ổn định tiến độ sản xuất.",
     popularApplications: ["Quạt công nghiệp", "Máy nén khí", "Máy dệt", "Máy đóng gói", "Hệ truyền động phụ"],
-    commonBuyers: ["Nhà máy sản xuất", "Bộ phận bảo trì", "Bộ phận kỹ thuật", "Khách công nghiệp thay thế định kỳ"],
+    commonBuyers: ["Bảo trì", "Kỹ thuật thiết bị", "Nhà máy sản xuất", "Xưởng chế tạo"],
   },
   {
     slug: "xich-cong-nghiep",
@@ -107,7 +107,7 @@ export const productGroups: ProductGroup[] = [
     detailDescription:
       "Ưu tiên các hệ thống băng tải và cơ cấu truyền động cần xử lý nhanh để giảm thời gian dừng thiết bị.",
     popularApplications: ["Băng tải xích", "Máy sản xuất", "Dây chuyền chuyển phôi", "Cơ cấu truyền động"],
-    commonBuyers: ["Nhà máy sản xuất", "Bộ phận bảo trì", "Nhà thầu cơ điện / lắp đặt công nghiệp", "Xưởng chế tạo máy"],
+    commonBuyers: ["Bảo trì dây chuyền", "Kỹ thuật nhà máy", "Xưởng chế tạo máy", "Nhà thầu cơ điện"],
   },
   {
     slug: "phot-chan-dau",
@@ -116,7 +116,7 @@ export const productGroups: ProductGroup[] = [
     detailDescription:
       "Tập trung cho các cụm quay, cụm kín dầu và cụm truyền động cần hạn chế rò rỉ trong vận hành liên tục.",
     popularApplications: ["Hộp số", "Cụm trục", "Bơm", "Motor giảm tốc", "Máy thủy lực"],
-    commonBuyers: ["Bộ phận bảo trì", "Bộ phận kỹ thuật", "Nhà máy sản xuất", "Xưởng chế tạo máy"],
+    commonBuyers: ["Bảo trì", "Kỹ thuật", "Nhà máy sản xuất", "Đơn vị sửa chữa công nghiệp"],
   },
   {
     slug: "mo-boi-tron",
@@ -125,7 +125,7 @@ export const productGroups: ProductGroup[] = [
     detailDescription:
       "Phù hợp cho các cụm chạy liên tục theo ca, cần độ ổn định bôi trơn và kế hoạch bảo trì rõ ràng.",
     popularApplications: ["Vòng bi tốc độ cao", "Cụm con lăn", "Motor", "Quạt", "Cụm chạy liên tục theo ca"],
-    commonBuyers: ["Bộ phận bảo trì", "Nhà máy sản xuất", "Xưởng cơ khí trong KCN", "Khách công nghiệp thay thế định kỳ"],
+    commonBuyers: ["Bảo trì nhà máy", "Kỹ thuật vận hành", "Khách thay thế định kỳ"],
   },
 ];
 

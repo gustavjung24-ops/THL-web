@@ -11,7 +11,7 @@ export function SiteFooter() {
           <p className="text-sm text-slate-600">
             Kênh tư vấn cá nhân tập trung vật tư truyền động cho nhà máy, bộ phận bảo trì, kỹ thuật và mua hàng.
           </p>
-          <p className="text-xs text-slate-500">Website Phòng Kinh Doanh Thuộc Công Ty TNHH Tân Hòa Lợi</p>
+          <p className="text-xs text-slate-500">Kênh tư vấn hỗ trợ kỹ thuật thuộc Phòng Kinh Doanh, không phải website chính thức của công ty.</p>
         </div>
 
         <div className="space-y-3">
