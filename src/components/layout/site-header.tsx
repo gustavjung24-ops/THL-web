@@ -22,10 +22,10 @@ export function SiteHeader() {
         <Link href="/" className="flex items-center gap-2">
           <Image
             src="/images/logo-bearing.svg"
-            alt="Logo Truyền Động Công Nghiệp"
-            width={36}
-            height={36}
-            className="size-9 rounded-md border border-amber-200 bg-white p-1"
+            alt="Logo Tan Hoa Loi"
+            width={54}
+            height={38}
+            className="h-9 w-auto rounded-sm border border-slate-300 bg-white p-0.5"
           />
           <div>
             <p className="font-heading text-sm font-bold tracking-tight text-slate-900">{siteConfig.brandName}</p>
