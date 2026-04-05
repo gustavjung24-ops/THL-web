@@ -8,7 +8,7 @@ export function MobileQuickActions() {
       <div className="mx-auto grid max-w-6xl grid-cols-3 gap-2">
         <Link
           href="/tra-ma-bao-gia"
-          className="flex items-center justify-center gap-1 rounded-md bg-blue-700 px-2 py-2 text-xs font-semibold text-white"
+          className="flex items-center justify-center gap-1 rounded-md bg-amber-800 px-2 py-2 text-xs font-semibold text-white"
         >
           <Search className="size-4" />
           Gửi mã
@@ -17,17 +17,17 @@ export function MobileQuickActions() {
           href={siteConfig.zaloLink}
           target="_blank"
           rel="noreferrer"
-          className="flex items-center justify-center gap-1 rounded-md border border-blue-200 bg-blue-50 px-2 py-2 text-xs font-semibold text-blue-700"
+          className="flex items-center justify-center gap-1 rounded-md border border-amber-200 bg-amber-50 px-2 py-2 text-xs font-semibold text-amber-800"
         >
           <MessageCircle className="size-4" />
           Zalo
         </a>
         <a
           href={siteConfig.phoneHref}
-          className="flex items-center justify-center gap-1 rounded-md border border-red-200 bg-red-50 px-2 py-2 text-xs font-semibold text-red-700"
+          className="flex items-center justify-center gap-1 rounded-md border border-amber-300 bg-white px-2 py-2 text-xs font-semibold text-amber-900"
         >
           <PhoneCall className="size-4" />
-          Gọi
+          Gọi nhanh
         </a>
       </div>
     </div>

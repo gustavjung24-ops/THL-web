@@ -44,14 +44,14 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
   return (
     <div className="section-block">
       <div className="page-shell space-y-6">
-        <Link href="/san-pham" className="inline-flex items-center text-sm font-semibold text-blue-700 hover:text-blue-800">
+        <Link href="/san-pham" className="inline-flex items-center text-sm font-semibold text-amber-800 hover:text-amber-900">
           <ChevronLeft className="mr-1 size-4" />
           Quay lại trang sản phẩm
         </Link>
 
         <Card className="border-slate-200 bg-white">
           <CardHeader className="space-y-3">
-            <p className="text-xs font-semibold uppercase tracking-wide text-blue-700">Chi tiết nhóm hàng</p>
+            <p className="text-xs font-semibold uppercase tracking-wide text-amber-800">Chi tiết nhóm hàng</p>
             <CardTitle className="text-2xl text-slate-900">{product.name}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
@@ -77,14 +77,14 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
               </div>
             </div>
 
-            <div className="rounded-xl border border-blue-100 bg-blue-50 p-4">
+            <div className="rounded-xl border border-amber-200 bg-amber-50 p-4">
               <h3 className="text-sm font-semibold text-slate-900">Gợi ý gửi thông tin để xử lý nhanh</h3>
               <p className="mt-2 text-sm text-slate-700">
                 Bạn có thể gửi mã cũ, ảnh tem, kích thước hoặc ảnh vị trí lắp để mình đối chiếu nhanh hơn.
               </p>
             </div>
 
-            <Button asChild className="bg-blue-700 hover:bg-blue-800">
+            <Button asChild className="bg-amber-800 hover:bg-amber-900">
               <Link href="/tra-ma-bao-gia">
                 <Search className="mr-2 size-4" />
                 Gửi mã cần tìm

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, MessageCircle, PhoneCall } from "lucide-react";
@@ -19,7 +20,13 @@ export function SiteHeader() {
     <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur">
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 sm:px-6">
         <Link href="/" className="flex items-center gap-2">
-          <span className="rounded-md bg-blue-700 px-2 py-1 text-xs font-bold uppercase text-white">LP</span>
+          <Image
+            src="/images/logo-bearing.svg"
+            alt="Logo Truyền Động Công Nghiệp"
+            width={36}
+            height={36}
+            className="size-9 rounded-md border border-amber-200 bg-white p-1"
+          />
           <div>
             <p className="font-heading text-sm font-bold tracking-tight text-slate-900">{siteConfig.brandName}</p>
             <p className="hidden text-xs text-slate-500 md:block">{siteConfig.slogan}</p>
@@ -35,7 +42,7 @@ export function SiteHeader() {
                 href={item.href}
                 className={cn(
                   "rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                  active ? "bg-blue-700 text-white" : "text-slate-600 hover:bg-slate-100 hover:text-slate-900",
+                  active ? "bg-amber-800 text-white" : "text-slate-600 hover:bg-amber-50 hover:text-slate-900",
                 )}
               >
                 {item.label}
@@ -45,10 +52,10 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Button asChild size="sm" className="hidden bg-blue-700 hover:bg-blue-800 sm:inline-flex">
+          <Button asChild size="sm" className="hidden bg-amber-800 hover:bg-amber-900 sm:inline-flex">
             <a href={siteConfig.phoneHref}>
               <PhoneCall className="mr-2 size-4" />
-              Gọi ngay
+              Gọi nhanh
             </a>
           </Button>
           <Sheet>
@@ -73,7 +80,7 @@ export function SiteHeader() {
                         href={item.href}
                         className={cn(
                           "rounded-md px-3 py-2 text-sm font-medium",
-                          active ? "bg-blue-700 text-white" : "text-slate-700 hover:bg-slate-100",
+                          active ? "bg-amber-800 text-white" : "text-slate-700 hover:bg-amber-50",
                         )}
                       >
                         {item.label}
@@ -83,13 +90,13 @@ export function SiteHeader() {
                 </div>
 
                 <div className="grid gap-2">
-                  <Button asChild className="bg-blue-700 hover:bg-blue-800">
+                  <Button asChild className="bg-amber-800 hover:bg-amber-900">
                     <a href={siteConfig.phoneHref}>
                       <PhoneCall className="mr-2 size-4" />
-                      Gọi ngay
+                      Gọi nhanh
                     </a>
                   </Button>
-                  <Button asChild variant="outline" className="border-blue-200 text-blue-700 hover:bg-blue-50">
+                  <Button asChild variant="outline" className="border-amber-200 text-amber-800 hover:bg-amber-100">
                     <a href={siteConfig.zaloLink} target="_blank" rel="noreferrer">
                       <MessageCircle className="mr-2 size-4" />
                       Chat Zalo

@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 export const metadata = createPageMetadata({
   title: "Giới thiệu",
   description:
-    "Giới thiệu kênh tư vấn cá nhân Luan Phu Tung, tập trung hỗ trợ tra mã, chọn hàng và báo giá phụ tùng công nghiệp.",
+    "Giới thiệu kênh tư vấn cá nhân Truyền Động Công Nghiệp, tập trung hỗ trợ tra mã, chọn hàng và báo giá vật tư truyền động.",
   path: "/gioi-thieu",
 });
 
@@ -60,7 +60,7 @@ export default function AboutPage() {
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <p className="text-sm leading-relaxed text-slate-600">{group.shortDescription}</p>
-                  <Link href={`/san-pham/${group.slug}`} className="inline-flex items-center text-sm font-semibold text-blue-700 hover:text-blue-800">
+                  <Link href={`/san-pham/${group.slug}`} className="inline-flex items-center text-sm font-semibold text-amber-800 hover:text-amber-900">
                     Xem chi tiết
                     <ArrowRight className="ml-1 size-4" />
                   </Link>

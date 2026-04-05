@@ -35,14 +35,14 @@ export default function KnowledgePage() {
             <Card key={post.slug} className="border-slate-200 bg-white">
               <CardContent className="space-y-3 p-5">
                 <div className="flex items-center justify-between gap-2">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-blue-700">{post.category}</p>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-amber-800">{post.category}</p>
                   <p className="text-xs text-slate-500">{post.readTime}</p>
                 </div>
                 <h2 className="text-base font-semibold leading-snug text-slate-900">{post.title}</h2>
                 <p className="text-sm leading-relaxed text-slate-600">{post.excerpt}</p>
                 <div className="flex items-center justify-between gap-2 pt-1">
                   <p className="text-xs text-slate-500">{formatDate(post.publishedAt)}</p>
-                  <Link href="/tra-ma-bao-gia" className="inline-flex items-center text-sm font-semibold text-blue-700 hover:text-blue-800">
+                  <Link href="/tra-ma-bao-gia" className="inline-flex items-center text-sm font-semibold text-amber-800 hover:text-amber-900">
                     Gửi mã cần tìm
                     <ArrowRight className="ml-1 size-4" />
                   </Link>

@@ -33,13 +33,13 @@ export default function QuotePage() {
           </ul>
 
           <div className="flex flex-col gap-2 sm:flex-row">
-            <Button asChild variant="outline" className="border-blue-200 text-blue-700 hover:bg-blue-50">
+            <Button asChild variant="outline" className="border-amber-200 text-amber-800 hover:bg-amber-100">
               <a href={siteConfig.zaloLink} target="_blank" rel="noreferrer">
                 <MessageCircle className="mr-2 size-4" />
                 Chat Zalo
               </a>
             </Button>
-            <Button asChild variant="outline" className="border-red-200 text-red-700 hover:bg-red-50">
+            <Button asChild variant="outline" className="border-amber-300 text-amber-900 hover:bg-amber-50">
               <a href={siteConfig.phoneHref}>
                 <PhoneCall className="mr-2 size-4" />
                 Gọi ngay
@@ -57,7 +57,7 @@ export default function QuotePage() {
         href={siteConfig.zaloLink}
         target="_blank"
         rel="noreferrer"
-        className="fixed bottom-24 right-4 z-30 hidden items-center gap-2 rounded-full border border-blue-200 bg-blue-700 px-4 py-2 text-sm font-semibold text-white shadow-md hover:bg-blue-800 md:flex lg:bottom-6"
+        className="fixed bottom-24 right-4 z-30 hidden items-center gap-2 rounded-full border border-amber-200 bg-amber-800 px-4 py-2 text-sm font-semibold text-white shadow-md hover:bg-amber-900 md:flex lg:bottom-6"
       >
         <MessageCircle className="size-4" />
         Chat Zalo

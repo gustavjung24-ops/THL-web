@@ -57,10 +57,10 @@ export function ContactForm() {
         <Textarea id="contactMessage" rows={4} {...register("message")} />
         {errors.message ? <p className="text-xs text-red-600">{errors.message.message}</p> : null}
       </div>
-      <Button type="submit" className="w-full bg-blue-700 hover:bg-blue-800" disabled={isSubmitting}>
+      <Button type="submit" className="w-full bg-amber-800 hover:bg-amber-900" disabled={isSubmitting}>
         {isSubmitting ? "Đang gửi..." : "Gửi liên hệ"}
       </Button>
-      {done ? <p className="text-sm text-blue-700">Đã tiếp nhận thông tin. Tôi sẽ liên hệ sớm.</p> : null}
+      {done ? <p className="text-sm text-amber-800">Đã tiếp nhận thông tin. Tôi sẽ liên hệ sớm.</p> : null}
     </form>
   );
 }

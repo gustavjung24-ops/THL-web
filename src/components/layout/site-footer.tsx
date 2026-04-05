@@ -9,7 +9,7 @@ export function SiteFooter() {
           <h3 className="font-heading text-base font-semibold text-slate-900">{siteConfig.brandName}</h3>
           <p className="text-sm text-slate-600">{siteConfig.slogan}</p>
           <p className="text-sm text-slate-600">
-            Kênh tư vấn cá nhân về phụ tùng công nghiệp, tập trung xử lý nhu cầu thực tế cho khách thương mại và khách công nghiệp nhỏ.
+            Kênh tư vấn cá nhân tập trung vật tư truyền động cho nhà máy, bộ phận bảo trì, kỹ thuật và mua hàng.
           </p>
           <p className="text-xs text-slate-500">Đây là website thương hiệu cá nhân, không phải website chính thức của công ty.</p>
         </div>
@@ -19,7 +19,7 @@ export function SiteFooter() {
           <ul className="space-y-2 text-sm text-slate-600">
             {footerMenu.map((item) => (
               <li key={item.href}>
-                <Link href={item.href} className="hover:text-blue-700">
+                <Link href={item.href} className="hover:text-amber-800">
                   {item.label}
                 </Link>
               </li>
@@ -32,12 +32,12 @@ export function SiteFooter() {
           <ul className="space-y-2 text-sm text-slate-600">
             <li>{siteConfig.personalName}</li>
             <li>
-              <a href={siteConfig.phoneHref} className="hover:text-blue-700">
+              <a href={siteConfig.phoneHref} className="hover:text-amber-800">
                 {siteConfig.phone}
               </a>
             </li>
             <li>
-              <a href={siteConfig.zaloLink} className="hover:text-blue-700" target="_blank" rel="noreferrer">
+              <a href={siteConfig.zaloLink} className="hover:text-amber-800" target="_blank" rel="noreferrer">
                 {siteConfig.zaloLabel}
               </a>
             </li>

@@ -6,27 +6,35 @@ import { Button } from "@/components/ui/button";
 
 type PrimaryCtaGroupProps = {
   className?: string;
+  submitLabel?: string;
+  callLabel?: string;
+  zaloLabel?: string;
 };
 
-export function PrimaryCtaGroup({ className }: PrimaryCtaGroupProps) {
+export function PrimaryCtaGroup({
+  className,
+  submitLabel = "Gửi mã cần hỗ trợ",
+  callLabel = "Gọi nhanh bộ phận tư vấn",
+  zaloLabel = "Chat Zalo",
+}: PrimaryCtaGroupProps) {
   return (
     <div className={cn("flex flex-col gap-3 sm:flex-row sm:flex-wrap", className)}>
-      <Button asChild className="h-11 bg-blue-700 px-4 text-sm hover:bg-blue-800">
+      <Button asChild className="h-11 bg-amber-800 px-4 text-sm hover:bg-amber-900">
         <Link href="/tra-ma-bao-gia">
           <Search className="mr-2 size-4" />
-          Gửi mã cần tìm
+          {submitLabel}
         </Link>
       </Button>
-      <Button asChild variant="outline" className="h-11 border-blue-200 bg-blue-50 px-4 text-blue-700 hover:bg-blue-100">
+      <Button asChild variant="outline" className="h-11 border-amber-200 bg-amber-50 px-4 text-amber-800 hover:bg-amber-100">
         <a href={siteConfig.zaloLink} target="_blank" rel="noreferrer">
           <MessageCircle className="mr-2 size-4" />
-          Chat Zalo
+          {zaloLabel}
         </a>
       </Button>
-      <Button asChild variant="outline" className="h-11 border-red-200 bg-red-50 px-4 text-red-700 hover:bg-red-100">
+      <Button asChild variant="outline" className="h-11 border-amber-300 bg-white px-4 text-amber-900 hover:bg-amber-50">
         <a href={siteConfig.phoneHref}>
           <PhoneCall className="mr-2 size-4" />
-          Gọi ngay
+          {callLabel}
         </a>
       </Button>
     </div>

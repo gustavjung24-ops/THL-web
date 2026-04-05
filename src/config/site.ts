@@ -1,16 +1,16 @@
 export const siteConfig = {
-  brandName: "Luan Phu Tung",
+  brandName: "Truyền Động Công Nghiệp",
   domain: "luanphutung.vn",
-  slogan: "Tra đúng mã - tư vấn đúng hàng - hỗ trợ nhanh",
-  personalName: "[Tên cá nhân]",
-  phone: "[Số điện thoại]",
-  phoneHref: "tel:[so-dien-thoai]",
-  zaloLabel: "[Zalo cá nhân]",
-  zaloLink: "https://zalo.me/[zalo-id]",
-  email: "[Email liên hệ]",
-  supportArea: "[Khu vực hỗ trợ]",
+  slogan: "Tra mã đúng cụm máy - tư vấn đúng ứng dụng - phản hồi nhanh",
+  personalName: "P.Kinh Doanh-Công Ty Tân Hòa Lợi",
+  phone: "0934 581 487",
+  phoneHref: "tel:0934581487",
+  zaloLabel: "Zalo hỗ trợ",
+  zaloLink: "https://zalo.me/0934581487",
+  email: "khuongbinh@tanhoaloi.net",
+  supportArea: "Toàn Quốc",
   responseTime: "07:30 - 21:00 mỗi ngày",
-  address: "[Địa chỉ hoặc điểm hỗ trợ]",
+  address: "Dĩ An Bình Dương / Phú Thạnh Tân Phú HCM",
   defaultOgImage: "/images/og-industrial.svg",
   footerCredit: "By Khương Bình",
 };
@@ -34,7 +34,7 @@ export const footerMenu = [
 ] as const;
 
 export const quickActions = [
-  { label: "Gửi mã cần tìm", href: "/tra-ma-bao-gia" },
+  { label: "Gửi mã cần hỗ trợ", href: "/tra-ma-bao-gia" },
   { label: "Chat Zalo", href: siteConfig.zaloLink, external: true },
-  { label: "Gọi ngay", href: siteConfig.phoneHref },
+  { label: "Gọi nhanh bộ phận tư vấn", href: siteConfig.phoneHref },
 ] as const;

@@ -47,7 +47,7 @@ export default function ProductsPage() {
                   <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Nhóm khách hay mua</p>
                   <ul className="mt-2 flex flex-wrap gap-2 text-sm text-slate-700">
                     {group.commonBuyers.map((buyer) => (
-                      <li key={buyer} className="rounded-full border border-blue-100 bg-blue-50 px-2.5 py-1 text-xs sm:text-sm">
+                      <li key={buyer} className="rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs sm:text-sm">
                         {buyer}
                       </li>
                     ))}
@@ -55,13 +55,13 @@ export default function ProductsPage() {
                 </div>
 
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                  <Button asChild className="bg-blue-700 hover:bg-blue-800">
+                  <Button asChild className="bg-amber-800 hover:bg-amber-900">
                     <Link href="/tra-ma-bao-gia">
                       <Search className="mr-2 size-4" />
                       Gửi mã cần tìm
                     </Link>
                   </Button>
-                  <Link href={`/san-pham/${group.slug}`} className="inline-flex items-center text-sm font-semibold text-blue-700 hover:text-blue-800">
+                  <Link href={`/san-pham/${group.slug}`} className="inline-flex items-center text-sm font-semibold text-amber-800 hover:text-amber-900">
                     Xem trang chi tiết
                     <ArrowRight className="ml-1 size-4" />
                   </Link>

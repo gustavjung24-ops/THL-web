@@ -51,13 +51,13 @@ export default function SolutionsPage() {
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-sm text-slate-700">Bạn có thể gửi mã cũ, ảnh hoặc kích thước để nhận hướng xử lý nhanh.</p>
             <div className="flex flex-col gap-2 sm:flex-row">
-              <Button asChild className="bg-blue-700 hover:bg-blue-800">
+              <Button asChild className="bg-amber-800 hover:bg-amber-900">
                 <Link href="/tra-ma-bao-gia">
                   <Search className="mr-2 size-4" />
                   Gửi mã cần tìm
                 </Link>
               </Button>
-              <Button asChild variant="outline" className="border-blue-200 text-blue-700 hover:bg-blue-50">
+              <Button asChild variant="outline" className="border-amber-200 text-amber-800 hover:bg-amber-100">
                 <Link href="/lien-he">
                   Liên hệ nhanh
                   <ArrowRight className="ml-2 size-4" />

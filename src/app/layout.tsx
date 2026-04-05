@@ -26,11 +26,11 @@ export const metadata: Metadata = {
     template: `%s | ${siteConfig.brandName}`,
   },
   description:
-    "Kênh tư vấn cá nhân hỗ trợ tra mã, chọn hàng và báo giá phụ tùng công nghiệp cho cửa hàng, gara, xưởng và khách công nghiệp nhỏ.",
+    "Kênh tư vấn vật tư kỹ thuật cho nhà máy và khách công nghiệp, hỗ trợ tra mã, đối chiếu ứng dụng và báo giá vật tư truyền động.",
   openGraph: {
     title: `${siteConfig.brandName} | ${siteConfig.slogan}`,
     description:
-      "Hỗ trợ tra mã, tư vấn đúng nhóm hàng và tiếp nhận nhu cầu báo giá nhanh qua điện thoại, Zalo và form.",
+      "Hỗ trợ tra mã theo cụm máy, tư vấn theo điều kiện vận hành và tiếp nhận nhu cầu báo giá nhanh cho nhà máy.",
     type: "website",
     locale: "vi_VN",
     siteName: siteConfig.brandName,

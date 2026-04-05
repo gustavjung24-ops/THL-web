@@ -27,43 +27,43 @@ export default function ContactPage() {
             <h2 className="font-heading text-xl font-semibold text-slate-900">Thông tin liên hệ</h2>
             <ul className="space-y-3 text-sm text-slate-700">
               <li className="flex items-start gap-2">
-                <UserRound className="mt-0.5 size-4 text-blue-700" />
+                <UserRound className="mt-0.5 size-4 text-amber-800" />
                 <span>{siteConfig.personalName}</span>
               </li>
               <li className="flex items-start gap-2">
-                <PhoneCall className="mt-0.5 size-4 text-blue-700" />
-                <a href={siteConfig.phoneHref} className="hover:text-blue-700">
+                <PhoneCall className="mt-0.5 size-4 text-amber-800" />
+                <a href={siteConfig.phoneHref} className="hover:text-amber-800">
                   {siteConfig.phone}
                 </a>
               </li>
               <li className="flex items-start gap-2">
-                <MessageCircle className="mt-0.5 size-4 text-blue-700" />
-                <a href={siteConfig.zaloLink} target="_blank" rel="noreferrer" className="hover:text-blue-700">
+                <MessageCircle className="mt-0.5 size-4 text-amber-800" />
+                <a href={siteConfig.zaloLink} target="_blank" rel="noreferrer" className="hover:text-amber-800">
                   {siteConfig.zaloLabel}
                 </a>
               </li>
               <li className="flex items-start gap-2">
-                <Mail className="mt-0.5 size-4 text-blue-700" />
+                <Mail className="mt-0.5 size-4 text-amber-800" />
                 <span>{siteConfig.email}</span>
               </li>
               <li className="flex items-start gap-2">
-                <MapPin className="mt-0.5 size-4 text-blue-700" />
+                <MapPin className="mt-0.5 size-4 text-amber-800" />
                 <span>{siteConfig.supportArea}</span>
               </li>
               <li className="flex items-start gap-2">
-                <Clock3 className="mt-0.5 size-4 text-blue-700" />
+                <Clock3 className="mt-0.5 size-4 text-amber-800" />
                 <span>{siteConfig.responseTime}</span>
               </li>
             </ul>
 
             <div className="grid gap-2 sm:grid-cols-2">
-              <Button asChild className="bg-blue-700 hover:bg-blue-800">
+              <Button asChild className="bg-amber-800 hover:bg-amber-900">
                 <a href={siteConfig.phoneHref}>
                   <PhoneCall className="mr-2 size-4" />
                   Gọi ngay
                 </a>
               </Button>
-              <Button asChild variant="outline" className="border-blue-200 text-blue-700 hover:bg-blue-50">
+              <Button asChild variant="outline" className="border-amber-200 text-amber-800 hover:bg-amber-100">
                 <a href={siteConfig.zaloLink} target="_blank" rel="noreferrer">
                   <MessageCircle className="mr-2 size-4" />
                   Chat Zalo
