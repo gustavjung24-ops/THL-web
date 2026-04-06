@@ -1,17 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { executeAssistantToolCall, assistantToolDefinitions } from "@/lib/assistant/tools";
 import {
   assistantResponseFallback,
-  assistantStructuredOutput,
-  coerceAssistantResponse,
 } from "@/lib/assistant/schemas";
 import { getAssistantSystemPrompt } from "@/lib/assistant/system-prompt";
+import { callProvider } from "@/lib/assistant/providers";
 
 export const runtime = "nodejs";
-
-const OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses";
-const DEFAULT_OPENAI_MODEL = "gpt-5-mini";
-const MAX_TOOL_ROUNDS = 6;
 
 type ChatRole = "user" | "assistant";
 
@@ -20,11 +14,17 @@ type IncomingMessage = {
   content: string;
 };
 
-type FunctionCallOutput = {
-  type: "function_call_output";
-  call_id: string;
-  output: string;
-};
+function isObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
+}
+
+function toNullableString(value: unknown): string | null {
+  return typeof value === "string" && value.trim().length > 0 ? value.trim() : null;
+}
+
+function toStringArray(value: unknown): string[] {
+  return Array.isArray(value) ? value.filter((item): item is string => typeof item === "string") : [];
+}
 
 type DiscoveryContext = {
   source: string;
@@ -50,26 +50,6 @@ type ParsedContext = {
   avoid_recommendation: string | null;
   should_trigger_discovery: boolean;
 };
-
-function isObject(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null;
-}
-
-function parseJson(input: string): unknown {
-  try {
-    return JSON.parse(input);
-  } catch {
-    return null;
-  }
-}
-
-function toNullableString(value: unknown): string | null {
-  return typeof value === "string" && value.trim().length > 0 ? value.trim() : null;
-}
-
-function toStringArray(value: unknown): string[] {
-  return Array.isArray(value) ? value.filter((item): item is string => typeof item === "string") : [];
-}
 
 function normalizeDiscoveryContext(raw: unknown): DiscoveryContext | null {
   if (!isObject(raw)) {
@@ -164,120 +144,14 @@ function normalizeMessages(rawMessages: unknown): IncomingMessage[] {
     .filter((item) => item.content.length > 0);
 }
 
-function extractFunctionCalls(responsePayload: unknown): Array<{ name: string; call_id: string; arguments: unknown }> {
-  if (!isObject(responsePayload) || !Array.isArray(responsePayload.output)) {
-    return [];
-  }
-
-  return responsePayload.output
-    .filter(isObject)
-    .filter((item) => item.type === "function_call")
-    .map((item) => ({
-      name: typeof item.name === "string" ? item.name : "",
-      call_id: typeof item.call_id === "string" ? item.call_id : "",
-      arguments: item.arguments,
-    }))
-    .filter((item) => item.name.length > 0 && item.call_id.length > 0);
-}
-
-function extractOutputText(responsePayload: unknown): string {
-  if (!isObject(responsePayload)) {
-    return "";
-  }
-
-  if (typeof responsePayload.output_text === "string" && responsePayload.output_text.trim().length > 0) {
-    return responsePayload.output_text;
-  }
-
-  if (!Array.isArray(responsePayload.output)) {
-    return "";
-  }
-
-  const chunks: string[] = [];
-
-  responsePayload.output.filter(isObject).forEach((item) => {
-    if (item.type !== "message" || !Array.isArray(item.content)) {
-      return;
-    }
-
-    item.content.filter(isObject).forEach((contentItem) => {
-      if (contentItem.type === "output_text" && typeof contentItem.text === "string") {
-        chunks.push(contentItem.text);
-      }
-    });
-  });
-
-  return chunks.join("\n").trim();
-}
-
-function normalizeToolArguments(rawArguments: unknown): Record<string, unknown> {
-  if (typeof rawArguments === "string") {
-    const parsed = parseJson(rawArguments);
-    return isObject(parsed) ? parsed : {};
-  }
-
-  return isObject(rawArguments) ? rawArguments : {};
-}
-
-function buildToolOutputs(responsePayload: unknown): FunctionCallOutput[] {
-  const calls = extractFunctionCalls(responsePayload);
-
-  return calls.map((call) => {
-    const args = normalizeToolArguments(call.arguments);
-    const result = executeAssistantToolCall(call.name, args);
-
-    return {
-      type: "function_call_output",
-      call_id: call.call_id,
-      output: JSON.stringify(result),
-    };
-  });
-}
-
-async function callOpenAI(apiKey: string, payload: Record<string, unknown>): Promise<unknown> {
-  const response = await fetch(OPENAI_RESPONSES_URL, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(payload),
-    cache: "no-store",
-  });
-
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(`OpenAI Responses API error ${response.status}: ${errorText}`);
-  }
-
-  return response.json();
-}
-
 export async function POST(request: NextRequest) {
-  const apiKey = process.env.OPENAI_API_KEY;
-  const model = process.env.OPENAI_MODEL || DEFAULT_OPENAI_MODEL;
-
-  if (!apiKey) {
-    return NextResponse.json(
-      {
-        ok: false,
-        error:
-          "Thiếu OPENAI_API_KEY trong môi trường. Hãy cấu hình OPENAI_API_KEY (và tùy chọn OPENAI_MODEL) trước khi gọi /api/assistant.",
-      },
-      { status: 500 }
-    );
-  }
-
   let body: unknown;
 
   try {
     body = await request.json();
   } catch {
     return NextResponse.json(
-      {
-        ok: false,
-        error: "Body JSON không hợp lệ.",
-      },
+      { ok: false, error: "Body JSON không hợp lệ." },
       { status: 400 }
     );
   }
@@ -293,61 +167,35 @@ export async function POST(request: NextRequest) {
 
   if (messages.length === 0 || !messages.some((message) => message.role === "user")) {
     return NextResponse.json(
-      {
-        ok: false,
-        error: "messages phải có ít nhất một user message.",
-      },
+      { ok: false, error: "messages phải có ít nhất một user message." },
       { status: 400 }
     );
   }
 
   try {
-    let responsePayload = await callOpenAI(apiKey, {
-      model,
-      instructions,
-      input: messages,
-      tools: assistantToolDefinitions,
-      text: {
-        format: assistantStructuredOutput,
-      },
-      temperature: 0,
-    });
+    const providerResult = await callProvider({ messages, instructions });
 
-    for (let round = 0; round < MAX_TOOL_ROUNDS; round += 1) {
-      const toolOutputs = buildToolOutputs(responsePayload);
-
-      if (toolOutputs.length === 0) {
-        break;
-      }
-
-      responsePayload = await callOpenAI(apiKey, {
-        model,
-        previous_response_id: isObject(responsePayload) ? responsePayload.id : undefined,
-        input: toolOutputs,
-        tools: assistantToolDefinitions,
-        text: {
-          format: assistantStructuredOutput,
-        },
-        temperature: 0,
-      });
+    if (!providerResult.ok) {
+      return NextResponse.json(
+        { ok: false, error: providerResult.error },
+        { status: 500 }
+      );
     }
-
-    const outputText = extractOutputText(responsePayload);
-    const parsedPayload = parseJson(outputText);
-    const result = coerceAssistantResponse(parsedPayload);
 
     return NextResponse.json({
       ok: true,
-      model_used: model,
-      result,
+      provider: providerResult.provider,
+      model_used: providerResult.model,
+      result: providerResult.result,
     });
   } catch (error) {
     const reason = error instanceof Error ? error.message : "Lỗi trợ lý không xác định.";
+    console.error(`[assistant] provider error:`, reason);
 
     return NextResponse.json(
       {
         ok: false,
-        error: "Hệ thống AI tạm thời chưa sẵn sàng.",
+        error: "Hệ thống tạm chưa sẵn sàng.",
         detail: reason,
         result: {
           ...assistantResponseFallback,

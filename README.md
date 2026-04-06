@@ -43,11 +43,20 @@ Site config: `src/config/site.ts`
 ### Biến môi trường
 
 ```env
+# Provider (mặc định: openai)
+ASSISTANT_PROVIDER=openai        # hoặc gemini
+
+# OpenAI
 OPENAI_API_KEY=<your_key>
 OPENAI_MODEL=gpt-4o-mini
+
+# Gemini (chỉ cần nếu ASSISTANT_PROVIDER=gemini)
+GEMINI_API_KEY=<your_key>
+GEMINI_MODEL=gemini-2.5-flash
 ```
 
-Thiếu `OPENAI_API_KEY` → site vẫn chạy, chatbot trả lỗi graceful.
+- `ASSISTANT_PROVIDER=gemini` → dùng Gemini, tự fallback về OpenAI nếu Gemini lỗi
+- Thiếu API key → site vẫn chạy, chatbot trả lỗi graceful
 
 ### Catalog demo
 
