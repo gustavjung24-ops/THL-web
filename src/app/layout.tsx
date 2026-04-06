@@ -2,10 +2,6 @@ import type { Metadata } from "next";
 import { Be_Vietnam_Pro, Exo_2 } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
-import { AssistantBubble } from "@/components/chat/assistant-bubble";
-import { MobileQuickActions } from "@/components/layout/mobile-quick-actions";
-import { SiteFooter } from "@/components/layout/site-footer";
-import { SiteHeader } from "@/components/layout/site-header";
 import { cn } from "@/lib/utils";
 
 const bodyFont = Be_Vietnam_Pro({
@@ -53,12 +49,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="vi" className={cn("theme", bodyFont.variable, headingFont.variable)}>
-      <body className={cn(bodyFont.className, "min-h-screen bg-background text-foreground antialiased")}> 
-        <SiteHeader />
-        <main className="pb-24 lg:pb-0">{children}</main>
-        <SiteFooter />
-        <MobileQuickActions />
-        <AssistantBubble />
+      <body className={cn(bodyFont.className, "min-h-screen bg-background text-foreground antialiased")}>
+        {children}
       </body>
     </html>
   );
