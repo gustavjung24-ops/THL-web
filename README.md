@@ -80,6 +80,56 @@ Chạy bản build local:
 npm run start
 ```
 
+## AI tra ma hoat dong the nao
+
+He thong co them chatbot "Tra ma nhanh" (bubble goc phai duoi) de tiep nhan nhu cau va goi y ma tu catalog noi bo.
+
+Luong xu ly hien tai:
+
+1. Nhan thong tin nguoi dung: ma cu, kich thuoc, ung dung, hoac anh tem (mock UI).
+2. Goi OpenAI Responses API voi function calling den cac tool noi bo:
+	 - `search_exact_code`
+	 - `search_by_dimensions`
+	 - `search_equivalent_code`
+	 - `validate_allowed_brand`
+	 - `get_missing_fields_for_group`
+3. Ep ket qua theo Structured Outputs JSON schema de UI render an toan.
+4. Neu thieu du lieu thi hoi them 1-3 truong thong tin ky thuat.
+
+Luu y van hanh:
+
+- Chatbot khong bao gia tu dong.
+- Chatbot khong tu ket luan ton kho.
+- Neu khong co du lieu catalog, phan hoi theo huong:
+	- "Chua co du lieu ma trong he thong"
+	- "Can xac minh them"
+	- "Ngoai danh muc dang ho tro"
+
+## Bien moi truong cho AI assistant
+
+Can cau hinh trong moi truong runtime:
+
+- `OPENAI_API_KEY`: API key de goi OpenAI Responses API.
+- `OPENAI_MODEL`: model su dung cho assistant (neu bo trong se fallback ve model an toan mac dinh).
+
+Vi du `.env.local`:
+
+```bash
+OPENAI_API_KEY=<your_api_key>
+OPENAI_MODEL=gpt-5-mini
+```
+
+## Du lieu demo
+
+Du lieu catalog demo dang nam tai:
+
+- `src/data/catalog/brand-whitelist.json`
+- `src/data/catalog/master-catalog.json`
+- `src/data/catalog/equivalent-map.json`
+- `src/data/catalog/technical-rules.json`
+
+Bo du lieu nay la du lieu mau de test luong tra ma, chua phai catalog that.
+
 ## Deploy lên Vercel
 
 ### Cách nhanh (qua dashboard)

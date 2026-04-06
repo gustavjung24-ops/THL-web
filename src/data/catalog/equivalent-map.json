@@ -1,0 +1,65 @@
+{
+  "version": "demo-v1",
+  "equivalents": [
+    {
+      "source_code": "6204-2RS",
+      "normalized_source": "62042RS",
+      "product_group": "bearings",
+      "candidates": [
+        {
+          "exact_code": "6204-2RS C3",
+          "brand": "NTN",
+          "confidence": "high",
+          "note": "Same base code with explicit C3 clearance."
+        },
+        {
+          "exact_code": "6204-ZZ C3",
+          "brand": "KOYO/JTEKT",
+          "confidence": "medium",
+          "note": "Shield type differs; confirm environment before switching."
+        }
+      ],
+      "requires_manual_confirmation": true
+    },
+    {
+      "source_code": "UCP205",
+      "normalized_source": "UCP205",
+      "product_group": "pillow_blocks",
+      "candidates": [
+        {
+          "exact_code": "UCP205",
+          "brand": "ASAHI",
+          "confidence": "high",
+          "note": "Direct housing-style match for pedestal mount."
+        },
+        {
+          "exact_code": "UCF205",
+          "brand": "ASAHI",
+          "confidence": "low",
+          "note": "Only for flange mount; requires housing confirmation."
+        }
+      ],
+      "requires_manual_confirmation": true
+    },
+    {
+      "source_code": "08B-1",
+      "normalized_source": "08B1",
+      "product_group": "industrial_chains",
+      "candidates": [
+        {
+          "exact_code": "08B-1",
+          "brand": "DID",
+          "confidence": "high",
+          "note": "BS standard simplex chain."
+        },
+        {
+          "exact_code": "RS40-1",
+          "brand": "TSUBAKI",
+          "confidence": "low",
+          "note": "Pitch can be close but standard conversion needs manual check."
+        }
+      ],
+      "requires_manual_confirmation": true
+    }
+  ]
+}

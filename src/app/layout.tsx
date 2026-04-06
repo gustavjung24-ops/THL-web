@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Be_Vietnam_Pro, Exo_2 } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
+import { AssistantBubble } from "@/components/chat/assistant-bubble";
 import { MobileQuickActions } from "@/components/layout/mobile-quick-actions";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
@@ -57,6 +58,7 @@ export default function RootLayout({
         <main className="pb-24 lg:pb-0">{children}</main>
         <SiteFooter />
         <MobileQuickActions />
+        <AssistantBubble />
       </body>
     </html>
   );
