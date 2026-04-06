@@ -136,6 +136,7 @@ export function AssistantPanel({
   const [inputValue, setInputValue] = useState("");
   const [selectedFileName, setSelectedFileName] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [providerInfo, setProviderInfo] = useState<{ provider: string; model: string } | null>(null);
   const [discoveryState, setDiscoveryState] = useState<DiscoveryState>(() => createInitialDiscoveryState());
   const [discoveryPrompt, setDiscoveryPrompt] = useState<DiscoveryPrompt | null>(() => getPromptForStage("greeting"));
   const bottomAnchorRef = useRef<HTMLDivElement | null>(null);
@@ -172,7 +173,13 @@ export function AssistantPanel({
         ok?: boolean;
         error?: string;
         result?: unknown;
+        provider?: string;
+        model_used?: string;
       };
+
+      if (payload.provider) {
+        setProviderInfo({ provider: payload.provider, model: payload.model_used ?? "" });
+      }
 
       if (!response.ok || !payload.ok) {
         const text = payload.error?.trim().length ? payload.error : "Hệ thống tạm chưa sẵn sàng.";
@@ -445,6 +452,12 @@ export function AssistantPanel({
           <p className="mt-1.5 px-1 text-[10.5px] leading-4 text-slate-400">
             Trả lời theo ứng dụng thực tế. Giá xác nhận riêng.
           </p>
+
+          {process.env.NEXT_PUBLIC_SHOW_ASSISTANT_PROVIDER === "true" && providerInfo && (
+            <p className="mt-1 px-1 text-[10px] leading-4 text-slate-400/70">
+              AI: {providerInfo.provider} · Model: {providerInfo.model}
+            </p>
+          )}
         </div>
       </div>
     </section>
