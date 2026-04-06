@@ -1,0 +1,114 @@
+{
+  "version": "v1",
+  "description": "Ví dụ hội thoại mẫu để huấn luyện và test chatbot.",
+  "conversations": [
+    {
+      "id": "conv_01",
+      "title": "Tra mã vòng bi theo mã cũ",
+      "tags": ["exact_code", "bearings"],
+      "turns": [
+        { "role": "user", "content": "6204 2RS" },
+        { "role": "assistant", "content": "Mã 6204-2RS C3 (NTN) phù hợp. Kích thước: ID 20 × OD 47 × W 14mm. Dùng cho motor, bơm, hộp số. Giá được xác nhận riêng." }
+      ]
+    },
+    {
+      "id": "conv_02",
+      "title": "Hỏi gối đỡ UCP205",
+      "tags": ["exact_code", "pillow_blocks"],
+      "turns": [
+        { "role": "user", "content": "UCP205" },
+        { "role": "assistant", "content": "Gối đỡ UCP205 (ASAHI) — trục Ø25mm, kiểu chân đế. Lưu ý: dễ nhầm với UCF205 (mặt bích). Cần xác minh kiểu lắp trước khi chốt. Giá xác nhận riêng." }
+      ]
+    },
+    {
+      "id": "conv_03",
+      "title": "Xe tải Hino 4HK1 — bơm nước",
+      "tags": ["application", "bearings", "hino"],
+      "turns": [
+        { "role": "user", "content": "Hino 4HK1 bơm nước bi nào" },
+        { "role": "assistant", "content": "Cụm bơm nước Hino 4HK1 thường dùng vòng bi 6204-2RS C3 và phớt TC35X52X7. Cần xác minh phiên bản đời máy vì kích thước có thể khác. Anh/chị có mã cũ trên tem không?" }
+      ]
+    },
+    {
+      "id": "conv_04",
+      "title": "Spindle CNC hú",
+      "tags": ["application", "cnc", "symptom"],
+      "turns": [
+        { "role": "user", "content": "spindle cnc hú quá thay bi gì" },
+        { "role": "assistant", "content": "Spindle CNC yêu cầu vòng bi tiếp xúc góc cấp chính xác cao. Không nên dùng vòng bi rãnh sâu thông thường. Anh/chị gửi giúp mã cũ trên tem hoặc model máy CNC để em đối chiếu?" }
+      ]
+    },
+    {
+      "id": "conv_05",
+      "title": "Phớt theo kích thước",
+      "tags": ["dimensions", "oil_seals"],
+      "turns": [
+        { "role": "user", "content": "phớt 35 52 7" },
+        { "role": "assistant", "content": "Phớt TC35×52×7 (NOK) phù hợp kích thước. Kiểu TC (2 môi). Cần xác minh kiểu môi TC hay SC theo cụm đang lắp. Giá xác nhận riêng." }
+      ]
+    },
+    {
+      "id": "conv_06",
+      "title": "Hỏi xích 420 — ngoài phạm vi",
+      "tags": ["out_of_scope", "chains"],
+      "turns": [
+        { "role": "user", "content": "xích 420 bao nhiêu" },
+        { "role": "assistant", "content": "Xích 420 là xích xe máy, nằm ngoài danh mục xích công nghiệp đang hỗ trợ. Anh/chị vui lòng liên hệ đại lý phụ tùng xe máy." }
+      ]
+    },
+    {
+      "id": "conv_07",
+      "title": "Hỏi xích 428 — ngoài phạm vi",
+      "tags": ["out_of_scope", "chains"],
+      "turns": [
+        { "role": "user", "content": "có xích 428 không" },
+        { "role": "assistant", "content": "Xích 428 là xích xe máy, ngoài danh mục em đang hỗ trợ. Anh/chị cần xích công nghiệp (08B, 10B, RS40...) thì em tra giúp được." }
+      ]
+    },
+    {
+      "id": "conv_08",
+      "title": "Máy bơm rò dầu",
+      "tags": ["symptom", "oil_seals", "pump"],
+      "turns": [
+        { "role": "user", "content": "máy bơm rò dầu chỗ trục" },
+        { "role": "assistant", "content": "Rò dầu ở trục bơm thường do phớt chặn dầu mòn. Cần kích thước cốt-vỏ-dày (ID×OD×thickness) của phớt hiện tại. Anh/chị có mã cũ trên tem phớt không?" }
+      ]
+    },
+    {
+      "id": "conv_09",
+      "title": "Chào hỏi → discovery flow",
+      "tags": ["greeting", "discovery"],
+      "turns": [
+        { "role": "user", "content": "chào" },
+        { "role": "assistant", "content": "Chào anh/chị, em hỗ trợ tra mã vật tư truyền động. Anh/chị đang cần hỗ trợ theo hướng nào ạ? (1) Có mã cũ, (2) Có ảnh tem, (3) Biết hệ máy/triệu chứng, (4) Cần thay gấp." }
+      ]
+    },
+    {
+      "id": "conv_10",
+      "title": "Câu cụt — fragment",
+      "tags": ["fragment", "bearings"],
+      "turns": [
+        { "role": "user", "content": "6305" },
+        { "role": "assistant", "content": "Mã 6305-2NSE C3 (NACHI) có trong hệ thống. ID 25 × OD 62 × W 17mm. Anh/chị cần kiểu seal (2RS/2NSE) hay shield (ZZ)? Môi trường vận hành có ẩm/bụi không?" }
+      ]
+    },
+    {
+      "id": "conv_11",
+      "title": "Gối đỡ băng tải — cần xác minh",
+      "tags": ["pillow_blocks", "conveyor"],
+      "turns": [
+        { "role": "user", "content": "gối đỡ cho băng tải trục 25" },
+        { "role": "assistant", "content": "Trục Ø25mm có UCP205 (chân đế) hoặc UCF205 (mặt bích) — cùng ASAHI. Kiểu lắp hiện tại là chân đế hay mặt bích ạ?" }
+      ]
+    },
+    {
+      "id": "conv_12",
+      "title": "Cần gấp — urgent flow",
+      "tags": ["urgent", "bearings"],
+      "turns": [
+        { "role": "user", "content": "cần thay gấp bi motor đang kêu" },
+        { "role": "assistant", "content": "Đã ghi nhận nhu cầu gấp. Anh/chị gửi giúp mã cũ trên tem hoặc kích thước cốt motor để em chốt đúng mã nhanh nhất. Giá và tình trạng hàng xác nhận riêng sau." }
+      ]
+    }
+  ]
+}

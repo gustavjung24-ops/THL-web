@@ -1,0 +1,66 @@
+{
+  "version": "v1",
+  "description": "Danh sách nhóm hàng đang hỗ trợ, kèm thông tin field bắt buộc và từ khoá nhận diện.",
+  "groups": [
+    {
+      "key": "bearings",
+      "label_vi": "Vòng bi",
+      "label_en": "Bearings",
+      "required_fields": ["id", "od", "width", "code", "shaft"],
+      "optional_fields": ["seal_or_shield", "clearance", "series"],
+      "keywords": ["vòng bi", "bearing", "bạc đạn", "620", "630", "6200", "6300", "2rs", "zz", "c3"],
+      "priority_brands": ["KOYO/JTEKT", "NTN", "NACHI"],
+      "note": "Nhóm hàng chủ lực, chiếm phần lớn nhu cầu tra mã."
+    },
+    {
+      "key": "pillow_blocks",
+      "label_vi": "Gối đỡ",
+      "label_en": "Pillow Blocks / Housing Units",
+      "required_fields": ["housing_type", "shaft_diameter"],
+      "optional_fields": ["mounting_style", "insert_bearing"],
+      "keywords": ["gối đỡ", "pillow block", "ucp", "ucf", "ucfl", "housing"],
+      "priority_brands": ["ASAHI"],
+      "note": "Thường đi kèm vòng bi insert, cần xác minh kiểu thân."
+    },
+    {
+      "key": "belts",
+      "label_vi": "Dây curoa",
+      "label_en": "V-Belts / Timing Belts",
+      "required_fields": ["profile", "length"],
+      "optional_fields": ["belt_type", "teeth_count"],
+      "keywords": ["dây curoa", "belt", "v-belt", "curoa", "spa", "spb", "profile a", "profile b"],
+      "priority_brands": ["MITSUBA"],
+      "note": "Cần phân biệt rõ profile (A, B, SPA, SPB) và cách đo chiều dài."
+    },
+    {
+      "key": "industrial_chains",
+      "label_vi": "Xích công nghiệp",
+      "label_en": "Industrial Chains",
+      "required_fields": ["pitch", "chain_type", "links"],
+      "optional_fields": ["strand", "standard"],
+      "keywords": ["xích", "chain", "08b", "10b", "rs40", "rs50", "420", "428", "pitch"],
+      "priority_brands": ["DID", "TSUBAKI"],
+      "note": "Phân biệt tiêu chuẩn BS và ANSI rất quan trọng."
+    },
+    {
+      "key": "oil_seals",
+      "label_vi": "Phớt chặn dầu",
+      "label_en": "Oil Seals",
+      "required_fields": ["id", "od", "thickness"],
+      "optional_fields": ["lip_type", "material"],
+      "keywords": ["phớt", "oil seal", "chặn dầu", "tc", "sc", "seal", "rò dầu"],
+      "priority_brands": ["NOK"],
+      "note": "Kích thước cốt-vỏ-dày là bắt buộc, kiểu môi cần xác minh."
+    },
+    {
+      "key": "grease",
+      "label_vi": "Mỡ bôi trơn",
+      "label_en": "Grease / Lubricants",
+      "required_fields": [],
+      "optional_fields": ["nlgi_grade", "base_oil", "package_size", "temperature_range"],
+      "keywords": ["mỡ", "grease", "bôi trơn", "ep2", "lithium", "nlgi"],
+      "priority_brands": ["KYK"],
+      "note": "Cần xác minh điều kiện nhiệt và tải trước khi đề xuất."
+    }
+  ]
+}
