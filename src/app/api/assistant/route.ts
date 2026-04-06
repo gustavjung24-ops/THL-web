@@ -4,6 +4,7 @@ import {
 } from "@/lib/assistant/schemas";
 import { getAssistantSystemPrompt } from "@/lib/assistant/system-prompt";
 import { callProvider } from "@/lib/assistant/providers";
+import { buildIntentScopedSeedContext } from "@/lib/assistant/seed-context";
 
 export const runtime = "nodejs";
 
@@ -160,8 +161,17 @@ export async function POST(request: NextRequest) {
   const messages = normalizeMessages(rawMessages);
   const discoveryContext = isObject(body) ? normalizeDiscoveryContext(body.discovery_context) : null;
   const parsedContext = isObject(body) ? normalizeParsedContext(body.parsed_context) : null;
+  const latestUserMessage = [...messages]
+    .reverse()
+    .find((message) => message.role === "user")
+    ?.content ?? "";
+  const seedSupplement = buildIntentScopedSeedContext({
+    latestUserMessage,
+    parsedContext,
+    discoveryContext,
+  });
   const contextSupplement = buildAuxiliaryContext(discoveryContext, parsedContext);
-  const instructions = [getAssistantSystemPrompt(), contextSupplement]
+  const instructions = [getAssistantSystemPrompt(), seedSupplement, contextSupplement]
     .filter((line) => line.trim().length > 0)
     .join("\n\n");
 

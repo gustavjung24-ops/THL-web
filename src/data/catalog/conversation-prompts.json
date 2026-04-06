@@ -1,23 +1,23 @@
 {
-  "greeting": "Chào anh/chị, em hỗ trợ tra mã và tư vấn vật tư kỹ thuật. Anh/chị đang cần hỗ trợ theo hướng nào ạ?",
+  "greeting": "Anh/chị đang có mã cũ hay đang mô tả theo máy?",
   "first_level_options": [
     "Tôi có mã cũ",
-    "Tôi có ảnh tem / ảnh mẫu",
-    "Tôi chỉ biết hệ máy / triệu chứng",
+    "Tôi có ảnh tem",
+    "Tôi mô tả theo máy",
     "Tôi cần thay gấp"
   ],
   "code_flow": {
-    "message": "Anh/chị gửi giúp mã đầy đủ hoặc mã gần đúng. Nếu có thêm ảnh tem thì việc đối chiếu sẽ nhanh hơn.",
+    "message": "Anh/chị gửi giúp mã đầy đủ hoặc mã gần đúng để em đối chiếu nhanh.",
     "options": [
-      "Gửi mã ngay",
-      "Tải ảnh tem",
+      "Gửi mã cũ ngay",
+      "Có ảnh tem",
       "Tôi chưa chắc mã"
     ]
   },
   "image_flow": {
-    "message": "Anh/chị gửi ảnh tem, ảnh hộp hoặc ảnh vị trí lắp. Em sẽ ưu tiên đối chiếu đúng nhóm mã trước.",
+    "message": "Anh/chị gửi ảnh tem hoặc ảnh vị trí lắp, em sẽ đối chiếu theo cụm máy trước.",
     "options": [
-      "Tải ảnh",
+      "Tôi tải ảnh ngay",
       "Chụp ảnh vị trí lắp",
       "Tôi chỉ có kích thước"
     ]

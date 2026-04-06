@@ -38,6 +38,7 @@ type KeywordMatcher = {
 const greetingKeywords = ["alo", "hello", "hi", "chao", "xin chao", "ad oi", "shop oi"];
 
 const machineMatchers: KeywordMatcher[] = [
+  { target: "truck", keywords: ["xe tai", "xe tải", "hino", "4hk1", "4 hk1"] },
   { target: "cnc", keywords: ["cnc", "spindle", "cu duc", "củ đục"] },
   { target: "pump", keywords: ["may bom", "máy bơm", "pump"] },
   { target: "fan", keywords: ["quat", "quạt", "fan"] },
@@ -51,6 +52,11 @@ const machineMatchers: KeywordMatcher[] = [
 ];
 
 const subsystemMatchers: KeywordMatcher[] = [
+  { target: "truck_wheel", keywords: ["banh xe", "bánh xe", "wheel"] },
+  { target: "alternator", keywords: ["may phat", "máy phát", "alternator"] },
+  { target: "idler_pulley", keywords: ["puly tang", "puly tăng", "idler", "tensioner"] },
+  { target: "ac_compressor", keywords: ["loc lanh", "lốc lạnh", "ac"] },
+  { target: "gearbox", keywords: ["hop so", "hộp số", "gearbox"] },
   { target: "spindle", keywords: ["spindle", "cu duc", "củ đục"] },
   { target: "bearing_unit", keywords: ["vong bi", "vòng bi", "goi do", "gối đỡ"] },
   { target: "seal_unit", keywords: ["phot", "phớt", "chan dau", "chặn dầu"] },
@@ -204,6 +210,30 @@ function detectBuyingMotive(normalizedText: string, urgency: UrgencyLevel): Buyi
   return null;
 }
 
+function buildNextQuestion(
+  shouldTriggerDiscovery: boolean,
+  machineType: string | null,
+  machineSubsystem: string | null
+): string | null {
+  if (!shouldTriggerDiscovery) {
+    return null;
+  }
+
+  if (machineType === "truck") {
+    return "Anh/chị đang kiểm tra vòng bi ở cụm nào: bánh xe, máy phát, puly tăng, lốc lạnh hay hộp số?";
+  }
+
+  if (machineType === "cnc" || machineSubsystem === "spindle") {
+    return "Anh/chị đang kiểm tra cụm nào trên spindle: ổ trước, ổ sau, puly truyền hay cụm phớt?";
+  }
+
+  if (machineType === "pump") {
+    return "Em cần khoanh đúng cụm trước. Máy đang nóng ở ổ trục, puly hay vị trí phớt?";
+  }
+
+  return "Anh/chị đang có mã cũ hoặc ảnh tem không, hay mình mô tả theo cụm máy để em chốt nhanh?";
+}
+
 function inferByApplicationRule(normalizedText: string): {
   applicationKey: string | null;
   suggestedOptions: string[];
@@ -248,9 +278,7 @@ export function parseIntentInput(input: string): ParsedIntent {
     ((inputStyle === "fragment" || inputStyle === "shorthand") && !hasStrongSignal) ||
     (isAmbiguous && extractedCode === null);
 
-  const nextQuestion = shouldTriggerDiscovery
-    ? "Anh/chị cho em xin thêm mã cũ, ảnh tem hoặc cụm máy đang gặp vấn đề để em hỗ trợ nhanh hơn."
-    : null;
+  const nextQuestion = buildNextQuestion(shouldTriggerDiscovery, machineType, machineSubsystem);
 
   return {
     raw_text: rawText,

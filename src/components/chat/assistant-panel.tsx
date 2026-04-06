@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ImagePlus, Loader2, SendHorizonal, X } from "lucide-react";
 import { AssistantMessage } from "./assistant-message";
+import { ChatMessageOptions } from "./chat-message-options";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -12,6 +13,7 @@ import {
   createInitialDiscoveryState,
   getPromptForStage,
   type DiscoveryPrompt,
+  type DiscoveryStage,
   type DiscoveryState,
 } from "@/lib/assistant/discovery-flow";
 import { parseIntentInput, type ParsedIntent } from "@/lib/assistant/intent-parser";
@@ -19,15 +21,27 @@ import {
   coerceAssistantResponse,
   type AssistantStructuredResponse,
 } from "@/lib/assistant/schemas";
+import {
+  buildAssistantReplyMessage,
+  type ReplyOptionStyle,
+} from "@/lib/assistant/reply-templates";
 import { cn } from "@/lib/utils";
 
 type ChatRole = "user" | "assistant";
+type AssistantUiState = "idle" | "typing" | "waiting_api" | "rendering_reply";
+type MessageOptionAction = "discovery" | "submit";
 
 type UiMessage = {
   id: string;
   role: ChatRole;
   text: string;
   payload?: AssistantStructuredResponse;
+  options?: string[];
+  optionStyle?: ReplyOptionStyle;
+  optionAction?: MessageOptionAction;
+  isOptionResolved?: boolean;
+  selectedOption?: string | null;
+  discoveryStage?: DiscoveryStage | null;
 };
 
 type AssistantPanelProps = {
@@ -38,23 +52,7 @@ type AssistantPanelProps = {
 };
 
 const defaultGreeting =
-  "Chào anh/chị, em hỗ trợ tra mã. Gửi mã cũ, ảnh tem hoặc mô tả máy nhé.";
-
-function getDiscoveryOptionLabel(option: string): string {
-  if (option === "Tôi có ảnh tem / ảnh mẫu") {
-    return "Tôi có ảnh tem";
-  }
-
-  if (option === "Tôi chỉ biết hệ máy / triệu chứng") {
-    return "Tôi chỉ biết máy / hiện tượng";
-  }
-
-  return option;
-}
-
-function createId(): string {
-  return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
-}
+  "Chào anh/chị, em hỗ trợ tra mã nhanh. Mình có thể gửi mã cũ, ảnh tem hoặc mô tả cụm máy.";
 
 const INTERNAL_FIELD_TOKENS = [
   "exact_code", "normalized_code", "dimensions", "application_detail",
@@ -63,88 +61,32 @@ const INTERNAL_FIELD_TOKENS = [
   "recommended_items", "missing_fields", "buying_motive", "avoid_recommendation",
 ];
 
-function sanitizeReply(text: string): string {
-  let cleaned = text;
-  for (const token of INTERNAL_FIELD_TOKENS) {
-    cleaned = cleaned.replaceAll(token, "");
-  }
-  return cleaned.replace(/ {2,}/g, " ").replace(/\n{3,}/g, "\n\n").trim();
+function createId(): string {
+  return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
-function formatAssistantReply(payload: AssistantStructuredResponse): string {
-  if (payload.final_status === "ready" && payload.recommended_items.length > 0) {
-    const topItems = payload.recommended_items.slice(0, 3);
-    const lines = [sanitizeReply(payload.short_reply.trim()) || "Tìm được mã phù hợp."];
+function wait(ms: number): Promise<void> {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
 
-    lines.push("Mã đề xuất:");
-    topItems.forEach((item) => {
-      lines.push(`- ${item.exact_code} (${item.brand})`);
-    });
+function randomInt(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
-    lines.push(`Nhãn hàng đề xuất: ${topItems.map((item) => item.brand).join(", ")}`);
-    lines.push(`Căn cứ chọn: ${sanitizeReply(topItems[0]?.reason ?? "Cần xác minh thêm.")}`);
-    lines.push(`Lưu ý dễ nhầm: ${sanitizeReply(topItems[0]?.caution ?? "Cần xác minh thêm.")}`);
-
-    if (payload.avoid_recommendation) {
-      lines.push(`Không nên dùng: ${sanitizeReply(payload.avoid_recommendation)}`);
-    }
-
-    lines.push("Giá: liên hệ báo trực tiếp.");
-    lines.push("Tình trạng hàng: xác nhận riêng.");
-
-    return lines.join("\n");
+function getHumanDelay(input: { kind: "discovery" | "api_reply" | "status"; textLength?: number }): number {
+  if (input.kind === "status") {
+    return randomInt(90, 180);
   }
 
-  if (payload.final_status === "not_found_in_system" || payload.intent === "not_in_catalog") {
-    return [
-      sanitizeReply(payload.short_reply.trim()) || "Chưa có mã trong hệ thống.",
-      "Ngoài danh mục đang hỗ trợ.",
-      "Chưa báo mã để tránh sai.",
-    ].join("\n");
+  if (input.kind === "discovery") {
+    const lengthBoost = Math.min(130, Math.floor((input.textLength ?? 0) / 60) * 25);
+    return randomInt(700, 1200) + lengthBoost;
   }
 
-  const fieldLabelMap: Record<string, string> = {
-    id: "đường kính trong (cốt)",
-    od: "đường kính ngoài",
-    width: "bề rộng",
-    thickness: "bề dày",
-    shaft_diameter: "kích thước cốt trục",
-    shaft: "kích thước cốt trục",
-    code: "mã cũ trên tem",
-    old_code: "mã cũ",
-    shaft_size: "kích thước cốt",
-    seal_type: "kiểu chặn (2RS/ZZ)",
-    housing_type: "kiểu thân gối (UCP/UCF)",
-    pitch: "bước xích",
-    chain_type: "loại xích",
-    links: "số mắt xích",
-    profile: "profile curoa",
-    length: "chiều dài",
-    lip_type: "kiểu môi phớt",
-    seat_size: "kích thước vỏ",
-  };
-
-  const missingHuman =
-    payload.missing_fields.length > 0
-      ? payload.missing_fields.map((f) => fieldLabelMap[f] ?? f).join(", ")
-      : "mã cũ, ảnh tem, kích thước hoặc cụm máy";
-
-  const lines = [
-    sanitizeReply(payload.short_reply.trim()) || "Chưa thể chốt mã.",
-    `Anh/chị gửi thêm: ${missingHuman}.`,
-    "Ưu tiên gửi: mã cũ, ảnh tem, kích thước.",
-    "Chưa báo mã để tránh sai.",
-  ];
-
-  if (payload.next_question) {
-    lines.push(sanitizeReply(payload.next_question));
-  }
-
-  if (payload.avoid_recommendation) {
-    lines.push(`Không nên dùng: ${sanitizeReply(payload.avoid_recommendation)}`);
-  }
-
-  return lines.join("\n");
+  const apiBoost = Math.min(180, Math.floor((input.textLength ?? 0) / 120) * 30);
+  return randomInt(1200, 1800) + apiBoost;
 }
 
 function toApiMessages(messages: UiMessage[]) {
@@ -152,6 +94,127 @@ function toApiMessages(messages: UiMessage[]) {
     role: message.role,
     content: message.text,
   }));
+}
+
+function sanitizeReply(text: string): string {
+  let cleaned = text;
+
+  for (const token of INTERNAL_FIELD_TOKENS) {
+    cleaned = cleaned.replaceAll(token, "");
+  }
+
+  return cleaned.replace(/ {2,}/g, " ").replace(/\n{3,}/g, "\n\n").trim();
+}
+
+function sanitizeOptions(options: string[]): string[] {
+  const cleaned = options
+    .map((option) => sanitizeReply(option))
+    .map((option) => option.replace(/[.;:,]+$/g, "").trim())
+    .filter((option) => option.length > 0);
+
+  return Array.from(new Set(cleaned));
+}
+
+function getDiscoveryOptionLabel(option: string): string {
+  if (option === "Tôi có ảnh tem / ảnh mẫu") {
+    return "Tôi có ảnh tem";
+  }
+
+  if (option === "Tôi chỉ biết hệ máy / triệu chứng") {
+    return "Tôi mô tả theo máy";
+  }
+
+  return option;
+}
+
+function getDiscoveryOptionStyle(stage: DiscoveryStage, optionsLength: number): ReplyOptionStyle {
+  if (stage.startsWith("machine_flow") || optionsLength > 4) {
+    return "stacked";
+  }
+
+  return "chips";
+}
+
+function buildDiscoveryPromptMessage(prompt: DiscoveryPrompt): UiMessage {
+  const options = sanitizeOptions(prompt.options.map(getDiscoveryOptionLabel));
+
+  return {
+    id: createId(),
+    role: "assistant",
+    text: sanitizeReply(prompt.message),
+    options,
+    optionStyle: getDiscoveryOptionStyle(prompt.stage, options.length),
+    optionAction: "discovery",
+    isOptionResolved: false,
+    selectedOption: null,
+    discoveryStage: prompt.stage,
+  };
+}
+
+function getTypingLabel(state: AssistantUiState): string {
+  if (state === "waiting_api") {
+    return "Đang đối chiếu dữ liệu...";
+  }
+
+  if (state === "rendering_reply") {
+    return "Đang hoàn thiện phản hồi...";
+  }
+
+  return "Trợ lý đang soạn...";
+}
+
+function buildPromptFromParsed(parsed: ParsedIntent): DiscoveryPrompt {
+  const normalized = parsed.normalized_text;
+
+  if (normalized.includes("hino") || normalized.includes("xe tai") || normalized.includes("4hk1")) {
+    return {
+      stage: "machine_flow_1",
+      message: "Anh/chị đang kiểm tra vòng bi ở cụm nào: bánh xe, máy phát, puly tăng, lốc lạnh hay hộp số?",
+      options: ["Bánh xe", "Máy phát", "Puly tăng", "Lốc lạnh", "Hộp số"],
+    };
+  }
+
+  if (normalized.includes("spindle") || normalized.includes("cnc")) {
+    return {
+      stage: "machine_flow_1",
+      message: "Anh/chị đang kiểm tra cụm nào trên spindle: ổ trước, ổ sau, puly truyền hay cụm phớt?",
+      options: ["Ổ trước spindle", "Ổ sau spindle", "Puly truyền", "Cụm phớt", "Chưa rõ vị trí"],
+    };
+  }
+
+  if (normalized.includes("may bom") || normalized.includes("bom")) {
+    return {
+      stage: "machine_flow_1",
+      message: "Em cần khoanh đúng cụm trước. Máy đang nóng ở ổ trục, puly hay vị trí phớt?",
+      options: ["Ổ trục bơm", "Puly bơm", "Cụm phớt", "Khớp nối", "Chưa rõ vị trí"],
+    };
+  }
+
+  return (
+    getPromptForStage("greeting") ?? {
+      stage: "greeting",
+      message: "Anh/chị đang có mã cũ hay đang mô tả theo máy?",
+      options: ["Tôi có mã cũ", "Tôi có ảnh tem", "Tôi mô tả theo máy", "Tôi cần thay gấp"],
+    }
+  );
+}
+
+function createInitialMessages(): UiMessage[] {
+  const starter: UiMessage[] = [
+    {
+      id: createId(),
+      role: "assistant",
+      text: defaultGreeting,
+      isOptionResolved: true,
+    },
+  ];
+
+  const greetingPrompt = getPromptForStage("greeting");
+  if (greetingPrompt) {
+    starter.push(buildDiscoveryPromptMessage(greetingPrompt));
+  }
+
+  return starter;
 }
 
 export function AssistantPanel({
@@ -162,35 +225,113 @@ export function AssistantPanel({
 }: AssistantPanelProps) {
   const isMobile = mode === "mobile";
 
-  const [messages, setMessages] = useState<UiMessage[]>([
-    {
-      id: createId(),
-      role: "assistant",
-      text: defaultGreeting,
-    },
-  ]);
+  const [messages, setMessages] = useState<UiMessage[]>(() => createInitialMessages());
   const [inputValue, setInputValue] = useState("");
   const [selectedFileName, setSelectedFileName] = useState<string>("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [assistantUiState, setAssistantUiState] = useState<AssistantUiState>("idle");
   const [providerInfo, setProviderInfo] = useState<{ provider: string; model: string } | null>(null);
   const [discoveryState, setDiscoveryState] = useState<DiscoveryState>(() => createInitialDiscoveryState());
-  const [discoveryPrompt, setDiscoveryPrompt] = useState<DiscoveryPrompt | null>(() => getPromptForStage("greeting"));
+
+  const isBusy = assistantUiState !== "idle";
+
   const bottomAnchorRef = useRef<HTMLDivElement | null>(null);
+  const messagesRef = useRef<UiMessage[]>(messages);
+  const discoveryRef = useRef<DiscoveryState>(discoveryState);
+
+  useEffect(() => {
+    messagesRef.current = messages;
+  }, [messages]);
+
+  useEffect(() => {
+    discoveryRef.current = discoveryState;
+  }, [discoveryState]);
 
   useEffect(() => {
     bottomAnchorRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-  }, [messages, isSubmitting, discoveryPrompt]);
+  }, [messages, assistantUiState]);
+
+  function commitMessages(nextMessages: UiMessage[]): UiMessage[] {
+    messagesRef.current = nextMessages;
+    setMessages(nextMessages);
+    return nextMessages;
+  }
+
+  function updateMessages(updater: (prev: UiMessage[]) => UiMessage[]): UiMessage[] {
+    const nextMessages = updater(messagesRef.current);
+    return commitMessages(nextMessages);
+  }
+
+  function appendMessage(message: UiMessage): UiMessage[] {
+    return updateMessages((prev) => [...prev, message]);
+  }
+
+  function appendAssistantMessage(message: Omit<UiMessage, "id" | "role">): UiMessage[] {
+    const cleanedText = sanitizeReply(message.text);
+    const cleanedOptions = sanitizeOptions(message.options ?? []);
+    const hasOptions = cleanedOptions.length > 0;
+
+    return appendMessage({
+      id: createId(),
+      role: "assistant",
+      text: cleanedText,
+      payload: message.payload,
+      options: hasOptions ? cleanedOptions : undefined,
+      optionStyle: message.optionStyle ?? "chips",
+      optionAction: hasOptions ? message.optionAction ?? "submit" : undefined,
+      isOptionResolved: hasOptions ? message.isOptionResolved ?? false : true,
+      selectedOption: message.selectedOption ?? null,
+      discoveryStage: message.discoveryStage ?? null,
+    });
+  }
+
+  function resolveOptionMessage(messageId: string, selectedOption?: string): void {
+    updateMessages((prev) =>
+      prev.map((message) => {
+        if (message.id !== messageId) {
+          return message;
+        }
+
+        return {
+          ...message,
+          isOptionResolved: true,
+          selectedOption: selectedOption ?? message.selectedOption ?? null,
+        };
+      })
+    );
+  }
+
+  function resolveAllOpenOptions(): void {
+    updateMessages((prev) =>
+      prev.map((message) => {
+        if (!message.options || message.isOptionResolved) {
+          return message;
+        }
+
+        return {
+          ...message,
+          isOptionResolved: true,
+        };
+      })
+    );
+  }
+
+  async function appendDiscoveryPrompt(prompt: DiscoveryPrompt): Promise<void> {
+    setAssistantUiState("typing");
+    await wait(getHumanDelay({ kind: "discovery", textLength: prompt.message.length }));
+    appendMessage(buildDiscoveryPromptMessage(prompt));
+    setAssistantUiState("idle");
+  }
 
   async function requestAssistant(
     history: UiMessage[],
     parsedContext: ParsedIntent | null,
     overrideDiscoveryState?: DiscoveryState
   ) {
-    const effectiveDiscoveryState = overrideDiscoveryState ?? discoveryState;
+    const effectiveDiscoveryState = overrideDiscoveryState ?? discoveryRef.current;
     const hasDiscoveryContext = effectiveDiscoveryState.selectedPath.length > 0;
     const discoveryContext = hasDiscoveryContext ? buildDiscoveryContext(effectiveDiscoveryState) : null;
 
-    setIsSubmitting(true);
+    setAssistantUiState("waiting_api");
 
     try {
       const response = await fetch("/api/assistant", {
@@ -218,134 +359,158 @@ export function AssistantPanel({
       }
 
       if (!response.ok || !payload.ok) {
-        const text = payload.error?.trim().length ? payload.error : "Hệ thống tạm chưa sẵn sàng.";
+        const errorText = payload.error?.trim().length ? payload.error : "Hệ thống tạm chưa sẵn sàng.";
 
-        setMessages((prev) => [
-          ...prev,
-          {
-            id: createId(),
-            role: "assistant",
-            text,
-          },
-        ]);
+        setAssistantUiState("rendering_reply");
+        await wait(getHumanDelay({ kind: "api_reply", textLength: errorText.length }));
+
+        appendAssistantMessage({
+          text: errorText,
+          isOptionResolved: true,
+        });
 
         return;
       }
 
       const structured = coerceAssistantResponse(payload.result);
+      const latestUserText = [...history].reverse().find((message) => message.role === "user")?.text ?? "";
+      const builtReply = buildAssistantReplyMessage({ payload: structured, latestUserText });
 
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: createId(),
-          role: "assistant",
-          text: formatAssistantReply(structured),
-          payload: structured,
-        },
-      ]);
+      setAssistantUiState("rendering_reply");
+      await wait(getHumanDelay({ kind: "api_reply", textLength: builtReply.text.length }));
+
+      appendAssistantMessage({
+        text: builtReply.text,
+        payload: structured,
+        options: builtReply.options,
+        optionStyle: builtReply.optionStyle,
+        optionAction: builtReply.options && builtReply.options.length > 0 ? "submit" : undefined,
+      });
     } catch {
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: createId(),
-          role: "assistant",
-          text: "Kết nối đang bị gián đoạn.",
-        },
-      ]);
+      const fallbackText = "Kết nối đang bị gián đoạn.";
+      setAssistantUiState("rendering_reply");
+      await wait(getHumanDelay({ kind: "api_reply", textLength: fallbackText.length }));
+
+      appendAssistantMessage({
+        text: fallbackText,
+        isOptionResolved: true,
+      });
     } finally {
-      setIsSubmitting(false);
+      setAssistantUiState("idle");
     }
   }
 
-  async function handleDiscoveryOption(option: string) {
-    if (!discoveryPrompt || isSubmitting) {
-      return;
-    }
-
+  async function continueDiscoveryFlow(sourceMessageId: string, option: string) {
     const displayOption = getDiscoveryOptionLabel(option);
 
-    const userMessage: UiMessage = {
+    resolveOptionMessage(sourceMessageId, displayOption);
+    appendMessage({
       id: createId(),
       role: "user",
       text: displayOption,
-    };
+      isOptionResolved: true,
+    });
 
-    const historyAfterUser = [...messages, userMessage];
-    setMessages(historyAfterUser);
-
-    const transition = applyDiscoverySelection(discoveryState, option);
+    const transition = applyDiscoverySelection(discoveryRef.current, option);
     setDiscoveryState(transition.nextState);
-    setDiscoveryPrompt(transition.nextPrompt);
+    discoveryRef.current = transition.nextState;
 
-    const nextPrompt = transition.nextPrompt;
-
-    if (nextPrompt) {
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: createId(),
-          role: "assistant",
-          text: nextPrompt.message,
-        },
-      ]);
+    if (transition.nextPrompt) {
+      await appendDiscoveryPrompt(transition.nextPrompt);
       return;
     }
 
     if (transition.shouldSubmit) {
-      const notifyMessage: UiMessage = {
-        id: createId(),
-        role: "assistant",
-        text: "Đã ghi nhận. Đang đối chiếu...",
-      };
+      setAssistantUiState("typing");
+      await wait(getHumanDelay({ kind: "status" }));
 
-      const historyBeforeApi = [...historyAfterUser, notifyMessage];
-      setMessages(historyBeforeApi);
+      appendAssistantMessage({
+        text: "Đã ghi nhận, em đang đối chiếu nhanh theo cụm máy...",
+        isOptionResolved: true,
+      });
 
-      await requestAssistant(historyBeforeApi, transition.nextState.parsed, transition.nextState);
+      await requestAssistant(messagesRef.current, transition.nextState.parsed, transition.nextState);
     }
+  }
+
+  async function handleMessageOption(messageId: string, option: string) {
+    if (isBusy) {
+      return;
+    }
+
+    const source = messagesRef.current.find((message) => message.id === messageId);
+    if (!source || source.isOptionResolved) {
+      return;
+    }
+
+    if (source.optionAction === "discovery") {
+      await continueDiscoveryFlow(messageId, option);
+      return;
+    }
+
+    const displayOption = getDiscoveryOptionLabel(option);
+    resolveOptionMessage(messageId, displayOption);
+
+    appendMessage({
+      id: createId(),
+      role: "user",
+      text: displayOption,
+      isOptionResolved: true,
+    });
+
+    const parsed = parseIntentInput(displayOption);
+    const collapsedState: DiscoveryState = {
+      ...discoveryRef.current,
+      stage: "none",
+      parsed,
+    };
+
+    setDiscoveryState(collapsedState);
+    discoveryRef.current = collapsedState;
+
+    await requestAssistant(messagesRef.current, parsed, collapsedState);
   }
 
   async function submitMessage(rawText: string) {
     const content = rawText.trim();
 
-    if (!content || isSubmitting) {
+    if (!content || isBusy) {
       return;
     }
 
     const parsed = parseIntentInput(content);
+    resolveAllOpenOptions();
 
-    const userMessage: UiMessage = {
+    appendMessage({
       id: createId(),
       role: "user",
       text: content,
-    };
+      isOptionResolved: true,
+    });
 
-    const historyAfterUser = [...messages, userMessage];
-    setMessages(historyAfterUser);
     setInputValue("");
 
     if (parsed.should_trigger_discovery) {
-      if (!discoveryPrompt) {
-        setDiscoveryState(createInitialDiscoveryState());
-        setDiscoveryPrompt(getPromptForStage("greeting"));
-      }
+      const nextState = createInitialDiscoveryState();
+      nextState.parsed = parsed;
 
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: createId(),
-          role: "assistant",
-          text:
-            parsed.next_question ??
-            "Chọn nhanh bên dưới để em hỏi đúng.",
-        },
-      ]);
+      setDiscoveryState(nextState);
+      discoveryRef.current = nextState;
+
+      await appendDiscoveryPrompt(buildPromptFromParsed(parsed));
       return;
     }
 
-    setDiscoveryPrompt(null);
-    setDiscoveryState((prev) => ({ ...prev, stage: "none" }));
-    await requestAssistant(historyAfterUser, parsed);
+    const collapsedState: DiscoveryState = {
+      ...discoveryRef.current,
+      stage: "none",
+      parsed,
+    };
+
+    setDiscoveryState(collapsedState);
+    discoveryRef.current = collapsedState;
+
+    await requestAssistant(messagesRef.current, parsed, collapsedState);
   }
 
   return (
@@ -357,9 +522,7 @@ export function AssistantPanel({
       role="dialog"
       aria-label="Trợ lý tra mã"
     >
-      <div
-        className="shrink-0 border-b border-slate-200/65 bg-white/85 px-4 pb-2.5 pt-2 supports-[backdrop-filter]:backdrop-blur-sm"
-      >
+      <div className="shrink-0 border-b border-slate-200/65 bg-white/85 px-4 pb-2.5 pt-2 supports-[backdrop-filter]:backdrop-blur-sm">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             {isMobile && (
@@ -369,7 +532,7 @@ export function AssistantPanel({
             )}
             <h3 className="font-heading text-[15px] font-semibold tracking-tight text-slate-900">Tra mã nhanh</h3>
             <p className="mt-0.5 text-[11.5px] leading-[1.45] text-slate-500">
-              Gửi mã cũ, ảnh tem hoặc mô tả máy.
+              Tra cứu theo mã, ảnh tem hoặc cụm máy.
             </p>
           </div>
           {showCloseButton && (
@@ -388,38 +551,30 @@ export function AssistantPanel({
       </div>
 
       <div className="flex min-h-0 flex-1 flex-col">
-        {discoveryPrompt && discoveryPrompt.options.length > 0 && (
-          <div className="shrink-0 border-b border-slate-200/70 bg-gradient-to-b from-amber-50/70 to-white px-3.5 py-3 sm:px-4">
-            <p className="text-[12px] leading-5 text-slate-700">{discoveryPrompt.message}</p>
-            <p className="mt-2 text-[11px] font-medium uppercase tracking-wide text-slate-500">Chọn nhanh</p>
-            <div className="mt-2.5 flex flex-wrap gap-2">
-              {discoveryPrompt.options.map((option) => (
-                <Button
-                  key={option}
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  className="h-auto min-h-10 rounded-2xl border border-slate-200/90 bg-white/95 px-3.5 py-2 text-[13px] font-medium leading-5 text-slate-700 shadow-[0_10px_24px_-20px_rgba(15,23,42,0.35)] transition hover:border-amber-200 hover:bg-amber-50 hover:text-amber-900 active:scale-[0.98] active:bg-amber-100/85 focus-visible:ring-2 focus-visible:ring-amber-300"
-                  onClick={() => void handleDiscoveryOption(option)}
-                  disabled={isSubmitting}
-                >
-                  {getDiscoveryOptionLabel(option)}
-                </Button>
-              ))}
-            </div>
-          </div>
-        )}
-
-        <div className="chat-scroll-area flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto overscroll-contain px-3.5 py-4 sm:px-4">
+        <div className="chat-scroll-area flex min-h-0 flex-1 flex-col gap-3.5 overflow-y-auto overscroll-contain px-3.5 py-4 sm:gap-4 sm:px-4">
           {messages.map((message) => (
-            <AssistantMessage key={message.id} role={message.role} text={message.text} />
+            <div key={message.id} className="space-y-0.5">
+              <AssistantMessage role={message.role} text={message.text} />
+
+              {message.role === "assistant" && message.options && message.options.length > 0 && (
+                <ChatMessageOptions
+                  options={message.options}
+                  onSelect={(option) => void handleMessageOption(message.id, option)}
+                  disabled={isBusy}
+                  selectedOption={message.selectedOption}
+                  isResolved={Boolean(message.isOptionResolved)}
+                  styleType={message.optionStyle}
+                  isMobile={isMobile}
+                />
+              )}
+            </div>
           ))}
 
-          {isSubmitting && (
+          {assistantUiState !== "idle" && (
             <div className="flex w-full justify-start pr-10">
               <div className="inline-flex items-center gap-2 rounded-2xl border border-slate-200/80 bg-white/95 px-3 py-2 text-[13px] leading-5 text-slate-700 shadow-[0_10px_20px_-18px_rgba(15,23,42,0.5)] sm:text-sm">
                 <Loader2 className="size-3.5 animate-spin" />
-                Đang xử lý...
+                {getTypingLabel(assistantUiState)}
               </div>
             </div>
           )}
@@ -429,7 +584,7 @@ export function AssistantPanel({
 
         <div
           className={cn(
-            "shrink-0 border-t border-slate-200/65 bg-white/90 px-3.5 pb-3 pt-2.5 supports-[backdrop-filter]:backdrop-blur-sm sm:px-4",
+            "shrink-0 border-t border-slate-200/65 bg-white/92 px-3.5 pb-3 pt-2.5 supports-[backdrop-filter]:backdrop-blur-sm sm:px-4",
             isMobile ? "pb-[calc(0.75rem+env(safe-area-inset-bottom))]" : ""
           )}
         >
@@ -450,7 +605,12 @@ export function AssistantPanel({
             {selectedFileName && <p className="truncate text-[12px] text-slate-500">{selectedFileName}</p>}
           </div>
 
-          <div className="mt-2 flex items-end gap-2 rounded-2xl border border-slate-200/80 bg-slate-50/60 p-1.5 shadow-[inset_0_1px_2px_rgba(15,23,42,0.06)]">
+          <div
+            className={cn(
+              "mt-2 flex items-end gap-2 rounded-2xl border border-slate-200/80 bg-white p-1.5 shadow-[inset_0_1px_2px_rgba(15,23,42,0.05)]",
+              isMobile ? "rounded-[1.1rem]" : ""
+            )}
+          >
             <Textarea
               value={inputValue}
               onChange={(event) => setInputValue(event.target.value)}
@@ -460,7 +620,7 @@ export function AssistantPanel({
                   void submitMessage(inputValue);
                 }
               }}
-              placeholder="Nhập mã, kích thước hoặc ứng dụng..."
+              placeholder="Nhập mã, kích thước hoặc cụm máy..."
               className="min-h-10 max-h-32 flex-1 resize-none border-0 bg-transparent px-1.5 py-1.5 text-[13px] leading-6 shadow-none placeholder:text-slate-400 focus-visible:ring-0 sm:text-sm"
             />
             <Button
@@ -468,13 +628,18 @@ export function AssistantPanel({
               size="sm"
               className="h-10 shrink-0 rounded-xl bg-amber-700 px-3 text-[12px] font-semibold text-white shadow-[0_12px_20px_-16px_rgba(180,83,9,0.95)] hover:bg-amber-800 disabled:bg-amber-600/70"
               onClick={() => void submitMessage(inputValue)}
-              disabled={isSubmitting || inputValue.trim().length === 0}
+              disabled={isBusy || inputValue.trim().length === 0}
               aria-label="Tra mã ngay"
             >
-              {isSubmitting ? (
+              {assistantUiState === "waiting_api" ? (
                 <>
                   <Loader2 className="mr-1 size-3.5 animate-spin" />
-                  Đang xử lý
+                  Đối chiếu
+                </>
+              ) : isBusy ? (
+                <>
+                  <Loader2 className="mr-1 size-3.5 animate-spin" />
+                  Đang soạn
                 </>
               ) : (
                 <>
@@ -490,9 +655,10 @@ export function AssistantPanel({
           </p>
 
           {process.env.NEXT_PUBLIC_SHOW_ASSISTANT_PROVIDER === "true" && providerInfo && (
-            <p className="mt-1 px-1 text-[10px] leading-4 text-slate-400/70">
-              AI: {providerInfo.provider} · Model: {providerInfo.model}
-            </p>
+            <div className="mt-1 px-1 text-[10px] leading-4 text-slate-400/80">
+              <p>AI: {providerInfo.provider}</p>
+              <p>Model: {providerInfo.model || "(không xác định)"}</p>
+            </div>
           )}
         </div>
       </div>

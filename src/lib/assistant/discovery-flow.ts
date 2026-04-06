@@ -135,15 +135,21 @@ function promptForStage(stage: DiscoveryStage): DiscoveryPrompt | null {
 }
 
 function stageFromFirstLevelOption(option: string): DiscoveryStage {
-  if (option === "Tôi có mã cũ") {
+  const normalized = option
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/gi, "d")
+    .toLowerCase();
+
+  if (normalized.includes("ma cu")) {
     return "code_flow";
   }
 
-  if (option === "Tôi có ảnh tem / ảnh mẫu") {
+  if (normalized.includes("anh") || normalized.includes("tem")) {
     return "image_flow";
   }
 
-  if (option === "Tôi chỉ biết hệ máy / triệu chứng") {
+  if (normalized.includes("mo ta") || normalized.includes("he may") || normalized.includes("trieu chung")) {
     return "machine_flow_1";
   }
 
