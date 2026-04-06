@@ -316,6 +316,7 @@ export function AssistantPanel({ open, onClose }: AssistantPanelProps) {
       <div className="space-y-3 px-4 py-3">
         {discoveryPrompt && discoveryPrompt.options.length > 0 && (
           <div className="space-y-2 rounded-xl border border-slate-200 bg-slate-50 p-2">
+            <p className="px-1 text-[11px] text-slate-700">{discoveryPrompt.message}</p>
             <p className="px-1 text-[11px] font-medium text-slate-600">Lựa chọn nhanh theo nhu cầu:</p>
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
               {discoveryPrompt.options.map((option) => (
