@@ -26,7 +26,7 @@ export default function ContactPage() {
         <div className="grid gap-6 lg:grid-cols-[1fr_1.1fr]">
           <section className="space-y-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_10px_28px_-22px_rgba(30,64,175,0.45)] sm:p-6">
             <Image
-              src="/images/logo_new.png"
+              src="/images/branding/logo-new.png"
               alt="Truyền Động Công Nghiệp"
               width={160}
               height={56}

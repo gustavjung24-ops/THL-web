@@ -35,7 +35,7 @@ export default function AboutPage() {
 
             <div className="overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
               <Image
-                src="/images/industry-support.svg"
+                src="/images/industry/industry-support.svg"
                 alt="Placeholder khu vực tư vấn phụ tùng công nghiệp"
                 width={1200}
                 height={720}

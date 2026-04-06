@@ -21,7 +21,7 @@ export function SiteHeader() {
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 sm:px-6">
         <Link href="/" className="flex items-center gap-2">
           <Image
-            src="/images/logo_new.png"
+            src="/images/branding/logo-new.png"
             alt="Truyền Động Công Nghiệp"
             width={180}
             height={60}
@@ -66,7 +66,7 @@ export function SiteHeader() {
               <div className="mt-8 space-y-6">
                 <div className="space-y-1">
                   <Image
-                    src="/images/logo_new.png"
+                    src="/images/branding/logo-new.png"
                     alt="Truyền Động Công Nghiệp"
                     width={120}
                     height={42}

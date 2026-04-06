@@ -6,7 +6,7 @@ export function SiteFooter() {
   return (
     <footer className="relative overflow-hidden border-t border-slate-200 bg-slate-50">
       <Image
-        src="/images/hero-industrial.svg"
+        src="/images/branding/hero-industrial.svg"
         alt=""
         width={800}
         height={520}

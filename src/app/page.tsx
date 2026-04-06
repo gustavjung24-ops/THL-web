@@ -136,7 +136,7 @@ export default function Home() {
             <CardContent className="p-4 sm:p-5">
               <div className="overflow-hidden rounded-lg border border-slate-200 bg-slate-50">
                 <Image
-                  src="/images/hero-industrial.svg"
+                  src="/images/branding/hero-industrial.svg"
                   alt="Mô phỏng cụm truyền động trong nhà máy"
                   width={640}
                   height={420}

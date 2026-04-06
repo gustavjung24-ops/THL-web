@@ -11,7 +11,7 @@ export const siteConfig = {
   supportArea: "Khu vực hỗ trợ nhà máy tại Bình Dương và lân cận",
   responseTime: "Phản hồi trong giờ hành chính hoặc theo nhu cầu xử lý nhanh",
   address: "Dĩ An Bình Dương / Phú Thạnh Tân Phú HCM",
-  defaultOgImage: "/images/og-industrial.svg",
+  defaultOgImage: "/images/branding/og-industrial.svg",
   footerCredit: "By Khương Bình",
 };
 
