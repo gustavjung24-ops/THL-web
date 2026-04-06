@@ -292,7 +292,7 @@ export function AssistantPanel({ mode, onClose }: AssistantPanelProps) {
         "flex min-h-0 flex-col overflow-hidden border border-slate-200/80 bg-white/95 text-slate-900",
         "shadow-[0_28px_60px_-34px_rgba(15,23,42,0.5)]",
         isMobile
-          ? "h-[82dvh] max-h-[calc(100dvh-1rem)] w-full rounded-[1.4rem]"
+          ? "h-[82dvh] max-h-[calc(100dvh-0.25rem)] w-full rounded-t-[1.5rem] rounded-b-none border-b-0"
           : "h-[min(82vh,720px)] w-[min(92vw,400px)] rounded-[1.35rem]"
       )}
       role="dialog"

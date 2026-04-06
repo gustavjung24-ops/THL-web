@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { MessageCircleMore, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AssistantPanel } from "@/components/chat/assistant-panel";
+import { AssistantSheet } from "@/components/chat/assistant-sheet";
 import { cn } from "@/lib/utils";
 
 const MOBILE_BREAKPOINT_QUERY = "(max-width: 767px)";
@@ -73,29 +74,9 @@ export function AssistantBubble() {
       </div>
 
       {isMobile && (
-        <div
-          className={cn("fixed inset-0 z-40 md:hidden", open ? "pointer-events-auto" : "pointer-events-none")}
-          aria-hidden={!open}
-        >
-          <button
-            type="button"
-            aria-label="Đóng chat tra mã"
-            className={cn(
-              "absolute inset-0 bg-slate-950/35 transition-opacity duration-200 supports-backdrop-filter:backdrop-blur-[2px]",
-              open ? "opacity-100" : "opacity-0"
-            )}
-            onClick={() => setOpen(false)}
-          />
-
-          <div
-            className={cn(
-              "absolute inset-x-0 bottom-0 px-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] transition-all duration-200 ease-out",
-              open ? "translate-y-0 opacity-100" : "translate-y-[104%] opacity-0"
-            )}
-          >
-            <AssistantPanel mode="mobile" onClose={() => setOpen(false)} />
-          </div>
-        </div>
+        <AssistantSheet open={open} onClose={() => setOpen(false)}>
+          <AssistantPanel mode="mobile" onClose={() => setOpen(false)} />
+        </AssistantSheet>
       )}
     </>
   );
