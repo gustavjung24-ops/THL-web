@@ -34,6 +34,7 @@ type AssistantPanelProps = {
   mode?: "mobile" | "desktop";
   onClose: () => void;
   className?: string;
+  showCloseButton?: boolean;
 };
 
 const defaultGreeting =
@@ -107,7 +108,12 @@ function toApiMessages(messages: UiMessage[]) {
   }));
 }
 
-export function AssistantPanel({ mode = "desktop", onClose, className }: AssistantPanelProps) {
+export function AssistantPanel({
+  mode = "desktop",
+  onClose,
+  className,
+  showCloseButton = true,
+}: AssistantPanelProps) {
   const isMobile = mode === "mobile";
 
   const [messages, setMessages] = useState<UiMessage[]>([
@@ -290,53 +296,57 @@ export function AssistantPanel({ mode = "desktop", onClose, className }: Assista
   return (
     <section
       className={cn(
-        "flex h-full min-h-0 flex-col overflow-hidden bg-white text-slate-900",
+        "flex h-full min-h-0 flex-col overflow-hidden bg-gradient-to-b from-[#fffefc] via-white to-[#fffdfa] text-slate-900",
         className
       )}
       role="dialog"
       aria-label="Trợ lý tra mã"
     >
       <div
-        className={cn(
-          "shrink-0 border-b border-slate-200/80 bg-white/90 px-4 pb-3 pt-3 backdrop-blur",
-          isMobile ? "pt-[calc(0.7rem+env(safe-area-inset-top))]" : ""
-        )}
+        className="shrink-0 border-b border-slate-200/70 bg-white/80 px-4 pb-3 pt-2.5 supports-[backdrop-filter]:backdrop-blur-sm"
       >
-        {isMobile && <div className="mx-auto mb-2 h-1 w-12 rounded-full bg-slate-300/75" />}
         <div className="flex items-start justify-between gap-3">
-          <div>
-            <h3 className="font-heading text-base font-semibold tracking-tight text-slate-900">Trợ lý tra mã nhanh</h3>
+          <div className="min-w-0">
+            {isMobile && (
+              <p className="mb-1 inline-flex rounded-full border border-amber-200/70 bg-amber-50/85 px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-amber-900/85">
+                Trợ lý trực tuyến
+              </p>
+            )}
+            <h3 className="font-heading text-base font-semibold tracking-tight text-slate-900">Tra mã nhanh</h3>
             <p className="mt-1 text-[12px] leading-5 text-slate-600 sm:text-xs">
               Gửi mã cũ, ảnh tem, kích thước hoặc mô tả hệ máy để được hỗ trợ nhanh.
             </p>
           </div>
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon-sm"
-            className="mt-0.5 shrink-0 rounded-full text-slate-500 hover:bg-slate-100 hover:text-slate-800"
-            onClick={onClose}
-            aria-label="Đóng trợ lý tra mã"
-          >
-            <X className="size-4" />
-          </Button>
+          {showCloseButton && (
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon-sm"
+              className="mt-0.5 shrink-0 rounded-full text-slate-500 hover:bg-slate-100 hover:text-slate-800"
+              onClick={onClose}
+              aria-label="Đóng trợ lý tra mã"
+            >
+              <X className="size-4" />
+            </Button>
+          )}
         </div>
       </div>
 
-      <div className="flex min-h-0 flex-1 flex-col bg-gradient-to-b from-[#fffdf8] via-white to-white">
+      <div className="flex min-h-0 flex-1 flex-col">
         {discoveryPrompt && discoveryPrompt.options.length > 0 && (
-          <div className="shrink-0 border-b border-slate-200/75 bg-amber-50/55 px-3 py-3 sm:px-4">
+          <div className="shrink-0 border-b border-slate-200/70 bg-gradient-to-b from-amber-50/70 to-white px-3.5 py-3 sm:px-4">
             <p className="text-[12px] leading-5 text-slate-700">{discoveryPrompt.message}</p>
-            <p className="mt-2 text-[11px] font-medium uppercase tracking-wide text-slate-500">Bước định hướng</p>
-            <div className="mt-2 flex flex-wrap gap-2">
+            <p className="mt-2 text-[11px] font-medium uppercase tracking-wide text-slate-500">Lựa chọn nhanh</p>
+            <div className="mt-2.5 flex flex-wrap gap-2">
               {discoveryPrompt.options.map((option) => (
                 <Button
                   key={option}
                   type="button"
                   variant="ghost"
                   size="sm"
-                  className="h-auto min-h-9 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-[12px] text-slate-700 shadow-sm hover:border-amber-200 hover:bg-amber-50 hover:text-amber-900 focus-visible:ring-2 focus-visible:ring-amber-300"
+                  className="h-auto min-h-10 rounded-2xl border border-slate-200/90 bg-white/95 px-3.5 py-2 text-[13px] font-medium leading-5 text-slate-700 shadow-[0_10px_24px_-20px_rgba(15,23,42,0.35)] transition hover:border-amber-200 hover:bg-amber-50 hover:text-amber-900 active:scale-[0.98] active:bg-amber-100/85 focus-visible:ring-2 focus-visible:ring-amber-300"
                   onClick={() => void handleDiscoveryOption(option)}
+                  disabled={isSubmitting}
                 >
                   {option}
                 </Button>
@@ -345,14 +355,14 @@ export function AssistantPanel({ mode = "desktop", onClose, className }: Assista
           </div>
         )}
 
-        <div className="chat-scroll-area flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto overscroll-contain px-3 py-3 sm:px-4">
+        <div className="chat-scroll-area flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto overscroll-contain px-3.5 py-4 sm:px-4">
           {messages.map((message) => (
             <AssistantMessage key={message.id} role={message.role} text={message.text} />
           ))}
 
           {isSubmitting && (
             <div className="flex w-full justify-start pr-10">
-              <div className="inline-flex items-center gap-2 rounded-2xl border border-amber-200/70 bg-amber-50/80 px-3 py-2 text-[13px] text-slate-700 shadow-sm sm:text-sm">
+              <div className="inline-flex items-center gap-2 rounded-2xl border border-slate-200/80 bg-white/95 px-3 py-2 text-[13px] leading-5 text-slate-700 shadow-[0_10px_20px_-18px_rgba(15,23,42,0.5)] sm:text-sm">
                 <Loader2 className="size-3.5 animate-spin" />
                 Đang xử lý yêu cầu...
               </div>
@@ -364,14 +374,14 @@ export function AssistantPanel({ mode = "desktop", onClose, className }: Assista
 
         <div
           className={cn(
-            "shrink-0 border-t border-slate-200/80 bg-white/92 px-3 pb-3 pt-3 backdrop-blur-sm sm:px-4",
-            isMobile ? "pb-[calc(0.75rem+env(safe-area-inset-bottom))]" : ""
+            "shrink-0 border-t border-slate-200/75 bg-white/90 px-3.5 pb-3.5 pt-3 supports-[backdrop-filter]:backdrop-blur-sm sm:px-4",
+            isMobile ? "pb-[calc(0.9rem+env(safe-area-inset-bottom))]" : ""
           )}
         >
           <div className="flex items-center gap-2">
-            <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-slate-300/80 bg-white px-3 py-1.5 text-[12px] text-slate-700 shadow-sm transition hover:border-amber-200 hover:bg-amber-50">
+            <label className="inline-flex h-9 cursor-pointer items-center gap-1.5 rounded-xl border border-slate-300/80 bg-white px-3 text-[12px] text-slate-700 shadow-sm transition hover:border-amber-200 hover:bg-amber-50">
               <ImagePlus className="size-3.5" />
-              Tải ảnh tham chiếu (mô phỏng)
+              Tải ảnh
               <Input
                 type="file"
                 accept="image/*"
@@ -385,7 +395,7 @@ export function AssistantPanel({ mode = "desktop", onClose, className }: Assista
             {selectedFileName && <p className="truncate text-[12px] text-slate-500">{selectedFileName}</p>}
           </div>
 
-          <div className="mt-2 rounded-2xl border border-slate-200/90 bg-slate-50/65 p-2 shadow-[inset_0_1px_2px_rgba(15,23,42,0.06)]">
+          <div className="mt-2.5 flex items-end gap-2 rounded-[1.1rem] border border-slate-200/85 bg-slate-50/75 p-2 shadow-[inset_0_1px_2px_rgba(15,23,42,0.08)]">
             <Textarea
               value={inputValue}
               onChange={(event) => setInputValue(event.target.value)}
@@ -396,30 +406,26 @@ export function AssistantPanel({ mode = "desktop", onClose, className }: Assista
                 }
               }}
               placeholder="Nhập mã cũ, kích thước hoặc ứng dụng cần tra..."
-              className="min-h-20 max-h-36 resize-none border-0 bg-transparent px-2 py-1 text-[13px] leading-5 shadow-none focus-visible:ring-0 sm:text-sm"
+              className="min-h-16 max-h-36 flex-1 resize-none border-0 bg-transparent px-1.5 py-1 text-[13px] leading-6 shadow-none focus-visible:ring-0 sm:text-sm"
             />
             <Button
               type="button"
-              className="h-10 w-full rounded-xl bg-amber-700 text-[13px] font-medium text-white shadow-[0_12px_24px_-14px_rgba(180,83,9,0.85)] hover:bg-amber-800"
+              size="icon"
+              className="size-10 shrink-0 rounded-xl bg-amber-700 text-white shadow-[0_12px_20px_-16px_rgba(180,83,9,0.95)] hover:bg-amber-800 disabled:bg-amber-600/70"
               onClick={() => void submitMessage(inputValue)}
               disabled={isSubmitting || inputValue.trim().length === 0}
+              aria-label="Gửi yêu cầu tra mã"
             >
               {isSubmitting ? (
-                <>
-                  <Loader2 className="mr-1.5 size-3.5 animate-spin" />
-                  Đang xử lý
-                </>
+                <Loader2 className="size-4 animate-spin" />
               ) : (
-                <>
-                  <SendHorizonal className="mr-1.5 size-3.5" />
-                  Gửi yêu cầu tra mã
-                </>
+                <SendHorizonal className="size-4" />
               )}
             </Button>
           </div>
 
           <p className="mt-2 px-1 text-[11px] leading-5 text-slate-500">
-            Trợ lý ưu tiên trả lời ngắn theo ứng dụng thực tế. Giá và tình trạng hàng được xác nhận riêng.
+            Chatbot ưu tiên trả lời ngắn, theo ứng dụng thực tế. Giá và tình trạng hàng được xác nhận riêng.
           </p>
         </div>
       </div>
