@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { ImagePlus, Loader2, SendHorizonal, X } from "lucide-react";
+import { AssistantMessage } from "./assistant-message";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -18,6 +19,7 @@ import {
   coerceAssistantResponse,
   type AssistantStructuredResponse,
 } from "@/lib/assistant/schemas";
+import { cn } from "@/lib/utils";
 
 type ChatRole = "user" | "assistant";
 
@@ -29,7 +31,7 @@ type UiMessage = {
 };
 
 type AssistantPanelProps = {
-  open: boolean;
+  mode: "mobile" | "desktop";
   onClose: () => void;
 };
 
@@ -104,7 +106,9 @@ function toApiMessages(messages: UiMessage[]) {
   }));
 }
 
-export function AssistantPanel({ open, onClose }: AssistantPanelProps) {
+export function AssistantPanel({ mode, onClose }: AssistantPanelProps) {
+  const isMobile = mode === "mobile";
+
   const [messages, setMessages] = useState<UiMessage[]>([
     {
       id: createId(),
@@ -120,12 +124,8 @@ export function AssistantPanel({ open, onClose }: AssistantPanelProps) {
   const bottomAnchorRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (!open) {
-      return;
-    }
-
     bottomAnchorRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-  }, [messages, isSubmitting, open, discoveryPrompt]);
+  }, [messages, isSubmitting, discoveryPrompt]);
 
   async function requestAssistant(
     history: UiMessage[],
@@ -286,44 +286,58 @@ export function AssistantPanel({ open, onClose }: AssistantPanelProps) {
     await requestAssistant(historyAfterUser, parsed);
   }
 
-  if (!open) {
-    return null;
-  }
-
   return (
-    <div className="w-[min(92vw,380px)] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_20px_45px_-28px_rgba(15,23,42,0.45)]">
-      <div className="flex items-start justify-between border-b border-slate-200 bg-slate-50 px-4 py-3">
-        <div>
-          <h3 className="font-heading text-base font-semibold text-slate-900">Tra mã nhanh</h3>
-          <p className="mt-1 text-xs text-slate-600">
-            Gửi mã cũ, ảnh tem, kích thước hoặc ứng dụng để được hỗ trợ tra mã.
-          </p>
+    <section
+      className={cn(
+        "flex min-h-0 flex-col overflow-hidden border border-slate-200/80 bg-white/95 text-slate-900",
+        "shadow-[0_28px_60px_-34px_rgba(15,23,42,0.5)]",
+        isMobile
+          ? "h-[82dvh] max-h-[calc(100dvh-1rem)] w-full rounded-[1.4rem]"
+          : "h-[min(82vh,720px)] w-[min(92vw,400px)] rounded-[1.35rem]"
+      )}
+      role="dialog"
+      aria-label="Tra mã nhanh"
+    >
+      <div
+        className={cn(
+          "shrink-0 border-b border-slate-200/80 bg-white/90 px-4 pb-3 pt-3 backdrop-blur",
+          isMobile ? "pt-[calc(0.7rem+env(safe-area-inset-top))]" : ""
+        )}
+      >
+        {isMobile && <div className="mx-auto mb-2 h-1 w-12 rounded-full bg-slate-300/75" />}
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <h3 className="font-heading text-base font-semibold tracking-tight text-slate-900">Tra mã nhanh</h3>
+            <p className="mt-1 text-[12px] leading-5 text-slate-600 sm:text-xs">
+              Gửi mã cũ, ảnh tem, kích thước hoặc mô tả hệ máy để được hỗ trợ nhanh.
+            </p>
+          </div>
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon-sm"
+            className="mt-0.5 shrink-0 rounded-full text-slate-500 hover:bg-slate-100 hover:text-slate-800"
+            onClick={onClose}
+            aria-label="Đóng trợ lý tra mã"
+          >
+            <X className="size-4" />
+          </Button>
         </div>
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon-sm"
-          className="shrink-0"
-          onClick={onClose}
-          aria-label="Đóng trợ lý tra mã"
-        >
-          <X className="size-4" />
-        </Button>
       </div>
 
-      <div className="space-y-3 px-4 py-3">
+      <div className="flex min-h-0 flex-1 flex-col bg-gradient-to-b from-[#fffdf8] via-white to-white">
         {discoveryPrompt && discoveryPrompt.options.length > 0 && (
-          <div className="space-y-2 rounded-xl border border-slate-200 bg-slate-50 p-2">
-            <p className="px-1 text-[11px] text-slate-700">{discoveryPrompt.message}</p>
-            <p className="px-1 text-[11px] font-medium text-slate-600">Lựa chọn nhanh theo nhu cầu:</p>
-            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+          <div className="shrink-0 border-b border-slate-200/75 bg-amber-50/55 px-3 py-3 sm:px-4">
+            <p className="text-[12px] leading-5 text-slate-700">{discoveryPrompt.message}</p>
+            <p className="mt-2 text-[11px] font-medium uppercase tracking-wide text-slate-500">Lựa chọn nhanh</p>
+            <div className="mt-2 flex flex-wrap gap-2">
               {discoveryPrompt.options.map((option) => (
                 <Button
                   key={option}
                   type="button"
-                  variant="outline"
+                  variant="ghost"
                   size="sm"
-                  className="h-auto min-h-8 whitespace-normal border-slate-300 px-2 py-2 text-left text-xs text-slate-700"
+                  className="h-auto min-h-9 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-[12px] text-slate-700 shadow-sm hover:border-amber-200 hover:bg-amber-50 hover:text-amber-900 focus-visible:ring-2 focus-visible:ring-amber-300"
                   onClick={() => void handleDiscoveryOption(option)}
                 >
                   {option}
@@ -333,82 +347,84 @@ export function AssistantPanel({ open, onClose }: AssistantPanelProps) {
           </div>
         )}
 
-        <div className="max-h-72 space-y-2 overflow-y-auto rounded-xl border border-slate-200 bg-slate-50 p-2">
+        <div className="chat-scroll-area flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto overscroll-contain px-3 py-3 sm:px-4">
           {messages.map((message) => (
-            <div
-              key={message.id}
-              className={
-                message.role === "assistant"
-                  ? "mr-6 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs leading-relaxed text-slate-800"
-                  : "ml-6 rounded-xl bg-slate-900 px-3 py-2 text-xs leading-relaxed text-white"
-              }
-            >
-              <p className="whitespace-pre-wrap">{message.text}</p>
-            </div>
+            <AssistantMessage key={message.id} role={message.role} text={message.text} />
           ))}
+
           {isSubmitting && (
-            <div className="mr-6 inline-flex items-center gap-2 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-slate-700">
-              <Loader2 className="size-3 animate-spin" />
-              Đang tra mã...
+            <div className="flex w-full justify-start pr-10">
+              <div className="inline-flex items-center gap-2 rounded-2xl border border-amber-200/70 bg-amber-50/80 px-3 py-2 text-[13px] text-slate-700 shadow-sm sm:text-sm">
+                <Loader2 className="size-3.5 animate-spin" />
+                Đang tra mã...
+              </div>
             </div>
           )}
+
           <div ref={bottomAnchorRef} />
         </div>
 
-        <div className="flex items-center gap-2">
-          <label className="inline-flex cursor-pointer items-center gap-1 rounded-lg border border-slate-300 bg-white px-2 py-1 text-xs text-slate-700 hover:bg-slate-100">
-            <ImagePlus className="size-3.5" />
-            Tải ảnh (mock)
-            <Input
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={(event) => {
-                const file = event.target.files?.[0];
-                setSelectedFileName(file?.name ?? "");
+        <div
+          className={cn(
+            "shrink-0 border-t border-slate-200/80 bg-white/92 px-3 pb-3 pt-3 backdrop-blur-sm sm:px-4",
+            isMobile ? "pb-[calc(0.75rem+env(safe-area-inset-bottom))]" : ""
+          )}
+        >
+          <div className="flex items-center gap-2">
+            <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-slate-300/80 bg-white px-3 py-1.5 text-[12px] text-slate-700 shadow-sm transition hover:border-amber-200 hover:bg-amber-50">
+              <ImagePlus className="size-3.5" />
+              Tải ảnh (mock)
+              <Input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(event) => {
+                  const file = event.target.files?.[0];
+                  setSelectedFileName(file?.name ?? "");
+                }}
+              />
+            </label>
+            {selectedFileName && <p className="truncate text-[12px] text-slate-500">{selectedFileName}</p>}
+          </div>
+
+          <div className="mt-2 rounded-2xl border border-slate-200/90 bg-slate-50/65 p-2 shadow-[inset_0_1px_2px_rgba(15,23,42,0.06)]">
+            <Textarea
+              value={inputValue}
+              onChange={(event) => setInputValue(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" && !event.shiftKey) {
+                  event.preventDefault();
+                  void submitMessage(inputValue);
+                }
               }}
+              placeholder="Nhập mã cũ, kích thước hoặc ứng dụng cần tra..."
+              className="min-h-20 max-h-36 resize-none border-0 bg-transparent px-2 py-1 text-[13px] leading-5 shadow-none focus-visible:ring-0 sm:text-sm"
             />
-          </label>
-          {selectedFileName && <p className="truncate text-xs text-slate-500">{selectedFileName}</p>}
-        </div>
+            <Button
+              type="button"
+              className="h-10 w-full rounded-xl bg-amber-700 text-[13px] font-medium text-white shadow-[0_12px_24px_-14px_rgba(180,83,9,0.85)] hover:bg-amber-800"
+              onClick={() => void submitMessage(inputValue)}
+              disabled={isSubmitting || inputValue.trim().length === 0}
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="mr-1.5 size-3.5 animate-spin" />
+                  Đang xử lý
+                </>
+              ) : (
+                <>
+                  <SendHorizonal className="mr-1.5 size-3.5" />
+                  Gửi yêu cầu tra mã
+                </>
+              )}
+            </Button>
+          </div>
 
-        <div className="space-y-2">
-          <Textarea
-            value={inputValue}
-            onChange={(event) => setInputValue(event.target.value)}
-            onKeyDown={(event) => {
-              if (event.key === "Enter" && !event.shiftKey) {
-                event.preventDefault();
-                void submitMessage(inputValue);
-              }
-            }}
-            placeholder="Nhập mã cũ, kích thước hoặc ứng dụng cần tra..."
-            className="min-h-20 resize-none bg-white"
-          />
-          <Button
-            type="button"
-            className="h-9 w-full bg-amber-800 text-xs text-white hover:bg-amber-900"
-            onClick={() => void submitMessage(inputValue)}
-            disabled={isSubmitting || inputValue.trim().length === 0}
-          >
-            {isSubmitting ? (
-              <>
-                <Loader2 className="mr-1 size-3.5 animate-spin" />
-                Đang xử lý
-              </>
-            ) : (
-              <>
-                <SendHorizonal className="mr-1 size-3.5" />
-                Gửi yêu cầu tra mã
-              </>
-            )}
-          </Button>
+          <p className="mt-2 px-1 text-[11px] leading-5 text-slate-500">
+            Chatbot ưu tiên trả lời ngắn, theo ứng dụng thực tế. Giá và tình trạng hàng được xác nhận riêng.
+          </p>
         </div>
-
-        <p className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-[11px] leading-relaxed text-slate-600">
-          Chatbot ưu tiên trả lời ngắn, theo ứng dụng thực tế. Giá và tình trạng hàng được xác nhận riêng.
-        </p>
       </div>
-    </div>
+    </section>
   );
 }
