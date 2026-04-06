@@ -21,16 +21,14 @@ export function SiteHeader() {
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 sm:px-6">
         <Link href="/" className="flex items-center gap-2">
           <Image
-            src="/images/logo-bearing.svg"
-            alt="Logo Tan Hoa Loi"
-            width={54}
-            height={38}
-            className="h-9 w-auto rounded-sm border border-slate-300 bg-white p-0.5"
+            src="/images/logo_new.png"
+            alt="Truyền Động Công Nghiệp"
+            width={140}
+            height={48}
+            className="h-10 w-auto"
+            priority
           />
-          <div>
-            <p className="font-heading text-sm font-bold tracking-tight text-slate-900">{siteConfig.brandName}</p>
-            <p className="hidden text-xs text-slate-500 md:block">{siteConfig.slogan}</p>
-          </div>
+          <span className="sr-only">{siteConfig.brandName}</span>
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex">
@@ -67,7 +65,13 @@ export function SiteHeader() {
             <SheetContent side="right" className="w-[280px]">
               <div className="mt-8 space-y-6">
                 <div className="space-y-1">
-                  <p className="font-heading text-base font-semibold text-slate-900">{siteConfig.brandName}</p>
+                  <Image
+                    src="/images/logo_new.png"
+                    alt="Truyền Động Công Nghiệp"
+                    width={120}
+                    height={42}
+                    className="h-9 w-auto"
+                  />
                   <p className="text-xs leading-relaxed text-slate-500">{siteConfig.slogan}</p>
                 </div>
 

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Clock3, Mail, MapPin, MessageCircle, PhoneCall, UserRound } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { createPageMetadata } from "@/lib/seo";
@@ -24,7 +25,13 @@ export default function ContactPage() {
 
         <div className="grid gap-6 lg:grid-cols-[1fr_1.1fr]">
           <section className="space-y-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_10px_28px_-22px_rgba(30,64,175,0.45)] sm:p-6">
-            <h2 className="font-heading text-xl font-semibold text-slate-900">Thông tin liên hệ</h2>
+            <Image
+              src="/images/logo_new.png"
+              alt="Truyền Động Công Nghiệp"
+              width={160}
+              height={56}
+              className="h-12 w-auto"
+            />
             <ul className="space-y-3 text-sm text-slate-700">
               <li className="flex items-start gap-2">
                 <UserRound className="mt-0.5 size-4 text-amber-800" />
