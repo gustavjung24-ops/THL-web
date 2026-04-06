@@ -22,7 +22,11 @@ export type AssistantIntentRoute =
   | "lead_time_request"
   | "discount_request"
   | "order_request"
-  | "contact_handoff";
+  | "contact_handoff"
+  | "greeting"
+  | "gratitude"
+  | "smalltalk"
+  | "unclear_opening";
 
 export type ParsedIntent = {
   raw_text: string;
@@ -48,7 +52,16 @@ type KeywordMatcher = {
   keywords: string[];
 };
 
-const greetingKeywords = ["alo", "hello", "hi", "chao", "xin chao", "ad oi", "shop oi"];
+const greetingKeywords = ["alo", "hello", "hi", "chao", "xin chao", "ad oi", "shop oi", "chao em", "chao ban", "hey"];
+
+const gratitudeKeywords = ["cam on", "cảm ơn", "thanks", "thank", "ok cam on", "oke cam on", "nhieu lam"];
+
+const smalltalkKeywords = [
+  "co ho tro", "có hỗ trợ", "ben minh", "bên mình",
+  "ban co the", "bạn có thể", "giup duoc khong", "giúp được không",
+  "ho tro gi", "hỗ trợ gì", "tu van duoc khong", "tư vấn được không",
+  "lam duoc gi", "làm được gì", "dich vu gi", "dịch vụ gì",
+];
 
 const machineMatchers: KeywordMatcher[] = [
   { target: "truck", keywords: ["xe tai", "xe tải", "hino", "4hk1", "4 hk1"] },
@@ -278,11 +291,19 @@ function detectGreeting(normalizedText: string, tokenCount: number): boolean {
     return false;
   }
 
-  if (tokenCount <= 3 && greetingKeywords.some((keyword) => includesKeyword(normalizedText, keyword))) {
+  if (tokenCount <= 4 && greetingKeywords.some((keyword) => includesKeyword(normalizedText, keyword))) {
     return true;
   }
 
   return false;
+}
+
+function detectGratitude(normalizedText: string, tokenCount: number): boolean {
+  return tokenCount <= 6 && gratitudeKeywords.some((keyword) => includesKeyword(normalizedText, keyword));
+}
+
+function detectSmalltalk(normalizedText: string, tokenCount: number): boolean {
+  return tokenCount <= 10 && smalltalkKeywords.some((keyword) => includesKeyword(normalizedText, keyword));
 }
 
 function detectInputStyle(rawText: string, normalizedText: string): InputStyle {
@@ -392,6 +413,25 @@ function detectIntentRouteFromSignals(input: {
     return "code_lookup";
   }
 
+  /* Conversational intents — detected AFTER technical/commercial routes */
+  const tokenCount = input.normalizedText.split(" ").filter(Boolean).length;
+
+  if (detectGratitude(input.normalizedText, tokenCount)) {
+    return "gratitude";
+  }
+
+  if (detectGreeting(input.normalizedText, tokenCount)) {
+    return "greeting";
+  }
+
+  if (detectSmalltalk(input.normalizedText, tokenCount)) {
+    return "smalltalk";
+  }
+
+  if (tokenCount <= 5 && !input.extractedCode) {
+    return "unclear_opening";
+  }
+
   return "contact_handoff";
 }
 
@@ -473,8 +513,15 @@ export function parseIntentInput(input: string): ParsedIntent {
     intentRoute === "discount_request" ||
     intentRoute === "order_request";
 
+  const isConversationalRoute =
+    intentRoute === "greeting" ||
+    intentRoute === "gratitude" ||
+    intentRoute === "smalltalk" ||
+    intentRoute === "unclear_opening";
+
   const shouldTriggerDiscovery =
     !isCommercialRoute &&
+    !isConversationalRoute &&
     (inputStyle === "greeting" ||
       ((inputStyle === "fragment" || inputStyle === "shorthand") && !hasStrongSignal) ||
       (isAmbiguous && extractedCode === null));

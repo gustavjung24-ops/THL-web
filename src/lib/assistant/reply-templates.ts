@@ -5,9 +5,13 @@ import type { AssistantStructuredResponse } from "@/lib/assistant/schemas";
 export type ReplyOptionStyle = "chips" | "stacked";
 
 export type ReplyGroup =
+  | "greeting_reply"
+  | "smalltalk_reply"
   | "preliminary_assessment"
   | "medium_confidence_assessment"
   | "high_confidence_match"
+  | "direct_code_reply"
+  | "symptom_reply"
   | "technical_followup"
   | "sales_handoff";
 
@@ -296,15 +300,15 @@ function inferQuestion(
   missingLabels: string[]
 ): string[] {
   if (looksLikeTruckContext(payload, latestUserText)) {
-    return ["Cụm đang kiểm tra: bánh xe, máy phát, puly tăng, lốc lạnh hay hộp số?"];
+    return ["Cụm đang kiểm tra là bánh xe, máy phát, puly tăng, lốc lạnh hay hộp số?"];
   }
 
   if (looksLikeSpindleContext(payload, latestUserText)) {
-    return ["Vị trí trên spindle: ổ trước, ổ sau, puly truyền hay cụm phớt?"];
+    return ["Vị trí trên spindle — ổ trước, ổ sau, puly truyền hay cụm phớt?"];
   }
 
   if (looksLikePumpContext(payload, latestUserText)) {
-    return ["Nóng/kêu rõ nhất ở ổ trục, puly hay cụm phớt?"];
+    return ["Nóng/kêu rõ nhất ở ổ trục, puly hay phớt?"];
   }
 
   const nextQuestion = cleanLine(payload.next_question);
@@ -345,7 +349,7 @@ function fallbackSalesQuestion(payload: AssistantStructuredResponse): string[] {
     return [nextQuestion];
   }
 
-  return ["Anh/chị gửi mã hoặc ảnh tem, số lượng và khu vực giao để em chuyển kinh doanh."];
+  return ["Gửi mã hoặc ảnh tem, số lượng và khu vực giao để em chuyển kinh doanh."];
 }
 
 function inferReplyGroup(input: BuildReplyInput): ReplyGroup {
@@ -576,6 +580,66 @@ function buildPreliminaryAssessmentReply(input: BuildReplyInput): BuiltReplyMess
     internal_confidence: inferInternalConfidenceLabel(input.payload),
   };
 }
+
+/* ── Conversational reply builders (no API needed) ── */
+
+const greetingVariants = [
+  "Chào anh/chị! Em hỗ trợ tra mã vòng bi, phớt, xích công nghiệp. Anh/chị đang cần kiểm tra mã nào hoặc cụm máy nào ạ?",
+  "Chào ạ! Anh/chị gửi mã cũ, ảnh tem hoặc mô tả cụm máy để em đối chiếu nhanh nhé.",
+  "Em chào, sẵn sàng hỗ trợ tra mã. Mình bắt đầu từ mã cũ hay theo cụm máy ạ?",
+];
+
+const gratitudeVariants = [
+  "Dạ không có gì ạ! Anh/chị cần tra thêm mã nào cứ gửi nhé.",
+  "Rất vui hỗ trợ được ạ. Nếu cần kiểm tra thêm mã hay cụm máy khác, cứ nhắn em.",
+  "Dạ, anh/chị cần đối chiếu thêm gì thì cứ gửi mã hoặc ảnh tem ạ.",
+];
+
+const smalltalkVariants = [
+  "Dạ, bên em hỗ trợ tra mã vòng bi, phớt, xích công nghiệp theo cụm máy. Anh/chị đang cần kiểm tra gì ạ?",
+  "Bên em chuyên tư vấn mã theo ứng dụng cụm máy. Anh/chị gửi mã cũ hoặc mô tả máy để em hỗ trợ nhé.",
+  "Dạ có ạ! Em tra mã theo cụm máy, kích thước hoặc ảnh tem. Mình bắt đầu từ đâu ạ?",
+];
+
+const unclearOpeningVariants = [
+  "Em chưa rõ nhu cầu cụ thể. Anh/chị gửi mã cũ, ảnh tem hoặc mô tả cụm máy để em hỗ trợ nhé.",
+  "Anh/chị cho em thêm thông tin — mã cần tra, kích thước hoặc cụm máy đang kiểm tra ạ?",
+];
+
+export type ConversationalIntentRoute = "greeting" | "gratitude" | "smalltalk" | "unclear_opening";
+
+export function isConversationalIntent(route: string): route is ConversationalIntentRoute {
+  return route === "greeting" || route === "gratitude" || route === "smalltalk" || route === "unclear_opening";
+}
+
+export function buildConversationalReply(route: ConversationalIntentRoute, userText: string): BuiltReplyMessage {
+  const seed = `${route}-${userText}`;
+
+  switch (route) {
+    case "greeting":
+      return {
+        text: pickVariant(greetingVariants, seed),
+        group: "greeting_reply",
+      };
+    case "gratitude":
+      return {
+        text: pickVariant(gratitudeVariants, seed),
+        group: "greeting_reply",
+      };
+    case "smalltalk":
+      return {
+        text: pickVariant(smalltalkVariants, seed),
+        group: "smalltalk_reply",
+      };
+    case "unclear_opening":
+      return {
+        text: pickVariant(unclearOpeningVariants, seed),
+        group: "smalltalk_reply",
+      };
+  }
+}
+
+/* ── Main reply dispatcher ── */
 
 export function buildAssistantReplyMessage(input: BuildReplyInput): BuiltReplyMessage {
   const group = inferReplyGroup(input);

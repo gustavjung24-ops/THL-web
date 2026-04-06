@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ImagePlus, Loader2, SendHorizonal, X } from "lucide-react";
+import { ImagePlus, SendHorizonal, X } from "lucide-react";
 import { AssistantMessage } from "./assistant-message";
 import { ChatMessageOptions } from "./chat-message-options";
 import { ContactCta } from "./contact-cta";
@@ -24,7 +24,9 @@ import {
 } from "@/lib/assistant/schemas";
 import {
   buildAssistantReplyMessage,
+  buildConversationalReply,
   buildErrorFallbackMessage,
+  isConversationalIntent,
   type ReplyOptionStyle,
 } from "@/lib/assistant/reply-templates";
 import { cn } from "@/lib/utils";
@@ -154,16 +156,27 @@ function buildDiscoveryPromptMessage(prompt: DiscoveryPrompt): UiMessage {
   };
 }
 
-function getTypingLabel(state: AssistantUiState): string {
-  if (state === "waiting_api") {
-    return "Đang đối chiếu dữ liệu...";
-  }
-
-  if (state === "rendering_reply") {
-    return "Đang hoàn thiện phản hồi...";
-  }
-
-  return "Trợ lý đang soạn...";
+function TypingDots() {
+  return (
+    <span className="inline-flex items-center gap-[3px]" aria-label="Đang soạn">
+      {[0, 1, 2].map((i) => (
+        <span
+          key={i}
+          className="size-[5px] rounded-full bg-slate-400"
+          style={{
+            animation: "typing-bounce 1.2s ease-in-out infinite",
+            animationDelay: `${i * 0.15}s`,
+          }}
+        />
+      ))}
+      <style>{`
+        @keyframes typing-bounce {
+          0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
+          30% { opacity: 1; transform: translateY(-3px); }
+        }
+      `}</style>
+    </span>
+  );
 }
 
 function buildPromptFromParsed(parsed: ParsedIntent): DiscoveryPrompt {
@@ -542,6 +555,16 @@ export function AssistantPanel({
       return;
     }
 
+    /* Conversational intents — reply locally, no API call */
+    if (isConversationalIntent(parsed.intent_route)) {
+      setAssistantUiState("typing");
+      const reply = buildConversationalReply(parsed.intent_route, content);
+      await wait(getHumanDelay({ kind: "discovery", textLength: reply.text.length }));
+      appendAssistantMessage({ text: reply.text });
+      setAssistantUiState("idle");
+      return;
+    }
+
     const collapsedState: DiscoveryState = {
       ...discoveryRef.current,
       stage: "none",
@@ -619,9 +642,8 @@ export function AssistantPanel({
 
           {assistantUiState !== "idle" && (
             <div className="flex w-full justify-start pr-10">
-              <div className="inline-flex items-center gap-2 rounded-2xl border border-slate-200/80 bg-white/95 px-3 py-2 text-[13px] leading-5 text-slate-700 shadow-[0_10px_20px_-18px_rgba(15,23,42,0.5)] sm:text-sm">
-                <Loader2 className="size-3.5 animate-spin" />
-                {getTypingLabel(assistantUiState)}
+              <div className="inline-flex items-center gap-2 rounded-2xl border border-amber-100/60 bg-gradient-to-b from-amber-50/40 via-white to-white px-4 py-3 shadow-[0_2px_8px_-4px_rgba(15,23,42,0.1)]">
+                <TypingDots />
               </div>
             </div>
           )}
@@ -673,27 +695,13 @@ export function AssistantPanel({
             <Button
               type="button"
               size="sm"
-              className="h-10 shrink-0 rounded-xl bg-amber-700 px-3 text-[12px] font-semibold text-white shadow-[0_12px_20px_-16px_rgba(180,83,9,0.95)] hover:bg-amber-800 disabled:bg-amber-600/70"
+              className="h-10 shrink-0 rounded-xl bg-amber-700 px-3 text-[12px] font-semibold text-white shadow-[0_12px_20px_-16px_rgba(180,83,9,0.95)] hover:bg-amber-800 disabled:bg-amber-600/70 disabled:opacity-60"
               onClick={() => void submitMessage(inputValue)}
               disabled={isBusy || inputValue.trim().length === 0}
               aria-label="Tra mã ngay"
             >
-              {assistantUiState === "waiting_api" ? (
-                <>
-                  <Loader2 className="mr-1 size-3.5 animate-spin" />
-                  Đối chiếu
-                </>
-              ) : isBusy ? (
-                <>
-                  <Loader2 className="mr-1 size-3.5 animate-spin" />
-                  Đang soạn
-                </>
-              ) : (
-                <>
-                  <SendHorizonal className="mr-1 size-3.5" />
-                  Tra mã ngay
-                </>
-              )}
+              <SendHorizonal className="mr-1 size-3.5" />
+              Gửi
             </Button>
           </div>
 
