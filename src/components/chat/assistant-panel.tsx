@@ -56,10 +56,25 @@ function createId(): string {
   return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
+const INTERNAL_FIELD_TOKENS = [
+  "exact_code", "normalized_code", "dimensions", "application_detail",
+  "old_code", "shaft_size", "seal_or_shield", "confusion_note",
+  "product_group", "input_style", "discovery_stage", "final_status",
+  "recommended_items", "missing_fields", "buying_motive", "avoid_recommendation",
+];
+
+function sanitizeReply(text: string): string {
+  let cleaned = text;
+  for (const token of INTERNAL_FIELD_TOKENS) {
+    cleaned = cleaned.replaceAll(token, "");
+  }
+  return cleaned.replace(/ {2,}/g, " ").replace(/\n{3,}/g, "\n\n").trim();
+}
+
 function formatAssistantReply(payload: AssistantStructuredResponse): string {
   if (payload.final_status === "ready" && payload.recommended_items.length > 0) {
     const topItems = payload.recommended_items.slice(0, 3);
-    const lines = [payload.short_reply.trim() || "Tìm được mã phù hợp."];
+    const lines = [sanitizeReply(payload.short_reply.trim()) || "Tìm được mã phù hợp."];
 
     lines.push("Mã đề xuất:");
     topItems.forEach((item) => {
@@ -67,11 +82,11 @@ function formatAssistantReply(payload: AssistantStructuredResponse): string {
     });
 
     lines.push(`Nhãn hàng đề xuất: ${topItems.map((item) => item.brand).join(", ")}`);
-    lines.push(`Căn cứ chọn: ${topItems[0]?.reason ?? "Cần xác minh thêm."}`);
-    lines.push(`Lưu ý dễ nhầm: ${topItems[0]?.caution ?? "Cần xác minh thêm."}`);
+    lines.push(`Căn cứ chọn: ${sanitizeReply(topItems[0]?.reason ?? "Cần xác minh thêm.")}`);
+    lines.push(`Lưu ý dễ nhầm: ${sanitizeReply(topItems[0]?.caution ?? "Cần xác minh thêm.")}`);
 
     if (payload.avoid_recommendation) {
-      lines.push(`Không nên dùng: ${payload.avoid_recommendation}`);
+      lines.push(`Không nên dùng: ${sanitizeReply(payload.avoid_recommendation)}`);
     }
 
     lines.push("Giá: liên hệ báo trực tiếp.");
@@ -82,30 +97,51 @@ function formatAssistantReply(payload: AssistantStructuredResponse): string {
 
   if (payload.final_status === "not_found_in_system" || payload.intent === "not_in_catalog") {
     return [
-      payload.short_reply.trim() || "Chưa có mã trong hệ thống.",
+      sanitizeReply(payload.short_reply.trim()) || "Chưa có mã trong hệ thống.",
       "Ngoài danh mục đang hỗ trợ.",
       "Chưa báo mã để tránh sai.",
     ].join("\n");
   }
 
-  const missingText =
+  const fieldLabelMap: Record<string, string> = {
+    id: "đường kính trong (cốt)",
+    od: "đường kính ngoài",
+    width: "bề rộng",
+    thickness: "bề dày",
+    shaft_diameter: "kích thước cốt trục",
+    shaft: "kích thước cốt trục",
+    code: "mã cũ trên tem",
+    old_code: "mã cũ",
+    shaft_size: "kích thước cốt",
+    seal_type: "kiểu chặn (2RS/ZZ)",
+    housing_type: "kiểu thân gối (UCP/UCF)",
+    pitch: "bước xích",
+    chain_type: "loại xích",
+    links: "số mắt xích",
+    profile: "profile curoa",
+    length: "chiều dài",
+    lip_type: "kiểu môi phớt",
+    seat_size: "kích thước vỏ",
+  };
+
+  const missingHuman =
     payload.missing_fields.length > 0
-      ? payload.missing_fields.join(", ")
+      ? payload.missing_fields.map((f) => fieldLabelMap[f] ?? f).join(", ")
       : "mã cũ, ảnh tem, kích thước hoặc cụm máy";
 
   const lines = [
-    payload.short_reply.trim() || "Chưa thể chốt mã.",
-    `Cần thêm: ${missingText}`,
+    sanitizeReply(payload.short_reply.trim()) || "Chưa thể chốt mã.",
+    `Anh/chị gửi thêm: ${missingHuman}.`,
     "Ưu tiên gửi: mã cũ, ảnh tem, kích thước.",
     "Chưa báo mã để tránh sai.",
   ];
 
   if (payload.next_question) {
-    lines.push(`Câu hỏi tiếp theo: ${payload.next_question}`);
+    lines.push(sanitizeReply(payload.next_question));
   }
 
   if (payload.avoid_recommendation) {
-    lines.push(`Không nên dùng: ${payload.avoid_recommendation}`);
+    lines.push(`Không nên dùng: ${sanitizeReply(payload.avoid_recommendation)}`);
   }
 
   return lines.join("\n");

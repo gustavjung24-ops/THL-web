@@ -109,6 +109,96 @@
         { "role": "user", "content": "cần thay gấp bi motor đang kêu" },
         { "role": "assistant", "content": "Đã ghi nhận nhu cầu gấp. Anh/chị gửi giúp mã cũ trên tem hoặc kích thước cốt motor để em chốt đúng mã nhanh nhất. Giá và tình trạng hàng xác nhận riêng sau." }
       ]
+    },
+    {
+      "id": "conv_13",
+      "title": "Hino 4HK1 — cần tư vấn KOYO",
+      "tags": ["application", "bearings", "hino", "brand_request"],
+      "turns": [
+        { "role": "user", "content": "tôi dùng máy 4hk1 xe hino, cần tư vấn vòng bi koyo" },
+        { "role": "assistant", "content": "Em cần chốt đúng cụm trước để tránh nhầm mã. Anh/chị đang hỏi vòng bi cho cụm nào trên Hino 4HK1: bánh xe, máy phát, puly tăng, lốc lạnh hay hộp số? Nếu có mã cũ hoặc ảnh tem, em đối chiếu nhanh theo hàng KOYO cho anh." }
+      ]
+    },
+    {
+      "id": "conv_14",
+      "title": "Xe tải Hino — bơm nước nóng",
+      "tags": ["application", "symptom", "hino"],
+      "turns": [
+        { "role": "user", "content": "xe hino bơm nước nóng quá, cần thay bi" },
+        { "role": "assistant", "content": "Bơm nước phát nhiệt thường do vòng bi mòn hoặc phớt rò. Anh/chị cho em biết đời xe và có mã cũ trên tem vòng bi không? Em ưu tiên đối chiếu nhanh để tránh nhầm kích thước." }
+      ]
+    },
+    {
+      "id": "conv_15",
+      "title": "Xe máy hỏi xích — ngoài phạm vi",
+      "tags": ["out_of_scope", "motorcycle"],
+      "turns": [
+        { "role": "user", "content": "có xích 428 cho wave không" },
+        { "role": "assistant", "content": "Xích 428 là xích xe máy, nằm ngoài danh mục xích công nghiệp em đang hỗ trợ. Anh/chị cần xích công nghiệp (08B, 10B, RS40...) thì em tra giúp được." }
+      ]
+    },
+    {
+      "id": "conv_16",
+      "title": "Máy bơm rung lắc",
+      "tags": ["symptom", "pump", "bearings"],
+      "turns": [
+        { "role": "user", "content": "bơm ly tâm rung lắc, cần thay bi" },
+        { "role": "assistant", "content": "Rung lắc ở bơm ly tâm thường do vòng bi trục bơm mòn. Anh/chị cho em kích thước cốt trục hoặc mã cũ trên tem để em đề xuất đúng mã. Nếu có ảnh tem thì em đối chiếu nhanh hơn." }
+      ]
+    },
+    {
+      "id": "conv_17",
+      "title": "Spindle CNC — cần bi chính xác",
+      "tags": ["cnc", "spindle", "bearings"],
+      "turns": [
+        { "role": "user", "content": "cần bi cho spindle CNC, máy đang hú" },
+        { "role": "assistant", "content": "Spindle CNC yêu cầu vòng bi tiếp xúc góc cấp chính xác cao. Em cần mã cũ trên tem hoặc model máy CNC để đối chiếu. Không nên dùng vòng bi rãnh sâu thông thường cho cụm spindle tốc độ cao." }
+      ]
+    },
+    {
+      "id": "conv_18",
+      "title": "Gối đỡ — cần xác minh kiểu lắp",
+      "tags": ["pillow_blocks", "clarification"],
+      "turns": [
+        { "role": "user", "content": "gối đỡ trục 25 cho máy trộn" },
+        { "role": "assistant", "content": "Trục Ø25mm có hai kiểu gối: UCP205 (chân đế) và UCF205 (mặt bích). Kiểu lắp trên máy trộn của anh/chị là chân đế hay mặt bích ạ? Nếu có ảnh vị trí lắp, em xác minh nhanh hơn." }
+      ]
+    },
+    {
+      "id": "conv_19",
+      "title": "Phớt — chỉ có kích thước",
+      "tags": ["oil_seals", "dimensions"],
+      "turns": [
+        { "role": "user", "content": "phớt cốt 30 ngoài 45 dày 7" },
+        { "role": "assistant", "content": "Kích thước Ø30×Ø45×7. Em cần xác minh kiểu môi phớt: TC (2 môi) hay SC (1 môi). Lắp sai kiểu môi dễ gây rò dầu hoặc kẹt trục. Anh/chị cho em biết cụm đang lắp để em chọn đúng kiểu." }
+      ]
+    },
+    {
+      "id": "conv_20",
+      "title": "Xe tải — hỏi chung không rõ cụm",
+      "tags": ["application", "truck", "clarification"],
+      "turns": [
+        { "role": "user", "content": "xe tải cần thay bi" },
+        { "role": "assistant", "content": "Em cần biết cụm nào trên xe tải đang cần thay: bánh xe, bơm nước, máy phát, puly tăng hay hộp số? Mỗi cụm dùng mã khác nhau. Anh/chị cho em biết cụm và có mã cũ không?" }
+      ]
+    },
+    {
+      "id": "conv_21",
+      "title": "Máy bơm — rò dầu cần phớt",
+      "tags": ["symptom", "oil_seals", "pump"],
+      "turns": [
+        { "role": "user", "content": "bơm nước rò dầu chỗ trục cần phớt" },
+        { "role": "assistant", "content": "Rò dầu ở trục bơm thường do phớt mòn. Anh/chị cho em kích thước cốt-vỏ-dày của phớt hiện tại hoặc mã cũ trên tem. Nếu chưa biết, cho em model bơm để em tra theo fitment." }
+      ]
+    },
+    {
+      "id": "conv_22",
+      "title": "Hỏi brand ngoài whitelist",
+      "tags": ["brand_request", "reference_only"],
+      "turns": [
+        { "role": "user", "content": "có hàng SKF không" },
+        { "role": "assistant", "content": "SKF hiện ngoài danh mục em đang bán trực tiếp. Em có thể đối chiếu mã SKF sang mã tương đương KOYO hoặc NTN cho anh/chị. Gửi em mã SKF cụ thể để em tra giúp." }
+      ]
     }
   ]
 }
