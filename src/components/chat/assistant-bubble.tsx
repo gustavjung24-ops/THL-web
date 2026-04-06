@@ -34,7 +34,7 @@ export function AssistantBubble() {
 
   return (
     <>
-      <div className="fixed right-4 bottom-[calc(5.1rem+env(safe-area-inset-bottom))] z-50 flex items-end md:right-5 md:bottom-6">
+      <div className="fixed right-4 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] z-50 flex items-end lg:right-5 lg:bottom-6">
         {!isMobile && (
           <div
             className={cn(

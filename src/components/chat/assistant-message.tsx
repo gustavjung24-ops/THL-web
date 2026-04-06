@@ -24,10 +24,10 @@ export function AssistantMessage({ role, text }: AssistantMessageProps) {
     <div className={cn("flex w-full", isAssistant ? "justify-start pr-7 sm:pr-10" : "justify-end pl-7 sm:pl-10")}>
       <div
         className={cn(
-          "max-w-[94%] rounded-2xl px-3.5 py-2.5 text-[13px] leading-[1.58] shadow-sm sm:text-sm",
+          "max-w-[92%] rounded-2xl px-3.5 py-2.5 text-[13px] leading-[1.6] sm:text-sm",
           isAssistant
-            ? "border border-slate-200/70 bg-white/95 text-slate-700 shadow-[0_10px_20px_-20px_rgba(15,23,42,0.4)]"
-            : "border border-amber-200/45 bg-gradient-to-b from-amber-700 to-amber-800 text-amber-50 shadow-[0_14px_24px_-22px_rgba(120,53,15,0.75)]"
+            ? "border border-slate-200/65 bg-white text-slate-700 shadow-[0_8px_18px_-18px_rgba(15,23,42,0.35)]"
+            : "border border-transparent bg-slate-800 text-slate-50 shadow-[0_10px_20px_-18px_rgba(15,23,42,0.65)]"
         )}
       >
         <div className="space-y-1.5">
@@ -41,7 +41,7 @@ export function AssistantMessage({ role, text }: AssistantMessageProps) {
             if (trimmed.startsWith("- ")) {
               return (
                 <p key={`line-item-${index}`} className="relative pl-3.5 whitespace-pre-wrap break-words">
-                  <span className="absolute left-0 top-2 size-1.5 rounded-full bg-current/55" />
+                  <span className="absolute left-0 top-[0.55rem] size-1 rounded-full bg-slate-400" />
                   {trimmed.slice(2)}
                 </p>
               );

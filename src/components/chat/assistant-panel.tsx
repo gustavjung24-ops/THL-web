@@ -317,7 +317,7 @@ export function AssistantPanel({
       aria-label="Trợ lý tra mã"
     >
       <div
-        className="shrink-0 border-b border-slate-200/70 bg-white/80 px-4 pb-3 pt-2.5 supports-[backdrop-filter]:backdrop-blur-sm"
+        className="shrink-0 border-b border-slate-200/65 bg-white/85 px-4 pb-2.5 pt-2 supports-[backdrop-filter]:backdrop-blur-sm"
       >
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
@@ -326,9 +326,9 @@ export function AssistantPanel({
                 Trợ lý trực tuyến
               </p>
             )}
-            <h3 className="font-heading text-base font-semibold tracking-tight text-slate-900">Tra mã nhanh</h3>
-            <p className="mt-1 text-[12px] leading-5 text-slate-600 sm:text-xs">
-              Gửi mã cũ, ảnh tem hoặc mô tả hệ máy để được hỗ trợ nhanh.
+            <h3 className="font-heading text-[15px] font-semibold tracking-tight text-slate-900">Tra mã nhanh</h3>
+            <p className="mt-0.5 text-[11.5px] leading-[1.45] text-slate-500">
+              Gửi mã cũ, ảnh tem hoặc mô tả hệ máy để được hỗ trợ.
             </p>
           </div>
           {showCloseButton && (
@@ -388,8 +388,8 @@ export function AssistantPanel({
 
         <div
           className={cn(
-            "shrink-0 border-t border-slate-200/75 bg-white/90 px-3.5 pb-3.5 pt-3 supports-[backdrop-filter]:backdrop-blur-sm sm:px-4",
-            isMobile ? "pb-[calc(0.9rem+env(safe-area-inset-bottom))]" : ""
+            "shrink-0 border-t border-slate-200/65 bg-white/90 px-3.5 pb-3 pt-2.5 supports-[backdrop-filter]:backdrop-blur-sm sm:px-4",
+            isMobile ? "pb-[calc(0.75rem+env(safe-area-inset-bottom))]" : ""
           )}
         >
           <div className="flex items-center gap-2">
@@ -409,7 +409,7 @@ export function AssistantPanel({
             {selectedFileName && <p className="truncate text-[12px] text-slate-500">{selectedFileName}</p>}
           </div>
 
-          <div className="mt-2.5 flex items-end gap-2 rounded-[1.1rem] border border-slate-200/85 bg-slate-50/75 p-2 shadow-[inset_0_1px_2px_rgba(15,23,42,0.08)]">
+          <div className="mt-2 flex items-end gap-2 rounded-2xl border border-slate-200/80 bg-slate-50/60 p-1.5 shadow-[inset_0_1px_2px_rgba(15,23,42,0.06)]">
             <Textarea
               value={inputValue}
               onChange={(event) => setInputValue(event.target.value)}
@@ -420,7 +420,7 @@ export function AssistantPanel({
                 }
               }}
               placeholder="Nhập mã cũ, kích thước hoặc ứng dụng cần tra..."
-              className="min-h-16 max-h-36 flex-1 resize-none border-0 bg-transparent px-1.5 py-1 text-[13px] leading-6 shadow-none focus-visible:ring-0 sm:text-sm"
+              className="min-h-10 max-h-32 flex-1 resize-none border-0 bg-transparent px-1.5 py-1.5 text-[13px] leading-6 shadow-none placeholder:text-slate-400 focus-visible:ring-0 sm:text-sm"
             />
             <Button
               type="button"

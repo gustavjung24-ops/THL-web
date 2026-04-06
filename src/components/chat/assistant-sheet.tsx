@@ -64,10 +64,10 @@ export function AssistantSheet({ open, onClose, children }: AssistantSheetProps)
           open ? "translate-y-0 opacity-100" : "translate-y-[105%] opacity-0"
         )}
       >
-        <div className="mx-auto flex h-[85dvh] max-h-[calc(100dvh-0.45rem)] w-full max-w-[560px] flex-col overflow-hidden rounded-[1.75rem] border border-slate-200/80 bg-white/95 shadow-[0_28px_62px_-32px_rgba(15,23,42,0.62)]">
-          <div className="shrink-0 px-4 pb-2 pt-[calc(0.55rem+env(safe-area-inset-top))]">
+        <div className="mx-auto flex h-[85dvh] max-h-[calc(100dvh-0.45rem)] w-full max-w-[560px] flex-col overflow-hidden rounded-[1.75rem] border border-slate-200/75 bg-[#fffefc] shadow-[0_28px_62px_-32px_rgba(15,23,42,0.55)]">
+          <div className="shrink-0 px-4 pb-1.5 pt-[calc(0.5rem+env(safe-area-inset-top))]">
             <div className="relative flex items-center justify-center">
-              <span className="h-1 w-14 rounded-full bg-slate-300/80" />
+              <span className="h-[3px] w-10 rounded-full bg-slate-300/90" />
               <Button
                 type="button"
                 variant="ghost"
