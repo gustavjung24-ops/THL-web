@@ -95,6 +95,17 @@ Luong xu ly hien tai:
 	 - `get_missing_fields_for_group`
 3. Ep ket qua theo Structured Outputs JSON schema de UI render an toan.
 4. Neu thieu du lieu thi hoi them 1-3 truong thong tin ky thuat.
+5. Co discovery flow ngan (toi da 3 buoc) de lay them thong tin khi input con mo ho.
+6. Co tang parser nhan dien he may, cum may, trieu chung, muc khan va dong co mua hang.
+
+Discovery flow chi hien khi:
+
+- Khach chi chao hoi hoac noi chung chung.
+- Khach gui cau cut, shorthand, thieu du lieu de chot ma.
+
+Discovery flow se bo qua va xu ly ngay khi:
+
+- Khach da cung cap ma, kich thuoc hoac ung dung du ro de doi chieu.
 
 Luu y van hanh:
 

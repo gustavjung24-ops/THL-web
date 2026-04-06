@@ -1,0 +1,306 @@
+import applicationRulesData from "@/data/catalog/application-rules.json";
+
+export type InputStyle = "full_sentence" | "fragment" | "shorthand" | "code_only" | "greeting";
+export type UrgencyLevel = "low" | "medium" | "high" | null;
+export type BuyingMotive =
+  | "urgent_replacement"
+  | "exact_match"
+  | "equivalent_option"
+  | "cost_optimization"
+  | "brand_specific"
+  | "price_check"
+  | "technical_consult"
+  | null;
+
+export type ParsedIntent = {
+  raw_text: string;
+  normalized_text: string;
+  input_style: InputStyle;
+  extracted_code: string | null;
+  machine_type: string | null;
+  machine_subsystem: string | null;
+  symptom: string[];
+  urgency: UrgencyLevel;
+  buying_motive: BuyingMotive;
+  suggested_options: string[];
+  matched_application_key: string | null;
+  avoid_recommendation: string | null;
+  next_question: string | null;
+  is_ambiguous: boolean;
+  should_trigger_discovery: boolean;
+};
+
+type KeywordMatcher = {
+  target: string;
+  keywords: string[];
+};
+
+const greetingKeywords = ["alo", "hello", "hi", "chao", "xin chao", "ad oi", "shop oi"];
+
+const machineMatchers: KeywordMatcher[] = [
+  { target: "cnc", keywords: ["cnc", "spindle", "cu duc", "củ đục"] },
+  { target: "pump", keywords: ["may bom", "máy bơm", "pump"] },
+  { target: "fan", keywords: ["quat", "quạt", "fan"] },
+  { target: "gearbox", keywords: ["hop so", "hộp số", "gearbox"] },
+  { target: "conveyor", keywords: ["bang tai", "băng tải", "conveyor"] },
+  { target: "electric_motor", keywords: ["motor", "dong co", "động cơ"] },
+  { target: "rotating_shaft", keywords: ["truc quay", "trục quay", "shaft"] },
+  { target: "pillow_block_unit", keywords: ["goi do", "gối đỡ", "pillow block"] },
+  { target: "oil_seal_application", keywords: ["phot", "phớt", "chan dau", "chặn dầu"] },
+  { target: "chain_drive", keywords: ["xich", "xích", "chain"] },
+];
+
+const subsystemMatchers: KeywordMatcher[] = [
+  { target: "spindle", keywords: ["spindle", "cu duc", "củ đục"] },
+  { target: "bearing_unit", keywords: ["vong bi", "vòng bi", "goi do", "gối đỡ"] },
+  { target: "seal_unit", keywords: ["phot", "phớt", "chan dau", "chặn dầu"] },
+  { target: "chain_stage", keywords: ["xich", "xích"] },
+  { target: "drive_shaft", keywords: ["truc quay", "trục quay"] },
+];
+
+const symptomMatchers: KeywordMatcher[] = [
+  { target: "hú", keywords: ["hu", "hú"] },
+  { target: "rít", keywords: ["rit", "rít"] },
+  { target: "kêu", keywords: ["keu", "kêu"] },
+  { target: "nóng", keywords: ["nong", "nóng"] },
+  { target: "phát nhiệt", keywords: ["phat nhiet", "phát nhiệt"] },
+  { target: "rung", keywords: ["rung"] },
+  { target: "lắc", keywords: ["lac", "lắc"] },
+  { target: "rò dầu", keywords: ["ro dau", "rò dầu"] },
+  { target: "chảy mỡ", keywords: ["chay mo", "chảy mỡ"] },
+  { target: "mòn", keywords: ["mon", "mòn"] },
+  { target: "chạy không ổn", keywords: ["chay khong on", "chạy không ổn"] },
+];
+
+const urgencyMatchers: Array<{ level: Exclude<UrgencyLevel, null>; keywords: string[] }> = [
+  { level: "high", keywords: ["gap", "gấp", "can lien", "cần liền", "dung may", "dừng máy", "chay ca", "chạy ca", "thay ngay", "thay gấp"] },
+  { level: "medium", keywords: ["som", "sớm", "sap den ky", "sắp đến kỳ"] },
+  { level: "low", keywords: ["tham khao", "tham khảo", "de phong", "dự phòng"] },
+];
+
+const buyingMotiveMatchers: Array<{ motive: Exclude<BuyingMotive, null>; keywords: string[] }> = [
+  { motive: "exact_match", keywords: ["dung ma", "đúng mã", "chot dung ma", "chốt đúng mã"] },
+  { motive: "equivalent_option", keywords: ["tuong duong", "tương đương", "thay the", "thay thế"] },
+  { motive: "cost_optimization", keywords: ["toi uu chi phi", "tối ưu chi phí", "chi phi", "chi phí"] },
+  { motive: "brand_specific", keywords: ["dung hang", "đúng hãng", "ntn", "koyo", "asahi", "nachi", "did", "nok"] },
+  { motive: "price_check", keywords: ["hoi gia", "hỏi giá", "tham khao gia", "tham khảo giá"] },
+  { motive: "technical_consult", keywords: ["tu van ky thuat", "tư vấn kỹ thuật", "coi giup", "coi giúp"] },
+  { motive: "urgent_replacement", keywords: ["thay gap", "thay gấp", "can lien", "cần liền", "dung may", "dừng máy"] },
+];
+
+function stripDiacritics(input: string): string {
+  return input
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .replace(/đ/gi, "d")
+    .replace(/[^\p{L}\p{N}\s/.-]/gu, " ");
+}
+
+function normalizeText(input: string): string {
+  return stripDiacritics(input)
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function tokenize(input: string): string[] {
+  return input.split(" ").filter(Boolean);
+}
+
+function includesKeyword(text: string, keyword: string): boolean {
+  return text.includes(normalizeText(keyword));
+}
+
+function firstMatch(text: string, matchers: KeywordMatcher[]): string | null {
+  for (const matcher of matchers) {
+    if (matcher.keywords.some((keyword) => includesKeyword(text, keyword))) {
+      return matcher.target;
+    }
+  }
+
+  return null;
+}
+
+function collectMatches(text: string, matchers: KeywordMatcher[]): string[] {
+  return matchers
+    .filter((matcher) => matcher.keywords.some((keyword) => includesKeyword(text, keyword)))
+    .map((matcher) => matcher.target);
+}
+
+function detectCodeOnly(text: string, tokenCount: number): boolean {
+  const codeCandidate = text.replace(/\s+/g, "");
+  const looksLikeCode = /^[a-z0-9./-]+$/i.test(codeCandidate) && /\d/.test(codeCandidate) && /[a-z]/i.test(codeCandidate);
+
+  return looksLikeCode && tokenCount <= 4;
+}
+
+function detectGreeting(normalizedText: string, tokenCount: number): boolean {
+  if (tokenCount === 0) {
+    return false;
+  }
+
+  if (tokenCount <= 3 && greetingKeywords.some((keyword) => includesKeyword(normalizedText, keyword))) {
+    return true;
+  }
+
+  return false;
+}
+
+function detectInputStyle(rawText: string, normalizedText: string): InputStyle {
+  const tokenCount = tokenize(normalizedText).length;
+
+  if (detectGreeting(normalizedText, tokenCount)) {
+    return "greeting";
+  }
+
+  if (detectCodeOnly(normalizedText, tokenCount)) {
+    return "code_only";
+  }
+
+  if (tokenCount <= 4) {
+    const hasNumber = /\d/.test(normalizedText);
+    return hasNumber ? "shorthand" : "fragment";
+  }
+
+  if (!/[,.!?]/.test(rawText) && tokenCount <= 8) {
+    return "fragment";
+  }
+
+  return "full_sentence";
+}
+
+function extractLikelyCode(normalizedText: string): string | null {
+  const codeRegex = /\b[a-z]{0,4}\d{2,}[a-z0-9./-]*\b/gi;
+  const matched = normalizedText.match(codeRegex);
+
+  if (!matched || matched.length === 0) {
+    return null;
+  }
+
+  return matched[0].toUpperCase();
+}
+
+function detectUrgency(normalizedText: string): UrgencyLevel {
+  for (const item of urgencyMatchers) {
+    if (item.keywords.some((keyword) => includesKeyword(normalizedText, keyword))) {
+      return item.level;
+    }
+  }
+
+  return null;
+}
+
+function detectBuyingMotive(normalizedText: string, urgency: UrgencyLevel): BuyingMotive {
+  for (const item of buyingMotiveMatchers) {
+    if (item.keywords.some((keyword) => includesKeyword(normalizedText, keyword))) {
+      return item.motive;
+    }
+  }
+
+  if (urgency === "high") {
+    return "urgent_replacement";
+  }
+
+  return null;
+}
+
+function inferByApplicationRule(normalizedText: string): {
+  applicationKey: string | null;
+  suggestedOptions: string[];
+  avoidRecommendation: string | null;
+} {
+  for (const rule of applicationRulesData.rules) {
+    const matchedSignals = rule.signals.filter((signal) => includesKeyword(normalizedText, signal));
+
+    if (matchedSignals.length > 0) {
+      return {
+        applicationKey: rule.application_key,
+        suggestedOptions: rule.required_fields,
+        avoidRecommendation: rule.avoid_notes[0] ?? null,
+      };
+    }
+  }
+
+  return {
+    applicationKey: null,
+    suggestedOptions: [],
+    avoidRecommendation: null,
+  };
+}
+
+export function parseIntentInput(input: string): ParsedIntent {
+  const rawText = input.trim();
+  const normalizedText = normalizeText(rawText);
+  const inputStyle = detectInputStyle(rawText, normalizedText);
+  const machineType = firstMatch(normalizedText, machineMatchers);
+  const machineSubsystem = firstMatch(normalizedText, subsystemMatchers);
+  const symptom = collectMatches(normalizedText, symptomMatchers);
+  const urgency = detectUrgency(normalizedText);
+  const buyingMotive = detectBuyingMotive(normalizedText, urgency);
+  const extractedCode = extractLikelyCode(normalizedText);
+  const appRule = inferByApplicationRule(normalizedText);
+
+  const hasStrongSignal = Boolean(extractedCode || machineType || symptom.length > 0);
+  const isAmbiguous = inputStyle === "greeting" || (!hasStrongSignal && tokenize(normalizedText).length <= 8);
+
+  const shouldTriggerDiscovery =
+    inputStyle === "greeting" ||
+    ((inputStyle === "fragment" || inputStyle === "shorthand") && !hasStrongSignal) ||
+    (isAmbiguous && extractedCode === null);
+
+  const nextQuestion = shouldTriggerDiscovery
+    ? "Anh/chị cho em xin thêm mã cũ, ảnh tem hoặc cụm máy đang gặp vấn đề để em hỗ trợ nhanh hơn."
+    : null;
+
+  return {
+    raw_text: rawText,
+    normalized_text: normalizedText,
+    input_style: inputStyle,
+    extracted_code: extractedCode,
+    machine_type: machineType,
+    machine_subsystem: machineSubsystem,
+    symptom,
+    urgency,
+    buying_motive: buyingMotive,
+    suggested_options: appRule.suggestedOptions,
+    matched_application_key: appRule.applicationKey,
+    avoid_recommendation: appRule.avoidRecommendation,
+    next_question: nextQuestion,
+    is_ambiguous: isAmbiguous,
+    should_trigger_discovery: shouldTriggerDiscovery,
+  };
+}
+
+export function mergeParsedSignals(base: ParsedIntent, incoming: ParsedIntent): ParsedIntent {
+  return {
+    ...base,
+    raw_text: [base.raw_text, incoming.raw_text].filter(Boolean).join(" | "),
+    normalized_text: [base.normalized_text, incoming.normalized_text].filter(Boolean).join(" | "),
+    input_style: base.input_style === "full_sentence" ? base.input_style : incoming.input_style,
+    extracted_code: base.extracted_code ?? incoming.extracted_code,
+    machine_type: base.machine_type ?? incoming.machine_type,
+    machine_subsystem: base.machine_subsystem ?? incoming.machine_subsystem,
+    symptom: [...new Set([...base.symptom, ...incoming.symptom])],
+    urgency: base.urgency ?? incoming.urgency,
+    buying_motive: base.buying_motive ?? incoming.buying_motive,
+    suggested_options: [...new Set([...base.suggested_options, ...incoming.suggested_options])],
+    matched_application_key: base.matched_application_key ?? incoming.matched_application_key,
+    avoid_recommendation: base.avoid_recommendation ?? incoming.avoid_recommendation,
+    next_question: base.next_question ?? incoming.next_question,
+    is_ambiguous: base.is_ambiguous && incoming.is_ambiguous,
+    should_trigger_discovery: base.should_trigger_discovery || incoming.should_trigger_discovery,
+  };
+}
+
+export function buildParsedContextSummary(parsed: ParsedIntent): string {
+  return [
+    `input_style: ${parsed.input_style}`,
+    `machine_type: ${parsed.machine_type ?? "null"}`,
+    `machine_subsystem: ${parsed.machine_subsystem ?? "null"}`,
+    `symptom: ${parsed.symptom.join(", ") || "null"}`,
+    `urgency: ${parsed.urgency ?? "null"}`,
+    `buying_motive: ${parsed.buying_motive ?? "null"}`,
+    `suggested_options: ${parsed.suggested_options.join(", ") || "null"}`,
+    `avoid_recommendation: ${parsed.avoid_recommendation ?? "null"}`,
+  ].join("\n");
+}

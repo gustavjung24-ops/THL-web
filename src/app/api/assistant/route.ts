@@ -5,6 +5,7 @@ import {
   assistantStructuredOutput,
   coerceAssistantResponse,
 } from "@/lib/assistant/schemas";
+import { buildFewShotPrompt } from "@/lib/assistant/examples";
 import { getAssistantSystemPrompt } from "@/lib/assistant/system-prompt";
 
 export const runtime = "nodejs";
@@ -26,6 +27,31 @@ type FunctionCallOutput = {
   output: string;
 };
 
+type DiscoveryContext = {
+  source: string;
+  discovery_stage: string;
+  selected_path: string[];
+  machine_type: string | null;
+  machine_subsystem: string | null;
+  symptom: string[];
+  urgency: string | null;
+  buying_motive: string | null;
+  suggested_options: string[];
+  avoid_recommendation: string | null;
+};
+
+type ParsedContext = {
+  input_style: string | null;
+  machine_type: string | null;
+  machine_subsystem: string | null;
+  symptom: string[];
+  urgency: string | null;
+  buying_motive: string | null;
+  suggested_options: string[];
+  avoid_recommendation: string | null;
+  should_trigger_discovery: boolean;
+};
+
 function isObject(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
 }
@@ -36,6 +62,89 @@ function parseJson(input: string): unknown {
   } catch {
     return null;
   }
+}
+
+function toNullableString(value: unknown): string | null {
+  return typeof value === "string" && value.trim().length > 0 ? value.trim() : null;
+}
+
+function toStringArray(value: unknown): string[] {
+  return Array.isArray(value) ? value.filter((item): item is string => typeof item === "string") : [];
+}
+
+function normalizeDiscoveryContext(raw: unknown): DiscoveryContext | null {
+  if (!isObject(raw)) {
+    return null;
+  }
+
+  const selectedPath = toStringArray(raw.selected_path);
+  if (selectedPath.length === 0) {
+    return null;
+  }
+
+  return {
+    source: toNullableString(raw.source) ?? "discovery_flow",
+    discovery_stage: toNullableString(raw.discovery_stage) ?? "none",
+    selected_path: selectedPath,
+    machine_type: toNullableString(raw.machine_type),
+    machine_subsystem: toNullableString(raw.machine_subsystem),
+    symptom: toStringArray(raw.symptom),
+    urgency: toNullableString(raw.urgency),
+    buying_motive: toNullableString(raw.buying_motive),
+    suggested_options: toStringArray(raw.suggested_options),
+    avoid_recommendation: toNullableString(raw.avoid_recommendation),
+  };
+}
+
+function normalizeParsedContext(raw: unknown): ParsedContext | null {
+  if (!isObject(raw)) {
+    return null;
+  }
+
+  return {
+    input_style: toNullableString(raw.input_style),
+    machine_type: toNullableString(raw.machine_type),
+    machine_subsystem: toNullableString(raw.machine_subsystem),
+    symptom: toStringArray(raw.symptom),
+    urgency: toNullableString(raw.urgency),
+    buying_motive: toNullableString(raw.buying_motive),
+    suggested_options: toStringArray(raw.suggested_options),
+    avoid_recommendation: toNullableString(raw.avoid_recommendation),
+    should_trigger_discovery: raw.should_trigger_discovery === true,
+  };
+}
+
+function buildContextSupplement(discoveryContext: DiscoveryContext | null, parsedContext: ParsedContext | null): string {
+  const lines: string[] = [];
+
+  if (discoveryContext) {
+    lines.push("Ngữ cảnh discovery flow do UI cung cấp:");
+    lines.push(`- source: ${discoveryContext.source}`);
+    lines.push(`- discovery_stage: ${discoveryContext.discovery_stage}`);
+    lines.push(`- selected_path: ${discoveryContext.selected_path.join(" > ")}`);
+    lines.push(`- machine_type: ${discoveryContext.machine_type ?? "null"}`);
+    lines.push(`- machine_subsystem: ${discoveryContext.machine_subsystem ?? "null"}`);
+    lines.push(`- symptom: ${discoveryContext.symptom.join(", ") || "null"}`);
+    lines.push(`- urgency: ${discoveryContext.urgency ?? "null"}`);
+    lines.push(`- buying_motive: ${discoveryContext.buying_motive ?? "null"}`);
+    lines.push(`- suggested_options: ${discoveryContext.suggested_options.join(", ") || "null"}`);
+    lines.push(`- avoid_recommendation: ${discoveryContext.avoid_recommendation ?? "null"}`);
+  }
+
+  if (parsedContext) {
+    lines.push("Tín hiệu parser phía UI:");
+    lines.push(`- input_style: ${parsedContext.input_style ?? "null"}`);
+    lines.push(`- machine_type: ${parsedContext.machine_type ?? "null"}`);
+    lines.push(`- machine_subsystem: ${parsedContext.machine_subsystem ?? "null"}`);
+    lines.push(`- symptom: ${parsedContext.symptom.join(", ") || "null"}`);
+    lines.push(`- urgency: ${parsedContext.urgency ?? "null"}`);
+    lines.push(`- buying_motive: ${parsedContext.buying_motive ?? "null"}`);
+    lines.push(`- should_trigger_discovery: ${parsedContext.should_trigger_discovery}`);
+    lines.push(`- suggested_options: ${parsedContext.suggested_options.join(", ") || "null"}`);
+    lines.push(`- avoid_recommendation: ${parsedContext.avoid_recommendation ?? "null"}`);
+  }
+
+  return lines.join("\n");
 }
 
 function normalizeMessages(rawMessages: unknown): IncomingMessage[] {
@@ -177,6 +286,12 @@ export async function POST(request: NextRequest) {
 
   const rawMessages = isObject(body) ? body.messages : undefined;
   const messages = normalizeMessages(rawMessages);
+  const discoveryContext = isObject(body) ? normalizeDiscoveryContext(body.discovery_context) : null;
+  const parsedContext = isObject(body) ? normalizeParsedContext(body.parsed_context) : null;
+  const contextSupplement = buildContextSupplement(discoveryContext, parsedContext);
+  const instructions = [getAssistantSystemPrompt(), buildFewShotPrompt(), contextSupplement]
+    .filter((line) => line.trim().length > 0)
+    .join("\n\n");
 
   if (messages.length === 0 || !messages.some((message) => message.role === "user")) {
     return NextResponse.json(
@@ -191,7 +306,7 @@ export async function POST(request: NextRequest) {
   try {
     let responsePayload = await callOpenAI(apiKey, {
       model,
-      instructions: getAssistantSystemPrompt(),
+      instructions,
       input: messages,
       tools: assistantToolDefinitions,
       text: {
