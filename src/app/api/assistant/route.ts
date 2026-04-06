@@ -6,6 +6,7 @@ import { mergeParsedSignals, parseIntentInput, type AssistantIntentRoute } from 
 import {
   buildCommercialGuardResponse,
   enforceAssistantResponsePolicy,
+  isCommercialIntentRoute,
   shouldUsePublicGrounding,
   type AssistantPolicyContext,
 } from "@/lib/assistant/policies";
@@ -241,7 +242,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  if (mergedParsedIntent.intent_route === "pricing_request" || mergedParsedIntent.intent_route === "stock_request") {
+  if (isCommercialIntentRoute(mergedParsedIntent.intent_route)) {
     const guarded = buildCommercialGuardResponse(assistantContext);
 
     return NextResponse.json({

@@ -15,9 +15,13 @@ export type BuyingMotive =
 export type AssistantIntentRoute =
   | "code_lookup"
   | "symptom_diagnosis"
+  | "equivalent_lookup"
   | "replacement_equivalent"
   | "pricing_request"
   | "stock_request"
+  | "lead_time_request"
+  | "discount_request"
+  | "order_request"
   | "contact_handoff";
 
 export type ParsedIntent = {
@@ -113,10 +117,39 @@ const pricingRequestKeywords = [
   "quote",
   "don gia",
   "đơn giá",
+  "gia tot",
+  "giá tốt",
+];
+
+const leadTimeRequestKeywords = [
+  "bao lau",
+  "bao lâu",
+  "may ngay",
+  "mấy ngày",
+  "khi nao giao",
+  "khi nào giao",
+  "thoi gian giao",
+  "thời gian giao",
+  "lead time",
+  "giao trong ngay",
+  "giao trong ngày",
+  "giao ngay",
+  "ship nhanh",
+];
+
+const discountRequestKeywords = [
   "chiet khau",
   "chiết khấu",
   "gia tot",
   "giá tốt",
+  "deal gia",
+  "deal giá",
+  "uu dai",
+  "ưu đãi",
+  "giam gia",
+  "giảm giá",
+  "gia si",
+  "giá sỉ",
 ];
 
 const stockRequestKeywords = [
@@ -128,14 +161,24 @@ const stockRequestKeywords = [
   "sẵn hàng",
   "ton kho",
   "tồn kho",
-  "giao nhanh",
-  "giao gap",
-  "giao gấp",
-  "ship nhanh",
   "lay lien",
   "lấy liền",
   "co san",
   "có sẵn",
+];
+
+const orderRequestKeywords = [
+  "dat hang",
+  "đặt hàng",
+  "chot don",
+  "chốt đơn",
+  "len don",
+  "lên đơn",
+  "mua ngay",
+  "chot ma",
+  "chốt mã",
+  "gui don",
+  "gửi đơn",
 ];
 
 const contactHandoffKeywords = [
@@ -308,6 +351,14 @@ function detectIntentRouteFromSignals(input: {
   symptom: string[];
   buyingMotive: BuyingMotive;
 }): AssistantIntentRoute {
+  if (hasAnyKeyword(input.normalizedText, discountRequestKeywords)) {
+    return "discount_request";
+  }
+
+  if (hasAnyKeyword(input.normalizedText, leadTimeRequestKeywords)) {
+    return "lead_time_request";
+  }
+
   if (hasAnyKeyword(input.normalizedText, pricingRequestKeywords) || input.buyingMotive === "price_check") {
     return "pricing_request";
   }
@@ -316,12 +367,16 @@ function detectIntentRouteFromSignals(input: {
     return "stock_request";
   }
 
+  if (hasAnyKeyword(input.normalizedText, orderRequestKeywords)) {
+    return "order_request";
+  }
+
   if (hasAnyKeyword(input.normalizedText, contactHandoffKeywords)) {
     return "contact_handoff";
   }
 
   if (hasAnyKeyword(input.normalizedText, replacementIntentKeywords) || input.buyingMotive === "equivalent_option") {
-    return "replacement_equivalent";
+    return "equivalent_lookup";
   }
 
   if (input.symptom.length > 0 && !input.extractedCode) {
@@ -411,10 +466,18 @@ export function parseIntentInput(input: string): ParsedIntent {
   const hasStrongSignal = Boolean(extractedCode || machineType || symptom.length > 0);
   const isAmbiguous = inputStyle === "greeting" || (!hasStrongSignal && tokenize(normalizedText).length <= 8);
 
+  const isCommercialRoute =
+    intentRoute === "pricing_request" ||
+    intentRoute === "stock_request" ||
+    intentRoute === "lead_time_request" ||
+    intentRoute === "discount_request" ||
+    intentRoute === "order_request";
+
   const shouldTriggerDiscovery =
-    inputStyle === "greeting" ||
-    ((inputStyle === "fragment" || inputStyle === "shorthand") && !hasStrongSignal) ||
-    (isAmbiguous && extractedCode === null);
+    !isCommercialRoute &&
+    (inputStyle === "greeting" ||
+      ((inputStyle === "fragment" || inputStyle === "shorthand") && !hasStrongSignal) ||
+      (isAmbiguous && extractedCode === null));
 
   const nextQuestion = buildNextQuestion(shouldTriggerDiscovery, machineType, machineSubsystem);
 

@@ -6,6 +6,9 @@ type AssistantMessageProps = {
 };
 
 const emphasizedPrefixes = [
+  "Nhận định nhanh:",
+  "Mã / hướng khả dĩ:",
+  "Điều cần chốt thêm:",
   "Mã đề xuất:",
   "Cần thêm:",
   "Không nên dùng:",

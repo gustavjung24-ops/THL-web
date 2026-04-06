@@ -11,7 +11,25 @@ export type AssistantPolicyContext = {
 const stockClaimPattern = /\b(có|còn|sẵn)\s+hàng\b/i;
 const fastDeliveryClaimPattern = /\b(giao nhanh|giao trong ngày|ship nhanh|có thể giao ngay)\b/i;
 const priceClaimPattern = /\b(giá|báo giá)\b.{0,18}\b(là|khoảng|tầm|từ|chỉ)\b/i;
+const discountClaimPattern = /\b(chiết khấu|giảm giá|ưu đãi)\b.{0,24}\b(\d+%|bao nhiêu|mức|là)\b/i;
 const currencyPattern = /\b\d+[\d.,]*\s*(đ|vnd|k\b|nghìn|triệu)\b/i;
+
+const commercialIntentRoutes: AssistantIntentRoute[] = [
+  "pricing_request",
+  "stock_request",
+  "lead_time_request",
+  "discount_request",
+  "order_request",
+];
+
+const technicalLooseRoutes: AssistantIntentRoute[] = [
+  "code_lookup",
+  "equivalent_lookup",
+  "replacement_equivalent",
+  "symptom_diagnosis",
+];
+
+export type InternalConfidenceLabel = "high" | "medium" | "low";
 
 function dedupe(items: string[]): string[] {
   return Array.from(new Set(items.map((item) => item.trim()).filter(Boolean)));
@@ -48,6 +66,7 @@ function containsUnsafeCommercialClaim(value: string): boolean {
     stockClaimPattern.test(value) ||
     fastDeliveryClaimPattern.test(value) ||
     priceClaimPattern.test(value) ||
+    discountClaimPattern.test(value) ||
     currencyPattern.test(value)
   );
 }
@@ -84,6 +103,30 @@ function buildCommercialInfoLines(route: AssistantIntentRoute, parsedIntent: Par
     ];
   }
 
+  if (route === "discount_request") {
+    return [
+      `Em đã ghi nhận nhu cầu chiết khấu ${scopedCode}.`,
+      "Mức chiết khấu được kinh doanh xác nhận riêng theo số lượng và điều kiện đơn hàng.",
+      "Anh/chị gửi giúp mã hoặc ảnh tem, số lượng dự kiến, khu vực giao và tên công ty hoặc số điện thoại.",
+    ];
+  }
+
+  if (route === "lead_time_request") {
+    return [
+      `Em đã ghi nhận nhu cầu thời gian giao ${scopedCode}.`,
+      "Bên em chưa cam kết lead time tự động trước khi kinh doanh kiểm tra năng lực cung ứng.",
+      "Anh/chị gửi giúp mã hoặc ảnh tem, số lượng, khu vực giao và tên công ty hoặc số điện thoại.",
+    ];
+  }
+
+  if (route === "order_request") {
+    return [
+      `Em đã ghi nhận nhu cầu đặt hàng ${scopedCode}.`,
+      "Đơn sẽ được kinh doanh xác nhận sau khi đối chiếu đúng mã, số lượng và điều kiện giao.",
+      "Anh/chị gửi giúp mã hoặc ảnh tem, số lượng, khu vực giao và tên công ty hoặc số điện thoại.",
+    ];
+  }
+
   return [
     `Em đã ghi nhận nhu cầu kiểm tra khả năng cung ứng ${scopedCode}.`,
     "Em chưa xác nhận tồn kho hoặc thời gian giao tự động.",
@@ -92,11 +135,34 @@ function buildCommercialInfoLines(route: AssistantIntentRoute, parsedIntent: Par
 }
 
 export function isCommercialIntentRoute(route: AssistantIntentRoute): boolean {
-  return route === "pricing_request" || route === "stock_request";
+  return commercialIntentRoutes.includes(route);
 }
 
 export function shouldUsePublicGrounding(route: AssistantIntentRoute): boolean {
-  return route === "code_lookup" || route === "symptom_diagnosis" || route === "replacement_equivalent";
+  return technicalLooseRoutes.includes(route);
+}
+
+export function shouldApplyTechnicalLooseness(route: AssistantIntentRoute): boolean {
+  return technicalLooseRoutes.includes(route);
+}
+
+export function inferInternalConfidenceLabel(payload: AssistantStructuredResponse): InternalConfidenceLabel {
+  const topItem = payload.recommended_items[0];
+  const topConfidence = topItem?.confidence ?? "low";
+
+  if (topConfidence === "high" && payload.final_status === "ready") {
+    return "high";
+  }
+
+  if (topConfidence === "medium") {
+    return "medium";
+  }
+
+  if (topItem && payload.recommended_items.length > 0 && payload.final_status !== "manual_review") {
+    return "medium";
+  }
+
+  return "low";
 }
 
 export function buildCommercialGuardResponse(context: AssistantPolicyContext): AssistantStructuredResponse {
@@ -130,7 +196,7 @@ export function enforceAssistantResponsePolicy(
 
   const sanitizedLines = removeUnsafeCommercialLines(payload.short_reply);
   const needsCommercialFallback = containsUnsafeCommercialClaim(payload.short_reply);
-  const fallbackLine = "Giá và tồn kho được xác nhận riêng khi cần chuyển kinh doanh hỗ trợ.";
+  const fallbackLine = "Giá, tồn kho, lead time và chiết khấu được xác nhận riêng khi cần chuyển kinh doanh hỗ trợ.";
 
   const sanitizedItems = (needsCommercialFallback ? [] : payload.recommended_items).map((item) => ({
     ...item,
@@ -145,13 +211,15 @@ export function enforceAssistantResponsePolicy(
     final_status: needsCommercialFallback ? "manual_review" : payload.final_status,
     recommended_items: sanitizedItems,
     short_reply: toBulletText(
-      needsCommercialFallback ? [...sanitizedLines, fallbackLine] : splitIntoLines(payload.short_reply),
-      4
+      needsCommercialFallback
+        ? [...(sanitizedLines.length > 0 ? sanitizedLines : ["Em cần chuyển kinh doanh xác nhận trước khi cam kết thương mại."]), fallbackLine]
+        : splitIntoLines(payload.short_reply),
+      6
     ),
     next_question: formatCompactQuestion(payload.next_question),
   };
 }
 
 export function formatAssistantPreviewText(lines: string[]): string {
-  return formatCompactBulletText(lines.join("\n"), 4);
+  return formatCompactBulletText(lines.join("\n"), 6);
 }

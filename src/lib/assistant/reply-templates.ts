@@ -1,52 +1,68 @@
+import type { AssistantIntentRoute } from "@/lib/assistant/intent-parser";
+import { inferInternalConfidenceLabel, isCommercialIntentRoute } from "@/lib/assistant/policies";
 import type { AssistantStructuredResponse } from "@/lib/assistant/schemas";
 
 export type ReplyOptionStyle = "chips" | "stacked";
+
+export type ReplyGroup =
+  | "preliminary_assessment"
+  | "high_confidence_match"
+  | "ambiguous_match"
+  | "technical_diagnosis"
+  | "sales_handoff";
 
 export type BuiltReplyMessage = {
   text: string;
   options?: string[];
   optionStyle?: ReplyOptionStyle;
+  group?: ReplyGroup;
+  internal_confidence?: "high" | "medium" | "low";
 };
 
 type BuildReplyInput = {
   payload: AssistantStructuredResponse;
   latestUserText?: string;
+  intentRoute?: AssistantIntentRoute | null;
 };
 
-const readyReplyVariants = [
-  "Em đã đối chiếu được mã {code} ({brand}) phù hợp cho nhu cầu hiện tại.",
-  "Phương án sát nhu cầu nhất lúc này là {code} ({brand}).",
-  "Mức ưu tiên em đề xuất cho thông tin hiện có là {code} ({brand}).",
-  "Theo dữ liệu đang có, mã {code} ({brand}) là lựa chọn hợp lý nhất.",
+const highConfidenceLeadVariants = [
+  "Khả năng cao hướng này đã sát nhu cầu.",
+  "Với dữ liệu hiện có, hướng này gần như đúng cụm.",
+  "Em đang nghiêng mạnh về phương án này.",
+  "Đối chiếu hiện tại cho thấy đây là hướng ưu tiên.",
 ];
 
-const needMoreInfoVariants = [
-  "Em cần thêm 1 dữ kiện để chốt đúng mã: {missing}.",
-  "Để tránh nhầm mã, em cần bổ sung: {missing}.",
-  "Thông tin hiện tại chưa đủ để kết luận, cần thêm: {missing}.",
-  "Em cần bổ sung một điểm kỹ thuật nữa để chốt mã: {missing}.",
-  "Em chưa chốt mã ngay để tránh sai cụm, cần thêm: {missing}.",
+const ambiguousLeadVariants = [
+  "Hiện có hơn một hướng khả dĩ, chưa nên chốt ngay.",
+  "Dữ kiện hiện tại cho thấy mức phù hợp trung bình.",
+  "Em đang khoanh được vài phương án gần nhất.",
+  "Có thể chốt nhanh sau khi xác nhận thêm 1-2 điểm.",
 ];
 
-const notFoundReplyVariants = [
-  "Mã anh/chị gửi hiện chưa thấy trong dữ liệu tra cứu nội bộ.",
-  "Hệ thống chưa có kết quả trùng khớp cho mã này.",
-  "Em chưa tìm được mã trùng khớp trong danh mục đang hỗ trợ.",
-  "Chưa có bản ghi nội bộ phù hợp trực tiếp với mã vừa gửi.",
+const diagnosisLeadVariants = [
+  "Triệu chứng cho thấy khả năng lỗi nằm ở cụm quay chịu tải.",
+  "Theo mô tả, đây là dạng lỗi cần khoanh cụm trước khi chốt mã.",
+  "Mẫu lỗi này thường đến từ sai lệch cụm hoặc điều kiện bôi trơn.",
+  "Đây là tình huống nên nhận định sơ bộ trước rồi chốt theo điểm đo.",
 ];
 
-const symptomReplyVariants = [
-  "Để xử lý theo hiện tượng, em cần khoanh đúng cụm trước khi chọn mã.",
-  "Với mô tả hiện tại, bước ưu tiên là xác định đúng cụm gây lỗi.",
-  "Em cần chốt đúng vị trí phát sinh vấn đề trước khi đối chiếu mã.",
-  "Mình nên khoanh vùng đúng cụm máy trước, rồi em mới đối chiếu chính xác.",
-  "Em ưu tiên xác minh cụm máy đang gặp triệu chứng để tránh đổi nhầm.",
+const preliminaryLeadVariants = [
+  "Em đã có nhận định sơ bộ để đi đúng hướng.",
+  "Có thể chốt nhanh sau khi bổ sung vài dữ kiện kỹ thuật trọng yếu.",
+  "Em đang khoanh vùng đúng cụm để tránh đổi sai mã.",
+  "Hiện có cơ sở kỹ thuật ban đầu để tiếp tục chốt mã.",
+];
+
+const salesLeadVariants = [
+  "Em ghi nhận nhu cầu thương mại và chuyển đúng luồng hỗ trợ.",
+  "Phần thương mại sẽ được kinh doanh xác nhận riêng.",
+  "Em chưa chốt thông tin thương mại tự động để tránh sai cam kết.",
 ];
 
 const warningLeadVariants = [
-  "Không nên dùng:",
-  "Cần tránh phương án:",
-  "Lưu ý không nên áp dụng:",
+  "Lưu ý dễ nhầm:",
+  "Điểm cần tránh:",
+  "Cảnh báo kỹ thuật:",
 ];
 
 const truckClusterOptions = [
@@ -74,13 +90,22 @@ const pumpClusterOptions = [
 ];
 
 const genericEvidenceOptions = [
-  "Có mã cũ",
-  "Có ảnh tem",
-  "Chỉ có kích thước",
-  "Mô tả theo cụm máy",
+  "Xác nhận cụm lắp",
+  "Có mã cũ hoặc ảnh tem",
+  "Có kích thước chính",
+  "Mô tả điều kiện vận hành",
+];
+
+const salesHandoffOptions = [
+  "Gửi mã hoặc ảnh tem",
+  "Cho biết số lượng",
+  "Cho biết khu vực giao",
+  "Để lại thông tin liên hệ",
 ];
 
 const fieldLabelMap: Record<string, string> = {
+  application_detail: "cụm máy đang dùng",
+  dimensions: "kích thước cốt/ngoài/dày",
   id: "đường kính trong",
   od: "đường kính ngoài",
   width: "bề rộng",
@@ -150,67 +175,90 @@ function cleanLine(text: string | null | undefined): string | null {
     return null;
   }
 
-  const cleaned = text.replace(/\s+/g, " ").trim();
+  const cleaned = text
+    .replace(/^[-*•\s]+/, "")
+    .replace(/\s+/g, " ")
+    .trim();
+
   return cleaned.length > 0 ? cleaned : null;
 }
 
-function dedupeStrings(values: string[]): string[] {
-  return Array.from(new Set(values.map((item) => item.trim()).filter(Boolean)));
+function splitIntoLines(value: string | null | undefined): string[] {
+  if (!value || value.trim().length === 0) {
+    return [];
+  }
+
+  const roughLines = value
+    .replace(/\r/g, "\n")
+    .trim()
+    .split(/\n+/)
+    .flatMap((line) => line.split(/(?<=[.;])\s+(?=[A-ZÀ-ỹa-zà-ỹ0-9])/))
+    .map((line) => cleanLine(line))
+    .filter((line): line is string => Boolean(line));
+
+  return Array.from(new Set(roughLines));
 }
 
 function mapMissingFields(fields: string[]): string[] {
-  return dedupeStrings(fields.map((field) => fieldLabelMap[field] ?? field));
+  return Array.from(new Set(fields.map((field) => fieldLabelMap[field] ?? field)));
 }
 
 function mapSuggestedOptions(values: string[]): string[] {
-  return dedupeStrings(values.map((value) => suggestedOptionMap[value] ?? value));
+  return Array.from(new Set(values.map((value) => suggestedOptionMap[value] ?? value)));
 }
 
-function formatWarning(warning: string | null, seed: string): string | null {
+function formatWarning(warning: string | null, seed: string): string[] {
   const cleaned = cleanLine(warning);
   if (!cleaned) {
-    return null;
+    return [];
   }
 
-  if (cleaned.toLowerCase().startsWith("khong nen")) {
-    return cleaned;
+  const normalized = normalizeText(cleaned);
+  if (normalized.startsWith("khong nen")) {
+    return [cleaned];
   }
 
-  return `${pickVariant(warningLeadVariants, seed)} ${cleaned}`;
+  return [`${pickVariant(warningLeadVariants, seed)} ${cleaned}`];
 }
 
-function composeReply(main: string, question?: string | null, warning?: string | null): string {
-  const lines: string[] = [];
+function toSection(title: string, lines: string[], maxItems: number): string[] {
+  const sectionLines = lines
+    .map((line) => cleanLine(line))
+    .filter((line): line is string => Boolean(line))
+    .slice(0, maxItems);
 
-  function appendBullets(value: string | null | undefined) {
-    const cleaned = cleanLine(value);
-    if (!cleaned) {
+  if (sectionLines.length === 0) {
+    return [];
+  }
+
+  return [title + ":", ...sectionLines.map((line) => `- ${line}`)];
+}
+
+function composeStructuredReply(input: {
+  quick: string[];
+  candidate: string[];
+  confirm: string[];
+  warning?: string[];
+}): string {
+  const blocks: string[] = [];
+
+  const quickSection = toSection("Nhận định nhanh", input.quick, 2);
+  const candidateSection = toSection("Mã / hướng khả dĩ", input.candidate, 3);
+  const confirmSection = toSection("Điều cần chốt thêm", [...input.confirm, ...(input.warning ?? [])], 3);
+
+  [quickSection, candidateSection, confirmSection].forEach((section) => {
+    if (section.length === 0) {
       return;
     }
 
-    cleaned
-      .split(/\n+/)
-      .map((line) => cleanLine(line))
-      .filter((line): line is string => Boolean(line))
-      .forEach((line) => {
-        lines.push(line.startsWith("-") ? line : `- ${line}`);
-      });
-  }
+    if (blocks.length > 0) {
+      blocks.push("");
+    }
 
-  appendBullets(main);
-  appendBullets(question);
-  appendBullets(warning);
+    blocks.push(...section);
+  });
 
-  return lines.join("\n");
-}
-
-function preferredMainReply(payload: AssistantStructuredResponse, fallback: string): string {
-  const shortReply = cleanLine(payload.short_reply);
-  if (shortReply && shortReply !== "Cần xác minh thêm.") {
-    return shortReply;
-  }
-
-  return fallback;
+  return blocks.join("\n");
 }
 
 function looksLikeTruckContext(payload: AssistantStructuredResponse, latestUserText: string): boolean {
@@ -250,32 +298,116 @@ function inferQuestion(
   payload: AssistantStructuredResponse,
   latestUserText: string,
   missingLabels: string[]
-): string | null {
+): string[] {
   if (looksLikeTruckContext(payload, latestUserText)) {
-    return "Anh/chị đang kiểm tra vòng bi ở cụm nào: bánh xe, máy phát, puly tăng, lốc lạnh hay hộp số?";
+    return ["Anh/chị xác nhận giúp cụm đang kiểm tra: bánh xe, máy phát, puly tăng, lốc lạnh hay hộp số?"];
   }
 
   if (looksLikeSpindleContext(payload, latestUserText)) {
-    return "Anh/chị đang kiểm tra cụm nào trên spindle: ổ trước, ổ sau, puly truyền hay cụm phớt?";
+    return ["Anh/chị xác nhận vị trí trên spindle: ổ trước, ổ sau, puly truyền hay cụm phớt?"];
   }
 
   if (looksLikePumpContext(payload, latestUserText)) {
-    return "Em cần khoanh đúng cụm trước. Máy đang nóng ở ổ trục, puly hay vị trí phớt?";
+    return ["Anh/chị cho em biết nóng/kêu rõ nhất ở ổ trục, puly hay cụm phớt để em chốt hướng."];
   }
 
   const nextQuestion = cleanLine(payload.next_question);
   if (nextQuestion) {
-    return nextQuestion;
+    return [nextQuestion];
   }
 
-  if (missingLabels.length > 0) {
-    return `Anh/chị bổ sung giúp ${missingLabels.slice(0, 2).join(" hoặc ")} để em chốt nhanh nhé?`;
+  if (missingLabels.length >= 2) {
+    return [`Anh/chị xác nhận giúp ${missingLabels[0]} và ${missingLabels[1]} để em chốt chính xác.`];
   }
 
-  return "Anh/chị có mã cũ hoặc ảnh tem để em đối chiếu nhanh hơn không?";
+  if (missingLabels.length === 1) {
+    return [`Anh/chị bổ sung giúp ${missingLabels[0]} để em chốt mã cuối.`];
+  }
+
+  return ["Anh/chị xác nhận thêm vị trí lắp và điều kiện tải để em chốt hướng chắc hơn."];
 }
 
-function inferOptions(payload: AssistantStructuredResponse, latestUserText: string): BuiltReplyMessage | null {
+function buildCandidateLines(payload: AssistantStructuredResponse, maxItems = 2): string[] {
+  const items = payload.recommended_items.slice(0, maxItems);
+
+  if (items.length === 0) {
+    return [];
+  }
+
+  return items.map((item) => {
+    const confidenceLabel =
+      item.confidence === "high" ? "Khả năng cao" : item.confidence === "medium" ? "Khả năng trung bình" : "Khả năng thấp";
+    const reason = cleanLine(item.reason);
+
+    return `${confidenceLabel}: ${item.exact_code} (${item.brand})${reason ? `, căn cứ: ${reason}` : ""}.`;
+  });
+}
+
+function fallbackSalesQuestion(payload: AssistantStructuredResponse): string[] {
+  const nextQuestion = cleanLine(payload.next_question);
+  if (nextQuestion) {
+    return [nextQuestion];
+  }
+
+  return ["Anh/chị gửi giúp mã hoặc ảnh tem, số lượng, khu vực giao và tên công ty hoặc số điện thoại để em chuyển kinh doanh."];
+}
+
+function inferReplyGroup(input: BuildReplyInput): ReplyGroup {
+  const route = input.intentRoute ?? null;
+  const normalizedReply = normalizeText(input.payload.short_reply);
+
+  const looksCommercialFromPayload =
+    input.payload.final_status === "manual_review" &&
+    (input.payload.missing_fields.includes("contact_info") ||
+      input.payload.missing_fields.includes("delivery_area") ||
+      normalizedReply.includes("kinh doanh") ||
+      normalizedReply.includes("bao gia") ||
+      normalizedReply.includes("ton kho") ||
+      normalizedReply.includes("chiết khấu") ||
+      normalizedReply.includes("chiet khau") ||
+      normalizedReply.includes("giao hang") ||
+      normalizedReply.includes("lead time"));
+
+  if ((route && isCommercialIntentRoute(route)) || looksCommercialFromPayload) {
+    return "sales_handoff";
+  }
+
+  if (route === "symptom_diagnosis" || input.payload.symptom.length > 0) {
+    return "technical_diagnosis";
+  }
+
+  const confidence = inferInternalConfidenceLabel(input.payload);
+
+  if (confidence === "high" && input.payload.recommended_items.length > 0) {
+    return "high_confidence_match";
+  }
+
+  if (
+    (confidence === "medium" && input.payload.recommended_items.length > 0) ||
+    input.payload.final_status === "not_found_in_system"
+  ) {
+    return "ambiguous_match";
+  }
+
+  return "preliminary_assessment";
+}
+
+function inferOptions(
+  payload: AssistantStructuredResponse,
+  latestUserText: string,
+  group: ReplyGroup
+): BuiltReplyMessage | null {
+  if (group === "sales_handoff") {
+    const mappedSuggested = mapSuggestedOptions(payload.suggested_options);
+    const options = mappedSuggested.length >= 2 ? mappedSuggested.slice(0, 5) : salesHandoffOptions;
+
+    return {
+      options,
+      optionStyle: "stacked",
+      text: "",
+    };
+  }
+
   if (looksLikeTruckContext(payload, latestUserText)) {
     return { options: truckClusterOptions, optionStyle: "chips", text: "" };
   }
@@ -297,7 +429,7 @@ function inferOptions(payload: AssistantStructuredResponse, latestUserText: stri
     };
   }
 
-  if (payload.final_status === "needs_more_info") {
+  if (payload.final_status === "needs_more_info" || payload.final_status === "not_found_in_system") {
     return {
       options: genericEvidenceOptions,
       optionStyle: "chips",
@@ -308,88 +440,149 @@ function inferOptions(payload: AssistantStructuredResponse, latestUserText: stri
   return null;
 }
 
-export function buildReadyReply(input: BuildReplyInput): BuiltReplyMessage {
-  const topItem = input.payload.recommended_items[0];
-  const seed = `${input.payload.short_reply}-${topItem?.exact_code ?? "none"}-${input.latestUserText ?? ""}`;
-  const mainTemplate = pickVariant(readyReplyVariants, seed);
-  const main = preferredMainReply(
-    input.payload,
-    mainTemplate
-    .replace("{code}", topItem?.exact_code ?? "mã phù hợp")
-    .replace("{brand}", topItem?.brand ?? "nhãn phù hợp")
-  );
+function buildSalesHandoffReply(input: BuildReplyInput): BuiltReplyMessage {
+  const seed = `${input.payload.short_reply}-${input.latestUserText ?? ""}-sales`;
+  const shortReplyLines = splitIntoLines(input.payload.short_reply);
+  const quick = shortReplyLines.length > 0 ? shortReplyLines.slice(0, 2) : [pickVariant(salesLeadVariants, seed)];
+
+  const candidate = [
+    "Giá, tồn kho, lead time và chiết khấu chỉ được kinh doanh xác nhận sau đối chiếu.",
+  ];
+
+  const confirm = fallbackSalesQuestion(input.payload);
+  const optionPack = inferOptions(input.payload, input.latestUserText ?? "", "sales_handoff");
 
   return {
-    text: composeReply(main, cleanLine(input.payload.next_question), formatWarning(input.payload.avoid_recommendation, seed)),
-  };
-}
-
-export function buildNotFoundReply(input: BuildReplyInput): BuiltReplyMessage {
-  const seed = `${input.payload.short_reply}-${input.latestUserText ?? ""}-not-found`;
-  const main = preferredMainReply(input.payload, pickVariant(notFoundReplyVariants, seed));
-  const question = "Anh/chị có mã cũ, ảnh tem hoặc mô tả theo cụm máy để em đối chiếu lại không?";
-  const optionPack = inferOptions(
-    {
-      ...input.payload,
-      final_status: "needs_more_info",
-    },
-    input.latestUserText ?? ""
-  );
-
-  return {
-    text: composeReply(main, question),
+    text: composeStructuredReply({ quick, candidate, confirm }),
     options: optionPack?.options,
     optionStyle: optionPack?.optionStyle,
+    group: "sales_handoff",
+    internal_confidence: inferInternalConfidenceLabel(input.payload),
   };
 }
 
-export function buildSymptomReply(input: BuildReplyInput): BuiltReplyMessage {
-  const seed = `${input.payload.short_reply}-${input.latestUserText ?? ""}-symptom`;
-  const main = preferredMainReply(input.payload, pickVariant(symptomReplyVariants, seed));
+function buildHighConfidenceMatchReply(input: BuildReplyInput): BuiltReplyMessage {
+  const seed = `${input.payload.short_reply}-${input.latestUserText ?? ""}-high`;
   const missingLabels = mapMissingFields(input.payload.missing_fields);
-  const question = inferQuestion(input.payload, input.latestUserText ?? "", missingLabels);
+
+  const shortReplyLines = splitIntoLines(input.payload.short_reply);
+  const quick = shortReplyLines.length > 0 ? shortReplyLines.slice(0, 2) : [pickVariant(highConfidenceLeadVariants, seed)];
+
+  const candidateLines = buildCandidateLines(input.payload, 2);
+  const candidate = candidateLines.length > 0 ? candidateLines : ["Khả năng cao hướng mã hiện tại đã phù hợp với cụm đang kiểm tra."];
+
+  const confirm = inferQuestion(input.payload, input.latestUserText ?? "", missingLabels);
   const warning = formatWarning(input.payload.avoid_recommendation, seed);
-  const optionPack = inferOptions(input.payload, input.latestUserText ?? "");
+  const optionPack = inferOptions(input.payload, input.latestUserText ?? "", "high_confidence_match");
 
   return {
-    text: composeReply(main, question, warning),
+    text: composeStructuredReply({ quick, candidate, confirm, warning }),
     options: optionPack?.options,
     optionStyle: optionPack?.optionStyle,
+    group: "high_confidence_match",
+    internal_confidence: "high",
   };
 }
 
-export function buildNeedMoreInfoReply(input: BuildReplyInput): BuiltReplyMessage {
+function buildAmbiguousMatchReply(input: BuildReplyInput): BuiltReplyMessage {
+  const seed = `${input.payload.short_reply}-${input.latestUserText ?? ""}-ambiguous`;
   const missingLabels = mapMissingFields(input.payload.missing_fields);
-  const missingHint = missingLabels.slice(0, 2).join(" hoặc ") || "mã cũ hoặc ảnh tem";
-  const seed = `${input.payload.short_reply}-${input.latestUserText ?? ""}-needs-more-info`;
 
-  const main = preferredMainReply(
-    input.payload,
-    pickVariant(needMoreInfoVariants, seed).replace("{missing}", missingHint)
-  );
-  const question = inferQuestion(input.payload, input.latestUserText ?? "", missingLabels);
+  const shortReplyLines = splitIntoLines(input.payload.short_reply);
+  const quick = shortReplyLines.length > 0 ? shortReplyLines.slice(0, 2) : [pickVariant(ambiguousLeadVariants, seed)];
+
+  let candidate = buildCandidateLines(input.payload, 2);
+  if (candidate.length === 0 && input.payload.final_status === "not_found_in_system") {
+    candidate = ["Chưa thấy mã trùng trực tiếp trong danh mục nội bộ, cần đối chiếu theo cụm hoặc kích thước."];
+  }
+
+  if (candidate.length === 0) {
+    candidate = ["Hiện em đang khoanh vùng theo pattern gần nhất, chưa chốt vội để tránh sai cụm."];
+  }
+
+  const confirm = inferQuestion(input.payload, input.latestUserText ?? "", missingLabels);
   const warning = formatWarning(input.payload.avoid_recommendation, seed);
-  const optionPack = inferOptions(input.payload, input.latestUserText ?? "");
+  const optionPack = inferOptions(input.payload, input.latestUserText ?? "", "ambiguous_match");
 
   return {
-    text: composeReply(main, question, warning),
+    text: composeStructuredReply({ quick, candidate, confirm, warning }),
     options: optionPack?.options,
     optionStyle: optionPack?.optionStyle,
+    group: "ambiguous_match",
+    internal_confidence: "medium",
+  };
+}
+
+function buildTechnicalDiagnosisReply(input: BuildReplyInput): BuiltReplyMessage {
+  const seed = `${input.payload.short_reply}-${input.latestUserText ?? ""}-diagnosis`;
+  const missingLabels = mapMissingFields(input.payload.missing_fields);
+
+  const shortReplyLines = splitIntoLines(input.payload.short_reply);
+  const quick = shortReplyLines.length > 0 ? shortReplyLines.slice(0, 2) : [pickVariant(diagnosisLeadVariants, seed)];
+
+  let candidate = buildCandidateLines(input.payload, 2);
+  if (candidate.length === 0) {
+    candidate = [
+      "Ưu tiên kiểm tra tình trạng bôi trơn, độ đồng trục và khe hở cụm quay trước khi đổi mã.",
+    ];
+  }
+
+  const confirm = inferQuestion(input.payload, input.latestUserText ?? "", missingLabels);
+  const warning = formatWarning(input.payload.avoid_recommendation, seed);
+  const optionPack = inferOptions(input.payload, input.latestUserText ?? "", "technical_diagnosis");
+
+  return {
+    text: composeStructuredReply({ quick, candidate, confirm, warning }),
+    options: optionPack?.options,
+    optionStyle: optionPack?.optionStyle,
+    group: "technical_diagnosis",
+    internal_confidence: inferInternalConfidenceLabel(input.payload),
+  };
+}
+
+function buildPreliminaryAssessmentReply(input: BuildReplyInput): BuiltReplyMessage {
+  const seed = `${input.payload.short_reply}-${input.latestUserText ?? ""}-preliminary`;
+  const missingLabels = mapMissingFields(input.payload.missing_fields);
+
+  const shortReplyLines = splitIntoLines(input.payload.short_reply);
+  const quick = shortReplyLines.length > 0 ? shortReplyLines.slice(0, 2) : [pickVariant(preliminaryLeadVariants, seed)];
+
+  let candidate = buildCandidateLines(input.payload, 2);
+  if (candidate.length === 0) {
+    candidate = ["Em đang khoanh theo nhóm ứng dụng phù hợp rồi mới chốt mã cuối để giảm rủi ro nhầm."];
+  }
+
+  const confirm = inferQuestion(input.payload, input.latestUserText ?? "", missingLabels);
+  const warning = formatWarning(input.payload.avoid_recommendation, seed);
+  const optionPack = inferOptions(input.payload, input.latestUserText ?? "", "preliminary_assessment");
+
+  return {
+    text: composeStructuredReply({ quick, candidate, confirm, warning }),
+    options: optionPack?.options,
+    optionStyle: optionPack?.optionStyle,
+    group: "preliminary_assessment",
+    internal_confidence: inferInternalConfidenceLabel(input.payload),
   };
 }
 
 export function buildAssistantReplyMessage(input: BuildReplyInput): BuiltReplyMessage {
-  if (input.payload.final_status === "ready" && input.payload.recommended_items.length > 0) {
-    return buildReadyReply(input);
+  const group = inferReplyGroup(input);
+
+  if (group === "sales_handoff") {
+    return buildSalesHandoffReply(input);
   }
 
-  if (input.payload.final_status === "not_found_in_system" || input.payload.intent === "not_in_catalog") {
-    return buildNotFoundReply(input);
+  if (group === "high_confidence_match") {
+    return buildHighConfidenceMatchReply(input);
   }
 
-  if (input.payload.intent === "by_application" || input.payload.symptom.length > 0) {
-    return buildSymptomReply(input);
+  if (group === "ambiguous_match") {
+    return buildAmbiguousMatchReply(input);
   }
 
-  return buildNeedMoreInfoReply(input);
+  if (group === "technical_diagnosis") {
+    return buildTechnicalDiagnosisReply(input);
+  }
+
+  return buildPreliminaryAssessmentReply(input);
 }

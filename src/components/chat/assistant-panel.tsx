@@ -374,7 +374,11 @@ export function AssistantPanel({
 
       const structured = coerceAssistantResponse(payload.result);
       const latestUserText = [...history].reverse().find((message) => message.role === "user")?.text ?? "";
-      const builtReply = buildAssistantReplyMessage({ payload: structured, latestUserText });
+      const builtReply = buildAssistantReplyMessage({
+        payload: structured,
+        latestUserText,
+        intentRoute: parsedContext?.intent_route ?? null,
+      });
 
       setAssistantUiState("rendering_reply");
       await wait(getHumanDelay({ kind: "api_reply", textLength: builtReply.text.length }));
