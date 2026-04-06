@@ -1,6 +1,10 @@
+import applicationFitmentData from "@/data/catalog/application_fitment.json";
 import brandWhitelistData from "@/data/catalog/brand-whitelist.json";
+import confusionRulesData from "@/data/catalog/confusion_rules.json";
 import equivalentMapData from "@/data/catalog/equivalent-map.json";
 import catalogData from "@/data/catalog/master-catalog.json";
+import productGroupsData from "@/data/catalog/product_groups.json";
+import slangMapData from "@/data/catalog/slang_map.json";
 import technicalRules from "@/data/catalog/technical-rules.json";
 
 export type CatalogRecord = (typeof catalogData.records)[number];
@@ -25,14 +29,14 @@ type DimensionSearchInput = {
 const records = catalogData.records;
 const allowedBrandSet = new Set(brandWhitelistData.brand_whitelist.map((brand) => brand.toUpperCase()));
 
-const productGroupKeywords: Record<string, string[]> = {
-  bearings: ["bearing", "vong bi", "620", "630", "c3", "zz", "2rs"],
-  pillow_blocks: ["pillow", "goi do", "ucp", "ucf", "housing"],
-  belts: ["belt", "day curoa", "v-belt", "profile a", "profile b", "spa", "spb"],
-  industrial_chains: ["chain", "xich", "08b", "40-1", "pitch", "links"],
-  oil_seals: ["oil seal", "phot", "seal", "tc", "sc", "chan dau"],
-  grease: ["grease", "mo", "ep2", "nlgi"],
-};
+/* Build product group keywords from product_groups.json + slang_map.json */
+const productGroupKeywords: Record<string, string[]> = {};
+for (const group of productGroupsData.groups) {
+  const slangTerms = slangMapData.mappings
+    .filter((m) => m.product_group === group.key)
+    .map((m) => m.slang);
+  productGroupKeywords[group.key] = Array.from(new Set([...group.keywords, ...slangTerms]));
+}
 
 const missingFieldMap: Record<string, string[]> = {
   bearings: technicalRules.bearing_missing_fields,
@@ -214,10 +218,59 @@ export function detectHighRiskConfusion(item: CatalogRecord, input: string): boo
     return true;
   }
 
+  /* Check confusion_rules.json trigger codes */
+  const normalizedItemCode = item.exact_code.toUpperCase().replace(/[^A-Z0-9]/g, "");
+  for (const rule of confusionRulesData.rules) {
+    const triggerMatch = rule.trigger_codes.some(
+      (code) => code.toUpperCase().replace(/[^A-Z0-9]/g, "") === normalizedItemCode
+    );
+    if (triggerMatch) {
+      return true;
+    }
+  }
+
   return (
     lowerInput.includes("tuong duong") ||
     lowerInput.includes("equivalent") ||
     lowerInput.includes("gan giong") ||
     lowerInput.includes("khong chac")
   );
+}
+
+/* Resolve slang/shorthand to canonical term */
+export function resolveSlang(input: string): { canonical: string; product_group: string | null } | null {
+  const lower = input.toLowerCase().trim();
+  for (const mapping of slangMapData.mappings) {
+    if (lower.includes(mapping.slang.toLowerCase())) {
+      return { canonical: mapping.canonical, product_group: mapping.product_group };
+    }
+  }
+  return null;
+}
+
+/* Search fitment by machine type / subsystem */
+export function searchByApplication(input: string): typeof applicationFitmentData.fitments {
+  const lower = input.toLowerCase();
+  return applicationFitmentData.fitments.filter((fitment) => {
+    const haystack = [
+      fitment.machine_type,
+      fitment.machine_model,
+      fitment.subsystem,
+    ].join(" ").toLowerCase();
+    return lower.split(/\s+/).some((word) => word.length > 2 && haystack.includes(word));
+  });
+}
+
+/* Get confusion warning for a specific code */
+export function getConfusionWarning(code: string): string | null {
+  const normalized = code.toUpperCase().replace(/[^A-Z0-9]/g, "");
+  for (const rule of confusionRulesData.rules) {
+    const match = rule.trigger_codes.some(
+      (tc) => tc.toUpperCase().replace(/[^A-Z0-9]/g, "") === normalized
+    );
+    if (match) {
+      return rule.warning;
+    }
+  }
+  return null;
 }

@@ -1,9 +1,25 @@
+import brandPolicyData from "@/data/catalog/brand_policy.json";
 import catalogConfig from "@/data/catalog/brand-whitelist.json";
+import symptomRulesData from "@/data/catalog/symptom_rules.json";
 import { buildFewShotPrompt } from "@/lib/assistant/examples";
 
 const allowedBrands = catalogConfig.brand_whitelist.join(", ");
 const supportedGroups = catalogConfig.product_groups.join(", ");
 const forbiddenSlang = ["táng", "nện", "quất", "cháy rế", "chốt bill", "cày ca đêm", "sáng mắt ra"].join(", ");
+
+/* Build brand priority summary from brand_policy.json */
+const brandPrioritySummary = brandPolicyData.policies
+  .filter((p) => p.status === "active")
+  .sort((a, b) => (a.priority ?? 99) - (b.priority ?? 99))
+  .map((p) => `${p.brand} (ưu tiên ${p.priority}, nhóm: ${p.product_groups.join("/")})`);
+
+const referenceOnlyBrands = brandPolicyData.policies
+  .filter((p) => p.status === "reference_only")
+  .map((p) => p.brand);
+
+/* Build symptom hint summary from symptom_rules.json */
+const symptomHints = symptomRulesData.rules
+  .map((r) => `- ${r.signals.slice(0, 3).join("/")} → nhóm ${r.likely_groups.join("/")} (khẩn: ${r.urgency_hint})`);
 
 export function getAssistantSystemPrompt(): string {
   const fewShotPrompt = buildFewShotPrompt();
@@ -23,6 +39,12 @@ export function getAssistantSystemPrompt(): string {
     "Whitelist và nhóm hàng:",
     "- Brand được phép: " + allowedBrands + ".",
     "- Nhóm hàng đang hỗ trợ: " + supportedGroups + ".",
+    "- Thứ tự ưu tiên brand: " + brandPrioritySummary.join("; ") + ".",
+    "- Brand chỉ tham khảo (không bán): " + referenceOnlyBrands.join(", ") + ".",
+    "- " + brandPolicyData.rules.if_customer_asks_blocked_brand,
+    "",
+    "Gợi ý suy đoán từ triệu chứng:",
+    ...symptomHints,
     "",
     "Nguyên tắc ngôn ngữ:",
     "- Phải hiểu câu ngắn, câu cụt, câu thiếu ngữ pháp kiểu hiện trường.",

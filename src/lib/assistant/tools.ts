@@ -1,8 +1,11 @@
 import {
   detectHighRiskConfusion,
   filterAllowedBrands,
+  getConfusionWarning,
   getMissingFieldsForGroup,
   inferProductGroup,
+  resolveSlang,
+  searchByApplication,
   searchByDimensions,
   searchByNormalizedCode,
   searchEquivalent,
@@ -112,6 +115,48 @@ export const assistantToolDefinitions = [
         },
       },
       required: ["product_group"],
+    },
+  },
+  {
+    type: "function",
+    name: "search_by_application",
+    description: "Search catalog fitment data by machine type, model, or subsystem to find recommended codes.",
+    strict: true,
+    parameters: {
+      type: "object",
+      additionalProperties: false,
+      properties: {
+        query: { type: "string" },
+      },
+      required: ["query"],
+    },
+  },
+  {
+    type: "function",
+    name: "resolve_slang",
+    description: "Resolve Vietnamese slang, shorthand or colloquial terms to canonical product terms.",
+    strict: true,
+    parameters: {
+      type: "object",
+      additionalProperties: false,
+      properties: {
+        term: { type: "string" },
+      },
+      required: ["term"],
+    },
+  },
+  {
+    type: "function",
+    name: "get_confusion_warning",
+    description: "Check if a product code has known confusion risks with similar codes.",
+    strict: true,
+    parameters: {
+      type: "object",
+      additionalProperties: false,
+      properties: {
+        code: { type: "string" },
+      },
+      required: ["code"],
     },
   },
 ] as const;
@@ -256,6 +301,51 @@ export function executeAssistantToolCall(name: string, args: ToolArguments): Rec
       product_group: productGroup,
       missing_fields: missingFields,
       provided_fields: providedFields,
+    };
+  }
+
+  if (name === "search_by_application") {
+    const query = toQuery(args, "query");
+    const fitments = searchByApplication(query);
+
+    return {
+      tool: name,
+      query,
+      count: fitments.length,
+      fitments: fitments.map((f) => ({
+        machine_type: f.machine_type,
+        machine_model: f.machine_model,
+        subsystem: f.subsystem,
+        recommended_codes: f.recommended_codes,
+        product_groups: f.product_groups,
+        note: f.note,
+        caution: f.caution,
+      })),
+    };
+  }
+
+  if (name === "resolve_slang") {
+    const term = toQuery(args, "term");
+    const resolved = resolveSlang(term);
+
+    return {
+      tool: name,
+      term,
+      resolved: resolved !== null,
+      canonical: resolved?.canonical ?? null,
+      product_group: resolved?.product_group ?? null,
+    };
+  }
+
+  if (name === "get_confusion_warning") {
+    const code = toQuery(args, "code");
+    const warning = getConfusionWarning(code);
+
+    return {
+      tool: name,
+      code,
+      has_warning: warning !== null,
+      warning: warning,
     };
   }
 
