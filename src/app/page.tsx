@@ -1,8 +1,29 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, CheckCircle2, Clock3, MapPin, MessageCircle, PhoneCall } from "lucide-react";
+import {
+  ArrowRight,
+  BadgeCheck,
+  Building2,
+  CheckCircle2,
+  ClipboardCheck,
+  Clock3,
+  Factory,
+  Gauge,
+  Handshake,
+  Landmark,
+  Layers3,
+  MapPin,
+  MessageCircle,
+  PhoneCall,
+  Search,
+  ShieldCheck,
+  Users,
+  Wrench,
+  Workflow,
+} from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { blogPosts } from "@/data/posts";
+import { brandLogos, productGroupBrandMap } from "@/data/brand-logos";
 import {
   customerSegments,
   heroContent,
@@ -31,6 +52,35 @@ export const metadata = createPageMetadata({
 });
 
 const previewPosts = blogPosts.slice(0, 6);
+const brandById = Object.fromEntries(brandLogos.map((brand) => [brand.id, brand]));
+
+const trustBulletIcons = [ShieldCheck, Clock3, Users, Gauge];
+const supportCardIcons = [Search, Gauge, Workflow, Handshake, ClipboardCheck, Layers3];
+const customerSegmentIcons = [Factory, Wrench, Building2, Landmark, Factory, Wrench, Building2, Clock3];
+const supportProcessIcons = [MessageCircle, Search, BadgeCheck, ArrowRight];
+
+const contactInfoItems = [
+  {
+    label: siteConfig.phone,
+    Icon: PhoneCall,
+  },
+  {
+    label: siteConfig.zaloLabel,
+    Icon: MessageCircle,
+  },
+  {
+    label: siteConfig.address,
+    Icon: MapPin,
+  },
+  {
+    label: siteConfig.supportArea,
+    Icon: Building2,
+  },
+  {
+    label: siteConfig.responseTime,
+    Icon: Clock3,
+  },
+];
 
 function formatDate(dateString: string) {
   return new Intl.DateTimeFormat("vi-VN", {
@@ -45,14 +95,14 @@ export default function Home() {
     <div className="overflow-x-hidden">
       <section className="relative overflow-hidden border-b border-slate-200/80 pb-12 pt-10 sm:pt-14">
         <Image
-          src="/images/industry-support.svg"
+          src="/images/backgrounds/chain-drive.jpg"
           alt=""
-          width={900}
-          height={600}
+          fill
           aria-hidden
-          className="pointer-events-none absolute -right-20 -top-10 h-auto w-[56%] max-w-none select-none opacity-[0.045] blur-[2px] sm:opacity-[0.06]"
+          className="pointer-events-none absolute inset-0 select-none object-cover opacity-[0.08] blur-[1px]"
         />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(146,64,14,0.12),_transparent_40%),radial-gradient(circle_at_15%_80%,_rgba(120,53,15,0.09),_transparent_35%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(146,64,14,0.14),_transparent_42%),radial-gradient(circle_at_15%_80%,_rgba(120,53,15,0.1),_transparent_37%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/88 via-white/92 to-white/96" />
         <div className="page-shell relative grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div className="space-y-6">
             <p className="inline-flex rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-amber-800">
@@ -66,12 +116,19 @@ export default function Home() {
             <PrimaryCtaGroup />
 
             <ul className="grid gap-3 pt-1 sm:grid-cols-2">
-              {trustBullets.map((bullet) => (
-                <li key={bullet} className="flex items-start gap-2 rounded-lg border border-slate-200 bg-white/80 p-3 text-sm text-slate-700">
-                  <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-amber-800" />
-                  <span>{bullet}</span>
-                </li>
-              ))}
+              {trustBullets.map((bullet, index) => {
+                const Icon = trustBulletIcons[index] ?? CheckCircle2;
+
+                return (
+                  <li
+                    key={bullet}
+                    className="flex items-start gap-2 rounded-lg border border-slate-200 bg-white/90 p-3 text-sm text-slate-700 shadow-[0_8px_20px_-22px_rgba(15,23,42,0.6)]"
+                  >
+                    <Icon className="mt-0.5 size-4 shrink-0 text-amber-800" />
+                    <span>{bullet}</span>
+                  </li>
+                );
+              })}
             </ul>
           </div>
 
@@ -99,7 +156,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section-block">
+      <section className="section-block border-b border-slate-100/80">
         <div className="page-shell space-y-7">
           <SectionTitle
             eyebrow="Dịch vụ hỗ trợ"
@@ -107,15 +164,61 @@ export default function Home() {
             description="Nhiều nhà máy không thiếu nơi bán hàng, mà thiếu đầu mối tiếp nhận đủ nhanh, hiểu đúng ứng dụng và hỗ trợ đối chiếu mã rõ ràng giữa bộ phận kỹ thuật, bảo trì và mua hàng."
           />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {supportCards.map((card) => (
-              <Card key={card.title} className="border-slate-200 bg-white">
-                <CardHeader>
-                  <CardTitle className="text-base text-slate-900">{card.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm leading-relaxed text-slate-600">{card.description}</p>
-                </CardContent>
-              </Card>
+            {supportCards.map((card, index) => {
+              const Icon = supportCardIcons[index] ?? CheckCircle2;
+
+              return (
+                <Card
+                  key={card.title}
+                  className="border-slate-200 bg-white shadow-[0_12px_28px_-24px_rgba(15,23,42,0.55)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_36px_-22px_rgba(120,53,15,0.35)]"
+                >
+                  <CardHeader>
+                    <CardTitle className="flex items-start gap-2 text-base text-slate-900">
+                      <span className="mt-0.5 inline-flex rounded-md border border-amber-200 bg-amber-50 p-1.5">
+                        <Icon className="size-4 text-amber-800" />
+                      </span>
+                      <span>{card.title}</span>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm leading-relaxed text-slate-600">{card.description}</p>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="section-block bg-white">
+        <div className="page-shell space-y-7">
+          <div className="max-w-3xl space-y-3">
+            <p className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-amber-800">
+              <BadgeCheck className="size-3.5" />
+              Đối chiếu thương hiệu
+            </p>
+            <h2 className="font-heading text-2xl font-bold leading-tight text-slate-900 sm:text-3xl">
+              Thương hiệu đang phân phối và hỗ trợ đối chiếu
+            </h2>
+            <p className="text-sm leading-relaxed text-slate-600 sm:text-base">
+              Danh mục dưới đây được dùng để hỗ trợ đối chiếu mã theo ứng dụng thực tế, giúp bộ phận kỹ thuật và mua hàng trao đổi nhanh hơn khi cần thay thế.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+            {brandLogos.map((brand) => (
+              <div
+                key={brand.id}
+                className="group flex min-h-24 items-center justify-center rounded-xl border border-slate-200 bg-slate-50/70 p-4 shadow-[0_10px_20px_-22px_rgba(15,23,42,0.6)] transition hover:border-amber-200 hover:bg-white"
+              >
+                <Image
+                  src={brand.src}
+                  alt={brand.alt}
+                  width={120}
+                  height={44}
+                  className="h-auto max-h-9 w-auto object-contain opacity-70 grayscale transition duration-200 group-hover:opacity-100 group-hover:grayscale-0"
+                />
+              </div>
             ))}
           </div>
         </div>
@@ -129,23 +232,41 @@ export default function Home() {
             description="Tập trung các nhóm vật tư truyền động và làm kín, phục vụ trực tiếp nhu cầu bảo trì, thay thế và vận hành thiết bị trong nhà máy."
           />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {productGroups.map((group) => (
-              <Card key={group.slug} className="border-slate-200 bg-white">
-                <CardHeader>
-                  <CardTitle className="text-base text-slate-900">{group.name}</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <p className="text-sm leading-relaxed text-slate-600">{group.shortDescription}</p>
-                  <Link
-                    href={`/san-pham/${group.slug}`}
-                    className="inline-flex items-center text-sm font-semibold text-amber-800 hover:text-amber-900"
-                  >
-                    Xem chi tiết
-                    <ArrowRight className="ml-1 size-4" />
-                  </Link>
-                </CardContent>
-              </Card>
-            ))}
+            {productGroups.map((group) => {
+              const relatedBrands = (productGroupBrandMap[group.slug] ?? [])
+                .map((brandId) => brandById[brandId])
+                .filter(Boolean);
+
+              return (
+                <Card key={group.slug} className="border-slate-200 bg-white shadow-[0_10px_26px_-24px_rgba(15,23,42,0.6)]">
+                  <CardHeader>
+                    <CardTitle className="text-base text-slate-900">{group.name}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <p className="text-sm leading-relaxed text-slate-600">{group.shortDescription}</p>
+                    {relatedBrands.length > 0 ? (
+                      <div className="flex flex-wrap gap-2 border-t border-slate-100 pt-3">
+                        {relatedBrands.map((brand) => (
+                          <span
+                            key={`${group.slug}-${brand.id}`}
+                            className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-1"
+                          >
+                            <Image src={brand.src} alt={brand.alt} width={44} height={16} className="h-3.5 w-auto object-contain" />
+                          </span>
+                        ))}
+                      </div>
+                    ) : null}
+                    <Link
+                      href={`/san-pham/${group.slug}`}
+                      className="inline-flex items-center text-sm font-semibold text-amber-800 hover:text-amber-900"
+                    >
+                      Xem chi tiết
+                      <ArrowRight className="ml-1 size-4" />
+                    </Link>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
 
           <Button asChild variant="outline" className="border-amber-200 text-amber-800 hover:bg-amber-100">
@@ -162,12 +283,24 @@ export default function Home() {
             description="Ưu tiên các nhóm khách cần đầu mối tư vấn kỹ thuật rõ ràng, phản hồi nhanh và bám sát tiến độ vận hành thiết bị."
           />
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {customerSegments.map((segment) => (
-              <div key={segment.name} className="rounded-xl border border-slate-200 bg-white p-4">
-                <p className="text-sm font-semibold text-slate-900">{segment.name}</p>
-                <p className="mt-2 text-sm leading-relaxed text-slate-600">{segment.summary}</p>
-              </div>
-            ))}
+            {customerSegments.map((segment, index) => {
+              const Icon = customerSegmentIcons[index] ?? Users;
+
+              return (
+                <div
+                  key={segment.name}
+                  className="rounded-xl border border-slate-200 bg-white p-4 shadow-[0_10px_26px_-24px_rgba(15,23,42,0.55)]"
+                >
+                  <p className="flex items-center gap-2 text-sm font-semibold text-slate-900">
+                    <span className="inline-flex rounded-md border border-amber-200 bg-amber-50 p-1.5">
+                      <Icon className="size-4 text-amber-800" />
+                    </span>
+                    {segment.name}
+                  </p>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-600">{segment.summary}</p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -200,12 +333,19 @@ export default function Home() {
               description="Quy trình ngắn gọn, bám kỹ thuật thực tế để giảm thời gian chờ đối chiếu và xử lý báo giá."
             />
             <div className="space-y-3">
-              {supportProcess.map((step, index) => (
-                <div key={step} className="rounded-lg border border-slate-200 bg-white p-4">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-amber-800">Bước {index + 1}</p>
-                  <p className="mt-1 text-sm text-slate-700">{step}</p>
-                </div>
-              ))}
+              {supportProcess.map((step, index) => {
+                const Icon = supportProcessIcons[index] ?? CheckCircle2;
+
+                return (
+                  <div key={step} className="rounded-lg border border-slate-200 bg-white p-4 shadow-[0_10px_24px_-24px_rgba(15,23,42,0.55)]">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-amber-800">Bước {index + 1}</p>
+                    <p className="mt-2 flex items-start gap-2 text-sm text-slate-700">
+                      <Icon className="mt-0.5 size-4 shrink-0 text-amber-800" />
+                      <span>{step}</span>
+                    </p>
+                  </div>
+                );
+              })}
             </div>
             <p className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm leading-relaxed text-slate-700">
               {supportProcessNote}
@@ -258,34 +398,28 @@ export default function Home() {
       </section>
 
       <section className="section-block">
-        <div className="page-shell rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_10px_32px_-24px_rgba(120,53,15,0.4)] sm:p-8">
-          <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
+        <div className="page-shell relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_10px_32px_-24px_rgba(120,53,15,0.4)] sm:p-8">
+          <Image
+            src="/images/backgrounds/final-cta-industrial.png"
+            alt=""
+            fill
+            aria-hidden
+            className="pointer-events-none absolute inset-0 object-cover opacity-[0.09]"
+          />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/92 via-white/95 to-amber-50/70" />
+          <div className="relative grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
             <div className="space-y-3">
               <h2 className="font-heading text-2xl font-bold text-slate-900">Liên hệ nhanh để hỗ trợ tra mã và nhu cầu thay thế</h2>
               <p className="text-sm text-slate-600">
                 Phù hợp cho các nhu cầu cần đối chiếu mã, xác nhận nhóm vật tư hoặc tiếp nhận báo giá theo tình huống thực tế trong nhà máy.
               </p>
               <div className="grid gap-2 text-sm text-slate-700 sm:grid-cols-2">
-                <p className="flex items-center gap-2">
-                  <PhoneCall className="size-4 text-amber-800" />
-                  {siteConfig.phone}
-                </p>
-                <p className="flex items-center gap-2">
-                  <MessageCircle className="size-4 text-amber-800" />
-                  {siteConfig.zaloLabel}
-                </p>
-                <p className="flex items-center gap-2">
-                  <MapPin className="size-4 text-amber-800" />
-                  {siteConfig.address}
-                </p>
-                <p className="flex items-center gap-2">
-                  <MapPin className="size-4 text-amber-800" />
-                  {siteConfig.supportArea}
-                </p>
-                <p className="flex items-center gap-2">
-                  <Clock3 className="size-4 text-amber-800" />
-                  {siteConfig.responseTime}
-                </p>
+                {contactInfoItems.map((item) => (
+                  <p key={item.label} className="flex items-center gap-2">
+                    <item.Icon className="size-4 text-amber-800" />
+                    {item.label}
+                  </p>
+                ))}
               </div>
             </div>
 

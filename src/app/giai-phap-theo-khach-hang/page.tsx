@@ -1,10 +1,14 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Search } from "lucide-react";
+import { brandLogos, customerSolutionBrandMap } from "@/data/brand-logos";
 import { solutionByCustomer } from "@/data/site-content";
 import { createPageMetadata } from "@/lib/seo";
 import { SectionTitle } from "@/components/shared/section-title";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+const brandById = Object.fromEntries(brandLogos.map((brand) => [brand.id, brand]));
 
 export const metadata = createPageMetadata({
   title: "Giải pháp theo khách hàng",
@@ -24,7 +28,12 @@ export default function SolutionsPage() {
         />
 
         <div className="grid gap-4 lg:grid-cols-2">
-          {solutionByCustomer.map((item) => (
+          {solutionByCustomer.map((item) => {
+            const relatedBrands = (customerSolutionBrandMap[item.customer] ?? [])
+              .map((brandId) => brandById[brandId])
+              .filter(Boolean);
+
+            return (
             <Card key={item.customer} className="border-slate-200 bg-white">
               <CardHeader>
                 <CardTitle className="text-lg text-slate-900">{item.customer}</CardTitle>
@@ -42,9 +51,24 @@ export default function SolutionsPage() {
                   <p className="font-semibold text-slate-900">Sản phẩm phù hợp</p>
                   <p>{item.products}</p>
                 </div>
+                {relatedBrands.length > 0 ? (
+                  <div className="space-y-2 border-t border-slate-100 pt-3">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      Hỗ trợ các nhóm thương hiệu phù hợp
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {relatedBrands.map((brand) => (
+                        <span key={`${item.customer}-${brand.id}`} className="inline-flex items-center rounded-md border border-slate-200 bg-slate-50 px-2 py-1">
+                          <Image src={brand.src} alt={brand.alt} width={52} height={18} className="h-3.5 w-auto object-contain" />
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
               </CardContent>
             </Card>
-          ))}
+            );
+          })}
         </div>
 
         <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 sm:p-6">
