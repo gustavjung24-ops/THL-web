@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { ImagePlus, Loader2, SendHorizonal, X } from "lucide-react";
 import { AssistantMessage } from "./assistant-message";
 import { ChatMessageOptions } from "./chat-message-options";
+import { ContactCta } from "./contact-cta";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -43,6 +44,7 @@ type UiMessage = {
   isOptionResolved?: boolean;
   selectedOption?: string | null;
   discoveryStage?: DiscoveryStage | null;
+  showContactCta?: boolean;
 };
 
 type AssistantPanelProps = {
@@ -282,6 +284,7 @@ export function AssistantPanel({
       isOptionResolved: hasOptions ? message.isOptionResolved ?? false : true,
       selectedOption: message.selectedOption ?? null,
       discoveryStage: message.discoveryStage ?? null,
+      showContactCta: message.showContactCta ?? false,
     });
   }
 
@@ -397,6 +400,7 @@ export function AssistantPanel({
         options: builtReply.options,
         optionStyle: builtReply.optionStyle,
         optionAction: builtReply.options && builtReply.options.length > 0 ? "submit" : undefined,
+        showContactCta: builtReply.showContactCta,
       });
     } catch {
       const latestUserText = [...history].reverse().find((message) => message.role === "user")?.text ?? "";
@@ -592,6 +596,12 @@ export function AssistantPanel({
           {messages.map((message) => (
             <div key={message.id} className="space-y-0.5">
               <AssistantMessage role={message.role} text={message.text} />
+
+              {message.role === "assistant" && message.showContactCta && (
+                <div className="pl-1">
+                  <ContactCta />
+                </div>
+              )}
 
               {message.role === "assistant" && message.options && message.options.length > 0 && (
                 <ChatMessageOptions

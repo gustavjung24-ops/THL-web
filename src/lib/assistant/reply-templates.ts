@@ -17,6 +17,7 @@ export type BuiltReplyMessage = {
   optionStyle?: ReplyOptionStyle;
   group?: ReplyGroup;
   internal_confidence?: "high" | "medium" | "low";
+  showContactCta?: boolean;
 };
 
 type BuildReplyInput = {
@@ -344,7 +345,7 @@ function fallbackSalesQuestion(payload: AssistantStructuredResponse): string[] {
     return [nextQuestion];
   }
 
-  return ["Anh/chị gửi giúp mã hoặc ảnh tem, số lượng, khu vực giao và tên công ty hoặc số điện thoại để em chuyển kinh doanh."];
+  return ["Anh/chị gửi mã hoặc ảnh tem, số lượng và khu vực giao để em chuyển kinh doanh."];
 }
 
 function inferReplyGroup(input: BuildReplyInput): ReplyGroup {
@@ -440,23 +441,23 @@ function buildSalesHandoffReply(input: BuildReplyInput): BuiltReplyMessage {
   const shortReplyLines = splitIntoLines(input.payload.short_reply);
   const quick = shortReplyLines.length > 0 ? shortReplyLines.slice(0, 2) : [pickVariant(salesLeadVariants, seed)];
 
-  const candidate = [
-    "Giá, tồn kho, lead time và chiết khấu chỉ được kinh doanh xác nhận sau đối chiếu.",
-  ];
-
   const confirm = fallbackSalesQuestion(input.payload);
   const optionPack = inferOptions(input.payload, input.latestUserText ?? "", "sales_handoff");
 
+  // Natural flow: assessment line, then what's needed — no rigid headings
+  const parts: string[] = [...quick];
+  parts.push("Giá, tồn kho và lead time cần kinh doanh xác nhận riêng.");
+  if (confirm.length > 0) {
+    parts.push(confirm[0]);
+  }
+
   return {
-    text: composeStructuredReply([
-      { title: "Nhận định nhanh", lines: quick, max: 2 },
-      { title: "Mã / hướng khả dĩ", lines: candidate, max: 3 },
-      { title: "Cần chốt thêm", lines: confirm, max: 3 },
-    ]),
+    text: parts.join("\n"),
     options: optionPack?.options,
     optionStyle: optionPack?.optionStyle,
     group: "sales_handoff",
     internal_confidence: inferInternalConfidenceLabel(input.payload),
+    showContactCta: true,
   };
 }
 
@@ -468,18 +469,21 @@ function buildHighConfidenceMatchReply(input: BuildReplyInput): BuiltReplyMessag
   const quick = shortReplyLines.length > 0 ? shortReplyLines.slice(0, 2) : [pickVariant(highConfidenceLeadVariants, seed)];
 
   const candidateLines = buildCandidateLines(input.payload, 2);
-  const candidate = candidateLines.length > 0 ? candidateLines : ["Khả năng cao hướng mã hiện tại đã phù hợp với cụm đang kiểm tra."];
+  const candidate = candidateLines.length > 0 ? candidateLines : ["Hướng mã hiện tại phù hợp với cụm đang kiểm tra."];
 
   const confirm = inferQuestion(input.payload, input.latestUserText ?? "", missingLabels);
   const warning = formatWarning(input.payload.avoid_recommendation, seed);
   const optionPack = inferOptions(input.payload, input.latestUserText ?? "", "high_confidence_match");
 
+  // Natural: opening line, candidate bullets, closing question
+  const parts: string[] = [...quick, "", ...candidate.map((c) => `- ${c}`)];
+  const tail = [...confirm, ...warning].filter(Boolean).slice(0, 2);
+  if (tail.length > 0) {
+    parts.push("", tail.join(" "));
+  }
+
   return {
-    text: composeStructuredReply([
-      { title: "Khả năng cao", lines: quick, max: 3 },
-      { title: "Mã / hướng khả dĩ", lines: candidate, max: 3 },
-      { title: "Cần chốt thêm", lines: [...confirm, ...warning], max: 2 },
-    ]),
+    text: parts.join("\n"),
     options: optionPack?.options,
     optionStyle: optionPack?.optionStyle,
     group: "high_confidence_match",
@@ -496,23 +500,25 @@ function buildMediumConfidenceReply(input: BuildReplyInput): BuiltReplyMessage {
 
   let candidate = buildCandidateLines(input.payload, 2);
   if (candidate.length === 0 && input.payload.final_status === "not_found_in_system") {
-    candidate = ["Chưa thấy mã trùng trực tiếp trong danh mục nội bộ, cần đối chiếu theo cụm hoặc kích thước."];
+    candidate = ["Chưa thấy mã trùng trong danh mục nội bộ, cần đối chiếu theo cụm hoặc kích thước."];
   }
 
   if (candidate.length === 0) {
-    candidate = ["Em đang khoanh theo pattern gần nhất, chưa chốt vội để tránh sai cụm."];
+    candidate = ["Đang khoanh theo pattern gần nhất, chưa chốt vội."];
   }
 
   const confirm = inferQuestion(input.payload, input.latestUserText ?? "", missingLabels);
   const warning = formatWarning(input.payload.avoid_recommendation, seed);
   const optionPack = inferOptions(input.payload, input.latestUserText ?? "", "medium_confidence_assessment");
 
+  const parts: string[] = [...quick, "", ...candidate.map((c) => `- ${c}`)];
+  const tail = [...confirm, ...warning].filter(Boolean).slice(0, 2);
+  if (tail.length > 0) {
+    parts.push("", tail.join(" "));
+  }
+
   return {
-    text: composeStructuredReply([
-      { title: "Nhận định nhanh", lines: quick, max: 3 },
-      { title: "Mã / hướng khả dĩ", lines: candidate, max: 3 },
-      { title: "Cần chốt thêm", lines: [...confirm, ...warning], max: 2 },
-    ]),
+    text: parts.join("\n"),
     options: optionPack?.options,
     optionStyle: optionPack?.optionStyle,
     group: "medium_confidence_assessment",
@@ -530,7 +536,7 @@ function buildTechnicalHandoffReply(input: BuildReplyInput): BuiltReplyMessage {
   let candidate = buildCandidateLines(input.payload, 2);
   if (candidate.length === 0) {
     candidate = [
-      "Ưu tiên kiểm tra tình trạng bôi trơn, độ đồng trục và khe hở cụm quay trước khi đổi mã.",
+      "Ưu tiên kiểm tra bôi trơn, đồng trục và khe hở cụm quay trước khi đổi mã.",
     ];
   }
 
@@ -538,12 +544,14 @@ function buildTechnicalHandoffReply(input: BuildReplyInput): BuiltReplyMessage {
   const warning = formatWarning(input.payload.avoid_recommendation, seed);
   const optionPack = inferOptions(input.payload, input.latestUserText ?? "", "technical_handoff_question");
 
+  const parts: string[] = [...quick, "", ...candidate.map((c) => `- ${c}`)];
+  const tail = [...confirm, ...warning].filter(Boolean).slice(0, 2);
+  if (tail.length > 0) {
+    parts.push("", tail.join(" "));
+  }
+
   return {
-    text: composeStructuredReply([
-      { title: "Khả năng cao", lines: quick, max: 3 },
-      { title: "Mã / hướng khả dĩ", lines: candidate, max: 3 },
-      { title: "Cần chốt thêm", lines: [...confirm, ...warning], max: 2 },
-    ]),
+    text: parts.join("\n"),
     options: optionPack?.options,
     optionStyle: optionPack?.optionStyle,
     group: "technical_handoff_question",
@@ -560,19 +568,21 @@ function buildPreliminaryAssessmentReply(input: BuildReplyInput): BuiltReplyMess
 
   let candidate = buildCandidateLines(input.payload, 2);
   if (candidate.length === 0) {
-    candidate = ["Em khoanh theo nhóm ứng dụng phù hợp để đối chiếu tiếp."];
+    candidate = ["Khoanh theo nhóm ứng dụng phù hợp để đối chiếu tiếp."];
   }
 
   const confirm = inferQuestion(input.payload, input.latestUserText ?? "", missingLabels);
   const warning = formatWarning(input.payload.avoid_recommendation, seed);
   const optionPack = inferOptions(input.payload, input.latestUserText ?? "", "preliminary_assessment");
 
+  const parts: string[] = [...quick, "", ...candidate.map((c) => `- ${c}`)];
+  const tail = [...confirm, ...warning].filter(Boolean).slice(0, 2);
+  if (tail.length > 0) {
+    parts.push("", tail.join(" "));
+  }
+
   return {
-    text: composeStructuredReply([
-      { title: "Nhận định nhanh", lines: quick, max: 3 },
-      { title: "Mã / hướng khả dĩ", lines: candidate, max: 3 },
-      { title: "Cần chốt thêm", lines: [...confirm, ...warning], max: 2 },
-    ]),
+    text: parts.join("\n"),
     options: optionPack?.options,
     optionStyle: optionPack?.optionStyle,
     group: "preliminary_assessment",

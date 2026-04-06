@@ -16,6 +16,7 @@ const emphasizedPrefixes = [
   "Nhãn hàng đề xuất:",
   "Căn cứ chọn:",
   "Lưu ý dễ nhầm:",
+  "Lưu ý:",
   "Câu hỏi tiếp theo:",
 ];
 
