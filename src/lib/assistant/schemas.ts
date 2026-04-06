@@ -193,9 +193,9 @@ export const assistantResponseFallback: AssistantStructuredResponse = {
   recommended_items: [],
   missing_fields: [],
   final_status: "needs_more_info",
-  pricing_note: "Gia duoc xac nhan rieng.",
-  stock_note: "Chua xac nhan ton kho tu dong.",
-  short_reply: "Can xac minh them.",
+  pricing_note: "Giá được xác nhận riêng.",
+  stock_note: "Chưa xác nhận tồn kho tự động.",
+  short_reply: "Cần xác minh thêm.",
 };
 
 function isObject(value: unknown): value is Record<string, unknown> {
@@ -253,8 +253,8 @@ export function coerceAssistantResponse(payload: unknown): AssistantStructuredRe
         exact_code: typeof item.exact_code === "string" ? item.exact_code : "",
         brand: typeof item.brand === "string" ? item.brand : "",
         confidence,
-        reason: typeof item.reason === "string" ? item.reason : "Can xac minh them.",
-        caution: typeof item.caution === "string" ? item.caution : "Can xac minh them.",
+        reason: typeof item.reason === "string" ? item.reason : "Cần xác minh thêm.",
+        caution: typeof item.caution === "string" ? item.caution : "Cần xác minh thêm.",
       };
     })
     .filter((item) => item.exact_code.length > 0 && item.brand.length > 0);
@@ -275,11 +275,12 @@ export function coerceAssistantResponse(payload: unknown): AssistantStructuredRe
     recommended_items,
     missing_fields: isStringArray(payload.missing_fields) ? payload.missing_fields : [],
     final_status: isFinalStatus(payload.final_status) ? payload.final_status : "needs_more_info",
-    pricing_note: typeof payload.pricing_note === "string" ? payload.pricing_note : "Gia duoc xac nhan rieng.",
-    stock_note: typeof payload.stock_note === "string" ? payload.stock_note : "Chua xac nhan ton kho tu dong.",
+    pricing_note: typeof payload.pricing_note === "string" ? payload.pricing_note : "Giá được xác nhận riêng.",
+    stock_note:
+      typeof payload.stock_note === "string" ? payload.stock_note : "Chưa xác nhận tồn kho tự động.",
     short_reply:
       typeof payload.short_reply === "string" && payload.short_reply.length > 0
         ? payload.short_reply
-        : "Can xac minh them.",
+        : "Cần xác minh thêm.",
   };
 }

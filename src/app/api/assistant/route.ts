@@ -5,7 +5,6 @@ import {
   assistantStructuredOutput,
   coerceAssistantResponse,
 } from "@/lib/assistant/schemas";
-import { buildFewShotPrompt } from "@/lib/assistant/examples";
 import { getAssistantSystemPrompt } from "@/lib/assistant/system-prompt";
 
 export const runtime = "nodejs";
@@ -114,11 +113,15 @@ function normalizeParsedContext(raw: unknown): ParsedContext | null {
   };
 }
 
-function buildContextSupplement(discoveryContext: DiscoveryContext | null, parsedContext: ParsedContext | null): string {
+function buildAuxiliaryContext(discoveryContext: DiscoveryContext | null, parsedContext: ParsedContext | null): string {
+  if (!discoveryContext && !parsedContext) {
+    return "";
+  }
+
   const lines: string[] = [];
+  lines.push("Ngữ cảnh bổ sung từ giao diện:");
 
   if (discoveryContext) {
-    lines.push("Ngữ cảnh discovery flow do UI cung cấp:");
     lines.push(`- source: ${discoveryContext.source}`);
     lines.push(`- discovery_stage: ${discoveryContext.discovery_stage}`);
     lines.push(`- selected_path: ${discoveryContext.selected_path.join(" > ")}`);
@@ -132,7 +135,7 @@ function buildContextSupplement(discoveryContext: DiscoveryContext | null, parse
   }
 
   if (parsedContext) {
-    lines.push("Tín hiệu parser phía UI:");
+    lines.push("- parsed_context:");
     lines.push(`- input_style: ${parsedContext.input_style ?? "null"}`);
     lines.push(`- machine_type: ${parsedContext.machine_type ?? "null"}`);
     lines.push(`- machine_subsystem: ${parsedContext.machine_subsystem ?? "null"}`);
@@ -264,7 +267,7 @@ export async function POST(request: NextRequest) {
       {
         ok: false,
         error:
-          "Missing OPENAI_API_KEY in environment. Set OPENAI_API_KEY (and optional OPENAI_MODEL) before calling /api/assistant.",
+          "Thiếu OPENAI_API_KEY trong môi trường. Hãy cấu hình OPENAI_API_KEY (và tùy chọn OPENAI_MODEL) trước khi gọi /api/assistant.",
       },
       { status: 500 }
     );
@@ -278,7 +281,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         ok: false,
-        error: "Invalid JSON body.",
+        error: "Body JSON không hợp lệ.",
       },
       { status: 400 }
     );
@@ -288,8 +291,8 @@ export async function POST(request: NextRequest) {
   const messages = normalizeMessages(rawMessages);
   const discoveryContext = isObject(body) ? normalizeDiscoveryContext(body.discovery_context) : null;
   const parsedContext = isObject(body) ? normalizeParsedContext(body.parsed_context) : null;
-  const contextSupplement = buildContextSupplement(discoveryContext, parsedContext);
-  const instructions = [getAssistantSystemPrompt(), buildFewShotPrompt(), contextSupplement]
+  const contextSupplement = buildAuxiliaryContext(discoveryContext, parsedContext);
+  const instructions = [getAssistantSystemPrompt(), contextSupplement]
     .filter((line) => line.trim().length > 0)
     .join("\n\n");
 
@@ -297,7 +300,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         ok: false,
-        error: "messages must include at least one user message.",
+        error: "messages phải có ít nhất một user message.",
       },
       { status: 400 }
     );
@@ -344,15 +347,15 @@ export async function POST(request: NextRequest) {
       result,
     });
   } catch (error) {
-    const reason = error instanceof Error ? error.message : "Unknown assistant error.";
+    const reason = error instanceof Error ? error.message : "Lỗi trợ lý không xác định.";
 
     return NextResponse.json(
       {
         ok: false,
-        error: reason,
+        error: `Hệ thống AI tạm thời chưa sẵn sàng. ${reason}`,
         result: {
           ...assistantResponseFallback,
-          short_reply: "Can xac minh them.",
+          short_reply: "Cần xác minh thêm.",
           final_status: "manual_review",
         },
       },

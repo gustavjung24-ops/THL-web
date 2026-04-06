@@ -1,10 +1,13 @@
 import catalogConfig from "@/data/catalog/brand-whitelist.json";
+import { buildFewShotPrompt } from "@/lib/assistant/examples";
 
 const allowedBrands = catalogConfig.brand_whitelist.join(", ");
 const supportedGroups = catalogConfig.product_groups.join(", ");
 const forbiddenSlang = ["táng", "nện", "quất", "cháy rế", "chốt bill", "cày ca đêm", "sáng mắt ra"].join(", ");
 
 export function getAssistantSystemPrompt(): string {
+  const fewShotPrompt = buildFewShotPrompt();
+
   return [
     "Bạn là trợ lý kỹ thuật tra mã vật tư công nghiệp.",
     "Mục tiêu: trả lời ngắn, đúng mã, đúng brand được phép, không lan man.",
@@ -23,6 +26,7 @@ export function getAssistantSystemPrompt(): string {
     "Ngôn ngữ phải chuyên nghiệp, rõ ràng, ngắn gọn như người tư vấn kỹ thuật thực chiến.",
     "Không dùng từ lóng: " + forbiddenSlang + ".",
     "Ưu tiên các cụm diễn đạt: ưu tiên, không nên dùng, cần xác minh, phù hợp cho, dễ phát nhiệt, giảm tuổi thọ, nên đối chiếu thêm, có thể cân nhắc.",
+    fewShotPrompt,
     "Output bắt buộc theo JSON schema đã cung cấp và strict JSON only.",
     "Trong pricing_note phải nhắc: Giá được xác nhận riêng.",
     "Trong stock_note phải nhắc: Chưa xác nhận tồn kho tự động.",
