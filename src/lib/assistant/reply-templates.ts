@@ -6,9 +6,9 @@ export type ReplyOptionStyle = "chips" | "stacked";
 
 export type ReplyGroup =
   | "preliminary_assessment"
+  | "medium_confidence_assessment"
   | "high_confidence_match"
-  | "ambiguous_match"
-  | "technical_diagnosis"
+  | "technical_handoff_question"
   | "sales_handoff";
 
 export type BuiltReplyMessage = {
@@ -32,14 +32,14 @@ const highConfidenceLeadVariants = [
   "Đối chiếu hiện tại cho thấy đây là hướng ưu tiên.",
 ];
 
-const ambiguousLeadVariants = [
-  "Hiện có hơn một hướng khả dĩ, chưa nên chốt ngay.",
-  "Dữ kiện hiện tại cho thấy mức phù hợp trung bình.",
-  "Em đang khoanh được vài phương án gần nhất.",
-  "Có thể chốt nhanh sau khi xác nhận thêm 1-2 điểm.",
+const mediumConfidenceLeadVariants = [
+  "Hiện có hơn một hướng khả dĩ, em đang thu hẹp lại.",
+  "Dữ kiện hiện tại cho mức phù hợp trung bình, cần thêm 1 điểm để chốt.",
+  "Em khoanh được vài phương án gần nhất theo thông tin hiện có.",
+  "Nhận định sơ bộ đã có, cần xác nhận thêm 1 điểm để chọn đúng mã.",
 ];
 
-const diagnosisLeadVariants = [
+const technicalHandoffLeadVariants = [
   "Triệu chứng cho thấy khả năng lỗi nằm ở cụm quay chịu tải.",
   "Theo mô tả, đây là dạng lỗi cần khoanh cụm trước khi chốt mã.",
   "Mẫu lỗi này thường đến từ sai lệch cụm hoặc điều kiện bôi trơn.",
@@ -47,10 +47,10 @@ const diagnosisLeadVariants = [
 ];
 
 const preliminaryLeadVariants = [
-  "Em đã có nhận định sơ bộ để đi đúng hướng.",
-  "Có thể chốt nhanh sau khi bổ sung vài dữ kiện kỹ thuật trọng yếu.",
-  "Em đang khoanh vùng đúng cụm để tránh đổi sai mã.",
-  "Hiện có cơ sở kỹ thuật ban đầu để tiếp tục chốt mã.",
+  "Đây là nhận định sơ bộ theo dữ liệu hiện có.",
+  "Em khoanh được hướng đi ban đầu dựa trên thông tin anh/chị cung cấp.",
+  "Có cơ sở kỹ thuật ban đầu để tiếp tục đối chiếu.",
+  "Theo pattern mã thường gặp, em đang nghiêng về hướng sau.",
 ];
 
 const salesLeadVariants = [
@@ -116,6 +116,7 @@ const fieldLabelMap: Record<string, string> = {
   old_code: "mã cũ",
   shaft_size: "kích thước cốt",
   seal_type: "kiểu chặn",
+  seal_or_shield: "kiểu che chắn (2RS, ZZ…)",
   housing_type: "kiểu gối đỡ",
   pitch: "bước xích",
   chain_type: "loại xích",
@@ -234,29 +235,23 @@ function toSection(title: string, lines: string[], maxItems: number): string[] {
   return [title + ":", ...sectionLines.map((line) => `- ${line}`)];
 }
 
-function composeStructuredReply(input: {
-  quick: string[];
-  candidate: string[];
-  confirm: string[];
-  warning?: string[];
-}): string {
+type ReplySection = { title: string; lines: string[]; max: number };
+
+function composeStructuredReply(sections: ReplySection[]): string {
   const blocks: string[] = [];
 
-  const quickSection = toSection("Nhận định nhanh", input.quick, 2);
-  const candidateSection = toSection("Mã / hướng khả dĩ", input.candidate, 3);
-  const confirmSection = toSection("Điều cần chốt thêm", [...input.confirm, ...(input.warning ?? [])], 3);
-
-  [quickSection, candidateSection, confirmSection].forEach((section) => {
-    if (section.length === 0) {
-      return;
+  for (const section of sections) {
+    const rendered = toSection(section.title, section.lines, section.max);
+    if (rendered.length === 0) {
+      continue;
     }
 
     if (blocks.length > 0) {
       blocks.push("");
     }
 
-    blocks.push(...section);
-  });
+    blocks.push(...rendered);
+  }
 
   return blocks.join("\n");
 }
@@ -300,15 +295,15 @@ function inferQuestion(
   missingLabels: string[]
 ): string[] {
   if (looksLikeTruckContext(payload, latestUserText)) {
-    return ["Anh/chị xác nhận giúp cụm đang kiểm tra: bánh xe, máy phát, puly tăng, lốc lạnh hay hộp số?"];
+    return ["Cụm đang kiểm tra: bánh xe, máy phát, puly tăng, lốc lạnh hay hộp số?"];
   }
 
   if (looksLikeSpindleContext(payload, latestUserText)) {
-    return ["Anh/chị xác nhận vị trí trên spindle: ổ trước, ổ sau, puly truyền hay cụm phớt?"];
+    return ["Vị trí trên spindle: ổ trước, ổ sau, puly truyền hay cụm phớt?"];
   }
 
   if (looksLikePumpContext(payload, latestUserText)) {
-    return ["Anh/chị cho em biết nóng/kêu rõ nhất ở ổ trục, puly hay cụm phớt để em chốt hướng."];
+    return ["Nóng/kêu rõ nhất ở ổ trục, puly hay cụm phớt?"];
   }
 
   const nextQuestion = cleanLine(payload.next_question);
@@ -317,14 +312,14 @@ function inferQuestion(
   }
 
   if (missingLabels.length >= 2) {
-    return [`Anh/chị xác nhận giúp ${missingLabels[0]} và ${missingLabels[1]} để em chốt chính xác.`];
+    return [`Xác nhận giúp ${missingLabels[0]} và ${missingLabels[1]}.`];
   }
 
   if (missingLabels.length === 1) {
-    return [`Anh/chị bổ sung giúp ${missingLabels[0]} để em chốt mã cuối.`];
+    return [`Cho biết thêm ${missingLabels[0]}.`];
   }
 
-  return ["Anh/chị xác nhận thêm vị trí lắp và điều kiện tải để em chốt hướng chắc hơn."];
+  return ["Xác nhận thêm vị trí lắp và điều kiện tải."];
 }
 
 function buildCandidateLines(payload: AssistantStructuredResponse, maxItems = 2): string[] {
@@ -373,7 +368,7 @@ function inferReplyGroup(input: BuildReplyInput): ReplyGroup {
   }
 
   if (route === "symptom_diagnosis" || input.payload.symptom.length > 0) {
-    return "technical_diagnosis";
+    return "technical_handoff_question";
   }
 
   const confidence = inferInternalConfidenceLabel(input.payload);
@@ -386,7 +381,7 @@ function inferReplyGroup(input: BuildReplyInput): ReplyGroup {
     (confidence === "medium" && input.payload.recommended_items.length > 0) ||
     input.payload.final_status === "not_found_in_system"
   ) {
-    return "ambiguous_match";
+    return "medium_confidence_assessment";
   }
 
   return "preliminary_assessment";
@@ -416,7 +411,7 @@ function inferOptions(
     return { options: spindleClusterOptions, optionStyle: "chips", text: "" };
   }
 
-  if (looksLikePumpContext(payload, latestUserText) && payload.final_status !== "ready") {
+  if (group === "technical_handoff_question") {
     return { options: pumpClusterOptions, optionStyle: "chips", text: "" };
   }
 
@@ -453,7 +448,11 @@ function buildSalesHandoffReply(input: BuildReplyInput): BuiltReplyMessage {
   const optionPack = inferOptions(input.payload, input.latestUserText ?? "", "sales_handoff");
 
   return {
-    text: composeStructuredReply({ quick, candidate, confirm }),
+    text: composeStructuredReply([
+      { title: "Nhận định nhanh", lines: quick, max: 2 },
+      { title: "Mã / hướng khả dĩ", lines: candidate, max: 3 },
+      { title: "Cần chốt thêm", lines: confirm, max: 3 },
+    ]),
     options: optionPack?.options,
     optionStyle: optionPack?.optionStyle,
     group: "sales_handoff",
@@ -476,7 +475,11 @@ function buildHighConfidenceMatchReply(input: BuildReplyInput): BuiltReplyMessag
   const optionPack = inferOptions(input.payload, input.latestUserText ?? "", "high_confidence_match");
 
   return {
-    text: composeStructuredReply({ quick, candidate, confirm, warning }),
+    text: composeStructuredReply([
+      { title: "Khả năng cao", lines: quick, max: 3 },
+      { title: "Mã / hướng khả dĩ", lines: candidate, max: 3 },
+      { title: "Cần chốt thêm", lines: [...confirm, ...warning], max: 2 },
+    ]),
     options: optionPack?.options,
     optionStyle: optionPack?.optionStyle,
     group: "high_confidence_match",
@@ -484,12 +487,12 @@ function buildHighConfidenceMatchReply(input: BuildReplyInput): BuiltReplyMessag
   };
 }
 
-function buildAmbiguousMatchReply(input: BuildReplyInput): BuiltReplyMessage {
-  const seed = `${input.payload.short_reply}-${input.latestUserText ?? ""}-ambiguous`;
+function buildMediumConfidenceReply(input: BuildReplyInput): BuiltReplyMessage {
+  const seed = `${input.payload.short_reply}-${input.latestUserText ?? ""}-medium`;
   const missingLabels = mapMissingFields(input.payload.missing_fields);
 
   const shortReplyLines = splitIntoLines(input.payload.short_reply);
-  const quick = shortReplyLines.length > 0 ? shortReplyLines.slice(0, 2) : [pickVariant(ambiguousLeadVariants, seed)];
+  const quick = shortReplyLines.length > 0 ? shortReplyLines.slice(0, 2) : [pickVariant(mediumConfidenceLeadVariants, seed)];
 
   let candidate = buildCandidateLines(input.payload, 2);
   if (candidate.length === 0 && input.payload.final_status === "not_found_in_system") {
@@ -497,28 +500,32 @@ function buildAmbiguousMatchReply(input: BuildReplyInput): BuiltReplyMessage {
   }
 
   if (candidate.length === 0) {
-    candidate = ["Hiện em đang khoanh vùng theo pattern gần nhất, chưa chốt vội để tránh sai cụm."];
+    candidate = ["Em đang khoanh theo pattern gần nhất, chưa chốt vội để tránh sai cụm."];
   }
 
   const confirm = inferQuestion(input.payload, input.latestUserText ?? "", missingLabels);
   const warning = formatWarning(input.payload.avoid_recommendation, seed);
-  const optionPack = inferOptions(input.payload, input.latestUserText ?? "", "ambiguous_match");
+  const optionPack = inferOptions(input.payload, input.latestUserText ?? "", "medium_confidence_assessment");
 
   return {
-    text: composeStructuredReply({ quick, candidate, confirm, warning }),
+    text: composeStructuredReply([
+      { title: "Nhận định nhanh", lines: quick, max: 3 },
+      { title: "Mã / hướng khả dĩ", lines: candidate, max: 3 },
+      { title: "Cần chốt thêm", lines: [...confirm, ...warning], max: 2 },
+    ]),
     options: optionPack?.options,
     optionStyle: optionPack?.optionStyle,
-    group: "ambiguous_match",
+    group: "medium_confidence_assessment",
     internal_confidence: "medium",
   };
 }
 
-function buildTechnicalDiagnosisReply(input: BuildReplyInput): BuiltReplyMessage {
-  const seed = `${input.payload.short_reply}-${input.latestUserText ?? ""}-diagnosis`;
+function buildTechnicalHandoffReply(input: BuildReplyInput): BuiltReplyMessage {
+  const seed = `${input.payload.short_reply}-${input.latestUserText ?? ""}-tech`;
   const missingLabels = mapMissingFields(input.payload.missing_fields);
 
   const shortReplyLines = splitIntoLines(input.payload.short_reply);
-  const quick = shortReplyLines.length > 0 ? shortReplyLines.slice(0, 2) : [pickVariant(diagnosisLeadVariants, seed)];
+  const quick = shortReplyLines.length > 0 ? shortReplyLines.slice(0, 2) : [pickVariant(technicalHandoffLeadVariants, seed)];
 
   let candidate = buildCandidateLines(input.payload, 2);
   if (candidate.length === 0) {
@@ -529,13 +536,17 @@ function buildTechnicalDiagnosisReply(input: BuildReplyInput): BuiltReplyMessage
 
   const confirm = inferQuestion(input.payload, input.latestUserText ?? "", missingLabels);
   const warning = formatWarning(input.payload.avoid_recommendation, seed);
-  const optionPack = inferOptions(input.payload, input.latestUserText ?? "", "technical_diagnosis");
+  const optionPack = inferOptions(input.payload, input.latestUserText ?? "", "technical_handoff_question");
 
   return {
-    text: composeStructuredReply({ quick, candidate, confirm, warning }),
+    text: composeStructuredReply([
+      { title: "Khả năng cao", lines: quick, max: 3 },
+      { title: "Mã / hướng khả dĩ", lines: candidate, max: 3 },
+      { title: "Cần chốt thêm", lines: [...confirm, ...warning], max: 2 },
+    ]),
     options: optionPack?.options,
     optionStyle: optionPack?.optionStyle,
-    group: "technical_diagnosis",
+    group: "technical_handoff_question",
     internal_confidence: inferInternalConfidenceLabel(input.payload),
   };
 }
@@ -549,7 +560,7 @@ function buildPreliminaryAssessmentReply(input: BuildReplyInput): BuiltReplyMess
 
   let candidate = buildCandidateLines(input.payload, 2);
   if (candidate.length === 0) {
-    candidate = ["Em đang khoanh theo nhóm ứng dụng phù hợp rồi mới chốt mã cuối để giảm rủi ro nhầm."];
+    candidate = ["Em khoanh theo nhóm ứng dụng phù hợp để đối chiếu tiếp."];
   }
 
   const confirm = inferQuestion(input.payload, input.latestUserText ?? "", missingLabels);
@@ -557,7 +568,11 @@ function buildPreliminaryAssessmentReply(input: BuildReplyInput): BuiltReplyMess
   const optionPack = inferOptions(input.payload, input.latestUserText ?? "", "preliminary_assessment");
 
   return {
-    text: composeStructuredReply({ quick, candidate, confirm, warning }),
+    text: composeStructuredReply([
+      { title: "Nhận định nhanh", lines: quick, max: 3 },
+      { title: "Mã / hướng khả dĩ", lines: candidate, max: 3 },
+      { title: "Cần chốt thêm", lines: [...confirm, ...warning], max: 2 },
+    ]),
     options: optionPack?.options,
     optionStyle: optionPack?.optionStyle,
     group: "preliminary_assessment",
@@ -576,13 +591,50 @@ export function buildAssistantReplyMessage(input: BuildReplyInput): BuiltReplyMe
     return buildHighConfidenceMatchReply(input);
   }
 
-  if (group === "ambiguous_match") {
-    return buildAmbiguousMatchReply(input);
+  if (group === "medium_confidence_assessment") {
+    return buildMediumConfidenceReply(input);
   }
 
-  if (group === "technical_diagnosis") {
-    return buildTechnicalDiagnosisReply(input);
+  if (group === "technical_handoff_question") {
+    return buildTechnicalHandoffReply(input);
   }
 
   return buildPreliminaryAssessmentReply(input);
+}
+
+const errorRecoveryOptions = [
+  "Thử lại",
+  "Gửi ảnh tem",
+  "Mô tả theo máy",
+  "Để lại số điện thoại",
+];
+
+export function buildErrorFallbackMessage(input: {
+  latestUserText: string;
+  intentRoute?: AssistantIntentRoute | null;
+}): BuiltReplyMessage {
+  const userText = (input.latestUserText ?? "").trim();
+  const extractedCode = userText.match(/\b(\d{3,5}[A-Za-z]{0,4})\b/)?.[1] ?? null;
+  const isSimpleCode = /^\s*\d{3,5}[A-Za-z]{0,4}\s*$/.test(userText);
+
+  if (isSimpleCode && extractedCode) {
+    return {
+      text: [
+        `Em đã ghi nhận mã ${extractedCode}.`,
+        "Hiện hệ thống đối chiếu đang gián đoạn ngắn.",
+        "Anh/chị có thể gửi thêm ảnh tem hoặc brand mong muốn để bên em hỗ trợ tiếp.",
+      ].join("\n"),
+      options: errorRecoveryOptions,
+      optionStyle: "stacked",
+    };
+  }
+
+  return {
+    text: [
+      "Hệ thống đối chiếu đang gián đoạn ngắn.",
+      "Anh/chị có thể thử lại hoặc gửi thêm thông tin để em hỗ trợ khi hệ thống khôi phục.",
+    ].join("\n"),
+    options: errorRecoveryOptions,
+    optionStyle: "stacked",
+  };
 }

@@ -23,6 +23,7 @@ import {
 } from "@/lib/assistant/schemas";
 import {
   buildAssistantReplyMessage,
+  buildErrorFallbackMessage,
   type ReplyOptionStyle,
 } from "@/lib/assistant/reply-templates";
 import { cn } from "@/lib/utils";
@@ -359,14 +360,21 @@ export function AssistantPanel({
       }
 
       if (!response.ok || !payload.ok) {
-        const errorText = payload.error?.trim().length ? payload.error : "Hệ thống tạm chưa sẵn sàng.";
+        const latestUserText = [...history].reverse().find((message) => message.role === "user")?.text ?? "";
+        const fallback = buildErrorFallbackMessage({
+          latestUserText,
+          intentRoute: parsedContext?.intent_route ?? null,
+        });
 
         setAssistantUiState("rendering_reply");
-        await wait(getHumanDelay({ kind: "api_reply", textLength: errorText.length }));
+        await wait(getHumanDelay({ kind: "api_reply", textLength: fallback.text.length }));
 
         appendAssistantMessage({
-          text: errorText,
-          isOptionResolved: true,
+          text: fallback.text,
+          options: fallback.options,
+          optionStyle: fallback.optionStyle,
+          optionAction: "submit",
+          isOptionResolved: false,
         });
 
         return;
@@ -391,13 +399,21 @@ export function AssistantPanel({
         optionAction: builtReply.options && builtReply.options.length > 0 ? "submit" : undefined,
       });
     } catch {
-      const fallbackText = "Kết nối đang bị gián đoạn.";
+      const latestUserText = [...history].reverse().find((message) => message.role === "user")?.text ?? "";
+      const fallback = buildErrorFallbackMessage({
+        latestUserText,
+        intentRoute: parsedContext?.intent_route ?? null,
+      });
+
       setAssistantUiState("rendering_reply");
-      await wait(getHumanDelay({ kind: "api_reply", textLength: fallbackText.length }));
+      await wait(getHumanDelay({ kind: "api_reply", textLength: fallback.text.length }));
 
       appendAssistantMessage({
-        text: fallbackText,
-        isOptionResolved: true,
+        text: fallback.text,
+        options: fallback.options,
+        optionStyle: fallback.optionStyle,
+        optionAction: "submit",
+        isOptionResolved: false,
       });
     } finally {
       setAssistantUiState("idle");
@@ -449,6 +465,23 @@ export function AssistantPanel({
 
     if (source.optionAction === "discovery") {
       await continueDiscoveryFlow(messageId, option);
+      return;
+    }
+
+    if (option === "Thử lại") {
+      resolveOptionMessage(messageId);
+      const lastUserMsg = [...messagesRef.current].reverse().find((m) => m.role === "user");
+      if (lastUserMsg) {
+        const parsed = parseIntentInput(lastUserMsg.text);
+        const collapsedState: DiscoveryState = {
+          ...discoveryRef.current,
+          stage: "none",
+          parsed,
+        };
+        setDiscoveryState(collapsedState);
+        discoveryRef.current = collapsedState;
+        await requestAssistant(messagesRef.current, parsed, collapsedState);
+      }
       return;
     }
 
