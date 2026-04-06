@@ -38,7 +38,7 @@ type AssistantPanelProps = {
 };
 
 const defaultGreeting =
-  "Chào anh/chị, em hỗ trợ tra mã vật tư kỹ thuật. Anh/chị có thể gửi mã cũ, ảnh tem hoặc mô tả hệ máy để em hỗ trợ nhanh.";
+  "Chào anh/chị, em hỗ trợ tra mã vật tư kỹ thuật. Gửi mã cũ, ảnh tem hoặc mô tả máy để em hỗ trợ nhanh.";
 
 function getDiscoveryOptionLabel(option: string): string {
   if (option === "Tôi có ảnh tem / ảnh mẫu") {
@@ -328,7 +328,7 @@ export function AssistantPanel({
             )}
             <h3 className="font-heading text-[15px] font-semibold tracking-tight text-slate-900">Tra mã nhanh</h3>
             <p className="mt-0.5 text-[11.5px] leading-[1.45] text-slate-500">
-              Gửi mã cũ, ảnh tem hoặc mô tả hệ máy để được hỗ trợ.
+              Gửi mã cũ, ảnh tem hoặc mô tả máy.
             </p>
           </div>
           {showCloseButton && (
@@ -378,7 +378,7 @@ export function AssistantPanel({
             <div className="flex w-full justify-start pr-10">
               <div className="inline-flex items-center gap-2 rounded-2xl border border-slate-200/80 bg-white/95 px-3 py-2 text-[13px] leading-5 text-slate-700 shadow-[0_10px_20px_-18px_rgba(15,23,42,0.5)] sm:text-sm">
                 <Loader2 className="size-3.5 animate-spin" />
-                Đang xử lý yêu cầu...
+                Đang xử lý...
               </div>
             </div>
           )}
@@ -419,7 +419,7 @@ export function AssistantPanel({
                   void submitMessage(inputValue);
                 }
               }}
-              placeholder="Nhập mã cũ, kích thước hoặc ứng dụng cần tra..."
+              placeholder="Nhập mã, kích thước hoặc ứng dụng..."
               className="min-h-10 max-h-32 flex-1 resize-none border-0 bg-transparent px-1.5 py-1.5 text-[13px] leading-6 shadow-none placeholder:text-slate-400 focus-visible:ring-0 sm:text-sm"
             />
             <Button
@@ -428,7 +428,7 @@ export function AssistantPanel({
               className="h-10 shrink-0 rounded-xl bg-amber-700 px-3 text-[12px] font-semibold text-white shadow-[0_12px_20px_-16px_rgba(180,83,9,0.95)] hover:bg-amber-800 disabled:bg-amber-600/70"
               onClick={() => void submitMessage(inputValue)}
               disabled={isSubmitting || inputValue.trim().length === 0}
-              aria-label="Gửi yêu cầu tra mã"
+              aria-label="Tra mã ngay"
             >
               {isSubmitting ? (
                 <>
@@ -444,8 +444,8 @@ export function AssistantPanel({
             </Button>
           </div>
 
-          <p className="mt-2 px-1 text-[11px] leading-5 text-slate-500">
-            Trợ lý trả lời ngắn, theo ứng dụng thực tế. Giá và tình trạng hàng được xác nhận riêng.
+          <p className="mt-1.5 px-1 text-[10.5px] leading-4 text-slate-400">
+            Trợ lý trả lời ngắn theo ứng dụng thực tế. Giá xác nhận riêng.
           </p>
         </div>
       </div>

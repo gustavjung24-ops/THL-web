@@ -21,13 +21,13 @@ export function AssistantMessage({ role, text }: AssistantMessageProps) {
   const lines = text.split("\n");
 
   return (
-    <div className={cn("flex w-full", isAssistant ? "justify-start pr-7 sm:pr-10" : "justify-end pl-7 sm:pl-10")}>
+    <div className={cn("flex w-full", isAssistant ? "justify-start pr-6 sm:pr-10" : "justify-end pl-6 sm:pl-10")}>
       <div
         className={cn(
-          "max-w-[92%] rounded-2xl px-3.5 py-2.5 text-[13px] leading-[1.6] sm:text-sm",
+          "max-w-[92%] rounded-2xl px-3.5 py-2.5 text-[13px] leading-[1.65] sm:text-sm",
           isAssistant
-            ? "border border-slate-200/65 bg-white text-slate-700 shadow-[0_8px_18px_-18px_rgba(15,23,42,0.35)]"
-            : "border border-transparent bg-slate-800 text-slate-50 shadow-[0_10px_20px_-18px_rgba(15,23,42,0.65)]"
+            ? "border border-amber-100/80 bg-gradient-to-b from-amber-50/50 to-white text-slate-700 shadow-[0_6px_16px_-16px_rgba(15,23,42,0.3)]"
+            : "bg-slate-800 text-white shadow-[0_8px_18px_-16px_rgba(15,23,42,0.55)]"
         )}
       >
         <div className="space-y-1.5">

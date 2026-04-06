@@ -52,7 +52,7 @@ export function AssistantBubble() {
           type="button"
           size="icon-lg"
           className={cn(
-            "size-14 rounded-full bg-amber-700 text-white shadow-[0_20px_36px_-20px_rgba(180,83,9,0.9)] transition-all duration-200 hover:bg-amber-800",
+            "chat-bubble-pulse size-14 rounded-full bg-amber-700 text-white transition-all duration-200 hover:scale-105 hover:bg-amber-800",
             isMobile && open ? "pointer-events-none scale-90 opacity-0" : "scale-100 opacity-100"
           )}
           onClick={() => setOpen((prev) => !prev)}
