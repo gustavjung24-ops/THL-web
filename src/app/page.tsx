@@ -43,7 +43,15 @@ function formatDate(dateString: string) {
 export default function Home() {
   return (
     <div className="overflow-x-hidden">
-      <section className="relative border-b border-slate-200/80 pb-12 pt-10 sm:pt-14">
+      <section className="relative overflow-hidden border-b border-slate-200/80 pb-12 pt-10 sm:pt-14">
+        <Image
+          src="/images/industry-support.svg"
+          alt=""
+          width={900}
+          height={600}
+          aria-hidden
+          className="pointer-events-none absolute -right-20 -top-10 h-auto w-[56%] max-w-none select-none opacity-[0.045] blur-[2px] sm:opacity-[0.06]"
+        />
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(146,64,14,0.12),_transparent_40%),radial-gradient(circle_at_15%_80%,_rgba(120,53,15,0.09),_transparent_35%)]" />
         <div className="page-shell relative grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div className="space-y-6">

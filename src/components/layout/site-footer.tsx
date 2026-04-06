@@ -1,9 +1,18 @@
+import Image from "next/image";
 import Link from "next/link";
 import { footerMenu, siteConfig } from "@/config/site";
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-slate-200 bg-slate-50">
+    <footer className="relative overflow-hidden border-t border-slate-200 bg-slate-50">
+      <Image
+        src="/images/hero-industrial.svg"
+        alt=""
+        width={800}
+        height={520}
+        aria-hidden
+        className="pointer-events-none absolute -bottom-16 -right-24 h-auto w-[50%] max-w-none select-none opacity-[0.04] blur-[2px] sm:opacity-[0.055]"
+      />
       <div className="mx-auto grid w-full max-w-6xl gap-8 px-4 py-10 sm:grid-cols-2 sm:px-6 lg:grid-cols-3">
         <div className="space-y-3">
           <h3 className="font-heading text-base font-semibold text-slate-900">{siteConfig.brandName}</h3>
