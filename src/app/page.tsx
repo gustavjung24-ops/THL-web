@@ -24,7 +24,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const metadata = createPageMetadata({
-  title: "Hỗ trợ tra mã và báo giá vật tư truyền động cho nhà máy | Luan Phu Tung",
+  title: "Hỗ trợ tra mã và báo giá vật tư truyền động cho nhà máy | Truyền Động Công Nghiệp",
   description:
     "Kênh tư vấn vật tư kỹ thuật cho nhà máy và khách công nghiệp. Hỗ trợ tra mã, đối chiếu ứng dụng và báo giá vòng bi, gối đỡ, dây curoa, xích công nghiệp, phớt chặn dầu và mỡ bôi trơn.",
   path: "/",

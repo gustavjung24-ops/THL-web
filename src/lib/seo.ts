@@ -8,7 +8,7 @@ type MetadataInput = {
 };
 
 export function createPageMetadata({ title, description, path = "/" }: MetadataInput): Metadata {
-  const fullTitle = `${title} | ${siteConfig.brandName}`;
+  const fullTitle = title.includes(siteConfig.brandName) ? title : `${title} | ${siteConfig.brandName}`;
   const fullUrl = `https://${siteConfig.domain}${path}`;
   const metadataBase = new URL(`https://${siteConfig.domain}`);
 
