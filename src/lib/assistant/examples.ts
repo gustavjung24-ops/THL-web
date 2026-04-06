@@ -59,14 +59,14 @@ export const assistantFewShotExamples: AssistantFewShotExample[] = [
 export function buildFewShotPrompt(): string {
   const lines = assistantFewShotExamples.map((example, index) => {
     return [
-      `Vi du ${index + 1}:`,
-      `Khach: ${example.user}`,
-      `Tro ly: ${example.assistant}`,
+      `Ví dụ ${index + 1}:`,
+      `Khách: ${example.user}`,
+      `Trợ lý: ${example.assistant}`,
     ].join("\n");
   });
 
   return [
-    "Mau hoi-dap ngan gon de giu van phong chuyen nghiep:",
+    "Mẫu hỏi-đáp ngắn gọn để giữ văn phong chuyên nghiệp:",
     ...lines,
   ].join("\n\n");
 }

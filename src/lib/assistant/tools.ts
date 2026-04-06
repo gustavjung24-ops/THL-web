@@ -159,7 +159,7 @@ function mapToToolResultItems(input: string, items: ReturnType<typeof filterAllo
       brand: item.brand,
       confidence: rankConfidence(input, item.exact_code, exactMatch),
       reason: item.applications.slice(0, 2).join(", ") || "Matched from internal catalog.",
-      caution: item.confusion_note || "Can xac minh them truoc khi chot ma.",
+      caution: item.confusion_note || "Cần xác minh thêm trước khi chốt mã.",
       manual_confirmation_required: item.manual_confirmation_required,
       high_risk_confusion: highRisk,
     };

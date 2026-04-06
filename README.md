@@ -1,13 +1,13 @@
-# Luan Phu Tung Web
+# Truyền Động Công Nghiệp Web
 
-Website thương hiệu cá nhân, tập trung thu lead, hỗ trợ tra mã và tiếp nhận nhu cầu báo giá phụ tùng công nghiệp.
+Website tư vấn vật tư truyền động cho nhà máy và KCN, tập trung tra mã nhanh, lọc đúng nhu cầu kỹ thuật và tiếp nhận lead.
 
 ## Mục tiêu
 
-- Hỗ trợ tra mã nhanh, rõ và đúng nhu cầu.
+- Hỗ trợ tra mã nhanh, rõ và đúng theo ngữ cảnh hiện trường.
 - Tư vấn nhóm hàng phù hợp theo ứng dụng thực tế.
 - Tiếp nhận yêu cầu báo giá qua form, Zalo và gọi điện.
-- Xây dựng uy tín cá nhân theo hướng thực chiến, dễ hiểu.
+- Xây dựng nội dung kỹ thuật dễ hiểu cho vận hành nhà máy.
 
 ## Công nghệ sử dụng
 
@@ -15,9 +15,9 @@ Website thương hiệu cá nhân, tập trung thu lead, hỗ trợ tra mã và 
 - TypeScript
 - Tailwind CSS
 - shadcn/ui
-- react-hook-form + zod (validation)
+- react-hook-form + zod
 - Upload ảnh local mock (đã tách interface để nối cloud sau)
-- Dữ liệu blog local JSON (dễ thay bằng Sanity/MDX sau)
+- Dữ liệu blog local JSON
 
 ## Cấu trúc route chính
 
@@ -30,13 +30,13 @@ Website thương hiệu cá nhân, tập trung thu lead, hỗ trợ tra mã và 
 - `/kien-thuc`
 - `/lien-he`
 
-## Cấu hình placeholder tập trung
+## Cấu hình thông tin site
 
-Toàn bộ thông tin placeholder (tên cá nhân, số điện thoại, Zalo, email, khu vực...) nằm trong:
+Thông tin site (brand, hotline, email, địa chỉ...) nằm tại:
 
 - `src/config/site.ts`
 
-Khi có thông tin thật, chỉ cần sửa một chỗ để cập nhật toàn site.
+Chỉ cần cập nhật một nơi để đồng bộ toàn bộ website.
 
 ## Chạy local
 
@@ -80,72 +80,59 @@ Chạy bản build local:
 npm run start
 ```
 
-## AI tra ma hoat dong the nao
+## Chatbot tra mã nhanh
 
-He thong co them chatbot "Tra ma nhanh" (bubble goc phai duoi) de tiep nhan nhu cau va goi y ma tu catalog noi bo.
+Chatbot "Tra mã nhanh" (bubble góc phải dưới) dùng OpenAI Responses API + function calling để tra mã theo catalog nội bộ.
 
-Luong xu ly hien tai:
+Luồng hiện tại:
 
-1. Nhan thong tin nguoi dung: ma cu, kich thuoc, ung dung, hoac anh tem (mock UI).
-2. Goi OpenAI Responses API voi function calling den cac tool noi bo:
-	 - `search_exact_code`
-	 - `search_by_dimensions`
-	 - `search_equivalent_code`
-	 - `validate_allowed_brand`
-	 - `get_missing_fields_for_group`
-3. Ep ket qua theo Structured Outputs JSON schema de UI render an toan.
-4. Neu thieu du lieu thi hoi them 1-3 truong thong tin ky thuat.
-5. Co discovery flow ngan (toi da 3 buoc) de lay them thong tin khi input con mo ho.
-6. Co tang parser nhan dien he may, cum may, trieu chung, muc khan va dong co mua hang.
+1. Nhận input từ người dùng: mã cũ, kích thước, ứng dụng, mô tả triệu chứng.
+2. Parse ngữ cảnh câu cụt, shorthand hoặc input mơ hồ.
+3. Discovery flow ngắn (tối đa 3 bước) khi dữ liệu chưa đủ.
+4. Gọi tool nội bộ để đối chiếu mã.
+5. Ép kết quả theo structured output schema để UI render an toàn.
 
-Discovery flow chi hien khi:
+Nguyên tắc vận hành:
 
-- Khach chi chao hoi hoac noi chung chung.
-- Khach gui cau cut, shorthand, thieu du lieu de chot ma.
+- Có discovery flow ngắn cho input mơ hồ.
+- Hiểu câu cụt / thiếu ngữ pháp kiểu hiện trường.
+- Không báo giá tự động.
+- Không tự kết luận tồn kho.
+- Nếu thiếu dữ liệu catalog: ưu tiên phản hồi an toàn, yêu cầu xác minh thêm.
 
-Discovery flow se bo qua va xu ly ngay khi:
+Nếu thiếu `OPENAI_API_KEY`:
 
-- Khach da cung cap ma, kich thuoc hoac ung dung du ro de doi chieu.
+- Site vẫn render bình thường.
+- Chỉ endpoint `/api/assistant` fail graceful với thông báo phù hợp.
 
-Luu y van hanh:
+## Biến môi trường cho AI assistant
 
-- Chatbot khong bao gia tu dong.
-- Chatbot khong tu ket luan ton kho.
-- Neu khong co du lieu catalog, phan hoi theo huong:
-	- "Chua co du lieu ma trong he thong"
-	- "Can xac minh them"
-	- "Ngoai danh muc dang ho tro"
+Cần cấu hình runtime:
 
-## Bien moi truong cho AI assistant
+- `OPENAI_API_KEY`: API key gọi OpenAI Responses API.
+- `OPENAI_MODEL`: model dùng cho assistant (nếu để trống sẽ dùng model mặc định an toàn).
 
-Can cau hinh trong moi truong runtime:
-
-- `OPENAI_API_KEY`: API key de goi OpenAI Responses API.
-- `OPENAI_MODEL`: model su dung cho assistant (neu bo trong se fallback ve model an toan mac dinh).
-
-Neu thieu `OPENAI_API_KEY`, toan bo site van render binh thuong; chi endpoint `/api/assistant` tra ve loi fail graceful de de debug.
-
-Vi du `.env.local`:
+Ví dụ `.env.local`:
 
 ```bash
 OPENAI_API_KEY=<your_api_key>
 OPENAI_MODEL=gpt-5-mini
 ```
 
-## Du lieu demo
+## Dữ liệu demo
 
-Du lieu catalog demo dang nam tai:
+Catalog demo đang nằm tại:
 
 - `src/data/catalog/brand-whitelist.json`
 - `src/data/catalog/master-catalog.json`
 - `src/data/catalog/equivalent-map.json`
 - `src/data/catalog/technical-rules.json`
 
-Bo du lieu nay la du lieu mau de test luong tra ma, chua phai catalog that.
+Đây là dữ liệu mẫu phục vụ test luồng tra mã, chưa phải catalog vận hành thực tế.
 
 ## Deploy lên Vercel
 
-### Cách nhanh (qua dashboard)
+### Cách nhanh (dashboard)
 
 1. Push code lên GitHub.
 2. Vào Vercel, chọn Import Project.

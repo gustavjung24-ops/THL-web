@@ -76,15 +76,10 @@ function normalizeDiscoveryContext(raw: unknown): DiscoveryContext | null {
     return null;
   }
 
-  const selectedPath = toStringArray(raw.selected_path);
-  if (selectedPath.length === 0) {
-    return null;
-  }
-
   return {
     source: toNullableString(raw.source) ?? "discovery_flow",
     discovery_stage: toNullableString(raw.discovery_stage) ?? "none",
-    selected_path: selectedPath,
+    selected_path: toStringArray(raw.selected_path),
     machine_type: toNullableString(raw.machine_type),
     machine_subsystem: toNullableString(raw.machine_subsystem),
     symptom: toStringArray(raw.symptom),
@@ -135,16 +130,16 @@ function buildAuxiliaryContext(discoveryContext: DiscoveryContext | null, parsed
   }
 
   if (parsedContext) {
-    lines.push("- parsed_context:");
-    lines.push(`- input_style: ${parsedContext.input_style ?? "null"}`);
-    lines.push(`- machine_type: ${parsedContext.machine_type ?? "null"}`);
-    lines.push(`- machine_subsystem: ${parsedContext.machine_subsystem ?? "null"}`);
-    lines.push(`- symptom: ${parsedContext.symptom.join(", ") || "null"}`);
-    lines.push(`- urgency: ${parsedContext.urgency ?? "null"}`);
-    lines.push(`- buying_motive: ${parsedContext.buying_motive ?? "null"}`);
-    lines.push(`- should_trigger_discovery: ${parsedContext.should_trigger_discovery}`);
-    lines.push(`- suggested_options: ${parsedContext.suggested_options.join(", ") || "null"}`);
-    lines.push(`- avoid_recommendation: ${parsedContext.avoid_recommendation ?? "null"}`);
+    lines.push("- source: parsed_context");
+    lines.push(`- parsed_input_style: ${parsedContext.input_style ?? "null"}`);
+    lines.push(`- parsed_machine_type: ${parsedContext.machine_type ?? "null"}`);
+    lines.push(`- parsed_machine_subsystem: ${parsedContext.machine_subsystem ?? "null"}`);
+    lines.push(`- parsed_symptom: ${parsedContext.symptom.join(", ") || "null"}`);
+    lines.push(`- parsed_urgency: ${parsedContext.urgency ?? "null"}`);
+    lines.push(`- parsed_buying_motive: ${parsedContext.buying_motive ?? "null"}`);
+    lines.push(`- parsed_should_trigger_discovery: ${parsedContext.should_trigger_discovery}`);
+    lines.push(`- parsed_suggested_options: ${parsedContext.suggested_options.join(", ") || "null"}`);
+    lines.push(`- parsed_avoid_recommendation: ${parsedContext.avoid_recommendation ?? "null"}`);
   }
 
   return lines.join("\n");
@@ -352,7 +347,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         ok: false,
-        error: `Hệ thống AI tạm thời chưa sẵn sàng. ${reason}`,
+        error: "Hệ thống AI tạm thời chưa sẵn sàng.",
+        detail: reason,
         result: {
           ...assistantResponseFallback,
           short_reply: "Cần xác minh thêm.",

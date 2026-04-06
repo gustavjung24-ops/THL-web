@@ -158,9 +158,7 @@ export function AssistantPanel({ open, onClose }: AssistantPanelProps) {
       };
 
       if (!response.ok || !payload.ok) {
-        const text = payload.error?.trim().length
-          ? `Hệ thống AI tạm thời chưa sẵn sàng. ${payload.error}`
-          : "Hệ thống AI tạm thời chưa sẵn sàng. Cần xác minh thêm.";
+        const text = payload.error?.trim().length ? payload.error : "Hệ thống AI tạm thời chưa sẵn sàng.";
 
         setMessages((prev) => [
           ...prev,
@@ -191,7 +189,7 @@ export function AssistantPanel({ open, onClose }: AssistantPanelProps) {
         {
           id: createId(),
           role: "assistant",
-          text: "Kết nối đang bị gián đoạn. Cần xác minh thêm.",
+          text: "Kết nối đang bị gián đoạn.",
         },
       ]);
     } finally {
