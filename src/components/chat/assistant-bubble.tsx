@@ -32,21 +32,9 @@ export function AssistantBubble() {
     };
   }, []);
 
-  useEffect(() => {
-    if (isMobile && open) {
-      document.body.classList.add("chat-mobile-open");
-    } else {
-      document.body.classList.remove("chat-mobile-open");
-    }
-
-    return () => {
-      document.body.classList.remove("chat-mobile-open");
-    };
-  }, [isMobile, open]);
-
   return (
     <>
-      <div className="fixed right-4 bottom-[calc(1rem+env(safe-area-inset-bottom))] z-50 flex items-end md:right-5 md:bottom-6">
+      <div className="fixed right-4 bottom-[calc(5.1rem+env(safe-area-inset-bottom))] z-50 flex items-end md:right-5 md:bottom-6">
         {!isMobile && (
           <div
             className={cn(

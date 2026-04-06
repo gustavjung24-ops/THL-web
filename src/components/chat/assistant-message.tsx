@@ -26,8 +26,8 @@ export function AssistantMessage({ role, text }: AssistantMessageProps) {
         className={cn(
           "max-w-[94%] rounded-2xl px-3.5 py-2.5 text-[13px] leading-[1.58] shadow-sm sm:text-sm",
           isAssistant
-            ? "border border-slate-200/75 bg-white/95 text-slate-700 shadow-[0_10px_22px_-20px_rgba(15,23,42,0.45)]"
-            : "border border-slate-700/25 bg-slate-800/95 text-slate-50 shadow-[0_14px_26px_-22px_rgba(15,23,42,0.7)]"
+            ? "border border-slate-200/70 bg-white/95 text-slate-700 shadow-[0_10px_20px_-20px_rgba(15,23,42,0.4)]"
+            : "border border-amber-200/45 bg-gradient-to-b from-amber-700 to-amber-800 text-amber-50 shadow-[0_14px_24px_-22px_rgba(120,53,15,0.75)]"
         )}
       >
         <div className="space-y-1.5">

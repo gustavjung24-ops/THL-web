@@ -1,6 +1,6 @@
-# Truyền Động Công Nghiệp Web
+# Truyền Động Công Nghiệp
 
-Website tư vấn vật tư truyền động cho nhà máy và KCN, tập trung tra mã nhanh, lọc đúng nhu cầu kỹ thuật và tiếp nhận lead.
+Website tư vấn vật tư truyền động cho nhà máy và khu công nghiệp, tập trung tra mã nhanh, tư vấn theo nhu cầu kỹ thuật và tiếp nhận yêu cầu báo giá.
 
 ## Mục tiêu
 

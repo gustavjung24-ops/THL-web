@@ -14,6 +14,19 @@ type AssistantSheetProps = {
 export function AssistantSheet({ open, onClose, children }: AssistantSheetProps) {
   useEffect(() => {
     if (!open) {
+      document.body.classList.remove("chat-mobile-open");
+      return;
+    }
+
+    document.body.classList.add("chat-mobile-open");
+
+    return () => {
+      document.body.classList.remove("chat-mobile-open");
+    };
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) {
       return;
     }
 

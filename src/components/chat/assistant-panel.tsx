@@ -38,7 +38,19 @@ type AssistantPanelProps = {
 };
 
 const defaultGreeting =
-  "Chào anh/chị, em hỗ trợ tra mã vật tư kỹ thuật. Anh/chị có thể gửi mã cũ, ảnh tem, kích thước hoặc mô tả hệ máy để em hỗ trợ nhanh.";
+  "Chào anh/chị, em hỗ trợ tra mã vật tư kỹ thuật. Anh/chị có thể gửi mã cũ, ảnh tem hoặc mô tả hệ máy để em hỗ trợ nhanh.";
+
+function getDiscoveryOptionLabel(option: string): string {
+  if (option === "Tôi có ảnh tem / ảnh mẫu") {
+    return "Tôi có ảnh tem";
+  }
+
+  if (option === "Tôi chỉ biết hệ máy / triệu chứng") {
+    return "Tôi chỉ biết máy / hiện tượng";
+  }
+
+  return option;
+}
 
 function createId(): string {
   return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
@@ -209,10 +221,12 @@ export function AssistantPanel({
       return;
     }
 
+    const displayOption = getDiscoveryOptionLabel(option);
+
     const userMessage: UiMessage = {
       id: createId(),
       role: "user",
-      text: option,
+      text: displayOption,
     };
 
     const historyAfterUser = [...messages, userMessage];
@@ -314,7 +328,7 @@ export function AssistantPanel({
             )}
             <h3 className="font-heading text-base font-semibold tracking-tight text-slate-900">Tra mã nhanh</h3>
             <p className="mt-1 text-[12px] leading-5 text-slate-600 sm:text-xs">
-              Gửi mã cũ, ảnh tem, kích thước hoặc mô tả hệ máy để được hỗ trợ nhanh.
+              Gửi mã cũ, ảnh tem hoặc mô tả hệ máy để được hỗ trợ nhanh.
             </p>
           </div>
           {showCloseButton && (
@@ -336,7 +350,7 @@ export function AssistantPanel({
         {discoveryPrompt && discoveryPrompt.options.length > 0 && (
           <div className="shrink-0 border-b border-slate-200/70 bg-gradient-to-b from-amber-50/70 to-white px-3.5 py-3 sm:px-4">
             <p className="text-[12px] leading-5 text-slate-700">{discoveryPrompt.message}</p>
-            <p className="mt-2 text-[11px] font-medium uppercase tracking-wide text-slate-500">Lựa chọn nhanh</p>
+            <p className="mt-2 text-[11px] font-medium uppercase tracking-wide text-slate-500">Chọn nhanh</p>
             <div className="mt-2.5 flex flex-wrap gap-2">
               {discoveryPrompt.options.map((option) => (
                 <Button
@@ -348,7 +362,7 @@ export function AssistantPanel({
                   onClick={() => void handleDiscoveryOption(option)}
                   disabled={isSubmitting}
                 >
-                  {option}
+                  {getDiscoveryOptionLabel(option)}
                 </Button>
               ))}
             </div>
@@ -410,22 +424,28 @@ export function AssistantPanel({
             />
             <Button
               type="button"
-              size="icon"
-              className="size-10 shrink-0 rounded-xl bg-amber-700 text-white shadow-[0_12px_20px_-16px_rgba(180,83,9,0.95)] hover:bg-amber-800 disabled:bg-amber-600/70"
+              size="sm"
+              className="h-10 shrink-0 rounded-xl bg-amber-700 px-3 text-[12px] font-semibold text-white shadow-[0_12px_20px_-16px_rgba(180,83,9,0.95)] hover:bg-amber-800 disabled:bg-amber-600/70"
               onClick={() => void submitMessage(inputValue)}
               disabled={isSubmitting || inputValue.trim().length === 0}
               aria-label="Gửi yêu cầu tra mã"
             >
               {isSubmitting ? (
-                <Loader2 className="size-4 animate-spin" />
+                <>
+                  <Loader2 className="mr-1 size-3.5 animate-spin" />
+                  Đang xử lý
+                </>
               ) : (
-                <SendHorizonal className="size-4" />
+                <>
+                  <SendHorizonal className="mr-1 size-3.5" />
+                  Tra mã ngay
+                </>
               )}
             </Button>
           </div>
 
           <p className="mt-2 px-1 text-[11px] leading-5 text-slate-500">
-            Chatbot ưu tiên trả lời ngắn, theo ứng dụng thực tế. Giá và tình trạng hàng được xác nhận riêng.
+            Trợ lý trả lời ngắn, theo ứng dụng thực tế. Giá và tình trạng hàng được xác nhận riêng.
           </p>
         </div>
       </div>
