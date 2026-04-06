@@ -144,7 +144,7 @@ function rankConfidence(input: string, itemCode: string, exactMatch = false): "h
 function dedupeById<T extends { id: string }>(items: T[]): T[] {
   const map = new Map<string, T>();
   items.forEach((item) => map.set(item.id, item));
-  return [...map.values()];
+  return Array.from(map.values());
 }
 
 function mapToToolResultItems(input: string, items: ReturnType<typeof filterAllowedBrands>): ToolResultItem[] {

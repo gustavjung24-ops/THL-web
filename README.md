@@ -123,6 +123,8 @@ Can cau hinh trong moi truong runtime:
 - `OPENAI_API_KEY`: API key de goi OpenAI Responses API.
 - `OPENAI_MODEL`: model su dung cho assistant (neu bo trong se fallback ve model an toan mac dinh).
 
+Neu thieu `OPENAI_API_KEY`, toan bo site van render binh thuong; chi endpoint `/api/assistant` tra ve loi fail graceful de de debug.
+
 Vi du `.env.local`:
 
 ```bash

@@ -91,9 +91,9 @@ const buyingMotiveMatchers: Array<{ motive: Exclude<BuyingMotive, null>; keyword
 function stripDiacritics(input: string): string {
   return input
     .normalize("NFD")
-    .replace(/\p{Diacritic}/gu, "")
+    .replace(/[\u0300-\u036f]/g, "")
     .replace(/đ/gi, "d")
-    .replace(/[^\p{L}\p{N}\s/.-]/gu, " ");
+    .replace(/[^a-zA-Z0-9\s/.-]/g, " ");
 }
 
 function normalizeText(input: string): string {
@@ -280,10 +280,10 @@ export function mergeParsedSignals(base: ParsedIntent, incoming: ParsedIntent): 
     extracted_code: base.extracted_code ?? incoming.extracted_code,
     machine_type: base.machine_type ?? incoming.machine_type,
     machine_subsystem: base.machine_subsystem ?? incoming.machine_subsystem,
-    symptom: [...new Set([...base.symptom, ...incoming.symptom])],
+    symptom: Array.from(new Set([...base.symptom, ...incoming.symptom])),
     urgency: base.urgency ?? incoming.urgency,
     buying_motive: base.buying_motive ?? incoming.buying_motive,
-    suggested_options: [...new Set([...base.suggested_options, ...incoming.suggested_options])],
+    suggested_options: Array.from(new Set([...base.suggested_options, ...incoming.suggested_options])),
     matched_application_key: base.matched_application_key ?? incoming.matched_application_key,
     avoid_recommendation: base.avoid_recommendation ?? incoming.avoid_recommendation,
     next_question: base.next_question ?? incoming.next_question,

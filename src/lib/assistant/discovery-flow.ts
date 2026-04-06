@@ -235,10 +235,10 @@ export function applyDiscoverySelection(state: DiscoveryState, selectedOption: s
     selectedPath: [...state.selectedPath, selectedOption],
     machineType: state.machineType ?? parsedSelection.machine_type,
     machineSubsystem: state.machineSubsystem ?? parsedSelection.machine_subsystem,
-    symptom: [...new Set([...state.symptom, ...parsedSelection.symptom])],
+    symptom: Array.from(new Set([...state.symptom, ...parsedSelection.symptom])),
     urgency: state.urgency ?? parsedSelection.urgency,
     buyingMotive: state.buyingMotive ?? parsedSelection.buying_motive ?? motiveFromSelection(selectedOption),
-    suggestedOptions: [...new Set([...state.suggestedOptions, ...parsedSelection.suggested_options])],
+    suggestedOptions: Array.from(new Set([...state.suggestedOptions, ...parsedSelection.suggested_options])),
     avoidRecommendation: state.avoidRecommendation ?? parsedSelection.avoid_recommendation,
     parsed: mergedParsed,
   };
