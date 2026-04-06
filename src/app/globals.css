@@ -76,7 +76,7 @@
 
   body.chat-mobile-open {
     overflow: hidden;
-    touch-action: none;
+    overscroll-behavior: none;
   }
 
   html {

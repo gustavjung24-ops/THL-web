@@ -27,11 +27,13 @@ export function AssistantSheet({ open, onClose, children }: AssistantSheetProps)
 
       <div
         className={cn(
-          "absolute inset-x-0 bottom-0 transition-all duration-200 ease-out",
-          open ? "translate-y-0 opacity-100" : "translate-y-[104%] opacity-0"
+          "absolute inset-x-0 bottom-0 z-10 transition-all duration-200 ease-out",
+          open ? "translate-y-0 opacity-100" : "translate-y-[105%] opacity-0"
         )}
       >
-        {children}
+        <div className="h-[85dvh] max-h-[calc(100dvh-0.45rem)] w-full overflow-hidden rounded-t-[1.5rem] border border-b-0 border-slate-200/80 bg-white shadow-[0_-24px_56px_-34px_rgba(15,23,42,0.55)]">
+          {children}
+        </div>
       </div>
     </div>
   );

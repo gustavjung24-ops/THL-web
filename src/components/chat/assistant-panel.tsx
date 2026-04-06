@@ -31,8 +31,9 @@ type UiMessage = {
 };
 
 type AssistantPanelProps = {
-  mode: "mobile" | "desktop";
+  mode?: "mobile" | "desktop";
   onClose: () => void;
+  className?: string;
 };
 
 const defaultGreeting =
@@ -106,7 +107,7 @@ function toApiMessages(messages: UiMessage[]) {
   }));
 }
 
-export function AssistantPanel({ mode, onClose }: AssistantPanelProps) {
+export function AssistantPanel({ mode = "desktop", onClose, className }: AssistantPanelProps) {
   const isMobile = mode === "mobile";
 
   const [messages, setMessages] = useState<UiMessage[]>([
@@ -289,14 +290,11 @@ export function AssistantPanel({ mode, onClose }: AssistantPanelProps) {
   return (
     <section
       className={cn(
-        "flex min-h-0 flex-col overflow-hidden border border-slate-200/80 bg-white/95 text-slate-900",
-        "shadow-[0_28px_60px_-34px_rgba(15,23,42,0.5)]",
-        isMobile
-          ? "h-[82dvh] max-h-[calc(100dvh-0.25rem)] w-full rounded-t-[1.5rem] rounded-b-none border-b-0"
-          : "h-[min(82vh,720px)] w-[min(92vw,400px)] rounded-[1.35rem]"
+        "flex h-full min-h-0 flex-col overflow-hidden bg-white text-slate-900",
+        className
       )}
       role="dialog"
-      aria-label="Tra mã nhanh"
+      aria-label="Trợ lý tra mã"
     >
       <div
         className={cn(
@@ -307,7 +305,7 @@ export function AssistantPanel({ mode, onClose }: AssistantPanelProps) {
         {isMobile && <div className="mx-auto mb-2 h-1 w-12 rounded-full bg-slate-300/75" />}
         <div className="flex items-start justify-between gap-3">
           <div>
-            <h3 className="font-heading text-base font-semibold tracking-tight text-slate-900">Tra mã nhanh</h3>
+            <h3 className="font-heading text-base font-semibold tracking-tight text-slate-900">Trợ lý tra mã nhanh</h3>
             <p className="mt-1 text-[12px] leading-5 text-slate-600 sm:text-xs">
               Gửi mã cũ, ảnh tem, kích thước hoặc mô tả hệ máy để được hỗ trợ nhanh.
             </p>
@@ -329,7 +327,7 @@ export function AssistantPanel({ mode, onClose }: AssistantPanelProps) {
         {discoveryPrompt && discoveryPrompt.options.length > 0 && (
           <div className="shrink-0 border-b border-slate-200/75 bg-amber-50/55 px-3 py-3 sm:px-4">
             <p className="text-[12px] leading-5 text-slate-700">{discoveryPrompt.message}</p>
-            <p className="mt-2 text-[11px] font-medium uppercase tracking-wide text-slate-500">Lựa chọn nhanh</p>
+            <p className="mt-2 text-[11px] font-medium uppercase tracking-wide text-slate-500">Bước định hướng</p>
             <div className="mt-2 flex flex-wrap gap-2">
               {discoveryPrompt.options.map((option) => (
                 <Button
@@ -356,7 +354,7 @@ export function AssistantPanel({ mode, onClose }: AssistantPanelProps) {
             <div className="flex w-full justify-start pr-10">
               <div className="inline-flex items-center gap-2 rounded-2xl border border-amber-200/70 bg-amber-50/80 px-3 py-2 text-[13px] text-slate-700 shadow-sm sm:text-sm">
                 <Loader2 className="size-3.5 animate-spin" />
-                Đang tra mã...
+                Đang xử lý yêu cầu...
               </div>
             </div>
           )}
@@ -373,7 +371,7 @@ export function AssistantPanel({ mode, onClose }: AssistantPanelProps) {
           <div className="flex items-center gap-2">
             <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-slate-300/80 bg-white px-3 py-1.5 text-[12px] text-slate-700 shadow-sm transition hover:border-amber-200 hover:bg-amber-50">
               <ImagePlus className="size-3.5" />
-              Tải ảnh (mock)
+              Tải ảnh tham chiếu (mô phỏng)
               <Input
                 type="file"
                 accept="image/*"
@@ -421,7 +419,7 @@ export function AssistantPanel({ mode, onClose }: AssistantPanelProps) {
           </div>
 
           <p className="mt-2 px-1 text-[11px] leading-5 text-slate-500">
-            Chatbot ưu tiên trả lời ngắn, theo ứng dụng thực tế. Giá và tình trạng hàng được xác nhận riêng.
+            Trợ lý ưu tiên trả lời ngắn theo ứng dụng thực tế. Giá và tình trạng hàng được xác nhận riêng.
           </p>
         </div>
       </div>
