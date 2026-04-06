@@ -255,23 +255,58 @@ export async function callGeminiProvider(
     .join("\n");
 
   const contents = buildContents(req.messages, fullInstructions);
-  const tools: Array<Record<string, unknown>> = [{ functionDeclarations: toGeminiFunctionDeclarations() }];
 
-  if (allowGrounding) {
-    tools.unshift({ googleSearch: {} });
+  /*
+   * Gemini 2.5-flash does NOT support combining built-in tools (googleSearch)
+   * with custom function calling (functionDeclarations) in the same request.
+   * We must pick one mode exclusively.
+   *
+   * TODO: Gemini 3 preview supports built-in tools + function calling with
+   * include_server_side_tool_invocations=true and tool context circulation.
+   * Not enabled in current production flow.
+   */
+  const functionDeclarations = toGeminiFunctionDeclarations();
+  const hasCustomTools = functionDeclarations.length > 0;
+  const wantsGrounding = allowGrounding;
+  const canUseGoogleSearch = wantsGrounding && !hasCustomTools;
+
+  let finalToolsMode: "custom_only" | "google_search_only" | "none";
+  let tools: Array<Record<string, unknown>> | undefined;
+
+  if (hasCustomTools) {
+    finalToolsMode = "custom_only";
+    tools = [{ functionDeclarations }];
+
+    if (wantsGrounding) {
+      console.log(
+        "[assistant] downgraded tools mode: google_search disabled because custom tools are active"
+      );
+    }
+  } else if (canUseGoogleSearch) {
+    finalToolsMode = "google_search_only";
+    tools = [{ googleSearch: {} }];
+  } else {
+    finalToolsMode = "none";
+    tools = undefined;
   }
+
+  console.log(
+    `[assistant] gemini provider — model=${model} wantsGrounding=${wantsGrounding} hasCustomTools=${hasCustomTools} finalToolsMode=${finalToolsMode}`
+  );
 
   let payload: Record<string, unknown> = {
     system_instruction: { parts: [{ text: fullInstructions }] },
     contents,
-    tools,
+    ...(tools ? { tools } : {}),
     generationConfig: { temperature: 0 },
   };
 
   let responsePayload = await callGemini(apiKey, model, payload);
 
-  /* Tool calling loop */
+  /* Tool calling loop — only runs when finalToolsMode === "custom_only" */
   for (let round = 0; round < MAX_TOOL_ROUNDS; round += 1) {
+    if (finalToolsMode !== "custom_only") break;
+
     const functionCalls = extractGeminiFunctionCalls(responsePayload);
     if (functionCalls.length === 0) break;
 
@@ -301,7 +336,7 @@ export async function callGeminiProvider(
     payload = {
       system_instruction: { parts: [{ text: fullInstructions }] },
       contents: updatedContents,
-      tools,
+      ...(tools ? { tools } : {}),
       generationConfig: { temperature: 0 },
     };
 
