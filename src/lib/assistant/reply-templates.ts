@@ -8,7 +8,7 @@ export type ReplyGroup =
   | "preliminary_assessment"
   | "medium_confidence_assessment"
   | "high_confidence_match"
-  | "technical_handoff_question"
+  | "technical_followup"
   | "sales_handoff";
 
 export type BuiltReplyMessage = {
@@ -364,12 +364,12 @@ function inferReplyGroup(input: BuildReplyInput): ReplyGroup {
       normalizedReply.includes("giao hang") ||
       normalizedReply.includes("lead time"));
 
-  if ((route && isCommercialIntentRoute(route)) || looksCommercialFromPayload) {
+  if ((route && isCommercialIntentRoute(route)) || route === "contact_handoff" || looksCommercialFromPayload) {
     return "sales_handoff";
   }
 
   if (route === "symptom_diagnosis" || input.payload.symptom.length > 0) {
-    return "technical_handoff_question";
+    return "technical_followup";
   }
 
   const confidence = inferInternalConfidenceLabel(input.payload);
@@ -412,7 +412,7 @@ function inferOptions(
     return { options: spindleClusterOptions, optionStyle: "chips", text: "" };
   }
 
-  if (group === "technical_handoff_question") {
+  if (group === "technical_followup") {
     return { options: pumpClusterOptions, optionStyle: "chips", text: "" };
   }
 
@@ -444,15 +444,11 @@ function buildSalesHandoffReply(input: BuildReplyInput): BuiltReplyMessage {
   const confirm = fallbackSalesQuestion(input.payload);
   const optionPack = inferOptions(input.payload, input.latestUserText ?? "", "sales_handoff");
 
-  // Natural flow: assessment line, then what's needed — no rigid headings
-  const parts: string[] = [...quick];
-  parts.push("Giá, tồn kho và lead time cần kinh doanh xác nhận riêng.");
-  if (confirm.length > 0) {
-    parts.push(confirm[0]);
-  }
-
   return {
-    text: parts.join("\n"),
+    text: composeStructuredReply([
+      { title: "Nhận định nhanh", lines: quick, max: 2 },
+      { title: "Cần chốt thêm", lines: [...confirm, "Giá, tồn kho và lead time cần kinh doanh xác nhận riêng."], max: 3 },
+    ]),
     options: optionPack?.options,
     optionStyle: optionPack?.optionStyle,
     group: "sales_handoff",
@@ -475,15 +471,12 @@ function buildHighConfidenceMatchReply(input: BuildReplyInput): BuiltReplyMessag
   const warning = formatWarning(input.payload.avoid_recommendation, seed);
   const optionPack = inferOptions(input.payload, input.latestUserText ?? "", "high_confidence_match");
 
-  // Natural: opening line, candidate bullets, closing question
-  const parts: string[] = [...quick, "", ...candidate.map((c) => `- ${c}`)];
-  const tail = [...confirm, ...warning].filter(Boolean).slice(0, 2);
-  if (tail.length > 0) {
-    parts.push("", tail.join(" "));
-  }
-
   return {
-    text: parts.join("\n"),
+    text: composeStructuredReply([
+      { title: "Khả năng cao", lines: quick, max: 3 },
+      { title: "Mã / hướng khả dĩ", lines: candidate, max: 3 },
+      { title: "Cần chốt thêm", lines: [...confirm, ...warning], max: 2 },
+    ]),
     options: optionPack?.options,
     optionStyle: optionPack?.optionStyle,
     group: "high_confidence_match",
@@ -511,14 +504,12 @@ function buildMediumConfidenceReply(input: BuildReplyInput): BuiltReplyMessage {
   const warning = formatWarning(input.payload.avoid_recommendation, seed);
   const optionPack = inferOptions(input.payload, input.latestUserText ?? "", "medium_confidence_assessment");
 
-  const parts: string[] = [...quick, "", ...candidate.map((c) => `- ${c}`)];
-  const tail = [...confirm, ...warning].filter(Boolean).slice(0, 2);
-  if (tail.length > 0) {
-    parts.push("", tail.join(" "));
-  }
-
   return {
-    text: parts.join("\n"),
+    text: composeStructuredReply([
+      { title: "Nhận định nhanh", lines: quick, max: 3 },
+      { title: "Mã / hướng khả dĩ", lines: candidate, max: 3 },
+      { title: "Cần chốt thêm", lines: [...confirm, ...warning], max: 2 },
+    ]),
     options: optionPack?.options,
     optionStyle: optionPack?.optionStyle,
     group: "medium_confidence_assessment",
@@ -526,7 +517,7 @@ function buildMediumConfidenceReply(input: BuildReplyInput): BuiltReplyMessage {
   };
 }
 
-function buildTechnicalHandoffReply(input: BuildReplyInput): BuiltReplyMessage {
+function buildTechnicalFollowupReply(input: BuildReplyInput): BuiltReplyMessage {
   const seed = `${input.payload.short_reply}-${input.latestUserText ?? ""}-tech`;
   const missingLabels = mapMissingFields(input.payload.missing_fields);
 
@@ -542,19 +533,17 @@ function buildTechnicalHandoffReply(input: BuildReplyInput): BuiltReplyMessage {
 
   const confirm = inferQuestion(input.payload, input.latestUserText ?? "", missingLabels);
   const warning = formatWarning(input.payload.avoid_recommendation, seed);
-  const optionPack = inferOptions(input.payload, input.latestUserText ?? "", "technical_handoff_question");
-
-  const parts: string[] = [...quick, "", ...candidate.map((c) => `- ${c}`)];
-  const tail = [...confirm, ...warning].filter(Boolean).slice(0, 2);
-  if (tail.length > 0) {
-    parts.push("", tail.join(" "));
-  }
+  const optionPack = inferOptions(input.payload, input.latestUserText ?? "", "technical_followup");
 
   return {
-    text: parts.join("\n"),
+    text: composeStructuredReply([
+      { title: "Nhận định nhanh", lines: quick, max: 3 },
+      { title: "Mã / hướng khả dĩ", lines: candidate, max: 3 },
+      { title: "Cần chốt thêm", lines: [...confirm, ...warning], max: 2 },
+    ]),
     options: optionPack?.options,
     optionStyle: optionPack?.optionStyle,
-    group: "technical_handoff_question",
+    group: "technical_followup",
     internal_confidence: inferInternalConfidenceLabel(input.payload),
   };
 }
@@ -575,14 +564,12 @@ function buildPreliminaryAssessmentReply(input: BuildReplyInput): BuiltReplyMess
   const warning = formatWarning(input.payload.avoid_recommendation, seed);
   const optionPack = inferOptions(input.payload, input.latestUserText ?? "", "preliminary_assessment");
 
-  const parts: string[] = [...quick, "", ...candidate.map((c) => `- ${c}`)];
-  const tail = [...confirm, ...warning].filter(Boolean).slice(0, 2);
-  if (tail.length > 0) {
-    parts.push("", tail.join(" "));
-  }
-
   return {
-    text: parts.join("\n"),
+    text: composeStructuredReply([
+      { title: "Nhận định nhanh", lines: quick, max: 3 },
+      { title: "Mã / hướng khả dĩ", lines: candidate, max: 3 },
+      { title: "Cần chốt thêm", lines: [...confirm, ...warning], max: 2 },
+    ]),
     options: optionPack?.options,
     optionStyle: optionPack?.optionStyle,
     group: "preliminary_assessment",
@@ -605,8 +592,8 @@ export function buildAssistantReplyMessage(input: BuildReplyInput): BuiltReplyMe
     return buildMediumConfidenceReply(input);
   }
 
-  if (group === "technical_handoff_question") {
-    return buildTechnicalHandoffReply(input);
+  if (group === "technical_followup") {
+    return buildTechnicalFollowupReply(input);
   }
 
   return buildPreliminaryAssessmentReply(input);
