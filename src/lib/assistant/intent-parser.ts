@@ -12,9 +12,18 @@ export type BuyingMotive =
   | "technical_consult"
   | null;
 
+export type AssistantIntentRoute =
+  | "code_lookup"
+  | "symptom_diagnosis"
+  | "replacement_equivalent"
+  | "pricing_request"
+  | "stock_request"
+  | "contact_handoff";
+
 export type ParsedIntent = {
   raw_text: string;
   normalized_text: string;
+  intent_route: AssistantIntentRoute;
   input_style: InputStyle;
   extracted_code: string | null;
   machine_type: string | null;
@@ -94,6 +103,83 @@ const buyingMotiveMatchers: Array<{ motive: Exclude<BuyingMotive, null>; keyword
   { motive: "urgent_replacement", keywords: ["thay gap", "thay gấp", "can lien", "cần liền", "dung may", "dừng máy"] },
 ];
 
+const pricingRequestKeywords = [
+  "bao gia",
+  "báo giá",
+  "gia bao nhieu",
+  "giá bao nhiêu",
+  "xin gia",
+  "xin giá",
+  "quote",
+  "don gia",
+  "đơn giá",
+  "chiet khau",
+  "chiết khấu",
+  "gia tot",
+  "giá tốt",
+];
+
+const stockRequestKeywords = [
+  "co hang",
+  "có hàng",
+  "con hang",
+  "còn hàng",
+  "san hang",
+  "sẵn hàng",
+  "ton kho",
+  "tồn kho",
+  "giao nhanh",
+  "giao gap",
+  "giao gấp",
+  "ship nhanh",
+  "lay lien",
+  "lấy liền",
+  "co san",
+  "có sẵn",
+];
+
+const contactHandoffKeywords = [
+  "goi lai",
+  "gọi lại",
+  "lien he",
+  "liên hệ",
+  "zalo",
+  "so dien thoai",
+  "số điện thoại",
+  "ten cong ty",
+  "tên công ty",
+  "kinh doanh",
+];
+
+const replacementIntentKeywords = [
+  "tuong duong",
+  "tương đương",
+  "thay the",
+  "thay thế",
+  "doi ma",
+  "đổi mã",
+  "equivalent",
+];
+
+const codeLookupHints = [
+  "vong bi",
+  "vòng bi",
+  "goi do",
+  "gối đỡ",
+  "day curoa",
+  "dây curoa",
+  "xich",
+  "xích",
+  "phot",
+  "phớt",
+  "koyo",
+  "did",
+  "nok",
+  "mitsuba",
+  "sunrise",
+  "dingzing",
+];
+
 function stripDiacritics(input: string): string {
   return input
     .normalize("NFD")
@@ -115,6 +201,10 @@ function tokenize(input: string): string[] {
 
 function includesKeyword(text: string, keyword: string): boolean {
   return text.includes(normalizeText(keyword));
+}
+
+function hasAnyKeyword(text: string, keywords: string[]): boolean {
+  return keywords.some((keyword) => includesKeyword(text, keyword));
 }
 
 function firstMatch(text: string, matchers: KeywordMatcher[]): string | null {
@@ -210,6 +300,46 @@ function detectBuyingMotive(normalizedText: string, urgency: UrgencyLevel): Buyi
   return null;
 }
 
+function detectIntentRouteFromSignals(input: {
+  normalizedText: string;
+  extractedCode: string | null;
+  machineType: string | null;
+  machineSubsystem: string | null;
+  symptom: string[];
+  buyingMotive: BuyingMotive;
+}): AssistantIntentRoute {
+  if (hasAnyKeyword(input.normalizedText, pricingRequestKeywords) || input.buyingMotive === "price_check") {
+    return "pricing_request";
+  }
+
+  if (hasAnyKeyword(input.normalizedText, stockRequestKeywords)) {
+    return "stock_request";
+  }
+
+  if (hasAnyKeyword(input.normalizedText, contactHandoffKeywords)) {
+    return "contact_handoff";
+  }
+
+  if (hasAnyKeyword(input.normalizedText, replacementIntentKeywords) || input.buyingMotive === "equivalent_option") {
+    return "replacement_equivalent";
+  }
+
+  if (input.symptom.length > 0 && !input.extractedCode) {
+    return "symptom_diagnosis";
+  }
+
+  if (
+    input.extractedCode ||
+    input.machineType ||
+    input.machineSubsystem ||
+    hasAnyKeyword(input.normalizedText, codeLookupHints)
+  ) {
+    return "code_lookup";
+  }
+
+  return "contact_handoff";
+}
+
 function buildNextQuestion(
   shouldTriggerDiscovery: boolean,
   machineType: string | null,
@@ -269,6 +399,14 @@ export function parseIntentInput(input: string): ParsedIntent {
   const buyingMotive = detectBuyingMotive(normalizedText, urgency);
   const extractedCode = extractLikelyCode(normalizedText);
   const appRule = inferByApplicationRule(normalizedText);
+  const intentRoute = detectIntentRouteFromSignals({
+    normalizedText,
+    extractedCode,
+    machineType,
+    machineSubsystem,
+    symptom,
+    buyingMotive,
+  });
 
   const hasStrongSignal = Boolean(extractedCode || machineType || symptom.length > 0);
   const isAmbiguous = inputStyle === "greeting" || (!hasStrongSignal && tokenize(normalizedText).length <= 8);
@@ -283,6 +421,7 @@ export function parseIntentInput(input: string): ParsedIntent {
   return {
     raw_text: rawText,
     normalized_text: normalizedText,
+    intent_route: intentRoute,
     input_style: inputStyle,
     extracted_code: extractedCode,
     machine_type: machineType,
@@ -300,18 +439,36 @@ export function parseIntentInput(input: string): ParsedIntent {
 }
 
 export function mergeParsedSignals(base: ParsedIntent, incoming: ParsedIntent): ParsedIntent {
+  const normalized_text = [base.normalized_text, incoming.normalized_text].filter(Boolean).join(" | ");
+  const extracted_code = base.extracted_code ?? incoming.extracted_code;
+  const machine_type = base.machine_type ?? incoming.machine_type;
+  const machine_subsystem = base.machine_subsystem ?? incoming.machine_subsystem;
+  const symptom = Array.from(new Set([...base.symptom, ...incoming.symptom]));
+  const urgency = base.urgency ?? incoming.urgency;
+  const buying_motive = base.buying_motive ?? incoming.buying_motive;
+  const suggested_options = Array.from(new Set([...base.suggested_options, ...incoming.suggested_options]));
+  const intent_route = detectIntentRouteFromSignals({
+    normalizedText: normalized_text,
+    extractedCode: extracted_code,
+    machineType: machine_type,
+    machineSubsystem: machine_subsystem,
+    symptom,
+    buyingMotive: buying_motive,
+  });
+
   return {
     ...base,
     raw_text: [base.raw_text, incoming.raw_text].filter(Boolean).join(" | "),
-    normalized_text: [base.normalized_text, incoming.normalized_text].filter(Boolean).join(" | "),
+    normalized_text,
+    intent_route,
     input_style: base.input_style === "full_sentence" ? base.input_style : incoming.input_style,
-    extracted_code: base.extracted_code ?? incoming.extracted_code,
-    machine_type: base.machine_type ?? incoming.machine_type,
-    machine_subsystem: base.machine_subsystem ?? incoming.machine_subsystem,
-    symptom: Array.from(new Set([...base.symptom, ...incoming.symptom])),
-    urgency: base.urgency ?? incoming.urgency,
-    buying_motive: base.buying_motive ?? incoming.buying_motive,
-    suggested_options: Array.from(new Set([...base.suggested_options, ...incoming.suggested_options])),
+    extracted_code,
+    machine_type,
+    machine_subsystem,
+    symptom,
+    urgency,
+    buying_motive,
+    suggested_options,
     matched_application_key: base.matched_application_key ?? incoming.matched_application_key,
     avoid_recommendation: base.avoid_recommendation ?? incoming.avoid_recommendation,
     next_question: base.next_question ?? incoming.next_question,

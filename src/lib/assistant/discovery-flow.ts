@@ -59,6 +59,7 @@ export type DiscoveryTransition = {
 const emptyParsedIntent: ParsedIntent = {
   raw_text: "",
   normalized_text: "",
+  intent_route: "contact_handoff",
   input_style: "fragment",
   extracted_code: null,
   machine_type: null,

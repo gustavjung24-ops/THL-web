@@ -1,6 +1,7 @@
 import {
   coerceAssistantResponse,
 } from "@/lib/assistant/schemas";
+import { shouldUsePublicGrounding } from "@/lib/assistant/policies";
 import {
   executeAssistantToolCall,
   assistantToolDefinitions,
@@ -236,11 +237,29 @@ export async function callGeminiProvider(
     };
   }
 
-  const fullInstructions =
-    req.instructions + "\n" + buildJsonSchemaInstruction();
+  const allowGrounding = req.assistantContext
+    ? shouldUsePublicGrounding(req.assistantContext.intentRoute)
+    : false;
+
+  const groundingInstruction = allowGrounding
+    ? [
+        "Grounding policy:",
+        "- Bạn được phép dùng Google Search grounding cho mã phổ thông, quy cách cơ bản, ứng dụng, hiện tượng hư hỏng và thông tin thương hiệu công khai.",
+        "- Không dùng grounding để suy ra giá bán, tồn kho, lead time hoặc chính sách bán của công ty.",
+        "- Chỉ lấy phần thông tin công khai thực sự giúp chốt hướng kỹ thuật.",
+      ].join("\n")
+    : "";
+
+  const fullInstructions = [req.instructions, groundingInstruction, buildJsonSchemaInstruction()]
+    .filter((item) => item.trim().length > 0)
+    .join("\n");
 
   const contents = buildContents(req.messages, fullInstructions);
-  const tools = [{ functionDeclarations: toGeminiFunctionDeclarations() }];
+  const tools: Array<Record<string, unknown>> = [{ functionDeclarations: toGeminiFunctionDeclarations() }];
+
+  if (allowGrounding) {
+    tools.unshift({ googleSearch: {} });
+  }
 
   let payload: Record<string, unknown> = {
     system_instruction: { parts: [{ text: fullInstructions }] },

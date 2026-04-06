@@ -99,10 +99,14 @@ const fieldLabelMap: Record<string, string> = {
   length: "chiều dài",
   lip_type: "kiểu môi phớt",
   seat_size: "kích thước vỏ",
+  quantity: "số lượng",
+  delivery_area: "khu vực giao",
+  contact_info: "tên công ty hoặc số điện thoại",
 };
 
 const suggestedOptionMap: Record<string, string> = {
   exact_code: "Có mã cũ trên tem",
+  image_of_label: "Có ảnh tem hoặc ảnh mẫu cũ",
   old_code: "Có mã cũ trên tem",
   dimensions: "Có kích thước cốt/ngoài/dày",
   application_detail: "Mô tả cụm máy đang dùng",
@@ -110,6 +114,9 @@ const suggestedOptionMap: Record<string, string> = {
   machine_type: "Cho biết hệ máy",
   urgency: "Đang thay gấp",
   equivalent: "Cần phương án tương đương",
+  quantity: "Cho biết số lượng",
+  delivery_area: "Cho biết khu vực giao",
+  contact_info: "Để lại tên công ty hoặc số điện thoại",
 };
 
 function normalizeText(input: string): string {
@@ -175,22 +182,35 @@ function formatWarning(warning: string | null, seed: string): string | null {
 function composeReply(main: string, question?: string | null, warning?: string | null): string {
   const lines: string[] = [];
 
-  const safeMain = cleanLine(main);
-  if (safeMain) {
-    lines.push(safeMain);
+  function appendBullets(value: string | null | undefined) {
+    const cleaned = cleanLine(value);
+    if (!cleaned) {
+      return;
+    }
+
+    cleaned
+      .split(/\n+/)
+      .map((line) => cleanLine(line))
+      .filter((line): line is string => Boolean(line))
+      .forEach((line) => {
+        lines.push(line.startsWith("-") ? line : `- ${line}`);
+      });
   }
 
-  const safeQuestion = cleanLine(question);
-  if (safeQuestion) {
-    lines.push(safeQuestion);
-  }
-
-  const safeWarning = cleanLine(warning);
-  if (safeWarning) {
-    lines.push(safeWarning);
-  }
+  appendBullets(main);
+  appendBullets(question);
+  appendBullets(warning);
 
   return lines.join("\n");
+}
+
+function preferredMainReply(payload: AssistantStructuredResponse, fallback: string): string {
+  const shortReply = cleanLine(payload.short_reply);
+  if (shortReply && shortReply !== "Cần xác minh thêm.") {
+    return shortReply;
+  }
+
+  return fallback;
 }
 
 function looksLikeTruckContext(payload: AssistantStructuredResponse, latestUserText: string): boolean {
@@ -292,9 +312,12 @@ export function buildReadyReply(input: BuildReplyInput): BuiltReplyMessage {
   const topItem = input.payload.recommended_items[0];
   const seed = `${input.payload.short_reply}-${topItem?.exact_code ?? "none"}-${input.latestUserText ?? ""}`;
   const mainTemplate = pickVariant(readyReplyVariants, seed);
-  const main = mainTemplate
+  const main = preferredMainReply(
+    input.payload,
+    mainTemplate
     .replace("{code}", topItem?.exact_code ?? "mã phù hợp")
-    .replace("{brand}", topItem?.brand ?? "nhãn phù hợp");
+    .replace("{brand}", topItem?.brand ?? "nhãn phù hợp")
+  );
 
   return {
     text: composeReply(main, cleanLine(input.payload.next_question), formatWarning(input.payload.avoid_recommendation, seed)),
@@ -303,7 +326,7 @@ export function buildReadyReply(input: BuildReplyInput): BuiltReplyMessage {
 
 export function buildNotFoundReply(input: BuildReplyInput): BuiltReplyMessage {
   const seed = `${input.payload.short_reply}-${input.latestUserText ?? ""}-not-found`;
-  const main = pickVariant(notFoundReplyVariants, seed);
+  const main = preferredMainReply(input.payload, pickVariant(notFoundReplyVariants, seed));
   const question = "Anh/chị có mã cũ, ảnh tem hoặc mô tả theo cụm máy để em đối chiếu lại không?";
   const optionPack = inferOptions(
     {
@@ -322,7 +345,7 @@ export function buildNotFoundReply(input: BuildReplyInput): BuiltReplyMessage {
 
 export function buildSymptomReply(input: BuildReplyInput): BuiltReplyMessage {
   const seed = `${input.payload.short_reply}-${input.latestUserText ?? ""}-symptom`;
-  const main = pickVariant(symptomReplyVariants, seed);
+  const main = preferredMainReply(input.payload, pickVariant(symptomReplyVariants, seed));
   const missingLabels = mapMissingFields(input.payload.missing_fields);
   const question = inferQuestion(input.payload, input.latestUserText ?? "", missingLabels);
   const warning = formatWarning(input.payload.avoid_recommendation, seed);
@@ -340,7 +363,10 @@ export function buildNeedMoreInfoReply(input: BuildReplyInput): BuiltReplyMessag
   const missingHint = missingLabels.slice(0, 2).join(" hoặc ") || "mã cũ hoặc ảnh tem";
   const seed = `${input.payload.short_reply}-${input.latestUserText ?? ""}-needs-more-info`;
 
-  const main = pickVariant(needMoreInfoVariants, seed).replace("{missing}", missingHint);
+  const main = preferredMainReply(
+    input.payload,
+    pickVariant(needMoreInfoVariants, seed).replace("{missing}", missingHint)
+  );
   const question = inferQuestion(input.payload, input.latestUserText ?? "", missingLabels);
   const warning = formatWarning(input.payload.avoid_recommendation, seed);
   const optionPack = inferOptions(input.payload, input.latestUserText ?? "");

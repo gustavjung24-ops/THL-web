@@ -1,10 +1,12 @@
 import type { AssistantStructuredResponse } from "@/lib/assistant/schemas";
+import type { AssistantPolicyContext } from "@/lib/assistant/policies";
 
 export type ProviderName = "openai" | "gemini";
 
 export type ProviderRequest = {
   messages: Array<{ role: "user" | "assistant"; content: string }>;
   instructions: string;
+  assistantContext?: AssistantPolicyContext;
 };
 
 export type ProviderResult =
