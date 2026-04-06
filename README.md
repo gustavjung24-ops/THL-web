@@ -1,100 +1,86 @@
 # Truyền Động Công Nghiệp
 
-Website tư vấn vật tư truyền động cho nhà máy và khu công nghiệp — tra mã nhanh, tư vấn theo ứng dụng thực tế, tiếp nhận báo giá.
+Website tư vấn vật tư truyền động cho nhà máy — tra mã nhanh, tư vấn theo ứng dụng, tiếp nhận báo giá.
 
-## Tính năng chính
+## Mục tiêu
 
-- **Tra mã nhanh** — chatbot AI tra mã vòng bi, gối đỡ, dây curoa, phớt, khớp nối theo catalog nội bộ.
-- **Discovery flow** — hướng dẫn ngắn (tối đa 3 bước) khi người dùng chưa biết mã.
-- **Trang sản phẩm** — danh mục nhóm hàng, trang chi tiết mỗi nhóm.
-- **Form báo giá** — tiếp nhận yêu cầu qua form, Zalo, gọi điện.
-- **Kiến thức kỹ thuật** — bài viết hỗ trợ vận hành nhà máy.
+- Tra mã vòng bi, gối đỡ, dây curoa, phớt, khớp nối qua chatbot AI
+- Hướng dẫn đúng mã khi chưa biết (discovery flow, tối đa 3 bước)
+- Tiếp nhận yêu cầu báo giá qua form, Zalo, gọi điện
 
 ## Công nghệ
 
-| Layer | Stack |
-|-------|-------|
-| Framework | Next.js 14 · App Router · TypeScript |
-| UI | Tailwind CSS · shadcn/ui |
-| Form | react-hook-form · zod |
-| AI | OpenAI Responses API · function calling |
-| Data | JSON catalog · JSON blog |
+- **Framework:** Next.js 14 · App Router · TypeScript
+- **UI:** Tailwind CSS · shadcn/ui
+- **Form:** react-hook-form · zod
+- **AI:** OpenAI Responses API · function calling
+- **Dữ liệu:** JSON catalog · JSON blog
 
 ## Routes
 
-| Path | Nội dung |
-|------|----------|
-| `/` | Trang chủ |
-| `/san-pham` | Danh mục sản phẩm |
-| `/san-pham/[slug]` | Chi tiết nhóm hàng |
-| `/giai-phap-theo-khach-hang` | Giải pháp theo khách hàng |
-| `/tra-ma-bao-gia` | Tra mã & gửi yêu cầu báo giá |
-| `/kien-thuc` | Bài viết kỹ thuật |
-| `/gioi-thieu` | Giới thiệu |
-| `/lien-he` | Liên hệ |
+- `/` — Trang chủ
+- `/san-pham` — Danh mục sản phẩm
+- `/san-pham/[slug]` — Chi tiết nhóm hàng
+- `/giai-phap-theo-khach-hang` — Giải pháp theo khách hàng
+- `/tra-ma-bao-gia` — Tra mã & báo giá
+- `/kien-thuc` — Bài viết kỹ thuật
+- `/gioi-thieu` — Giới thiệu
+- `/lien-he` — Liên hệ
 
 ## Chatbot tra mã
 
-Bubble góc phải dưới, gọi OpenAI qua `/api/assistant`.
-
-**Luồng:**
-1. Nhận input: mã cũ, kích thước, ứng dụng, triệu chứng.
-2. Parse ngữ cảnh (câu cụt, shorthand).
-3. Discovery flow ngắn nếu thiếu dữ liệu.
-4. Đối chiếu catalog nội bộ.
-5. Trả kết quả theo structured output schema.
-
-**Nguyên tắc:** không báo giá tự động, không tự kết luận tồn kho, ưu tiên phản hồi an toàn.
+- Bubble góc phải dưới, gọi OpenAI qua `/api/assistant`
+- Nhận input: mã cũ, kích thước, ứng dụng, triệu chứng
+- Parse ngữ cảnh (câu cụt, shorthand)
+- Discovery flow ngắn nếu thiếu dữ liệu
+- Đối chiếu catalog nội bộ, trả structured output
+- Không báo giá tự động, không tự kết luận tồn kho
 
 ## Cấu hình
 
-Thông tin site tập trung tại `src/config/site.ts`.
+Site config: `src/config/site.ts`
 
 ### Biến môi trường
 
 ```env
 OPENAI_API_KEY=<your_key>
-OPENAI_MODEL=gpt-4o-mini    # tuỳ chọn
+OPENAI_MODEL=gpt-4o-mini
 ```
 
-> Thiếu `OPENAI_API_KEY` → site vẫn chạy, chỉ chatbot trả lỗi graceful.
+Thiếu `OPENAI_API_KEY` → site vẫn chạy, chatbot trả lỗi graceful.
 
 ### Catalog demo
 
-```
-src/data/catalog/master-catalog.json
-src/data/catalog/equivalent-map.json
-src/data/catalog/brand-whitelist.json
-src/data/catalog/technical-rules.json
-```
+- `src/data/catalog/master-catalog.json`
+- `src/data/catalog/equivalent-map.json`
+- `src/data/catalog/brand-whitelist.json`
+- `src/data/catalog/technical-rules.json`
 
-Dữ liệu mẫu, chưa phải catalog vận hành thực tế.
+Dữ liệu mẫu, chưa phải catalog vận hành.
 
 ## Phát triển
 
 ```bash
 npm install
-npm run dev          # http://localhost:3000
+npm run dev       # http://localhost:3000
 npm run lint
 npm run build
-npm run start        # chạy bản build
+npm run start
 ```
 
-Yêu cầu Node.js 18.17+ (khuyến nghị Node 20).
+Yêu cầu Node.js 18.17+.
 
 ## Deploy
 
 ```bash
-# Vercel CLI
-npm i -g vercel
 vercel --prod
 ```
 
-Hoặc import repo từ Vercel dashboard, build command `npm run build`.
+Hoặc import repo từ Vercel dashboard.
 
 ## Nâng cấp tiếp theo
 
-- Kết nối form → CRM / Google Sheet
-- Upload ảnh → cloud storage (S3 / Cloudinary)
+- Form → CRM / Google Sheet
+- Upload ảnh → S3 / Cloudinary
 - Blog → Sanity hoặc MDX
-- Tracking conversion cho nút gọi / Zalo / form
+- Tracking conversion (gọi / Zalo / form)

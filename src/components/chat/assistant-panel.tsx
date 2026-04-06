@@ -38,7 +38,7 @@ type AssistantPanelProps = {
 };
 
 const defaultGreeting =
-  "Chào anh/chị, em hỗ trợ tra mã vật tư kỹ thuật. Gửi mã cũ, ảnh tem hoặc mô tả máy để em hỗ trợ nhanh.";
+  "Chào anh/chị, em hỗ trợ tra mã. Gửi mã cũ, ảnh tem hoặc mô tả máy nhé.";
 
 function getDiscoveryOptionLabel(option: string): string {
   if (option === "Tôi có ảnh tem / ảnh mẫu") {
@@ -59,7 +59,7 @@ function createId(): string {
 function formatAssistantReply(payload: AssistantStructuredResponse): string {
   if (payload.final_status === "ready" && payload.recommended_items.length > 0) {
     const topItems = payload.recommended_items.slice(0, 3);
-    const lines = [payload.short_reply.trim() || "Đã tìm được phương án mã phù hợp."];
+    const lines = [payload.short_reply.trim() || "Tìm được mã phù hợp."];
 
     lines.push("Mã đề xuất:");
     topItems.forEach((item) => {
@@ -82,10 +82,9 @@ function formatAssistantReply(payload: AssistantStructuredResponse): string {
 
   if (payload.final_status === "not_found_in_system" || payload.intent === "not_in_catalog") {
     return [
-      payload.short_reply.trim() || "Chưa có dữ liệu mã trong hệ thống.",
-      "Chưa có dữ liệu mã trong hệ thống.",
-      "Cần xác minh thêm hoặc ngoài danh mục đang hỗ trợ.",
-      "Tạm thời chưa báo mã để tránh sai.",
+      payload.short_reply.trim() || "Chưa có mã trong hệ thống.",
+      "Ngoài danh mục đang hỗ trợ.",
+      "Chưa báo mã để tránh sai.",
     ].join("\n");
   }
 
@@ -96,10 +95,9 @@ function formatAssistantReply(payload: AssistantStructuredResponse): string {
 
   const lines = [
     payload.short_reply.trim() || "Chưa thể chốt mã.",
-    "Chưa thể chốt mã.",
     `Cần thêm: ${missingText}`,
-    "Ưu tiên gửi: mã cũ, ảnh tem, kích thước, ứng dụng thực tế.",
-    "Tạm thời chưa báo mã để tránh sai.",
+    "Ưu tiên gửi: mã cũ, ảnh tem, kích thước.",
+    "Chưa báo mã để tránh sai.",
   ];
 
   if (payload.next_question) {
@@ -177,7 +175,7 @@ export function AssistantPanel({
       };
 
       if (!response.ok || !payload.ok) {
-        const text = payload.error?.trim().length ? payload.error : "Hệ thống AI tạm thời chưa sẵn sàng.";
+        const text = payload.error?.trim().length ? payload.error : "Hệ thống tạm chưa sẵn sàng.";
 
         setMessages((prev) => [
           ...prev,
@@ -254,7 +252,7 @@ export function AssistantPanel({
       const notifyMessage: UiMessage = {
         id: createId(),
         role: "assistant",
-        text: "Em đã ghi nhận ngữ cảnh. Em sẽ đối chiếu và đề xuất ngắn gọn ngay.",
+        text: "Đã ghi nhận. Đang đối chiếu...",
       };
 
       const historyBeforeApi = [...historyAfterUser, notifyMessage];
@@ -296,7 +294,7 @@ export function AssistantPanel({
           role: "assistant",
           text:
             parsed.next_question ??
-            "Anh/chị chọn nhanh một hướng bên dưới để em hỏi đúng thông tin cần thiết.",
+            "Chọn nhanh bên dưới để em hỏi đúng.",
         },
       ]);
       return;
@@ -445,7 +443,7 @@ export function AssistantPanel({
           </div>
 
           <p className="mt-1.5 px-1 text-[10.5px] leading-4 text-slate-400">
-            Trợ lý trả lời ngắn theo ứng dụng thực tế. Giá xác nhận riêng.
+            Trả lời theo ứng dụng thực tế. Giá xác nhận riêng.
           </p>
         </div>
       </div>

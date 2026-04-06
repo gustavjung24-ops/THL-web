@@ -24,13 +24,13 @@ export function AssistantMessage({ role, text }: AssistantMessageProps) {
     <div className={cn("flex w-full", isAssistant ? "justify-start pr-6 sm:pr-10" : "justify-end pl-6 sm:pl-10")}>
       <div
         className={cn(
-          "max-w-[92%] rounded-2xl px-3.5 py-2.5 text-[13px] leading-[1.65] sm:text-sm",
+          "max-w-[92%] rounded-2xl px-4 py-3 text-[13px] leading-[1.7] sm:text-sm",
           isAssistant
-            ? "border border-amber-100/80 bg-gradient-to-b from-amber-50/50 to-white text-slate-700 shadow-[0_6px_16px_-16px_rgba(15,23,42,0.3)]"
-            : "bg-slate-800 text-white shadow-[0_8px_18px_-16px_rgba(15,23,42,0.55)]"
+            ? "border border-amber-100/60 bg-gradient-to-b from-amber-50/40 via-white to-white text-slate-700 shadow-[0_2px_8px_-4px_rgba(15,23,42,0.1)]"
+            : "bg-slate-800 text-white shadow-[0_2px_10px_-6px_rgba(15,23,42,0.35)]"
         )}
       >
-        <div className="space-y-1.5">
+        <div className="space-y-2">
           {lines.map((line, index) => {
             const trimmed = line.trim();
 
