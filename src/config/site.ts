@@ -8,7 +8,7 @@ export const siteConfig = {
   zaloLabel: "Zalo hỗ trợ",
   zaloLink: "https://zalo.me/0934581487",
   email: "khuongbinh@tanhoaloi.net",
-  supportArea: "Khu vực hỗ trợ nhà máy tại Bình Dương và lân cận",
+  supportArea: "Hỗ trợ: Toàn quốc",
   responseTime: "Phản hồi trong giờ hành chính hoặc theo nhu cầu xử lý nhanh",
   address: "Dĩ An Bình Dương / Phú Thạnh Tân Phú HCM",
   defaultOgImage: "/images/branding/og-industrial.svg",

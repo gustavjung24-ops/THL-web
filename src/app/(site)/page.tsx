@@ -9,6 +9,7 @@ import {
   Clock3,
   Factory,
   Gauge,
+  Globe,
   Handshake,
   Landmark,
   Layers3,
@@ -74,7 +75,7 @@ const contactInfoItems = [
   },
   {
     label: siteConfig.supportArea,
-    Icon: Building2,
+    Icon: Globe,
   },
   {
     label: siteConfig.responseTime,

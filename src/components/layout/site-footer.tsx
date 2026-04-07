@@ -15,7 +15,15 @@ export function SiteFooter() {
       />
       <div className="mx-auto grid w-full max-w-6xl gap-8 px-4 py-10 sm:grid-cols-2 sm:px-6 lg:grid-cols-3">
         <div className="space-y-3">
-          <h3 className="font-heading text-base font-semibold text-slate-900">{siteConfig.brandName}</h3>
+          <Link href="/" className="inline-block">
+            <Image
+              src="/images/branding/logo-new.png"
+              alt={siteConfig.brandName}
+              width={160}
+              height={48}
+              className="h-10 w-auto object-contain"
+            />
+          </Link>
           <p className="text-sm text-slate-600">{siteConfig.slogan}</p>
           <p className="text-sm text-slate-600">
             Kênh tư vấn cá nhân tập trung vật tư truyền động cho nhà máy, bộ phận bảo trì, kỹ thuật và mua hàng.
