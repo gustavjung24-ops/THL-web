@@ -25,8 +25,8 @@ import {
 import { siteConfig } from "@/config/site";
 import { blogPosts } from "@/data/posts";
 import { brandLogos, brandDescriptions, productGroupBrandMap } from "@/data/brand-logos";
+import { productEntryCards, solutionEntryCards } from "@/data/home-entry-sections";
 import {
-  customerRoles,
   heroContent,
   heroHighlights,
   leadFormIntro,
@@ -57,7 +57,6 @@ const brandById = Object.fromEntries(brandLogos.map((brand) => [brand.id, brand]
 
 const trustBulletIcons = [ShieldCheck, Clock3, Users, Gauge];
 const supportCardIcons = [Search, Gauge, Workflow, Handshake, ClipboardCheck, Layers3];
-const customerRoleIcons = [Wrench, Gauge, ClipboardCheck, Factory];
 const supportProcessIcons = [MessageCircle, Search, BadgeCheck, ArrowRight];
 
 const contactInfoItems = [
@@ -96,10 +95,10 @@ export default function Home() {
           alt=""
           fill
           aria-hidden
-          className="pointer-events-none absolute inset-0 select-none object-cover object-top opacity-[0.16]"
+          className="pointer-events-none absolute inset-0 select-none object-cover object-top opacity-[0.28]"
         />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(146,64,14,0.10),_transparent_55%),radial-gradient(circle_at_15%_80%,_rgba(120,53,15,0.06),_transparent_50%)]" />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/72 via-white/78 to-white/88" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(146,64,14,0.06),_transparent_60%),radial-gradient(circle_at_15%_80%,_rgba(120,53,15,0.04),_transparent_55%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/60 via-white/68 to-white/82" />
         <div className="page-shell relative grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div className="space-y-6">
             <p className="inline-flex rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-amber-800">
@@ -229,6 +228,76 @@ export default function Home() {
       <section className="section-block bg-slate-50/70">
         <div className="page-shell space-y-7">
           <SectionTitle
+            eyebrow="Nhóm sản phẩm chính"
+            title="Vật tư phục vụ bảo trì & thay thế trong nhà máy"
+            description="Chọn nhóm sản phẩm để xem chi tiết, đối chiếu mã hoặc gửi nhu cầu báo giá."
+          />
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {productEntryCards.map((card) => (
+              <Link key={card.slug} href={card.href} className="group">
+                <Card className="h-full overflow-hidden border-slate-200 bg-white shadow-[0_10px_26px_-24px_rgba(15,23,42,0.55)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_36px_-22px_rgba(120,53,15,0.35)]">
+                  <div className="relative h-36 w-full overflow-hidden">
+                    <Image
+                      src={card.image}
+                      alt={card.title}
+                      fill
+                      className="object-cover transition duration-300 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent" />
+                    <h3 className="absolute bottom-3 left-4 right-4 text-sm font-bold text-white">{card.title}</h3>
+                  </div>
+                  <CardContent className="p-4">
+                    <p className="text-sm leading-relaxed text-slate-600">{card.description}</p>
+                    <p className="mt-3 inline-flex items-center text-sm font-semibold text-amber-800 group-hover:text-amber-900">
+                      {card.ctaLabel}
+                      <ArrowRight className="ml-1 size-4 transition group-hover:translate-x-0.5" />
+                    </p>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section-block">
+        <div className="page-shell space-y-7">
+          <SectionTitle
+            eyebrow="Theo vai trò"
+            title="Anh/chị đang ở vai trò nào trong nhà máy?"
+            description="Mỗi vai trò có nhu cầu khác nhau — chọn đúng giải pháp để được hỗ trợ phù hợp."
+          />
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {solutionEntryCards.map((card) => (
+              <Link key={card.slug} href={card.href} className="group">
+                <Card className="h-full overflow-hidden border-slate-200 bg-white shadow-[0_10px_26px_-24px_rgba(15,23,42,0.55)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_36px_-22px_rgba(120,53,15,0.35)]">
+                  <div className="relative h-36 w-full overflow-hidden">
+                    <Image
+                      src={card.image}
+                      alt={card.title}
+                      fill
+                      className="object-cover transition duration-300 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent" />
+                    <h3 className="absolute bottom-3 left-4 right-4 text-sm font-bold text-white">{card.title}</h3>
+                  </div>
+                  <CardContent className="p-4">
+                    <p className="text-sm leading-relaxed text-slate-600">{card.description}</p>
+                    <p className="mt-3 inline-flex items-center text-sm font-semibold text-amber-800 group-hover:text-amber-900">
+                      {card.ctaLabel}
+                      <ArrowRight className="ml-1 size-4 transition group-hover:translate-x-0.5" />
+                    </p>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section-block bg-slate-50/70">
+        <div className="page-shell space-y-7">
+          <SectionTitle
             eyebrow="Nhóm sản phẩm"
             title="Nhóm vật tư đang hỗ trợ tư vấn cho nhà máy"
             description="Tập trung các nhóm vật tư truyền động và làm kín, phục vụ trực tiếp nhu cầu bảo trì, thay thế và vận hành thiết bị trong nhà máy."
@@ -274,39 +343,6 @@ export default function Home() {
           <Button asChild variant="outline" className="border-amber-200 text-amber-800 hover:bg-amber-100">
             <Link href="/san-pham">Xem nhóm sản phẩm phù hợp cho nhà máy</Link>
           </Button>
-        </div>
-      </section>
-
-      <section className="section-block">
-        <div className="page-shell space-y-7">
-          <SectionTitle
-            eyebrow="Theo vai trò"
-            title="Anh/chị đang ở vai trò nào trong nhà máy?"
-            description="Mỗi vai trò có nhu cầu khác nhau – bên mình hỗ trợ theo đúng phần việc thực tế."
-          />
-          <div className="grid gap-4 sm:grid-cols-2">
-            {customerRoles.map((item, index) => {
-              const Icon = customerRoleIcons[index] ?? Users;
-
-              return (
-                <div
-                  key={item.role}
-                  className="rounded-xl border border-slate-200 bg-white p-5 shadow-[0_10px_26px_-24px_rgba(15,23,42,0.55)]"
-                >
-                  <p className="flex items-center gap-2 text-sm font-semibold text-slate-900">
-                    <span className="inline-flex rounded-md border border-amber-200 bg-amber-50 p-1.5">
-                      <Icon className="size-4 text-amber-800" />
-                    </span>
-                    {item.role}
-                  </p>
-                  <div className="mt-3 space-y-2">
-                    <p className="text-sm text-slate-600"><span className="font-medium text-slate-700">Thường gặp:</span> {item.problems}</p>
-                    <p className="text-sm text-slate-600"><span className="font-medium text-amber-800">Hỗ trợ:</span> {item.support}</p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
         </div>
       </section>
 
@@ -409,9 +445,9 @@ export default function Home() {
             alt=""
             fill
             aria-hidden
-            className="pointer-events-none absolute inset-0 object-cover opacity-[0.22]"
+            className="pointer-events-none absolute inset-0 object-cover opacity-[0.30]"
           />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/82 via-white/85 to-amber-50/60" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/72 via-white/76 to-amber-50/50" />
           <div className="relative grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
             <div className="space-y-3">
               <h2 className="font-heading text-2xl font-bold text-slate-900">Cần đối chiếu mã, xác nhận cụm thay thế hoặc báo giá gấp?</h2>
