@@ -128,9 +128,9 @@ export const productGroups: ProductGroup[] = [
     name: "Phớt chặn dầu",
     shortDescription: "Dùng trong hộp số, cụm trục, bơm, motor giảm tốc. Hay thay khi rò dầu, rỉ mỡ hoặc kèm theo thay vòng bi. Bảo trì và kỹ thuật hỏi nhiều.",
     detailDescription:
-      "Tập trung cho các cụm quay, cụm kín dầu và cụm truyền động cần hạn chế rò rỉ trong vận hành liên tục.",
-    popularApplications: ["Hộp số", "Cụm trục", "Bơm", "Motor giảm tốc", "Máy thủy lực"],
-    commonBuyers: ["Bảo trì", "Kỹ thuật", "Nhà máy sản xuất", "Đơn vị sửa chữa công nghiệp"],
+      "Phớt chặn dầu (oil seal) giữ vai trò ngăn rò rỉ dầu và mỡ tại các cụm quay, cụm kín dầu và cụm truyền động trong nhà máy. Khi phớt bị mòn, cứng hoặc biến dạng do nhiệt và hóa chất, dầu rỉ ra ngoài gây hư hỏng vòng bi, mất bôi trơn và giảm tuổi thọ thiết bị. Nhóm hàng phớt NOK và DINGZING được đối chiếu theo kích thước trục × vỏ × chiều cao, vật liệu (NBR, FKM/Viton, PTFE) và điều kiện vận hành (nhiệt độ, tốc độ, áp suất, môi trường hóa chất). Phớt thường được thay kèm khi thay vòng bi hoặc khi phát hiện rò dầu ở hộp số, motor giảm tốc, bơm và xi-lanh thủy lực.",
+    popularApplications: ["Hộp số công nghiệp", "Cụm trục chính", "Bơm nước / bơm hóa chất", "Motor giảm tốc", "Máy thủy lực", "Xi-lanh thủy lực"],
+    commonBuyers: ["Bảo trì nhà máy", "Kỹ thuật thiết bị", "Nhà máy sản xuất", "Đơn vị sửa chữa công nghiệp", "Xưởng cơ khí"],
   },
   {
     slug: "mo-boi-tron",
@@ -277,8 +277,8 @@ export const customerRoles: CustomerRole[] = [
   },
   {
     role: "Chủ xưởng / Cơ điện",
-    problems: "Máy chạy liên tục theo ca, vật tư chịu tải nặng, cần nguồn hỗ trợ kỹ thuật ổn định lâu dài.",
-    support: "Định hướng nhóm hàng theo vị trí máy, mức tải thực tế và điều kiện vận hành dài hạn.",
+    problems: "Máy chạy liên tục theo ca, vật tư chịu tải nặng, cần nguồn hỗ trợ kỹ thuật ổn định lâu dài. Thường tự xử lý sửa chữa nhưng khó tìm đúng mã thay thế khi hàng cũ hết hoặc đổi quy cách.",
+    support: "Định hướng nhóm hàng theo vị trí máy, mức tải thực tế và điều kiện vận hành dài hạn. Hỗ trợ đối chiếu mã tương đương khi hàng gốc không còn, gợi ý phương án phù hợp ngân sách và tiến độ xưởng.",
   },
 ];
 

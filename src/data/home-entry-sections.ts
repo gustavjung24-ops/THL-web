@@ -50,7 +50,7 @@ export const solutionEntryCards: HomeEntryCard[] = [
     title: "Bảo trì nhà máy",
     description: "Đối chiếu mã gấp, xử lý thay thế khi máy dừng đột xuất.",
     image: "/images/backgrounds/he-sinh-thai-home.jpeg",
-    href: "/giai-phap-theo-khach-hang",
+    href: "/giai-phap-theo-khach-hang/bao-tri",
     ctaLabel: "Xem giải pháp bảo trì",
   },
   {
@@ -58,7 +58,7 @@ export const solutionEntryCards: HomeEntryCard[] = [
     title: "Kỹ thuật thiết bị",
     description: "Xác nhận thông số theo tải, tốc độ và điều kiện vận hành thực tế.",
     image: "/images/backgrounds/he-sinh-thai-home.jpeg",
-    href: "/giai-phap-theo-khach-hang",
+    href: "/giai-phap-theo-khach-hang/ky-thuat",
     ctaLabel: "Xem giải pháp kỹ thuật",
   },
   {
@@ -66,7 +66,7 @@ export const solutionEntryCards: HomeEntryCard[] = [
     title: "Mua hàng kỹ thuật",
     description: "Tách rõ thông tin kỹ thuật và đặt hàng để xử lý đề nghị mua nhanh.",
     image: "/images/backgrounds/he-sinh-thai-home.jpeg",
-    href: "/giai-phap-theo-khach-hang",
+    href: "/giai-phap-theo-khach-hang/mua-hang",
     ctaLabel: "Xem giải pháp mua hàng",
   },
   {
@@ -74,7 +74,7 @@ export const solutionEntryCards: HomeEntryCard[] = [
     title: "Chủ xưởng / Cơ điện",
     description: "Định hướng nhóm hàng theo vị trí máy, mức tải và vận hành dài hạn.",
     image: "/images/industry/xich-did.jpg",
-    href: "/giai-phap-theo-khach-hang",
+    href: "/giai-phap-theo-khach-hang/chu-xuong",
     ctaLabel: "Xem giải pháp xưởng",
   },
 ];
