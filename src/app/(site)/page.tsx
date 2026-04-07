@@ -70,10 +70,6 @@ const contactInfoItems = [
     Icon: MessageCircle,
   },
   {
-    label: siteConfig.address,
-    Icon: MapPin,
-  },
-  {
     label: siteConfig.supportArea,
     Icon: Globe,
   },
@@ -100,10 +96,10 @@ export default function Home() {
           alt=""
           fill
           aria-hidden
-          className="pointer-events-none absolute inset-0 select-none object-cover opacity-[0.08] blur-[1px]"
+          className="pointer-events-none absolute inset-0 select-none object-cover opacity-[0.18]"
         />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(146,64,14,0.14),_transparent_42%),radial-gradient(circle_at_15%_80%,_rgba(120,53,15,0.1),_transparent_37%)]" />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/88 via-white/92 to-white/96" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(146,64,14,0.12),_transparent_50%),radial-gradient(circle_at_15%_80%,_rgba(120,53,15,0.08),_transparent_45%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/80 via-white/82 to-white/88" />
         <div className="page-shell relative grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div className="space-y-6">
             <p className="inline-flex rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-amber-800">
@@ -413,9 +409,9 @@ export default function Home() {
             alt=""
             fill
             aria-hidden
-            className="pointer-events-none absolute inset-0 object-cover opacity-[0.09]"
+            className="pointer-events-none absolute inset-0 object-cover opacity-[0.22]"
           />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/92 via-white/95 to-amber-50/70" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/82 via-white/85 to-amber-50/60" />
           <div className="relative grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
             <div className="space-y-3">
               <h2 className="font-heading text-2xl font-bold text-slate-900">Cần đối chiếu mã, xác nhận cụm thay thế hoặc báo giá gấp?</h2>

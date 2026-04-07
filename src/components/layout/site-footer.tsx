@@ -47,7 +47,6 @@ export function SiteFooter() {
         <div className="space-y-3">
           <h3 className="font-heading text-base font-semibold text-slate-900">Thông tin liên hệ</h3>
           <ul className="space-y-2 text-sm text-slate-600">
-            <li>{siteConfig.personalName}</li>
             <li>
               <a href={siteConfig.phoneHref} className="hover:text-amber-800">
                 {siteConfig.phone}
@@ -59,7 +58,6 @@ export function SiteFooter() {
               </a>
             </li>
             <li>{siteConfig.email}</li>
-            <li>{siteConfig.address}</li>
             <li>{siteConfig.supportArea}</li>
             <li>Giờ phản hồi: {siteConfig.responseTime}</li>
           </ul>
