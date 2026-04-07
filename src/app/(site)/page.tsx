@@ -92,14 +92,14 @@ export default function Home() {
     <div className="overflow-x-hidden">
       <section className="relative overflow-hidden border-b border-slate-200/80 pb-12 pt-10 sm:pt-14">
         <Image
-          src="/images/backgrounds/chain-drive.jpg"
+          src="/images/backgrounds/he-sinh-thai-home.jpeg"
           alt=""
           fill
           aria-hidden
-          className="pointer-events-none absolute inset-0 select-none object-cover opacity-[0.18]"
+          className="pointer-events-none absolute inset-0 select-none object-cover object-top opacity-[0.16]"
         />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(146,64,14,0.12),_transparent_50%),radial-gradient(circle_at_15%_80%,_rgba(120,53,15,0.08),_transparent_45%)]" />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/80 via-white/82 to-white/88" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(146,64,14,0.10),_transparent_55%),radial-gradient(circle_at_15%_80%,_rgba(120,53,15,0.06),_transparent_50%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/72 via-white/78 to-white/88" />
         <div className="page-shell relative grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div className="space-y-6">
             <p className="inline-flex rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-amber-800">
