@@ -95,10 +95,10 @@ export default function Home() {
           alt=""
           fill
           aria-hidden
-          className="pointer-events-none absolute inset-0 select-none object-cover object-top opacity-[0.28]"
+          className="pointer-events-none absolute inset-0 select-none object-cover object-top opacity-[0.50]"
         />
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(146,64,14,0.06),_transparent_60%),radial-gradient(circle_at_15%_80%,_rgba(120,53,15,0.04),_transparent_55%)]" />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/60 via-white/68 to-white/82" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/30 via-white/38 to-white/55" />
         <div className="page-shell relative grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div className="space-y-6">
             <p className="inline-flex rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-amber-800">
@@ -445,9 +445,9 @@ export default function Home() {
             alt=""
             fill
             aria-hidden
-            className="pointer-events-none absolute inset-0 object-cover opacity-[0.30]"
+            className="pointer-events-none absolute inset-0 object-cover opacity-[0.50]"
           />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/72 via-white/76 to-amber-50/50" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/35 via-white/42 to-amber-50/20" />
           <div className="relative grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
             <div className="space-y-3">
               <h2 className="font-heading text-2xl font-bold text-slate-900">Cần đối chiếu mã, xác nhận cụm thay thế hoặc báo giá gấp?</h2>
