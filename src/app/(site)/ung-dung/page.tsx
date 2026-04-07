@@ -26,15 +26,16 @@ export default function IndustryApplicationsPage() {
           {industryApplications.map((app) => (
             <Link key={app.slug} href={`/ung-dung/${app.slug}`} className="group">
               <Card className="h-full overflow-hidden border-slate-200 bg-white transition hover:-translate-y-0.5 hover:shadow-lg">
-                <div className="relative h-40 w-full overflow-hidden">
+                <div className="relative aspect-[16/9] w-full overflow-hidden">
                   <Image
                     src={app.image}
-                    alt={app.name}
+                    alt={app.imageAlt}
                     fill
-                    className="object-cover transition duration-300 group-hover:scale-105"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover object-center transition duration-300 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent" />
-                  <h3 className="absolute bottom-3 left-4 text-base font-bold text-white">{app.name}</h3>
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-slate-900/20 to-transparent" />
+                  <h3 className="absolute bottom-3 left-4 text-base font-bold text-white drop-shadow-sm">{app.name}</h3>
                 </div>
                 <CardContent className="p-4">
                   <p className="text-sm leading-relaxed text-slate-600">{app.description}</p>

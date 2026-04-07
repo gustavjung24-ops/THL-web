@@ -33,8 +33,8 @@ export default function IndustryApplicationDetail({ params }: { params: { slug: 
           Tất cả ngành máy
         </Link>
 
-        <div className="relative h-52 w-full overflow-hidden rounded-xl sm:h-64">
-          <Image src={app.image} alt={app.name} fill className="object-cover" />
+        <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl">
+          <Image src={app.image} alt={app.imageAlt} fill sizes="(max-width: 768px) 100vw, 768px" className="object-cover object-center" />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent" />
           <h1 className="absolute bottom-4 left-5 text-2xl font-bold text-white">{app.name}</h1>
         </div>

@@ -235,15 +235,16 @@ export default function Home() {
             {productEntryCards.map((card) => (
               <Link key={card.slug} href={card.href} className="group">
                 <Card className="h-full overflow-hidden border-slate-200 bg-white shadow-[0_10px_26px_-24px_rgba(15,23,42,0.55)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_36px_-22px_rgba(120,53,15,0.35)]">
-                  <div className="relative h-36 w-full overflow-hidden">
+                  <div className="relative aspect-[16/9] w-full overflow-hidden">
                     <Image
                       src={card.image}
-                      alt={card.title}
+                      alt={card.imageAlt}
                       fill
-                      className="object-cover transition duration-300 group-hover:scale-105"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      className="object-cover object-center transition duration-300 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent" />
-                    <h3 className="absolute bottom-3 left-4 right-4 text-sm font-bold text-white">{card.title}</h3>
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-slate-900/20 to-transparent" />
+                    <h3 className="absolute bottom-3 left-4 right-4 text-sm font-bold text-white drop-shadow-sm">{card.title}</h3>
                   </div>
                   <CardContent className="p-4">
                     <p className="text-sm leading-relaxed text-slate-600">{card.description}</p>
@@ -270,15 +271,16 @@ export default function Home() {
             {solutionEntryCards.map((card) => (
               <Link key={card.slug} href={card.href} className="group">
                 <Card className="h-full overflow-hidden border-slate-200 bg-white shadow-[0_10px_26px_-24px_rgba(15,23,42,0.55)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_36px_-22px_rgba(120,53,15,0.35)]">
-                  <div className="relative h-36 w-full overflow-hidden">
+                  <div className="relative aspect-[16/9] w-full overflow-hidden">
                     <Image
                       src={card.image}
-                      alt={card.title}
+                      alt={card.imageAlt}
                       fill
-                      className="object-cover transition duration-300 group-hover:scale-105"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      className="object-cover object-center transition duration-300 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent" />
-                    <h3 className="absolute bottom-3 left-4 right-4 text-sm font-bold text-white">{card.title}</h3>
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-slate-900/20 to-transparent" />
+                    <h3 className="absolute bottom-3 left-4 right-4 text-sm font-bold text-white drop-shadow-sm">{card.title}</h3>
                   </div>
                   <CardContent className="p-4">
                     <p className="text-sm leading-relaxed text-slate-600">{card.description}</p>
