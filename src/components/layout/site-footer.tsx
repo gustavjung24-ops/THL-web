@@ -1,6 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Clock3, Globe, MessageCircle, PhoneCall } from "lucide-react";
 import { footerMenu, siteConfig } from "@/config/site";
+
+const footerContactItems = [
+  { label: siteConfig.phone, href: siteConfig.phoneHref, Icon: PhoneCall },
+  { label: siteConfig.zaloLabel, href: siteConfig.zaloLink, Icon: MessageCircle, external: true },
+  { label: siteConfig.supportArea, Icon: Globe },
+  { label: `Giờ phản hồi: ${siteConfig.responseTime}`, Icon: Clock3 },
+] as const;
 
 export function SiteFooter() {
   return (
@@ -46,20 +54,23 @@ export function SiteFooter() {
 
         <div className="space-y-3">
           <h3 className="font-heading text-base font-semibold text-slate-900">Thông tin liên hệ</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
-            <li>
-              <a href={siteConfig.phoneHref} className="hover:text-amber-800">
-                {siteConfig.phone}
-              </a>
-            </li>
-            <li>
-              <a href={siteConfig.zaloLink} className="hover:text-amber-800" target="_blank" rel="noreferrer">
-                {siteConfig.zaloLabel}
-              </a>
-            </li>
-            <li>{siteConfig.email}</li>
-            <li>{siteConfig.supportArea}</li>
-            <li>Giờ phản hồi: {siteConfig.responseTime}</li>
+          <ul className="space-y-3 text-sm text-slate-600">
+            {footerContactItems.map((item) => (
+              <li key={item.label} className="flex items-center gap-2.5">
+                <item.Icon className="size-4 shrink-0 text-amber-800" />
+                {"href" in item && item.href ? (
+                  <a
+                    href={item.href}
+                    className="hover:text-amber-800"
+                    {...("external" in item && item.external ? { target: "_blank", rel: "noreferrer" } : {})}
+                  >
+                    {item.label}
+                  </a>
+                ) : (
+                  <span>{item.label}</span>
+                )}
+              </li>
+            ))}
           </ul>
         </div>
       </div>

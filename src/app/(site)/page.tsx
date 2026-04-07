@@ -130,13 +130,12 @@ export default function Home() {
 
           <Card className="border-slate-200 bg-white/95 shadow-[0_16px_30px_-24px_rgba(120,53,15,0.45)]">
             <CardContent className="p-4 sm:p-5">
-              <div className="overflow-hidden rounded-lg border border-slate-200 bg-slate-50">
+              <div className="relative h-52 overflow-hidden rounded-lg border border-slate-200 sm:h-60">
                 <Image
-                  src="/images/branding/hero-industrial.svg"
-                  alt="Mô phỏng cụm truyền động trong nhà máy"
-                  width={640}
-                  height={420}
-                  className="h-auto w-full"
+                  src="/images/backgrounds/chain-drive.jpg"
+                  alt="Cụm truyền động xích và vòng bi trong nhà máy"
+                  fill
+                  className="object-cover"
                   priority
                 />
               </div>

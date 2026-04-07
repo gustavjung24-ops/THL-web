@@ -9,7 +9,7 @@ export const siteConfig = {
   zaloLink: "https://zalo.me/0934581487",
   email: "khuongbinh@tanhoaloi.net",
   supportArea: "Hỗ trợ: Toàn quốc",
-  responseTime: "Phản hồi trong giờ hành chính",
+  responseTime: "Phản hồi trong giờ hành chính hoặc theo nhu cầu xử lý nhanh",
   address: "Dĩ An Bình Dương / Phú Thạnh Tân Phú HCM",
   defaultOgImage: "/images/branding/og-industrial.svg",
   footerCredit: "By Khương Bình",
