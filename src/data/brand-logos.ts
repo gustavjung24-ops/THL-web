@@ -44,6 +44,15 @@ export const brandLogos: BrandLogo[] = [
   },
 ];
 
+export const brandDescriptions: Record<string, string> = {
+  "koyo-jtekt": "Vòng bi · Gối đỡ",
+  "did": "Xích công nghiệp",
+  "nok": "Phớt chặn dầu",
+  "mitsuba": "Dây curoa",
+  "sunrise": "Vòng bi · Dây curoa · Mỡ bôi trơn",
+  "dingzing": "Phớt chặn dầu",
+};
+
 export const productGroupBrandMap: Record<string, string[]> = {
   "vong-bi": ["koyo-jtekt", "sunrise"],
   "goi-do": ["koyo-jtekt"],

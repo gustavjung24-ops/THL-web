@@ -9,7 +9,9 @@ export type ProductGroup = {
 
 export type SupportService = {
   title: string;
-  description: string;
+  clientSends: string;
+  weSupport: string;
+  clientGets: string;
 };
 
 export type CustomerSegment = {
@@ -25,49 +27,61 @@ export type CustomerSolution = {
 };
 
 export const heroContent = {
-  eyebrow: "Kênh tư vấn vật tư kỹ thuật cho nhà máy và khách công nghiệp",
-  heading: "Hỗ trợ tra mã, tư vấn và báo giá vật tư truyền động cho nhà máy trong khu công nghiệp",
+  eyebrow: "Hỗ trợ vật tư truyền động cho nhà máy",
+  heading: "Tra mã – Đối chiếu – Báo giá nhanh cho bảo trì & thay thế",
   subheading:
-    "Tập trung các nhóm hàng phục vụ bảo trì và thay thế trong nhà máy: vòng bi, gối đỡ, dây curoa, xích công nghiệp, phớt chặn dầu và mỡ bôi trơn. Ưu tiên nhu cầu cần xử lý nhanh, đúng mã và phù hợp điều kiện vận hành thực tế.",
+    "Dành cho bộ phận bảo trì, kỹ thuật, mua hàng và chủ xưởng cần xử lý thay thế vòng bi, gối đỡ, xích, dây curoa, phớt chặn dầu – đúng mã, đúng cụm máy, không chờ lâu.",
 };
 
 export const trustBullets = [
-  "Hỗ trợ đối chiếu mã theo cụm máy và ứng dụng thực tế",
-  "Ưu tiên nhu cầu thay thế để giảm thời gian dừng máy",
-  "Phù hợp cho bộ phận bảo trì, kỹ thuật và mua hàng",
-  "Gợi ý phương án hàng theo tiến độ, mức tải và môi trường làm việc",
+  "Giảm rủi ro đặt sai mã ngay từ bước đối chiếu đầu tiên",
+  "Phản hồi trong ngày cho nhu cầu thay thế ảnh hưởng sản xuất",
+  "Phối hợp được giữa bảo trì – kỹ thuật – mua hàng cùng nhà máy",
+  "Gợi ý theo điều kiện vận hành thực tế, không chỉ gửi giá",
 ];
 
 export const heroHighlights = [
-  "Tiếp nhận nhu cầu trong ngày",
-  "Bám mã, bám ứng dụng, bám tiến độ",
-  "Ưu tiên nhóm khách nhà máy và xưởng sản xuất",
+  "Cần đối chiếu mã gấp theo tem cũ hoặc cụm máy đang dừng",
+  "Chưa rõ cụm nào cần thay – cần tư vấn theo hiện trạng",
+  "Cần phương án tương đương phù hợp tải, nhiệt, môi trường vận hành",
 ];
 
 export const supportCards: SupportService[] = [
   {
-    title: "Tra mã theo cụm máy và mã cũ",
-    description: "Đối chiếu theo mã đang dùng, ảnh tem, kích thước hoặc vị trí lắp để hạn chế đặt sai.",
+    title: "Đối chiếu mã theo cụm máy",
+    clientSends: "Gửi mã cũ, ảnh tem hoặc kích thước",
+    weSupport: "Đối chiếu theo catalog và ứng dụng thực tế",
+    clientGets: "Mã chính xác, giảm rủi ro đặt sai",
   },
   {
-    title: "Tư vấn chọn hàng theo điều kiện vận hành",
-    description: "Ưu tiên theo tải, nhiệt, bụi, độ ẩm, tốc độ quay và thời gian làm việc của thiết bị.",
+    title: "Tư vấn chọn hàng theo vận hành",
+    clientSends: "Mô tả cụm máy, tải, nhiệt, môi trường",
+    weSupport: "Phân tích điều kiện và gợi ý nhóm hàng phù hợp",
+    clientGets: "Phương án đúng ứng dụng, không thừa không thiếu",
   },
   {
-    title: "Gợi ý phương án thay thế khi cần xử lý gấp",
-    description: "Hỗ trợ các trường hợp cần ra phương án nhanh để giảm thời gian chờ vật tư.",
+    title: "Xử lý gấp khi máy dừng",
+    clientSends: "Tình trạng thiết bị, mốc thời gian cần hàng",
+    weSupport: "Ưu tiên đối chiếu nhanh, đề xuất hàng tương đương",
+    clientGets: "Phương án thay thế ngay, giảm thời gian chờ",
   },
   {
-    title: "Phối hợp theo nhu cầu của bảo trì và mua hàng",
-    description: "Hỗ trợ tách rõ phần kỹ thuật và phần đặt hàng để làm việc nhanh hơn trong nội bộ nhà máy.",
+    title: "Phối hợp nội bộ nhà máy",
+    clientSends: "Nhu cầu từ bảo trì hoặc kỹ thuật",
+    weSupport: "Tách rõ phần kỹ thuật và phần đặt hàng",
+    clientGets: "Thông tin gọn, mua hàng dễ kiểm tra và xử lý",
   },
   {
-    title: "Tiếp nhận nhu cầu báo giá theo tình huống thực tế",
-    description: "Ưu tiên các trường hợp cần xử lý trong ngày hoặc đang ảnh hưởng tiến độ sản xuất.",
+    title: "Tiếp nhận báo giá nhanh",
+    clientSends: "Danh sách mã hoặc nhu cầu cụ thể",
+    weSupport: "Ưu tiên các trường hợp ảnh hưởng tiến độ",
+    clientGets: "Báo giá theo tình huống, không chờ quy trình dài",
   },
   {
-    title: "Định hướng nhóm hàng phù hợp theo tiến độ và ngân sách",
-    description: "Cân đối giữa độ ổn định, thời gian cần hàng và mức đầu tư của từng vị trí máy.",
+    title: "Định hướng nhóm hàng phù hợp",
+    clientSends: "Ngân sách, tiến độ, yêu cầu chất lượng",
+    weSupport: "Cân đối giữa độ ổn định, thời gian giao và chi phí",
+    clientGets: "Phương án phù hợp thực tế, không bị oversell",
   },
 ];
 
@@ -75,7 +89,7 @@ export const productGroups: ProductGroup[] = [
   {
     slug: "vong-bi",
     name: "Vòng bi",
-    shortDescription: "Đối chiếu mã vòng bi theo tải, tốc độ quay, môi trường bụi nhiệt và cụm máy đang sử dụng.",
+    shortDescription: "Dùng trong động cơ, bơm, quạt, hộp số. Hay thay khi ổ kêu, rung, nóng hoặc đến kỳ bảo trì. Bảo trì và kỹ thuật nhà máy hỏi nhiều nhất.",
     detailDescription:
       "Phù hợp cho các hệ truyền động và cụm quay cần vận hành ổn định trong nhà máy chạy theo ca.",
     popularApplications: ["Động cơ điện", "Máy bơm", "Quạt công nghiệp", "Hộp số", "Trục quay", "Con lăn"],
@@ -85,7 +99,7 @@ export const productGroups: ProductGroup[] = [
     slug: "goi-do",
     name: "Gối đỡ",
     shortDescription:
-      "Tư vấn gối đỡ theo đường kính trục, kiểu lắp, vị trí đỡ và điều kiện vận hành liên tục trong nhà xưởng.",
+      "Dùng trong băng tải, trục truyền động, dây chuyền đóng gói. Hay thay khi lỏng, lệch tâm hoặc kèm thay vòng bi. Bảo trì dây chuyền hỏi nhiều nhất.",
     detailDescription:
       "Ưu tiên phương án đồng bộ với cụm đỡ trục trong dây chuyền để giảm thời gian chỉnh sửa khi thay thế.",
     popularApplications: ["Băng tải", "Trục truyền động", "Cụm đỡ trong dây chuyền", "Máy đóng gói"],
@@ -94,7 +108,7 @@ export const productGroups: ProductGroup[] = [
   {
     slug: "day-curoa",
     name: "Dây curoa",
-    shortDescription: "Gợi ý dây theo profile, chiều dài, tải làm việc và tốc độ vận hành của thiết bị.",
+    shortDescription: "Dùng trong quạt, máy nén khí, hệ truyền động phụ. Hay thay khi trượt, nứt, giãn hoặc đến kỳ. Bảo trì và kỹ thuật nhà máy hỏi nhiều.",
     detailDescription:
       "Tập trung cho các cụm truyền động phụ cần thay thế định kỳ để giữ ổn định tiến độ sản xuất.",
     popularApplications: ["Quạt công nghiệp", "Máy nén khí", "Máy dệt", "Máy đóng gói", "Hệ truyền động phụ"],
@@ -103,7 +117,7 @@ export const productGroups: ProductGroup[] = [
   {
     slug: "xich-cong-nghiep",
     name: "Xích công nghiệp",
-    shortDescription: "Đối chiếu bước xích, số mắt, tải và môi trường làm việc để chọn đúng phương án thay thế.",
+    shortDescription: "Dùng trong băng tải xích, dây chuyền sản xuất, cơ cấu truyền động. Hay thay khi giãn, mòn hoặc đứt mắt. Bảo trì dây chuyền hỏi nhiều nhất.",
     detailDescription:
       "Ưu tiên các hệ thống băng tải và cơ cấu truyền động cần xử lý nhanh để giảm thời gian dừng thiết bị.",
     popularApplications: ["Băng tải xích", "Máy sản xuất", "Dây chuyền chuyển phôi", "Cơ cấu truyền động"],
@@ -112,7 +126,7 @@ export const productGroups: ProductGroup[] = [
   {
     slug: "phot-chan-dau",
     name: "Phớt chặn dầu",
-    shortDescription: "Tư vấn theo kích thước trục - vỏ, vật liệu và yêu cầu giữ kín trong cụm máy.",
+    shortDescription: "Dùng trong hộp số, cụm trục, bơm, motor giảm tốc. Hay thay khi rò dầu, rỉ mỡ hoặc kèm theo thay vòng bi. Bảo trì và kỹ thuật hỏi nhiều.",
     detailDescription:
       "Tập trung cho các cụm quay, cụm kín dầu và cụm truyền động cần hạn chế rò rỉ trong vận hành liên tục.",
     popularApplications: ["Hộp số", "Cụm trục", "Bơm", "Motor giảm tốc", "Máy thủy lực"],
@@ -121,7 +135,7 @@ export const productGroups: ProductGroup[] = [
   {
     slug: "mo-boi-tron",
     name: "Mỡ bôi trơn",
-    shortDescription: "Gợi ý mỡ theo nhiệt độ, tốc độ quay, tải và chu kỳ bảo trì của thiết bị.",
+    shortDescription: "Dùng cho vòng bi, con lăn, motor, cụm quay liên tục. Hay dùng khi bổ sung định kỳ hoặc kèm thay vòng bi. Bảo trì nhà máy dùng nhiều nhất.",
     detailDescription:
       "Phù hợp cho các cụm chạy liên tục theo ca, cần độ ổn định bôi trơn và kế hoạch bảo trì rõ ràng.",
     popularApplications: ["Vòng bi tốc độ cao", "Cụm con lăn", "Motor", "Quạt", "Cụm chạy liên tục theo ca"],
@@ -165,25 +179,25 @@ export const customerSegments: CustomerSegment[] = [
 ];
 
 export const whyContactBullets = [
-  "Giảm rủi ro sai mã ngay từ bước đối chiếu ban đầu",
-  "Dễ làm việc khi cần trao đổi giữa bảo trì, kỹ thuật và mua hàng",
-  "Có định hướng theo ứng dụng thực tế thay vì chỉ gửi giá",
-  "Hỗ trợ nhanh các nhu cầu thay thế đang ảnh hưởng vận hành",
-  "Thuận tiện gửi mã, ảnh, kích thước hoặc hiện trạng máy qua Zalo",
+  "Giảm rủi ro đặt sai mã – đối chiếu trước khi đặt hàng",
+  "Phối hợp thuận lợi giữa bảo trì, kỹ thuật và mua hàng",
+  "Có phương án theo ứng dụng thực tế, không chỉ tra giá",
+  "Xử lý nhanh các tình huống thay thế đang ảnh hưởng sản xuất",
+  "Gửi mã, ảnh, kích thước qua Zalo – tiếp nhận ngay",
 ];
 
 export const whyContactDescription =
-  "Mục tiêu không chỉ là gửi báo giá, mà là giúp khách xác định đúng nhu cầu, đúng cụm chi tiết và đúng phương án xử lý để giảm mất thời gian trong quá trình nội bộ nhà máy xác nhận và đặt hàng.";
+  "Mục tiêu: giúp xác định đúng mã, đúng cụm, đúng phương án – để nội bộ nhà máy xác nhận nhanh và đặt hàng không mất thêm thời gian.";
 
 export const supportProcess = [
-  "Gửi mã, ảnh, kích thước hoặc mô tả cụm máy",
-  "Tiếp nhận và đối chiếu theo thông tin kỹ thuật thực tế",
-  "Đề xuất mã phù hợp hoặc phương án tương đương nếu cần xử lý gấp",
-  "Chuyển sang bước báo giá, xác nhận và theo dõi nhu cầu",
+  "Gửi mã cũ, ảnh tem, ảnh cụm máy hoặc kích thước đang có",
+  "Đối chiếu nhanh theo ứng dụng, catalog và điều kiện vận hành",
+  "Xác nhận nhóm hàng phù hợp – mã chính hoặc phương án tương đương",
+  "Chuyển xử lý báo giá, xác nhận số lượng và theo dõi tiến độ",
 ];
 
 export const supportProcessNote =
-  "Thông tin càng rõ về cụm máy, mã cũ, kích thước hoặc hình ảnh thực tế thì thời gian hỗ trợ càng nhanh và chính xác.";
+  "Gửi càng rõ thông tin cụm máy, mã cũ hoặc hình ảnh tem → xử lý càng nhanh, giảm trao đổi qua lại.";
 
 export const solutionByCustomer: CustomerSolution[] = [
   {
@@ -238,6 +252,35 @@ export const solutionByCustomer: CustomerSolution[] = [
 
 export const leadFormIntro =
   "Anh/chị có thể gửi mã cũ, ảnh tem, ảnh vị trí lắp, kích thước hoặc mô tả thiết bị để hỗ trợ đối chiếu nhanh hơn.";
+
+export type CustomerRole = {
+  role: string;
+  problems: string;
+  support: string;
+};
+
+export const customerRoles: CustomerRole[] = [
+  {
+    role: "Bảo trì nhà máy",
+    problems: "Máy hỏng đột xuất, mã cũ mờ hoặc thiếu, cần xử lý gấp trong ngày để không ảnh hưởng sản xuất.",
+    support: "Đối chiếu mã theo ảnh tem, kích thước, hiện trạng – đề xuất phương án thay thế nhanh nhất.",
+  },
+  {
+    role: "Kỹ thuật thiết bị",
+    problems: "Cần xác nhận đúng thông số theo tải, tốc độ, nhiệt và môi trường để tránh chọn sai mã.",
+    support: "Tư vấn theo thông số vận hành thực tế, đối chiếu catalog và gợi ý nhóm hàng phù hợp cụm máy.",
+  },
+  {
+    role: "Mua hàng kỹ thuật",
+    problems: "Thông tin mã từ bảo trì / kỹ thuật không rõ, cần xác nhận nhanh để xử lý đề nghị mua.",
+    support: "Tách rõ thông tin kỹ thuật – thông tin đặt hàng, giúp kiểm tra và so sánh phương án dễ hơn.",
+  },
+  {
+    role: "Chủ xưởng / Cơ điện",
+    problems: "Máy chạy liên tục theo ca, vật tư chịu tải nặng, cần nguồn hỗ trợ kỹ thuật ổn định lâu dài.",
+    support: "Định hướng nhóm hàng theo vị trí máy, mức tải thực tế và điều kiện vận hành dài hạn.",
+  },
+];
 
 export const leadFormUploadHint =
   "Anh/chị có thể gửi ảnh tem, ảnh mẫu cũ hoặc ảnh vị trí lắp để hỗ trợ đối chiếu nhanh hơn.";

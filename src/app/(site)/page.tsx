@@ -23,9 +23,9 @@ import {
 } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { blogPosts } from "@/data/posts";
-import { brandLogos, productGroupBrandMap } from "@/data/brand-logos";
+import { brandLogos, brandDescriptions, productGroupBrandMap } from "@/data/brand-logos";
 import {
-  customerSegments,
+  customerRoles,
   heroContent,
   heroHighlights,
   leadFormIntro,
@@ -56,7 +56,7 @@ const brandById = Object.fromEntries(brandLogos.map((brand) => [brand.id, brand]
 
 const trustBulletIcons = [ShieldCheck, Clock3, Users, Gauge];
 const supportCardIcons = [Search, Gauge, Workflow, Handshake, ClipboardCheck, Layers3];
-const customerSegmentIcons = [Factory, Wrench, Building2, Landmark, Factory, Wrench, Building2, Clock3];
+const customerRoleIcons = [Wrench, Gauge, ClipboardCheck, Factory];
 const supportProcessIcons = [MessageCircle, Search, BadgeCheck, ArrowRight];
 
 const contactInfoItems = [
@@ -180,8 +180,10 @@ export default function Home() {
                       <span>{card.title}</span>
                     </CardTitle>
                   </CardHeader>
-                  <CardContent>
-                    <p className="text-sm leading-relaxed text-slate-600">{card.description}</p>
+                  <CardContent className="space-y-2">
+                    <p className="text-sm text-slate-600"><span className="font-medium text-slate-700">Khách gửi:</span> {card.clientSends}</p>
+                    <p className="text-sm text-slate-600"><span className="font-medium text-slate-700">Hỗ trợ:</span> {card.weSupport}</p>
+                    <p className="text-sm text-slate-600"><span className="font-medium text-amber-800">Kết quả:</span> {card.clientGets}</p>
                   </CardContent>
                 </Card>
               );
@@ -209,7 +211,7 @@ export default function Home() {
             {brandLogos.map((brand) => (
               <div
                 key={brand.id}
-                className="group flex min-h-24 items-center justify-center rounded-xl border border-slate-200 bg-slate-50/70 p-4 shadow-[0_10px_20px_-22px_rgba(15,23,42,0.6)] transition hover:border-amber-200 hover:bg-white"
+                className="group flex min-h-24 flex-col items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-50/70 p-4 shadow-[0_10px_20px_-22px_rgba(15,23,42,0.6)] transition hover:border-amber-200 hover:bg-white"
               >
                 <Image
                   src={brand.src}
@@ -218,6 +220,9 @@ export default function Home() {
                   height={44}
                   className="h-auto max-h-9 w-auto object-contain opacity-70 grayscale transition duration-200 group-hover:opacity-100 group-hover:grayscale-0"
                 />
+                {brandDescriptions[brand.id] ? (
+                  <p className="text-center text-[11px] leading-tight text-slate-500">{brandDescriptions[brand.id]}</p>
+                ) : null}
               </div>
             ))}
           </div>
@@ -278,26 +283,29 @@ export default function Home() {
       <section className="section-block">
         <div className="page-shell space-y-7">
           <SectionTitle
-            eyebrow="Nhóm khách phù hợp"
-            title="Phù hợp với những nhóm khách nào trong khu công nghiệp?"
-            description="Ưu tiên các nhóm khách cần đầu mối tư vấn kỹ thuật rõ ràng, phản hồi nhanh và bám sát tiến độ vận hành thiết bị."
+            eyebrow="Theo vai trò"
+            title="Anh/chị đang ở vai trò nào trong nhà máy?"
+            description="Mỗi vai trò có nhu cầu khác nhau – bên mình hỗ trợ theo đúng phần việc thực tế."
           />
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {customerSegments.map((segment, index) => {
-              const Icon = customerSegmentIcons[index] ?? Users;
+          <div className="grid gap-4 sm:grid-cols-2">
+            {customerRoles.map((item, index) => {
+              const Icon = customerRoleIcons[index] ?? Users;
 
               return (
                 <div
-                  key={segment.name}
-                  className="rounded-xl border border-slate-200 bg-white p-4 shadow-[0_10px_26px_-24px_rgba(15,23,42,0.55)]"
+                  key={item.role}
+                  className="rounded-xl border border-slate-200 bg-white p-5 shadow-[0_10px_26px_-24px_rgba(15,23,42,0.55)]"
                 >
                   <p className="flex items-center gap-2 text-sm font-semibold text-slate-900">
                     <span className="inline-flex rounded-md border border-amber-200 bg-amber-50 p-1.5">
                       <Icon className="size-4 text-amber-800" />
                     </span>
-                    {segment.name}
+                    {item.role}
                   </p>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-600">{segment.summary}</p>
+                  <div className="mt-3 space-y-2">
+                    <p className="text-sm text-slate-600"><span className="font-medium text-slate-700">Thường gặp:</span> {item.problems}</p>
+                    <p className="text-sm text-slate-600"><span className="font-medium text-amber-800">Hỗ trợ:</span> {item.support}</p>
+                  </div>
                 </div>
               );
             })}
@@ -409,9 +417,9 @@ export default function Home() {
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/92 via-white/95 to-amber-50/70" />
           <div className="relative grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
             <div className="space-y-3">
-              <h2 className="font-heading text-2xl font-bold text-slate-900">Liên hệ nhanh để hỗ trợ tra mã và nhu cầu thay thế</h2>
+              <h2 className="font-heading text-2xl font-bold text-slate-900">Cần đối chiếu mã, xác nhận cụm thay thế hoặc báo giá gấp?</h2>
               <p className="text-sm text-slate-600">
-                Phù hợp cho các nhu cầu cần đối chiếu mã, xác nhận nhóm vật tư hoặc tiếp nhận báo giá theo tình huống thực tế trong nhà máy.
+                Gửi mã cũ, ảnh tem hoặc mô tả cụm máy – tiếp nhận và phản hồi trong ngày cho các nhu cầu ảnh hưởng tiến độ sản xuất.
               </p>
               <div className="grid gap-2 text-sm text-slate-700 sm:grid-cols-2">
                 {contactInfoItems.map((item) => (
@@ -427,13 +435,13 @@ export default function Home() {
               <Button asChild className="bg-amber-800 hover:bg-amber-900">
                 <a href={siteConfig.phoneHref}>
                   <PhoneCall className="mr-2 size-4" />
-                  Gọi nhanh
+                  Gọi ngay để đối chiếu mã
                 </a>
               </Button>
               <Button asChild variant="outline" className="border-amber-200 text-amber-800 hover:bg-amber-100">
                 <a href={siteConfig.zaloLink} target="_blank" rel="noreferrer">
                   <MessageCircle className="mr-2 size-4" />
-                  Chat Zalo
+                  Gửi ảnh tem qua Zalo
                 </a>
               </Button>
             </div>
