@@ -2,6 +2,13 @@
 
 Chuyen website thanh mat tien so cua THL voi dinh vi ro rang: nha phan phoi chinh thuc vat tu truyen dong cong nghiep, lay NTN va Tsubaki lam hai thuong hieu chu luc cua he danh muc Nhat chinh hang. Huong trien khai uu tien sua truc thong diep va hierarchy thuong hieu truoc, sau do nang visual language sang phong cach Nhat B2B: chuan xac, ky thuat, tiet che, sach, co cam giac corporate industrial thay vi landing page ban hang nhanh.
 
+## Nguyen Tac Trien Khai
+
+- Lam dung theo site dang co va theo phase dang trien khai.
+- Khong bi dan boi bo anh SEO da chuan bi san trong `public/images/seo`.
+- Uu tien theo dung thu tu: dinh vi THL, cau truc 2 thuong hieu chu luc, copy, visual system, SEO nen.
+- Anh rieng theo route la chuyen sau, chi xu ly khi that su khop voi phase trien khai va branding dang dung.
+
 ## Steps
 
 1. Pha 1 - Chot dinh vi va loai bo thong diep lam yeu thuong hieu. Thay cac noi dung dang keo site ve huong ca nhan nhu "kenh tu van ca nhan", "By Khuong Binh", "khong phai website chinh thuc cua cong ty" bang thong diep doanh nghiep: THL la nha phan phoi chinh thuc, chuyen cung cap giai phap vat tu truyen dong cong nghiep chinh hang cho nha may. Buoc nay chan toan bo buoc sau.
@@ -66,6 +73,8 @@ Chuyen website thanh mat tien so cua THL voi dinh vi ro rang: nha phan phoi chin
 - Da chot: NTN va Tsubaki la 2 thuong hieu chu luc, xuat hien ngang vai tren homepage theo cau truc khoa cung 2 primary brands + 3 supporting brands.
 - Da chot: THL duoc dinh vi la nha phan phoi chinh thuc, khong dung lai giong "kenh tu van ca nhan".
 - Da chot: visual refresh di theo phong cach Nhat B2B tiet che, ky thuat, corporate industrial; khong di theo huong neon, bong bay hoac landing page sales.
+- Da chot: khong lay bo anh trong `public/images/seo` lam dau vao chinh cho luot trien khai nay; bo anh do chi la tai san chuan bi cho giai doan sau.
+- Da chot: uu tien SEO nen phu hop voi site hien tai; anh preview rieng theo route chi xu ly sau khi noi dung, hierarchy va branding da on dinh.
 - Khong bao gom trong luot dau: dung bo anh moi, case study moi, testimonial that, scan chung chi hoac thay toan bo design system neu chua co asset va tai lieu xac thuc.
 
 ## Further Considerations

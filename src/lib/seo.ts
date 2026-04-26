@@ -14,7 +14,9 @@ export function createPageMetadata({ title, description, path = "/" }: MetadataI
 
   return {
     metadataBase,
-    title: fullTitle,
+    title: {
+      absolute: fullTitle,
+    },
     description,
     robots: {
       index: true,

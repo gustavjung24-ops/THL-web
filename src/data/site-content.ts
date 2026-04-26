@@ -162,7 +162,7 @@ export const customerSegments: CustomerSegment[] = [
 ];
 
 export const whyContactBullets = [
-  "Làm việc trực tiếp với Phòng Kinh Doanh THL",
+  "Làm việc trực tiếp với bộ phận kinh doanh THL",
   "Ưu tiên NTN và Tsubaki cho danh mục Nhật Bản chính hãng",
   "Đối chiếu kỹ thuật trước khi chốt mã và báo giá",
   "Phối hợp được với bảo trì, kỹ thuật và mua hàng",
