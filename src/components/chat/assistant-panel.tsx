@@ -57,7 +57,7 @@ type AssistantPanelProps = {
 };
 
 const defaultGreeting =
-  "Chào anh/chị, em hỗ trợ tra mã nhanh. Mình có thể gửi mã cũ, ảnh tem hoặc mô tả cụm máy.";
+  "Chào anh/chị, THL hỗ trợ đối chiếu NTN, Tsubaki và vật tư truyền động theo mã cũ, ảnh tem hoặc mô tả cụm máy.";
 
 const INTERNAL_FIELD_TOKENS = [
   "exact_code", "normalized_code", "dimensions", "application_detail",
@@ -584,14 +584,14 @@ export function AssistantPanel({
         className
       )}
       role="dialog"
-      aria-label="Trợ lý tra mã"
+      aria-label="Hỗ trợ kỹ thuật THL"
     >
       <div className="shrink-0 border-b border-slate-200/65 bg-white/85 px-4 pb-2.5 pt-2 supports-[backdrop-filter]:backdrop-blur-sm">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             {isMobile && (
               <p className="mb-1 inline-flex rounded-full border border-blue-200/70 bg-blue-50/85 px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-blue-900/85">
-                Trợ lý trực tuyến
+                Hỗ trợ trực tuyến
               </p>
             )}
             <h3 className="font-heading text-[15px] font-semibold tracking-tight text-slate-900">Hỗ trợ kỹ thuật THL</h3>
@@ -606,7 +606,7 @@ export function AssistantPanel({
               size="icon-sm"
               className="mt-0.5 shrink-0 rounded-full text-slate-500 hover:bg-slate-100 hover:text-slate-800"
               onClick={onClose}
-              aria-label="Đóng trợ lý tra mã"
+              aria-label="Đóng hỗ trợ kỹ thuật THL"
             >
               <X className="size-4" />
             </Button>
@@ -698,7 +698,7 @@ export function AssistantPanel({
               className="h-10 shrink-0 rounded-xl bg-blue-700 px-3 text-[12px] font-semibold text-white shadow-[0_12px_20px_-16px_rgba(29,78,216,0.85)] hover:bg-blue-800 disabled:bg-blue-600/70 disabled:opacity-60"
               onClick={() => void submitMessage(inputValue)}
               disabled={isBusy || inputValue.trim().length === 0}
-              aria-label="Tra mã ngay"
+              aria-label="Gửi yêu cầu đối chiếu"
             >
               <SendHorizonal className="mr-1 size-3.5" />
               Gửi

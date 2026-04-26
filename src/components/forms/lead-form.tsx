@@ -18,8 +18,8 @@ const leadSchema = z.object({
   phone: z.string().min(8, "Vui lòng nhập số điện thoại"),
   company: z.string().min(2, "Vui lòng nhập nhà máy / công ty"),
   area: z.string().min(2, "Vui lòng nhập khu vực / KCN"),
-  productGroup: z.string().min(1, "Vui lòng chọn nhóm vật tư cần hỗ trợ"),
-  requestedCode: z.string().min(2, "Vui lòng nhập mã đang dùng"),
+  productGroup: z.string().min(1, "Vui lòng chọn nhóm vật tư cần đối chiếu"),
+  requestedCode: z.string().min(2, "Vui lòng nhập mã đang dùng hoặc mô tả vật tư"),
   application: z.string().optional(),
   quantity: z.string().optional(),
   priority: z.string().min(1, "Vui lòng chọn mức độ ưu tiên"),
@@ -71,7 +71,7 @@ export function LeadForm() {
   async function onSubmit(values: LeadFormValues) {
     await new Promise((resolve) => setTimeout(resolve, 700));
     setSubmitMessage(
-      `Đã tiếp nhận yêu cầu hỗ trợ của ${values.fullName}. Bộ phận tư vấn sẽ phản hồi sớm theo mức độ ưu tiên đã chọn.`,
+      `Đã tiếp nhận yêu cầu kỹ thuật của ${values.fullName}. Phòng Kinh Doanh THL sẽ phản hồi theo mức độ ưu tiên đã chọn.`,
     );
     reset(defaultValues);
     setUploadedImages([]);
@@ -109,7 +109,7 @@ export function LeadForm() {
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
-              <Label>Nhóm vật tư cần hỗ trợ</Label>
+              <Label>Nhóm vật tư cần đối chiếu</Label>
               <Select
                 value={selectedProductGroup}
                 onValueChange={(value) =>
@@ -150,7 +150,7 @@ export function LeadForm() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="requestedCode">Mã đang dùng</Label>
+            <Label htmlFor="requestedCode">Mã đang dùng / mô tả vật tư</Label>
             <Input id="requestedCode" placeholder="Ví dụ: 6205-2RS" {...register("requestedCode")} />
             {errors.requestedCode ? <p className="text-xs text-red-600">{errors.requestedCode.message}</p> : null}
           </div>
@@ -168,7 +168,7 @@ export function LeadForm() {
 
           <div className="space-y-2">
             <Label htmlFor="notes">Ghi chú thêm</Label>
-            <Textarea id="notes" placeholder="Thông tin bổ sung để đối chiếu nhanh hơn" rows={4} {...register("notes")} />
+            <Textarea id="notes" placeholder="Thông tin bổ sung về tải, tốc độ, môi trường hoặc tiến độ cần xử lý" rows={4} {...register("notes")} />
           </div>
 
           <div className="space-y-2">
@@ -185,7 +185,7 @@ export function LeadForm() {
           </div>
 
           <Button type="submit" className="w-full bg-blue-800 hover:bg-blue-900" disabled={isSubmitting}>
-            {isSubmitting ? "Đang gửi..." : "Gửi yêu cầu hỗ trợ"}
+            {isSubmitting ? "Đang gửi..." : "Gửi yêu cầu kỹ thuật"}
           </Button>
 
           <p className="text-xs text-slate-600">{leadFormBottomNote}</p>

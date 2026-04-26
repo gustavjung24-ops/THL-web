@@ -6,9 +6,9 @@ import { SectionTitle } from "@/components/shared/section-title";
 import { Card, CardContent } from "@/components/ui/card";
 
 export const metadata = createPageMetadata({
-  title: "Kiến thức",
+  title: "Kiến thức vật tư truyền động",
   description:
-    "Danh sách bài viết kiến thức phụ tùng công nghiệp: vòng bi, phớt, xích, dây curoa và lưu ý khi tra mã.",
+    "Bài viết kỹ thuật về vòng bi, phớt, xích, dây curoa và lưu ý chọn vật tư truyền động cho bảo trì nhà máy.",
   path: "/kien-thuc",
 });
 
@@ -26,13 +26,13 @@ export default function KnowledgePage() {
       <div className="page-shell space-y-8">
         <SectionTitle
           eyebrow="Kiến thức"
-          title="Nội dung ngắn gọn, dễ đọc và dễ áp dụng"
-          description="Các bài viết tập trung vào câu hỏi thường gặp khi tra mã, chọn hàng và thay thế phụ tùng ngoài thực tế."
+          title="Ghi chú kỹ thuật ngắn cho bảo trì nhà máy"
+          description="Các bài viết tập trung vào cách nhận diện mã, chọn nhóm vật tư và giảm rủi ro đặt sai khi thay thế vòng bi, phớt, xích hoặc dây truyền động."
         />
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {blogPosts.map((post) => (
-            <Card key={post.slug} className="border-slate-200 bg-white">
+            <Card key={post.slug} className="rounded-lg border-slate-200 bg-white">
               <CardContent className="space-y-3 p-5">
                 <div className="flex items-center justify-between gap-2">
                   <p className="text-xs font-semibold uppercase tracking-wide text-blue-800">{post.category}</p>
@@ -43,7 +43,7 @@ export default function KnowledgePage() {
                 <div className="flex items-center justify-between gap-2 pt-1">
                   <p className="text-xs text-slate-500">{formatDate(post.publishedAt)}</p>
                   <Link href="/tra-ma-bao-gia" className="inline-flex items-center text-sm font-semibold text-blue-800 hover:text-blue-900">
-                    Gửi mã cần tìm
+                    Gửi yêu cầu
                     <ArrowRight className="ml-1 size-4" />
                   </Link>
                 </div>

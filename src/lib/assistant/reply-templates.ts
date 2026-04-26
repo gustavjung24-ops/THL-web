@@ -584,21 +584,21 @@ function buildPreliminaryAssessmentReply(input: BuildReplyInput): BuiltReplyMess
 /* ── Conversational reply builders (no API needed) ── */
 
 const greetingVariants = [
-  "Chào anh/chị! Em hỗ trợ tra mã vòng bi, phớt, xích công nghiệp. Anh/chị đang cần kiểm tra mã nào hoặc cụm máy nào ạ?",
-  "Chào ạ! Anh/chị gửi mã cũ, ảnh tem hoặc mô tả cụm máy để em đối chiếu nhanh nhé.",
-  "Em chào, sẵn sàng hỗ trợ tra mã. Mình bắt đầu từ mã cũ hay theo cụm máy ạ?",
+  "Chào anh/chị! THL hỗ trợ đối chiếu NTN, Tsubaki và vật tư truyền động theo mã cũ, ảnh tem hoặc cụm máy.",
+  "Chào ạ! Anh/chị gửi mã cũ, ảnh tem hoặc mô tả cụm máy để THL khoanh đúng nhóm vật tư.",
+  "Em chào, mình có thể bắt đầu từ mã cũ, kích thước hoặc vị trí lắp trên cụm máy ạ.",
 ];
 
 const gratitudeVariants = [
-  "Dạ không có gì ạ! Anh/chị cần tra thêm mã nào cứ gửi nhé.",
-  "Rất vui hỗ trợ được ạ. Nếu cần kiểm tra thêm mã hay cụm máy khác, cứ nhắn em.",
+  "Dạ không có gì ạ! Anh/chị cần đối chiếu thêm mã hoặc cụm máy nào cứ gửi nhé.",
+  "Rất vui hỗ trợ được ạ. Nếu cần kiểm tra thêm mã hay ứng dụng khác, cứ nhắn em.",
   "Dạ, anh/chị cần đối chiếu thêm gì thì cứ gửi mã hoặc ảnh tem ạ.",
 ];
 
 const smalltalkVariants = [
-  "Dạ, bên em hỗ trợ tra mã vòng bi, phớt, xích công nghiệp theo cụm máy. Anh/chị đang cần kiểm tra gì ạ?",
-  "Bên em chuyên tư vấn mã theo ứng dụng cụm máy. Anh/chị gửi mã cũ hoặc mô tả máy để em hỗ trợ nhé.",
-  "Dạ có ạ! Em tra mã theo cụm máy, kích thước hoặc ảnh tem. Mình bắt đầu từ đâu ạ?",
+  "Dạ, THL hỗ trợ NTN, Tsubaki và nhóm vật tư truyền động theo cụm máy. Anh/chị đang cần kiểm tra gì ạ?",
+  "THL đối chiếu vật tư theo ứng dụng cụm máy. Anh/chị gửi mã cũ hoặc mô tả máy để em hỗ trợ nhé.",
+  "Dạ có ạ! Mình có thể bắt đầu từ mã cũ, kích thước hoặc ảnh tem.",
 ];
 
 const unclearOpeningVariants = [
@@ -683,7 +683,7 @@ export function buildErrorFallbackMessage(input: {
       text: [
         `Em đã ghi nhận mã ${extractedCode}.`,
         "Hiện hệ thống đối chiếu đang gián đoạn ngắn.",
-        "Anh/chị có thể gửi thêm ảnh tem hoặc brand mong muốn để bên em hỗ trợ tiếp.",
+        "Anh/chị có thể gửi thêm ảnh tem hoặc thương hiệu mong muốn để THL đối chiếu tiếp.",
       ].join("\n"),
       options: errorRecoveryOptions,
       optionStyle: "stacked",

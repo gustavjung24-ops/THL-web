@@ -56,8 +56,8 @@ export function AssistantBubble() {
             isMobile && open ? "pointer-events-none scale-90 opacity-0" : "scale-100 opacity-100"
           )}
           onClick={() => setOpen((prev) => !prev)}
-          aria-label={open ? "Đóng chat tra mã" : "Mở chat tra mã"}
-          title="Trợ lý tra mã"
+          aria-label={open ? "Đóng hỗ trợ kỹ thuật THL" : "Mở hỗ trợ kỹ thuật THL"}
+          title="Hỗ trợ kỹ thuật THL"
         >
           {open ? <X className="size-5" /> : <MessageCircleMore className="size-5" />}
         </Button>

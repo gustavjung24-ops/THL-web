@@ -7,7 +7,6 @@ export const siteConfig = {
   phoneHref: "tel:0902964685",
   zaloLabel: "Zalo kinh doanh",
   zaloLink: "https://zalo.me/0902964685",
-  email: "khuongbinh.info@gmail.com",
   supportArea: "Phục vụ: Nhà máy toàn quốc",
   responseTime: "Phản hồi trong giờ hành chính hoặc theo mức độ ưu tiên của yêu cầu B2B",
   address: "Dĩ An, Bình Dương / Phú Thạnh, Tân Phú, TP.HCM",
@@ -20,13 +19,13 @@ export const mainMenu = [
   { label: "Giới thiệu", href: "/gioi-thieu" },
   { label: "Sản phẩm", href: "/san-pham" },
   { label: "Giải pháp theo khách hàng", href: "/giai-phap-theo-khach-hang" },
-  { label: "Tra mã / Báo giá", href: "/tra-ma-bao-gia" },
+  { label: "Yêu cầu kỹ thuật", href: "/tra-ma-bao-gia" },
   { label: "Kiến thức", href: "/kien-thuc" },
   { label: "Liên hệ", href: "/lien-he" },
 ] as const;
 
 export const footerMenu = [
-  { label: "Tra mã / Báo giá", href: "/tra-ma-bao-gia" },
+  { label: "Yêu cầu kỹ thuật", href: "/tra-ma-bao-gia" },
   { label: "Sản phẩm", href: "/san-pham" },
   { label: "Giải pháp theo khách hàng", href: "/giai-phap-theo-khach-hang" },
   { label: "Kiến thức", href: "/kien-thuc" },

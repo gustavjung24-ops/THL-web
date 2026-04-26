@@ -6,7 +6,7 @@ Chuyen website thanh mat tien so cua THL voi dinh vi ro rang: nha phan phoi chin
 
 1. Pha 1 - Chot dinh vi va loai bo thong diep lam yeu thuong hieu. Thay cac noi dung dang keo site ve huong ca nhan nhu "kenh tu van ca nhan", "By Khuong Binh", "khong phai website chinh thuc cua cong ty" bang thong diep doanh nghiep: THL la nha phan phoi chinh thuc, chuyen cung cap giai phap vat tu truyen dong cong nghiep chinh hang cho nha may. Buoc nay chan toan bo buoc sau.
 2. Chuan hoa he ngon ngu thuong hieu trong cau hinh chung. Cap nhat slogan, intro, footer credit, contact framing, metadata nen trong `src/config/site.ts` va cac thanh phan layout de moi diem cham deu dung cung mot giong chuyen nghiep, doanh nghiep, ky thuat. Phu thuoc buoc 1.
-3. Pha 2 - Thiet ke lai hierarchy homepage theo mo hinh 2 core brands + 3 supporting brands. NTN va Tsubaki phai xuat hien ngang vai ve muc do noi bat tren trang chu; Koyo, NOK, Soho dong vai tro bo tro theo nhom ung dung. Viec nay yeu cau doi cach trinh bay section thuong hieu tu 1 card chu dao sang 2 card chu luc hoac 1 khoi split-brand can bang. Phu thuoc buoc 1.
+3. Pha 2 - Thiet ke lai hierarchy homepage theo mo hinh 2 core brands + 3 supporting brands va khoa cung cau truc nay trong trien khai. Trang chu bat buoc chuyen khoi mo hinh 1 primary brand + 4 secondary brands hien tai; khong chap nhan phuong an giu NTN lam card lon duy nhat. Cau truc muc tieu: 2 brand chu luc NTN va Tsubaki phai dung ngang vai trong cung mot tang uu tien thi giac, dung 2 card chu luc can bang hoac 1 khoi split-brand doi xung; Koyo, NOK, Soho nam o tang phu tro ngay sau do duoi dang 3 supporting cards hoac 1 cum phu ro rang. Phu thuoc buoc 1.
 4. Viet lai hero homepage de the hien dong thoi 4 lop gia tri: nha phan phoi chinh thuc, thuong hieu Nhat chinh hang, nang luc ky thuat cong nghiep, toc do phan hoi B2B. Cap nhat headline, subheadline, eyebrow, badge, hero stats, hero flow cards va CTA de nguoi xem hieu ngay day la doanh nghiep phan phoi chinh danh chu khong phai moi gioi hay trang tu van ca nhan. Phu thuoc buoc 3.
 5. Pha 3 - Bo sung trust architecture ngay duoi hero. Them mot section xac tin gom cac bang chung nhu phan phoi chinh thuc, danh muc Nhat chinh hang, quy trinh doi chieu ky thuat, kha nang ho tro nha may, khu vuc phuc vu, cam ket nguon goc. Neu co du lieu that, them nam hoat dong, quy mo khach hang, nhom nganh phuc vu hoac anh thuc te kho/doi ngu. Phu thuoc buoc 4.
 6. Nang cap du lieu thuong hieu va copy danh muc. Cap nhat `src/data/site-content.ts`, `src/data/home-entry-sections.ts`, `src/data/brand-logos.ts` de NTN va Tsubaki co ngon ngu manh hon ve xuat xu Nhat, vai tro chu luc, loi ich ky thuat, do tin cay van hanh; Koyo, NOK, Soho giu vai tro ho tro ma khong lam loang thong diep chinh. Song song duoc voi buoc 5.
@@ -33,6 +33,25 @@ Chuyen website thanh mat tien so cua THL voi dinh vi ro rang: nha phan phoi chin
 - `src/lib/seo.ts` - kiem tra helper SEO neu can ho tro pattern metadata moi.
 - `public/images/branding` va `public/images/brands` - tan dung lai asset hien co, chi mo rong neu that su can them badge hoac hinh ho tro xac tin.
 
+## Mini Visual Spec
+
+- Cau truc bat buoc: 2 primary brands ngang vai o tang dau, 3 supporting brands o tang sau; khong quay lai layout 1 lon + 4 nho.
+- Palette uu tien: navy sau, steel gray, white sach; xanh brand chi dung lam accent co kiem soat; han che cyan sang.
+- Be mat UI: uu tien mat phang sach, border ro, bong do nhe, giam glow va hieu ung promotional.
+- Hero mood: corporate industrial, technical export, Japanese B2B; tranh cam giac sales landing page.
+- CTA system: 1 mau CTA chinh, 1 kieu outline secondary; khong dung qua nhieu mau CTA canh tranh nhau.
+- Brand cards: logo surface sach, ty le can bang, it hieu ung thua; NTN va Tsubaki phai co trong luong thi giac tuong duong.
+
+## Copy Rules
+
+- Uu tien cac cum: nha phan phoi chinh thuc, thuong hieu Nhat chinh hang, ho tro ky thuat cong nghiep, ung dung nha may, doi chieu ky thuat, cam ket nguon goc.
+- Giam lap cac cum: tra ma nhanh, bao gia nhanh, chat nhanh, gui ma ngay neu khong that su can cho CTA chinh.
+- Khong dung lai giong ca nhan hoa nhu: kenh tu van ca nhan, by ca nhan, lam viec ca nhan, khong phai website chinh thuc.
+- Copy headline phai thien ve nang luc va dinh danh doanh nghiep hon la khau hieu ban hang.
+- Copy body ngan, chac, giau thong tin ky thuat; tranh lap y cung mot loi diem qua nhieu section.
+- NTN va Tsubaki phai luon duoc mo ta nhu 2 tru cot danh muc; Koyo, NOK, Soho la nhom bo tro theo ung dung.
+- Khi dung claim official distributor hoac chinh hang, chi dung o noi phu hop va khong vuot qua tai lieu xac thuc THL dang co.
+
 ## Verification
 
 1. Review toan bo homepage, footer, header va trang Gioi thieu de chac khong con copy ca nhan hoa hoac mau thuan voi vi the phan phoi chinh thuc.
@@ -44,7 +63,7 @@ Chuyen website thanh mat tien so cua THL voi dinh vi ro rang: nha phan phoi chin
 
 ## Decisions
 
-- Da chot: NTN va Tsubaki la 2 thuong hieu chu luc, xuat hien ngang vai tren homepage.
+- Da chot: NTN va Tsubaki la 2 thuong hieu chu luc, xuat hien ngang vai tren homepage theo cau truc khoa cung 2 primary brands + 3 supporting brands.
 - Da chot: THL duoc dinh vi la nha phan phoi chinh thuc, khong dung lai giong "kenh tu van ca nhan".
 - Da chot: visual refresh di theo phong cach Nhat B2B tiet che, ky thuat, corporate industrial; khong di theo huong neon, bong bay hoac landing page sales.
 - Khong bao gom trong luot dau: dung bo anh moi, case study moi, testimonial that, scan chung chi hoac thay toan bo design system neu chua co asset va tai lieu xac thuc.

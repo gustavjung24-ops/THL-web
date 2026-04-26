@@ -141,7 +141,7 @@ const processCards = [
   },
   {
     title: "Chuyển hướng báo giá",
-    description: "Tách rõ mã, ứng dụng và ghi chú để mua hàng xử lý nhanh.",
+    description: "Tách rõ mã, ứng dụng và ghi chú để mua hàng xử lý rành mạch.",
     Icon: ClipboardCheck,
   },
 ];
@@ -208,7 +208,7 @@ export default function Home() {
 
         <div className="page-shell relative grid min-h-[620px] items-center gap-10 py-20 sm:min-h-[660px] lg:grid-cols-[0.94fr_1.06fr] lg:py-24">
           <div className="max-w-3xl space-y-6">
-            <p className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-cyan-100 backdrop-blur">
+            <p className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-blue-100 backdrop-blur">
               Nhà phân phối chính thức NTN & Tsubaki
             </p>
             <h1 className="font-heading text-balance text-4xl font-bold leading-tight sm:text-5xl lg:text-[3.25rem]">
@@ -247,16 +247,16 @@ export default function Home() {
             <div className="hidden overflow-hidden rounded-lg border border-white/15 bg-white/12 p-5 shadow-[0_24px_70px_-44px_rgba(15,23,42,0.95)] backdrop-blur-md lg:block">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-wide text-cyan-100">Hệ danh mục Nhật Bản</p>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-blue-100">Hệ danh mục Nhật Bản</p>
                   <h2 className="mt-2 font-heading text-2xl font-bold text-white">NTN + Tsubaki là hai trụ cột</h2>
                 </div>
-                <div className="rounded-md bg-cyan-400 px-3 py-1 text-xs font-bold text-slate-950">Official</div>
+                <div className="rounded-md bg-blue-500 px-3 py-1 text-xs font-bold text-white">Chính thức</div>
               </div>
 
               <div className="mt-5 grid gap-3">
                 {heroFocusCards.map((item) => (
                   <div key={item.label} className="grid grid-cols-[126px_1fr] gap-3 rounded-lg border border-white/10 bg-slate-950/45 p-3">
-                    <p className="text-xs font-semibold uppercase tracking-wide text-cyan-200">{item.label}</p>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-blue-200">{item.label}</p>
                     <div>
                       <p className="text-sm font-semibold text-white">{item.value}</p>
                       <p className="mt-0.5 text-xs leading-relaxed text-slate-300">{item.helper}</p>
@@ -266,7 +266,7 @@ export default function Home() {
               </div>
 
               <div className="mt-5 rounded-lg border border-white/15 bg-white p-3">
-                <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Core brands + supporting brands</p>
+                <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Thương hiệu chủ lực và bổ trợ</p>
                 <div className="mt-2 grid grid-cols-5 gap-2">
                   {brandLogos.map((brand) => {
                     const theme = getBrandTheme(brand.id);
@@ -313,7 +313,7 @@ export default function Home() {
             <SectionTitle
               eyebrow="Hai thương hiệu chủ lực"
               title="NTN và Tsubaki là trục chính của danh mục THL"
-              description="Homepage ưu tiên hai thương hiệu Nhật Bản chính hãng ngang vai. Koyo, NOK và Soho giữ vai trò bổ trợ theo đúng nhóm ứng dụng."
+              description="Trang chủ ưu tiên hai thương hiệu Nhật Bản chính hãng ngang vai. Koyo, NOK và Soho giữ vai trò bổ trợ theo đúng nhóm ứng dụng."
             />
             <Button asChild variant="outline" className="w-fit border-blue-200 text-slate-800 hover:bg-blue-50">
               <Link href="/san-pham">
@@ -355,7 +355,7 @@ export default function Home() {
                         )}
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/78 via-slate-950/15 to-transparent" />
                         <span className="absolute left-4 top-4 rounded-full border border-white/30 bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white backdrop-blur">
-                          Core brand
+                          Thương hiệu chủ lực
                         </span>
                         {brand ? (
                           <div className="absolute bottom-4 left-4 flex h-16 w-40 items-center justify-center rounded-md border border-white/20 bg-white p-3 shadow-2xl">
@@ -365,7 +365,7 @@ export default function Home() {
                       </div>
                       <CardContent className="flex flex-col justify-between gap-6 p-6">
                         <div className="space-y-3">
-                          <p className={`text-xs font-semibold uppercase tracking-wide ${group.slug === "ntn" ? "text-cyan-200" : "text-sky-200"}`}>
+                          <p className={`text-xs font-semibold uppercase tracking-wide ${group.slug === "ntn" ? "text-blue-200" : "text-sky-200"}`}>
                             {brandDescriptions[group.slug] ?? "Thương hiệu chủ lực"}
                           </p>
                           <h3 className="font-heading text-3xl font-bold text-white">{group.name}</h3>
@@ -378,7 +378,7 @@ export default function Home() {
                             </span>
                           ))}
                         </div>
-                        <p className="inline-flex items-center text-sm font-semibold text-cyan-200 group-hover:text-cyan-100">
+                        <p className="inline-flex items-center text-sm font-semibold text-blue-200 group-hover:text-blue-100">
                           Xem {group.name}
                           <ArrowRight className="ml-1 size-4 transition group-hover:translate-x-0.5" />
                         </p>
@@ -444,7 +444,7 @@ export default function Home() {
           <SectionTitle
             eyebrow="Quy trình B2B"
             title="Từ thông tin kỹ thuật đến phương án đặt hàng rõ ràng"
-            description="THL tách dữ liệu kỹ thuật, nhóm thương hiệu và ghi chú mua hàng để các bộ phận trong nhà máy cùng kiểm tra nhanh."
+            description="THL tách dữ liệu kỹ thuật, nhóm thương hiệu và ghi chú mua hàng để các bộ phận trong nhà máy cùng kiểm tra rành mạch."
           />
 
           <div className="grid gap-4 lg:grid-cols-3">
@@ -535,7 +535,7 @@ export default function Home() {
             <div className="space-y-6">
               <div className="space-y-3">
                 <p className="inline-flex rounded-full border border-blue-300/30 bg-blue-300/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-blue-100">
-                  Corporate industrial support
+                  Hỗ trợ công nghiệp B2B
                 </p>
                 <h2 className="font-heading text-2xl font-bold leading-tight sm:text-3xl">
                   Một đầu mối cho NTN, Tsubaki và nhóm vật tư bổ trợ

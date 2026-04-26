@@ -7,9 +7,9 @@ import { SectionTitle } from "@/components/shared/section-title";
 import { Button } from "@/components/ui/button";
 
 export const metadata = createPageMetadata({
-  title: "Tra mã / Báo giá",
+  title: "Gửi yêu cầu kỹ thuật / báo giá",
   description:
-    "Gửi mã, ảnh hoặc kích thước để được hỗ trợ tra mã và báo giá phụ tùng công nghiệp nhanh hơn.",
+    "Gửi mã hàng, ảnh tem, kích thước hoặc mô tả cụm máy để THL đối chiếu NTN, Tsubaki và nhóm vật tư truyền động phù hợp.",
   path: "/tra-ma-bao-gia",
 });
 
@@ -17,17 +17,17 @@ export default function QuotePage() {
   return (
     <div className="section-block">
       <div className="page-shell space-y-8">
-        <section className="space-y-5 rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_12px_32px_-24px_rgba(30,64,175,0.45)] sm:p-8">
+        <section className="space-y-5 rounded-lg border border-slate-200 bg-white p-6 shadow-[0_12px_32px_-26px_rgba(15,23,42,0.45)] sm:p-8">
           <SectionTitle
-            eyebrow="Tra mã / Báo giá"
-            title="Gửi nhu cầu để hỗ trợ nhanh hơn"
-            description="Bạn có thể gửi mã hàng, ảnh tem, ảnh mẫu cũ hoặc kích thước. Thông tin càng rõ thì đối chiếu càng nhanh."
+            eyebrow="Yêu cầu kỹ thuật / báo giá"
+            title="Gửi thông tin để THL đối chiếu đúng nhóm vật tư"
+            description="Mã hàng, ảnh tem, kích thước, vị trí lắp và điều kiện vận hành giúp khoanh đúng NTN, Tsubaki hoặc nhóm bổ trợ trước khi chuyển báo giá."
           />
 
-          <ul className="space-y-2 text-sm leading-relaxed text-slate-700">
+          <ul className="grid gap-2 text-sm leading-relaxed text-slate-700 sm:grid-cols-2">
             {quoteGuideBullets.map((tip) => (
               <li key={tip} className="rounded-lg border border-slate-200 bg-slate-50 p-3">
-                - {tip}
+                {tip}
               </li>
             ))}
           </ul>
@@ -39,10 +39,10 @@ export default function QuotePage() {
                 Zalo kinh doanh
               </a>
             </Button>
-            <Button asChild variant="outline" className="border-blue-300 text-blue-900 hover:bg-blue-50">
+            <Button asChild variant="outline" className="border-slate-300 text-slate-900 hover:bg-slate-50">
               <a href={siteConfig.phoneHref}>
                 <PhoneCall className="mr-2 size-4" />
-                Gọi ngay
+                Liên hệ B2B
               </a>
             </Button>
           </div>

@@ -23,11 +23,11 @@ export const metadata: Metadata = {
     template: `%s | ${siteConfig.brandName}`,
   },
   description:
-    "Kênh tư vấn vật tư kỹ thuật cho nhà máy và khách công nghiệp, hỗ trợ tra mã, đối chiếu ứng dụng và báo giá vật tư truyền động.",
+    "Công Ty TNHH Tân Hòa Lợi phân phối chính thức NTN và Tsubaki, cung cấp vật tư truyền động công nghiệp chính hãng cho nhà máy.",
   openGraph: {
     title: `${siteConfig.brandName} | ${siteConfig.slogan}`,
     description:
-      "Hỗ trợ tra mã theo cụm máy, tư vấn theo điều kiện vận hành và tiếp nhận nhu cầu báo giá nhanh cho nhà máy.",
+      "Danh mục NTN và Tsubaki chủ lực, bổ sung Koyo, NOK và Soho theo đúng ứng dụng bảo trì công nghiệp.",
     type: "website",
     locale: "vi_VN",
     siteName: siteConfig.brandName,

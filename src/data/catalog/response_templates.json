@@ -1,6 +1,6 @@
 {
-  "version": "v1",
-  "description": "Mẫu câu trả lời cho các tình huống phổ biến.",
+  "version": "v2",
+  "description": "Mẫu câu trả lời cho hệ tư vấn THL, ưu tiên NTN và Tsubaki theo đúng ứng dụng.",
   "templates": [
     {
       "key": "found_exact",
@@ -41,7 +41,7 @@
     {
       "key": "manual_review",
       "scenario": "Cần review thủ công trước khi trả kết quả.",
-      "template": "Trường hợp này cần xác minh thủ công. Anh/chị vui lòng gửi thêm ảnh tem hoặc gọi trực tiếp để được hỗ trợ nhanh.",
+      "template": "Trường hợp này cần xác minh thủ công. Anh/chị vui lòng gửi thêm ảnh tem hoặc liên hệ Phòng Kinh Doanh THL để được đối chiếu rõ hơn.",
       "variables": []
     },
     {
@@ -53,13 +53,13 @@
     {
       "key": "urgent_ack",
       "scenario": "Ghi nhận nhu cầu gấp.",
-      "template": "Đã ghi nhận nhu cầu gấp. Em ưu tiên chốt đúng nhóm mã trước. Giá và tình trạng hàng xác nhận riêng sau.",
+      "template": "Đã ghi nhận nhu cầu gấp. THL ưu tiên chốt đúng nhóm vật tư trước; giá và tình trạng hàng xác nhận riêng sau.",
       "variables": []
     },
     {
       "key": "greeting",
       "scenario": "Khách chào hỏi chung chung.",
-      "template": "Chào anh/chị, em hỗ trợ tra mã vật tư truyền động. Anh/chị gửi mã cũ, ảnh tem hoặc mô tả máy để em đối chiếu nhé.",
+      "template": "Chào anh/chị, THL hỗ trợ đối chiếu NTN, Tsubaki và vật tư truyền động. Anh/chị gửi mã cũ, ảnh tem hoặc mô tả máy để em kiểm tra nhé.",
       "variables": []
     }
   ]
