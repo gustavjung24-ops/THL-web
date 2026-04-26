@@ -7,7 +7,7 @@ import { SectionTitle } from "@/components/shared/section-title";
 import { Button } from "@/components/ui/button";
 
 export const metadata = createPageMetadata({
-  title: "Liên hệ phòng kinh doanh",
+  title: "Liên hệ THL | Yêu cầu vật tư truyền động",
   description:
     "Liên hệ Công Ty TNHH Tân Hòa Lợi để gửi nhu cầu vật tư truyền động công nghiệp NTN, Tsubaki và nhóm thương hiệu bổ trợ cho nhà máy.",
   path: "/lien-he",
@@ -19,7 +19,7 @@ export default function ContactPage() {
       <div className="page-shell space-y-8">
         <SectionTitle
           eyebrow="Liên hệ THL"
-          title="Gửi nhu cầu vật tư truyền động cho Phòng Kinh Doanh"
+          title="Gửi nhu cầu vật tư truyền động cho THL"
           description="THL tiếp nhận mã hàng, ảnh tem, thông tin cụm máy hoặc yêu cầu đặt hàng để đối chiếu nhóm NTN, Tsubaki và vật tư bổ trợ phù hợp."
         />
 
