@@ -237,14 +237,14 @@ export default function Home() {
           <div className="space-y-4 lg:max-w-xl lg:justify-self-end">
             <div className="grid max-w-3xl gap-3 sm:grid-cols-3 lg:max-w-xl">
               {heroStats.map((item) => (
-                <div key={item.label} className="rounded-lg border border-white/15 bg-white/10 p-4 backdrop-blur">
+                <div key={item.label} className="rounded-lg border border-white/12 bg-white/[0.08] p-4 backdrop-blur">
                   <p className="font-heading text-2xl font-bold text-white">{item.value}</p>
                   <p className="mt-1 text-sm leading-snug text-slate-200">{item.label}</p>
                 </div>
               ))}
             </div>
 
-            <div className="hidden overflow-hidden rounded-lg border border-white/15 bg-white/12 p-5 shadow-[0_24px_70px_-44px_rgba(15,23,42,0.95)] backdrop-blur-md lg:block">
+            <div className="hidden overflow-hidden rounded-lg border border-white/12 bg-white/[0.08] p-5 shadow-[0_24px_70px_-44px_rgba(15,23,42,0.95)] backdrop-blur-md lg:block">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-wide text-blue-100">Hệ danh mục Nhật Bản</p>
@@ -255,7 +255,7 @@ export default function Home() {
 
               <div className="mt-5 grid gap-3">
                 {heroFocusCards.map((item) => (
-                  <div key={item.label} className="grid grid-cols-[126px_1fr] gap-3 rounded-lg border border-white/10 bg-slate-950/45 p-3">
+                  <div key={item.label} className="grid grid-cols-[126px_1fr] gap-3 rounded-lg border border-white/10 bg-slate-950/52 p-3">
                     <p className="text-xs font-semibold uppercase tracking-wide text-blue-200">{item.label}</p>
                     <div>
                       <p className="text-sm font-semibold text-white">{item.value}</p>
@@ -265,7 +265,7 @@ export default function Home() {
                 ))}
               </div>
 
-              <div className="mt-5 rounded-lg border border-white/15 bg-white p-3">
+              <div className="mt-5 rounded-lg border border-white/12 bg-white p-3 shadow-[0_18px_40px_-32px_rgba(15,23,42,0.45)]">
                 <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Thương hiệu chủ lực và bổ trợ</p>
                 <div className="mt-2 grid grid-cols-5 gap-2">
                   {brandLogos.map((brand) => {
@@ -294,7 +294,7 @@ export default function Home() {
       <section className="border-b border-slate-200 bg-white py-5">
         <div className="page-shell grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {trustArchitecture.map((item) => (
-            <div key={item.title} className="flex gap-3 rounded-lg border border-slate-200 bg-white p-4">
+            <div key={item.title} className="jp-panel-muted flex gap-3 p-4">
               <div className="flex size-10 shrink-0 items-center justify-center rounded-md bg-blue-50 text-blue-800">
                 <item.Icon className="size-5" />
               </div>
@@ -331,34 +331,22 @@ export default function Home() {
 
               return (
                 <Link key={group.slug} href={`/san-pham/${group.slug}`} className="group">
-                  <Card className={`h-full overflow-hidden rounded-lg border bg-slate-950 py-0 text-white ${theme.border} transition hover:-translate-y-0.5`}>
+                  <Card className={`h-full overflow-hidden rounded-lg border bg-slate-950 py-0 text-white ${theme.border} shadow-[0_24px_56px_-42px_rgba(15,23,42,0.8)] transition hover:-translate-y-0.5`}>
                     <div className="grid min-h-full md:grid-cols-[0.95fr_1.05fr]">
-                      <div className={`relative min-h-72 overflow-hidden ${group.slug === "tsubaki" ? "bg-slate-100" : ""}`}>
-                        {group.slug === "tsubaki" && brand ? (
-                          <div className="absolute inset-0 flex items-center justify-center bg-[linear-gradient(135deg,#f8fafc_0%,#eef6fb_52%,#ffffff_100%)] p-8">
-                            <Image
-                              src={brand.src}
-                              alt={brand.alt}
-                              width={260}
-                              height={90}
-                              className="h-auto max-h-24 w-auto max-w-full object-contain transition duration-300 group-hover:scale-105"
-                            />
-                          </div>
-                        ) : (
-                          <Image
-                            src={visual.image}
-                            alt={visual.imageAlt}
-                            fill
-                            sizes="(max-width: 1024px) 100vw, 520px"
-                            className="object-cover transition duration-300 group-hover:scale-105"
-                          />
-                        )}
+                      <div className="relative min-h-72 overflow-hidden">
+                        <Image
+                          src={visual.image}
+                          alt={visual.imageAlt}
+                          fill
+                          sizes="(max-width: 1024px) 100vw, 520px"
+                          className="object-cover transition duration-300 group-hover:scale-105"
+                        />
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/78 via-slate-950/15 to-transparent" />
                         <span className="absolute left-4 top-4 rounded-full border border-white/30 bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white backdrop-blur">
                           Thương hiệu chủ lực
                         </span>
                         {brand ? (
-                          <div className="absolute bottom-4 left-4 flex h-16 w-40 items-center justify-center rounded-md border border-white/20 bg-white p-3 shadow-2xl">
+                          <div className="absolute bottom-4 left-4 flex h-16 w-40 items-center justify-center rounded-md border border-white/20 bg-white p-3 shadow-[0_18px_42px_-28px_rgba(15,23,42,0.7)]">
                             <Image src={brand.src} alt={brand.alt} width={144} height={58} className="h-auto max-h-11 w-auto max-w-full object-contain" />
                           </div>
                         ) : null}
@@ -397,7 +385,7 @@ export default function Home() {
 
               return (
                 <Link key={group.slug} href={`/san-pham/${group.slug}`} className="group">
-                  <Card className={`h-full overflow-hidden rounded-lg border bg-white py-0 ${theme.border} transition hover:-translate-y-0.5 hover:shadow-[0_18px_38px_-28px_rgba(15,23,42,0.35)]`}>
+                    <Card className={`h-full overflow-hidden rounded-lg border bg-white py-0 ${theme.border} shadow-[0_14px_36px_-30px_rgba(15,23,42,0.28)] transition hover:-translate-y-0.5 hover:shadow-[0_20px_44px_-30px_rgba(15,23,42,0.38)]`}>
                     <div className={`relative flex h-28 items-center justify-center overflow-hidden ${theme.logoSurface} p-5`}>
                       <span className={`absolute inset-x-0 top-0 h-1 ${theme.accent}`} />
                       {brand ? (
@@ -449,7 +437,7 @@ export default function Home() {
 
           <div className="grid gap-4 lg:grid-cols-3">
             {processCards.map((item, index) => (
-              <div key={item.title} className="relative rounded-lg border border-slate-200 bg-white p-5 shadow-[0_16px_36px_-28px_rgba(15,23,42,0.65)]">
+              <div key={item.title} className="jp-panel-muted relative p-5">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex size-11 items-center justify-center rounded-md bg-blue-50 text-blue-800">
                     <item.Icon className="size-5" />
@@ -478,7 +466,7 @@ export default function Home() {
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
             {industryApplications.map((app) => (
               <Link key={app.slug} href={`/ung-dung/${app.slug}`} className="group">
-                <Card className="h-full rounded-lg border-slate-200 bg-white py-0 transition hover:-translate-y-0.5 hover:shadow-[0_16px_34px_-24px_rgba(15,23,42,0.55)]">
+                <Card className="h-full rounded-lg border-slate-200 bg-white py-0 shadow-[0_14px_34px_-28px_rgba(15,23,42,0.24)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_38px_-26px_rgba(15,23,42,0.34)]">
                   <div className="relative aspect-[4/3] overflow-hidden">
                     <Image
                       src={app.image}
@@ -517,7 +505,7 @@ export default function Home() {
 
           <div className="grid gap-4 sm:grid-cols-2">
             {whyChooseItems.map((item) => (
-              <div key={item.title} className="rounded-lg border border-slate-200 bg-white p-5 shadow-[0_10px_28px_-24px_rgba(15,23,42,0.6)]">
+              <div key={item.title} className="jp-panel p-5">
                 <div className="mb-4 inline-flex rounded-md bg-blue-50 p-2 text-blue-800">
                   <item.Icon className="size-5" />
                 </div>
@@ -547,7 +535,7 @@ export default function Home() {
 
               <div className="space-y-3">
                 {supportProcess.slice(0, 4).map((step, index) => (
-                  <div key={step} className="flex gap-3 rounded-lg border border-white/10 bg-white/5 p-3">
+                  <div key={step} className="flex gap-3 rounded-lg border border-white/10 bg-white/[0.04] p-3">
                     <span className="flex size-7 shrink-0 items-center justify-center rounded-md bg-blue-500 text-sm font-bold text-white">
                       {index + 1}
                     </span>
@@ -579,7 +567,7 @@ export default function Home() {
 
               <div className="grid gap-3 sm:grid-cols-3">
                 {capabilityItems.map((item) => (
-                  <div key={item.title} className="rounded-lg border border-white/10 bg-white/5 p-4">
+                  <div key={item.title} className="rounded-lg border border-white/10 bg-white/[0.04] p-4">
                     <item.Icon className="size-5 text-blue-300" />
                     <h3 className="mt-3 text-sm font-semibold text-white">{item.title}</h3>
                     <p className="mt-2 text-xs leading-relaxed text-slate-300">{item.description}</p>
@@ -589,7 +577,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="grid gap-5 rounded-lg border border-white/10 bg-white/[0.06] p-5 shadow-[0_18px_46px_-34px_rgba(37,99,235,0.65)] sm:p-6 lg:grid-cols-[1fr_auto] lg:items-center">
+          <div className="grid gap-5 rounded-lg border border-white/10 bg-white/[0.05] p-5 shadow-[0_18px_46px_-34px_rgba(37,99,235,0.55)] sm:p-6 lg:grid-cols-[1fr_auto] lg:items-center">
             <div className="max-w-3xl space-y-3">
               <p className="inline-flex items-center gap-2 text-sm font-semibold text-blue-200">
                 <CheckCircle2 className="size-4" />
@@ -611,7 +599,7 @@ export default function Home() {
             </div>
 
             <div className="flex flex-col gap-2 sm:flex-row lg:flex-col">
-              <Button asChild className="h-11 bg-blue-500 px-5 text-white hover:bg-blue-400">
+              <Button asChild className="h-11 bg-blue-700 px-5 text-white hover:bg-blue-600">
                 <Link href="/tra-ma-bao-gia">
                   <Search className="mr-2 size-4" />
                   Gửi yêu cầu

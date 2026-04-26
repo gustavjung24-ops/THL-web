@@ -15,6 +15,78 @@ export const metadata = createPageMetadata({
   path: "/san-pham",
 });
 
+const coreProducts = productGroups.filter((group) => group.slug === "ntn" || group.slug === "tsubaki");
+const supportingProducts = productGroups.filter((group) => group.slug !== "ntn" && group.slug !== "tsubaki");
+
+function ProductCard({ slug }: { slug: string }) {
+  const group = productGroups.find((item) => item.slug === slug);
+
+  if (!group) return null;
+
+  const visual = productVisuals[group.slug] ?? defaultProductVisual;
+  const isCore = group.slug === "ntn" || group.slug === "tsubaki";
+
+  return (
+    <Card key={group.slug} id={group.slug} className="rounded-lg border-slate-200 bg-white py-0 shadow-[0_14px_34px_-28px_rgba(15,23,42,0.24)]">
+      <div className="grid gap-0 md:grid-cols-[220px_1fr]">
+        <div className="relative min-h-52 overflow-hidden md:min-h-full">
+          <Image
+            src={visual.image}
+            alt={visual.imageAlt}
+            fill
+            sizes="(max-width: 768px) 100vw, 220px"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/50 to-transparent md:bg-slate-950/10" />
+          <span className="absolute left-3 top-3 rounded-md border border-white/30 bg-white/15 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-white backdrop-blur">
+            {isCore ? "Chủ lực" : "Bổ trợ"}
+          </span>
+        </div>
+
+        <CardContent className="space-y-4 p-5">
+          <div className="space-y-2">
+            <h2 className="font-heading text-xl font-bold text-slate-950">{group.name}</h2>
+            <p className="text-sm leading-relaxed text-slate-600">{group.detailDescription}</p>
+          </div>
+
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Ứng dụng phổ biến</p>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {group.popularApplications.slice(0, 5).map((application) => (
+                <span key={application} className="rounded-md border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs text-slate-700">
+                  {application}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-2 border-t border-slate-100 pt-3">
+            {productBenefitBullets.slice(0, 2).map((benefit) => (
+              <p key={benefit} className="flex items-start gap-2 text-sm text-slate-600">
+                <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-blue-800" />
+                {benefit}
+              </p>
+            ))}
+          </div>
+
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <Button asChild variant="outline" className="border-blue-200 text-blue-800 hover:bg-blue-50">
+              <Link href="/tra-ma-bao-gia">
+                <Search className="mr-2 size-4" />
+                Gửi mã cần tìm
+              </Link>
+            </Button>
+            <Link href={`/san-pham/${group.slug}`} className="inline-flex items-center text-sm font-semibold text-blue-800 hover:text-blue-900">
+              Xem chi tiết
+              <ArrowRight className="ml-1 size-4" />
+            </Link>
+          </div>
+        </CardContent>
+      </div>
+    </Card>
+  );
+}
+
 export default function ProductsPage() {
   return (
     <div className="bg-white">
@@ -35,71 +107,32 @@ export default function ProductsPage() {
       </section>
 
       <section className="section-block bg-slate-50">
-        <div className="page-shell grid gap-5 lg:grid-cols-2">
-          {productGroups.map((group) => {
-            const visual = productVisuals[group.slug] ?? defaultProductVisual;
-            const isCore = group.slug === "ntn" || group.slug === "tsubaki";
+        <div className="page-shell space-y-10">
+          <div className="space-y-5">
+            <SectionTitle
+              eyebrow="Hai thương hiệu chủ lực"
+              title="NTN và Tsubaki được tách thành tầng ưu tiên riêng"
+              description="THL trình bày hai thương hiệu chủ lực thành một khối riêng để phản ánh đúng vai trò phân phối và trọng tâm danh mục hiện tại."
+            />
+            <div className="grid gap-5 lg:grid-cols-2">
+              {coreProducts.map((group) => (
+                <ProductCard key={group.slug} slug={group.slug} />
+              ))}
+            </div>
+          </div>
 
-            return (
-              <Card key={group.slug} id={group.slug} className="rounded-lg border-slate-200 bg-white py-0">
-                <div className="grid gap-0 md:grid-cols-[220px_1fr]">
-                  <div className="relative min-h-52 overflow-hidden md:min-h-full">
-                    <Image
-                      src={visual.image}
-                      alt={visual.imageAlt}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 220px"
-                      className="object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/50 to-transparent md:bg-slate-950/10" />
-                    <span className="absolute left-3 top-3 rounded-md border border-white/30 bg-white/15 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-white backdrop-blur">
-                      {isCore ? "Chủ lực" : "Bổ trợ"}
-                    </span>
-                  </div>
-
-                  <CardContent className="space-y-4 p-5">
-                    <div className="space-y-2">
-                      <h2 className="font-heading text-xl font-bold text-slate-950">{group.name}</h2>
-                      <p className="text-sm leading-relaxed text-slate-600">{group.detailDescription}</p>
-                    </div>
-
-                    <div>
-                      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Ứng dụng phổ biến</p>
-                      <div className="mt-2 flex flex-wrap gap-2">
-                        {group.popularApplications.slice(0, 5).map((application) => (
-                          <span key={application} className="rounded-md border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs text-slate-700">
-                            {application}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="space-y-2 border-t border-slate-100 pt-3">
-                      {productBenefitBullets.slice(0, 2).map((benefit) => (
-                        <p key={benefit} className="flex items-start gap-2 text-sm text-slate-600">
-                          <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-blue-800" />
-                          {benefit}
-                        </p>
-                      ))}
-                    </div>
-
-                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                      <Button asChild variant="outline" className="border-blue-200 text-blue-800 hover:bg-blue-50">
-                        <Link href="/tra-ma-bao-gia">
-                          <Search className="mr-2 size-4" />
-                          Gửi mã cần tìm
-                        </Link>
-                      </Button>
-                      <Link href={`/san-pham/${group.slug}`} className="inline-flex items-center text-sm font-semibold text-blue-800 hover:text-blue-900">
-                        Xem chi tiết
-                        <ArrowRight className="ml-1 size-4" />
-                      </Link>
-                    </div>
-                  </CardContent>
-                </div>
-              </Card>
-            );
-          })}
+          <div className="space-y-5">
+            <SectionTitle
+              eyebrow="Nhóm thương hiệu bổ trợ"
+              title="Koyo, NOK và Soho mở rộng phương án theo ứng dụng"
+              description="Các nhóm bổ trợ được giữ ở tầng sau để hỗ trợ nhu cầu thay thế, làm kín và truyền động theo điều kiện vận hành thực tế."
+            />
+            <div className="grid gap-5 lg:grid-cols-2 xl:grid-cols-3">
+              {supportingProducts.map((group) => (
+                <ProductCard key={group.slug} slug={group.slug} />
+              ))}
+            </div>
+          </div>
         </div>
       </section>
     </div>
