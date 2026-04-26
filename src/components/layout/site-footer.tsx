@@ -1,22 +1,50 @@
+import Image from "next/image";
 import Link from "next/link";
-import { mainMenu, siteConfig } from "@/config/site";
+import { Clock3, Globe, MessageCircle, PhoneCall } from "lucide-react";
+import { footerMenu, siteConfig } from "@/config/site";
+
+const footerContactItems = [
+  { label: siteConfig.phone, href: siteConfig.phoneHref, Icon: PhoneCall },
+  { label: siteConfig.zaloLabel, href: siteConfig.zaloLink, Icon: MessageCircle, external: true },
+  { label: siteConfig.supportArea, Icon: Globe },
+  { label: `Giờ phản hồi: ${siteConfig.responseTime}`, Icon: Clock3 },
+] as const;
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-slate-200 bg-slate-50">
+    <footer className="relative overflow-hidden border-t border-slate-200 bg-slate-50">
+      <Image
+        src="/images/branding/hero-industrial.svg"
+        alt=""
+        width={800}
+        height={520}
+        aria-hidden
+        className="pointer-events-none absolute -bottom-16 -right-24 h-auto w-[50%] max-w-none select-none opacity-[0.04] blur-[2px] sm:opacity-[0.055]"
+      />
       <div className="mx-auto grid w-full max-w-6xl gap-8 px-4 py-10 sm:grid-cols-2 sm:px-6 lg:grid-cols-3">
         <div className="space-y-3">
-          <h3 className="text-base font-semibold text-slate-900">{siteConfig.brandName}</h3>
+          <Link href="/" className="inline-block">
+            <Image
+              src="/images/branding/logo-new.png"
+              alt={siteConfig.brandName}
+              width={160}
+              height={48}
+              className="h-10 w-auto object-contain"
+            />
+          </Link>
           <p className="text-sm text-slate-600">{siteConfig.slogan}</p>
-          <p className="text-sm text-slate-600">Kenh tu van ca nhan ve phu tung cong nghiep, tap trung xu ly nhu cau thuc te.</p>
+          <p className="text-sm text-slate-600">
+            Kênh tư vấn cá nhân tập trung vật tư truyền động cho nhà máy, bộ phận bảo trì, kỹ thuật và mua hàng.
+          </p>
+          <p className="text-xs text-slate-500">Kênh tư vấn hỗ trợ kỹ thuật thuộc Phòng Kinh Doanh, không phải website chính thức của công ty.</p>
         </div>
 
         <div className="space-y-3">
-          <h3 className="text-base font-semibold text-slate-900">Menu</h3>
+          <h3 className="font-heading text-base font-semibold text-slate-900">Menu phụ</h3>
           <ul className="space-y-2 text-sm text-slate-600">
-            {mainMenu.map((item) => (
+            {footerMenu.map((item) => (
               <li key={item.href}>
-                <Link href={item.href} className="hover:text-blue-700">
+                <Link href={item.href} className="hover:text-amber-800">
                   {item.label}
                 </Link>
               </li>
@@ -25,25 +53,28 @@ export function SiteFooter() {
         </div>
 
         <div className="space-y-3">
-          <h3 className="text-base font-semibold text-slate-900">Lien he</h3>
-          <ul className="space-y-2 text-sm text-slate-600">
-            <li>{siteConfig.personalName}</li>
-            <li>
-              <a href={siteConfig.phoneHref} className="hover:text-blue-700">
-                {siteConfig.phone}
-              </a>
-            </li>
-            <li>
-              <a href={siteConfig.zaloLink} className="hover:text-blue-700" target="_blank" rel="noreferrer">
-                {siteConfig.zaloLabel}
-              </a>
-            </li>
-            <li>{siteConfig.email}</li>
-            <li>{siteConfig.supportArea}</li>
+          <h3 className="font-heading text-base font-semibold text-slate-900">Thông tin liên hệ</h3>
+          <ul className="space-y-3 text-sm text-slate-600">
+            {footerContactItems.map((item) => (
+              <li key={item.label} className="flex items-center gap-2.5">
+                <item.Icon className="size-4 shrink-0 text-amber-800" />
+                {"href" in item && item.href ? (
+                  <a
+                    href={item.href}
+                    className="hover:text-amber-800"
+                    {...("external" in item && item.external ? { target: "_blank", rel: "noreferrer" } : {})}
+                  >
+                    {item.label}
+                  </a>
+                ) : (
+                  <span>{item.label}</span>
+                )}
+              </li>
+            ))}
           </ul>
         </div>
       </div>
-      <div className="border-t border-slate-200 px-4 py-4 text-right text-xs text-slate-400 sm:px-6">By Khuong Binh</div>
+      <div className="border-t border-slate-200 px-4 py-4 text-right text-xs text-slate-400 sm:px-6">{siteConfig.footerCredit}</div>
     </footer>
   );
 }

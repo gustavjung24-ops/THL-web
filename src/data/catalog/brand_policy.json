@@ -1,0 +1,106 @@
+{
+  "version": "v1",
+  "description": "Chính sách thương hiệu — quy định thương hiệu được bán, chỉ tham khảo, và cấm đề xuất.",
+  "policies": [
+    {
+      "brand": "KOYO/JTEKT",
+      "status": "active",
+      "sell_allowed": true,
+      "priority": 1,
+      "product_groups": ["bearings"],
+      "note": "Thương hiệu chủ lực vòng bi, ưu tiên đề xuất đầu tiên."
+    },
+    {
+      "brand": "NTN",
+      "status": "active",
+      "sell_allowed": true,
+      "priority": 2,
+      "product_groups": ["bearings"],
+      "note": "Thương hiệu vòng bi Nhật song song KOYO."
+    },
+    {
+      "brand": "NACHI",
+      "status": "active",
+      "sell_allowed": true,
+      "priority": 3,
+      "product_groups": ["bearings"],
+      "note": "Dùng cho dòng chuyên dụng hoặc khi KOYO/NTN không có hàng."
+    },
+    {
+      "brand": "ASAHI",
+      "status": "active",
+      "sell_allowed": true,
+      "priority": 1,
+      "product_groups": ["pillow_blocks"],
+      "note": "Thương hiệu chủ lực gối đỡ."
+    },
+    {
+      "brand": "DID",
+      "status": "active",
+      "sell_allowed": true,
+      "priority": 1,
+      "product_groups": ["industrial_chains"],
+      "note": "Xích công nghiệp Nhật Bản chính hãng."
+    },
+    {
+      "brand": "TSUBAKI",
+      "status": "active",
+      "sell_allowed": true,
+      "priority": 2,
+      "product_groups": ["industrial_chains"],
+      "note": "Xích Nhật cao cấp, ưu tiên sau DID."
+    },
+    {
+      "brand": "NOK",
+      "status": "active",
+      "sell_allowed": true,
+      "priority": 1,
+      "product_groups": ["oil_seals"],
+      "note": "Phớt chặn dầu Nhật Bản chính hãng."
+    },
+    {
+      "brand": "MITSUBA",
+      "status": "active",
+      "sell_allowed": true,
+      "priority": 1,
+      "product_groups": ["belts"],
+      "note": "Dây curoa công nghiệp."
+    },
+    {
+      "brand": "KYK",
+      "status": "active",
+      "sell_allowed": true,
+      "priority": 1,
+      "product_groups": ["grease"],
+      "note": "Mỡ bôi trơn công nghiệp."
+    },
+    {
+      "brand": "SKF",
+      "status": "reference_only",
+      "sell_allowed": false,
+      "priority": null,
+      "product_groups": ["bearings"],
+      "note": "Chỉ dùng để đối chiếu mã, không bán trực tiếp."
+    },
+    {
+      "brand": "FAG",
+      "status": "reference_only",
+      "sell_allowed": false,
+      "priority": null,
+      "product_groups": ["bearings"],
+      "note": "Chỉ dùng để đối chiếu mã, không bán trực tiếp."
+    },
+    {
+      "brand": "NSK",
+      "status": "reference_only",
+      "sell_allowed": false,
+      "priority": null,
+      "product_groups": ["bearings"],
+      "note": "Chỉ dùng để đối chiếu mã, không bán trực tiếp."
+    }
+  ],
+  "rules": {
+    "if_customer_asks_blocked_brand": "Ghi nhận thương hiệu khách yêu cầu, đề xuất mã tương đương trong whitelist, ghi chú rõ rằng cần xác nhận trước khi chốt.",
+    "if_no_brand_specified": "Ưu tiên đề xuất theo thứ tự priority trong nhóm hàng tương ứng."
+  }
+}

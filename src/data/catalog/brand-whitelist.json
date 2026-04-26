@@ -1,0 +1,24 @@
+{
+  "version": "demo-v1",
+  "brand_whitelist": [
+    "KOYO/JTEKT",
+    "NTN",
+    "DID",
+    "NOK",
+    "ASAHI",
+    "TSUBAKI",
+    "NACHI",
+    "KYK",
+    "MRK",
+    "MITSUBA",
+    "SUNRISE"
+  ],
+  "product_groups": [
+    "bearings",
+    "pillow_blocks",
+    "belts",
+    "industrial_chains",
+    "oil_seals",
+    "grease"
+  ]
+}

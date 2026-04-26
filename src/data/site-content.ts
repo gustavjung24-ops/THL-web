@@ -2,151 +2,295 @@ export type ProductGroup = {
   slug: string;
   name: string;
   shortDescription: string;
+  detailDescription: string;
   popularApplications: string[];
   commonBuyers: string[];
 };
 
+export type SupportService = {
+  title: string;
+  clientSends: string;
+  weSupport: string;
+  clientGets: string;
+};
+
+export type CustomerSegment = {
+  name: string;
+  summary: string;
+};
+
+export type CustomerSolution = {
+  customer: string;
+  problems: string;
+  support: string;
+  products: string;
+};
+
+export const heroContent = {
+  eyebrow: "Hỗ trợ vật tư truyền động cho nhà máy",
+  heading: "Tra mã – Đối chiếu – Báo giá nhanh cho bảo trì & thay thế",
+  subheading:
+    "Dành cho bộ phận bảo trì, kỹ thuật, mua hàng và chủ xưởng cần xử lý thay thế vòng bi, gối đỡ, xích, dây curoa, phớt chặn dầu – đúng mã, đúng cụm máy, không chờ lâu.",
+};
+
 export const trustBullets = [
-  "Ho tro chon dung ma",
-  "Goi y hang phu hop ung dung",
-  "Tiep nhan nhu cau nhanh",
-  "Ho tro khach thuong mai va khach cong nghiep nho",
+  "Giảm rủi ro đặt sai mã ngay từ bước đối chiếu đầu tiên",
+  "Phản hồi trong ngày cho nhu cầu thay thế ảnh hưởng sản xuất",
+  "Phối hợp được giữa bảo trì – kỹ thuật – mua hàng cùng nhà máy",
+  "Gợi ý theo điều kiện vận hành thực tế, không chỉ gửi giá",
 ];
 
-export const supportCards = [
-  "Tra ma vong bi va phu tung",
-  "Tu van chon hang theo ung dung",
-  "Goi y hang tuong duong khi can thay gap",
-  "Ho tro khach thuong mai va xuong nho",
-  "Tiep nhan nhu cau bao gia nhanh",
-  "Goi y nhom hang phu hop voi ngan sach",
+export const heroHighlights = [
+  "Cần đối chiếu mã gấp theo tem cũ hoặc cụm máy đang dừng",
+  "Chưa rõ cụm nào cần thay – cần tư vấn theo hiện trạng",
+  "Cần phương án tương đương phù hợp tải, nhiệt, môi trường vận hành",
+];
+
+export const supportCards: SupportService[] = [
+  {
+    title: "Đối chiếu mã theo cụm máy",
+    clientSends: "Gửi mã cũ, ảnh tem hoặc kích thước",
+    weSupport: "Đối chiếu theo catalog và ứng dụng thực tế",
+    clientGets: "Mã chính xác, giảm rủi ro đặt sai",
+  },
+  {
+    title: "Tư vấn chọn hàng theo vận hành",
+    clientSends: "Mô tả cụm máy, tải, nhiệt, môi trường",
+    weSupport: "Phân tích điều kiện và gợi ý nhóm hàng phù hợp",
+    clientGets: "Phương án đúng ứng dụng, không thừa không thiếu",
+  },
+  {
+    title: "Xử lý gấp khi máy dừng",
+    clientSends: "Tình trạng thiết bị, mốc thời gian cần hàng",
+    weSupport: "Ưu tiên đối chiếu nhanh, đề xuất hàng tương đương",
+    clientGets: "Phương án thay thế ngay, giảm thời gian chờ",
+  },
+  {
+    title: "Phối hợp nội bộ nhà máy",
+    clientSends: "Nhu cầu từ bảo trì hoặc kỹ thuật",
+    weSupport: "Tách rõ phần kỹ thuật và phần đặt hàng",
+    clientGets: "Thông tin gọn, mua hàng dễ kiểm tra và xử lý",
+  },
+  {
+    title: "Tiếp nhận báo giá nhanh",
+    clientSends: "Danh sách mã hoặc nhu cầu cụ thể",
+    weSupport: "Ưu tiên các trường hợp ảnh hưởng tiến độ",
+    clientGets: "Báo giá theo tình huống, không chờ quy trình dài",
+  },
+  {
+    title: "Định hướng nhóm hàng phù hợp",
+    clientSends: "Ngân sách, tiến độ, yêu cầu chất lượng",
+    weSupport: "Cân đối giữa độ ổn định, thời gian giao và chi phí",
+    clientGets: "Phương án phù hợp thực tế, không bị oversell",
+  },
 ];
 
 export const productGroups: ProductGroup[] = [
   {
     slug: "vong-bi",
-    name: "Vong bi",
-    shortDescription: "Ho tro doi chieu ma vong bi theo ung dung quay, tai trong va moi truong lam viec.",
-    popularApplications: ["Dong co", "Cau truc truc quay", "May bom"],
-    commonBuyers: ["Gara", "Xuong co khi", "Dai ly vat tu"],
+    name: "Vòng bi",
+    shortDescription: "Dùng trong động cơ, bơm, quạt, hộp số. Hay thay khi ổ kêu, rung, nóng hoặc đến kỳ bảo trì. Bảo trì và kỹ thuật nhà máy hỏi nhiều nhất.",
+    detailDescription:
+      "Phù hợp cho các hệ truyền động và cụm quay cần vận hành ổn định trong nhà máy chạy theo ca.",
+    popularApplications: ["Động cơ điện", "Máy bơm", "Quạt công nghiệp", "Hộp số", "Trục quay", "Con lăn"],
+    commonBuyers: ["Bộ phận bảo trì", "Kỹ thuật nhà máy", "Mua hàng kỹ thuật", "Xưởng cơ khí trong KCN"],
   },
   {
     slug: "goi-do",
-    name: "Goi do",
-    shortDescription: "Tu van goi do dung loai theo truc, tai trong va dieu kien lap dat tai xuong.",
-    popularApplications: ["Bang tai", "Truc chuyen dong", "May dong goi"],
-    commonBuyers: ["Xuong che tao", "Khach cong nghiep nho", "Co dien"],
+    name: "Gối đỡ",
+    shortDescription:
+      "Dùng trong băng tải, trục truyền động, dây chuyền đóng gói. Hay thay khi lỏng, lệch tâm hoặc kèm thay vòng bi. Bảo trì dây chuyền hỏi nhiều nhất.",
+    detailDescription:
+      "Ưu tiên phương án đồng bộ với cụm đỡ trục trong dây chuyền để giảm thời gian chỉnh sửa khi thay thế.",
+    popularApplications: ["Băng tải", "Trục truyền động", "Cụm đỡ trong dây chuyền", "Máy đóng gói"],
+    commonBuyers: ["Bảo trì nhà máy", "Kỹ thuật dây chuyền", "Xưởng cơ khí", "Nhà thầu lắp đặt"],
   },
   {
     slug: "day-curoa",
-    name: "Day curoa",
-    shortDescription: "Goi y day curoa theo thong so chieu dai, profile va toc do van hanh.",
-    popularApplications: ["Quat cong nghiep", "May nen khi", "May det"],
-    commonBuyers: ["Nganh may", "Xuong co khi", "Cua hang phu tung o to"],
+    name: "Dây curoa",
+    shortDescription: "Dùng trong quạt, máy nén khí, hệ truyền động phụ. Hay thay khi trượt, nứt, giãn hoặc đến kỳ. Bảo trì và kỹ thuật nhà máy hỏi nhiều.",
+    detailDescription:
+      "Tập trung cho các cụm truyền động phụ cần thay thế định kỳ để giữ ổn định tiến độ sản xuất.",
+    popularApplications: ["Quạt công nghiệp", "Máy nén khí", "Máy dệt", "Máy đóng gói", "Hệ truyền động phụ"],
+    commonBuyers: ["Bảo trì", "Kỹ thuật thiết bị", "Nhà máy sản xuất", "Xưởng chế tạo"],
   },
   {
     slug: "xich-cong-nghiep",
-    name: "Xich cong nghiep",
-    shortDescription: "Ho tro doi chieu buoc xich, so mat xich va dieu kien tai trong de thay the nhanh.",
-    popularApplications: ["Bang tai xich", "He truyen dong", "May san xuat"],
-    commonBuyers: ["Xuong che tao", "Co dien", "Khach cong nghiep nho"],
+    name: "Xích công nghiệp",
+    shortDescription: "Dùng trong băng tải xích, dây chuyền sản xuất, cơ cấu truyền động. Hay thay khi giãn, mòn hoặc đứt mắt. Bảo trì dây chuyền hỏi nhiều nhất.",
+    detailDescription:
+      "Ưu tiên các hệ thống băng tải và cơ cấu truyền động cần xử lý nhanh để giảm thời gian dừng thiết bị.",
+    popularApplications: ["Băng tải xích", "Máy sản xuất", "Dây chuyền chuyển phôi", "Cơ cấu truyền động"],
+    commonBuyers: ["Bảo trì dây chuyền", "Kỹ thuật nhà máy", "Xưởng chế tạo máy", "Nhà thầu cơ điện"],
   },
   {
     slug: "phot-chan-dau",
-    name: "Phot chan dau",
-    shortDescription: "Tu van phot theo kich thuoc truc - vo, vat lieu va moi truong lam viec.",
-    popularApplications: ["Hop so", "Cum truc", "May thuy luc"],
-    commonBuyers: ["Gara o to", "Xuong co khi", "Cua hang phu tung xe may"],
+    name: "Phớt chặn dầu",
+    shortDescription: "Dùng trong hộp số, cụm trục, bơm, motor giảm tốc. Hay thay khi rò dầu, rỉ mỡ hoặc kèm theo thay vòng bi. Bảo trì và kỹ thuật hỏi nhiều.",
+    detailDescription:
+      "Phớt chặn dầu (oil seal) giữ vai trò ngăn rò rỉ dầu và mỡ tại các cụm quay, cụm kín dầu và cụm truyền động trong nhà máy. Khi phớt bị mòn, cứng hoặc biến dạng do nhiệt và hóa chất, dầu rỉ ra ngoài gây hư hỏng vòng bi, mất bôi trơn và giảm tuổi thọ thiết bị. Nhóm hàng phớt NOK và DINGZING được đối chiếu theo kích thước trục × vỏ × chiều cao, vật liệu (NBR, FKM/Viton, PTFE) và điều kiện vận hành (nhiệt độ, tốc độ, áp suất, môi trường hóa chất). Phớt thường được thay kèm khi thay vòng bi hoặc khi phát hiện rò dầu ở hộp số, motor giảm tốc, bơm và xi-lanh thủy lực.",
+    popularApplications: ["Hộp số công nghiệp", "Cụm trục chính", "Bơm nước / bơm hóa chất", "Motor giảm tốc", "Máy thủy lực", "Xi-lanh thủy lực"],
+    commonBuyers: ["Bảo trì nhà máy", "Kỹ thuật thiết bị", "Nhà máy sản xuất", "Đơn vị sửa chữa công nghiệp", "Xưởng cơ khí"],
   },
   {
     slug: "mo-boi-tron",
-    name: "Mo boi tron",
-    shortDescription: "Goi y mo boi tron theo nhiet do, toc do quay va che do bao tri tai xuan.",
-    popularApplications: ["Vong bi toc do cao", "May ep", "Cum con lan"],
-    commonBuyers: ["Gara", "Dai ly vat tu", "Khach cong nghiep nho"],
+    name: "Mỡ bôi trơn",
+    shortDescription: "Dùng cho vòng bi, con lăn, motor, cụm quay liên tục. Hay dùng khi bổ sung định kỳ hoặc kèm thay vòng bi. Bảo trì nhà máy dùng nhiều nhất.",
+    detailDescription:
+      "Phù hợp cho các cụm chạy liên tục theo ca, cần độ ổn định bôi trơn và kế hoạch bảo trì rõ ràng.",
+    popularApplications: ["Vòng bi tốc độ cao", "Cụm con lăn", "Motor", "Quạt", "Cụm chạy liên tục theo ca"],
+    commonBuyers: ["Bảo trì nhà máy", "Kỹ thuật vận hành", "Khách thay thế định kỳ"],
   },
 ];
 
-export const customerSegments = [
-  "Cua hang phu tung xe may",
-  "Cua hang phu tung o to",
-  "Gara o to",
-  "Xuong co khi",
-  "Xuong che tao",
-  "Nganh may",
-  "Co dien",
-  "Khach cong nghiep nho",
-  "Dai ly vat tu",
+export const customerSegments: CustomerSegment[] = [
+  {
+    name: "Nhà máy sản xuất",
+    summary: "Cần vật tư thay thế ổn định để duy trì tiến độ vận hành và hạn chế dừng máy.",
+  },
+  {
+    name: "Bộ phận bảo trì",
+    summary: "Cần đối chiếu mã nhanh, rõ ứng dụng và có phương án xử lý khi vật tư hỏng đột xuất.",
+  },
+  {
+    name: "Bộ phận kỹ thuật",
+    summary: "Cần đầu mối hiểu sản phẩm để trao đổi theo cụm máy, tải và điều kiện làm việc thực tế.",
+  },
+  {
+    name: "Bộ phận mua hàng",
+    summary: "Cần thông tin mã rõ, mô tả dễ kiểm tra và phản hồi nhanh để xử lý đề nghị mua.",
+  },
+  {
+    name: "Xưởng cơ khí trong KCN",
+    summary: "Cần vật tư truyền động và đỡ trục phù hợp cho máy chạy liên tục và tải thực tế.",
+  },
+  {
+    name: "Xưởng chế tạo máy",
+    summary: "Cần chọn đúng quy cách ngay từ đầu để giảm sửa đổi trong quá trình lắp máy.",
+  },
+  {
+    name: "Nhà thầu cơ điện / lắp đặt công nghiệp",
+    summary: "Cần đối chiếu nhanh mã hàng theo hồ sơ, hiện trường và tiến độ thi công.",
+  },
+  {
+    name: "Khách công nghiệp cần thay thế định kỳ",
+    summary: "Cần nguồn hỗ trợ ổn định để phục vụ bảo trì theo kế hoạch tháng, quý, năm.",
+  },
 ];
 
 export const whyContactBullets = [
-  "Giam sai ma ngay tu dau",
-  "De doi chieu theo anh, ma cu hoac kich thuoc",
-  "Co dinh huong theo ung dung thuc te",
-  "De trao doi nhanh qua Zalo/dien thoai",
-  "Phu hop cho khach can xu ly nhu cau gap",
+  "Giảm rủi ro đặt sai mã – đối chiếu trước khi đặt hàng",
+  "Phối hợp thuận lợi giữa bảo trì, kỹ thuật và mua hàng",
+  "Có phương án theo ứng dụng thực tế, không chỉ tra giá",
+  "Xử lý nhanh các tình huống thay thế đang ảnh hưởng sản xuất",
+  "Gửi mã, ảnh, kích thước qua Zalo – tiếp nhận ngay",
 ];
+
+export const whyContactDescription =
+  "Mục tiêu: giúp xác định đúng mã, đúng cụm, đúng phương án – để nội bộ nhà máy xác nhận nhanh và đặt hàng không mất thêm thời gian.";
 
 export const supportProcess = [
-  "Khach gui ma, anh hoac nhu cau",
-  "Toi tiep nhan va doi chieu thong tin",
-  "Goi y ma phu hop hoac phuong an tuong duong",
-  "Chuyen sang buoc bao gia / xac nhan nhu cau",
+  "Gửi mã cũ, ảnh tem, ảnh cụm máy hoặc kích thước đang có",
+  "Đối chiếu nhanh theo ứng dụng, catalog và điều kiện vận hành",
+  "Xác nhận nhóm hàng phù hợp – mã chính hoặc phương án tương đương",
+  "Chuyển xử lý báo giá, xác nhận số lượng và theo dõi tiến độ",
 ];
 
-export const solutionByCustomer = [
+export const supportProcessNote =
+  "Gửi càng rõ thông tin cụm máy, mã cũ hoặc hình ảnh tem → xử lý càng nhanh, giảm trao đổi qua lại.";
+
+export const solutionByCustomer: CustomerSolution[] = [
   {
-    customer: "Cua hang phu tung xe may",
-    problems: "Thuong gap tinh trang khach can hang nhanh nhung ma khong ro rang.",
-    support: "Ho tro doi chieu nhanh theo ma cu, hinh anh mau va kinh nghiem ung dung.",
-    products: "Vong bi, phot chan dau, mo boi tron",
+    customer: "Nhà máy sản xuất",
+    problems: "Dừng máy đột xuất ảnh hưởng trực tiếp đến kế hoạch sản xuất.",
+    support: "Ưu tiên đối chiếu mã nhanh theo cụm máy và điều kiện vận hành thực tế.",
+    products: "Vòng bi, gối đỡ, xích công nghiệp, mỡ bôi trơn",
   },
   {
-    customer: "Cua hang phu tung o to",
-    problems: "Khach hay can doi chieu nhieu ma cho cung mot cum chi tiet.",
-    support: "Goi y ma thay the phu hop va uu tien phuong an de chot don nhanh.",
-    products: "Vong bi, phot chan dau, day curoa",
+    customer: "Bộ phận bảo trì",
+    problems: "Cần xử lý sự cố nhanh nhưng dữ liệu mã cũ không đầy đủ.",
+    support: "Đối chiếu theo ảnh tem, kích thước, hiện trạng và lịch sử thay thế gần nhất.",
+    products: "Vòng bi, phớt chặn dầu, mỡ bôi trơn",
   },
   {
-    customer: "Gara o to",
-    problems: "Xe nam xuong, can xu ly gap de tra xe dung hen.",
-    support: "Tu van nhanh theo tinh huong thuc te, uu tien hang de thao lap.",
-    products: "Day curoa, phot chan dau, mo boi tron",
+    customer: "Bộ phận kỹ thuật",
+    problems: "Cần xác nhận đúng phương án theo tải, nhiệt, bụi và thời gian chạy máy.",
+    support: "Tư vấn theo thông số vận hành để giảm rủi ro chọn sai mã.",
+    products: "Vòng bi, gối đỡ, dây curoa, xích công nghiệp",
   },
   {
-    customer: "Xuong co khi",
-    problems: "May chay lien tuc, dung may la ton chi phi lon.",
-    support: "Dinh huong ma phu hop tai trong va dieu kien van hanh.",
-    products: "Vong bi, goi do, xich cong nghiep",
+    customer: "Bộ phận mua hàng",
+    problems: "Cần thông tin mã rõ để xử lý đề nghị mua và so sánh phương án nhanh.",
+    support: "Hỗ trợ tách rõ thông tin kỹ thuật và thông tin đặt hàng cho từng nhóm vật tư.",
+    products: "Vòng bi, gối đỡ, dây curoa, phớt chặn dầu",
   },
   {
-    customer: "Xuong che tao",
-    problems: "Can chon vat tu phu hop thong so ngay tu dau de tranh doi lai.",
-    support: "Tu van theo thong so truc, tai, moi truong va tan suat su dung.",
-    products: "Goi do, xich cong nghiep, day curoa",
+    customer: "Xưởng cơ khí trong KCN",
+    problems: "Máy chạy theo ca, vật tư chịu tải thực tế cao và cần thay đúng chuẩn.",
+    support: "Định hướng nhóm hàng theo vị trí máy, mức tải và điều kiện làm việc.",
+    products: "Vòng bi, gối đỡ, xích công nghiệp",
   },
   {
-    customer: "Nganh may",
-    problems: "Can vat tu truyen dong on dinh, it dung may.",
-    support: "Ho tro chon day curoa va vong bi phu hop cho may hoat dong lien tuc.",
-    products: "Day curoa, vong bi, mo boi tron",
+    customer: "Xưởng chế tạo máy",
+    problems: "Sai quy cách từ đầu dẫn đến chỉnh sửa lắp ráp và tăng thời gian hoàn thiện máy.",
+    support: "Đối chiếu sớm theo bản vẽ, cụm lắp và vật tư tương thích.",
+    products: "Gối đỡ, vòng bi, xích công nghiệp, phớt chặn dầu",
   },
   {
-    customer: "Co dien",
-    problems: "Can doi chieu ma nhieu he thong voi thong tin phan tan.",
-    support: "Tong hop thong tin nhanh va de xuat phuong an thay the de trien khai.",
-    products: "Goi do, xich cong nghiep, vong bi",
+    customer: "Nhà thầu cơ điện / lắp đặt công nghiệp",
+    problems: "Tiến độ hiện trường yêu cầu phản hồi nhanh và mã hàng rõ ràng theo hồ sơ.",
+    support: "Hỗ trợ đối chiếu theo hiện trạng và khối lượng thi công theo giai đoạn.",
+    products: "Vòng bi, gối đỡ, dây curoa, xích công nghiệp",
   },
   {
-    customer: "Khach cong nghiep nho",
-    problems: "Khong co bo phan vat tu rieng, can nguoi ho tro sat nhu cau.",
-    support: "Dong hanh tu khau tiep nhan den buoc bao gia va xac nhan.",
-    products: "6 nhom hang co ban theo ung dung",
+    customer: "Khách công nghiệp cần thay thế định kỳ",
+    problems: "Cần nguồn hỗ trợ ổn định cho kế hoạch bảo trì tháng, quý, năm.",
+    support: "Theo dõi nhu cầu thay thế định kỳ và gợi ý nhóm hàng theo chu kỳ vận hành.",
+    products: "Vòng bi, mỡ bôi trơn, phớt chặn dầu, dây curoa",
+  },
+];
+
+export const leadFormIntro =
+  "Anh/chị có thể gửi mã cũ, ảnh tem, ảnh vị trí lắp, kích thước hoặc mô tả thiết bị để hỗ trợ đối chiếu nhanh hơn.";
+
+export type CustomerRole = {
+  role: string;
+  problems: string;
+  support: string;
+};
+
+export const customerRoles: CustomerRole[] = [
+  {
+    role: "Bảo trì nhà máy",
+    problems: "Máy hỏng đột xuất, mã cũ mờ hoặc thiếu, cần xử lý gấp trong ngày để không ảnh hưởng sản xuất.",
+    support: "Đối chiếu mã theo ảnh tem, kích thước, hiện trạng – đề xuất phương án thay thế nhanh nhất.",
   },
   {
-    customer: "Dai ly vat tu",
-    problems: "Can nguon thong tin doi chieu ma on dinh de phuc vu khach le.",
-    support: "Ho tro tra ma va de xuat nhom hang theo nhu cau tung khu vuc.",
-    products: "Vong bi, goi do, phot chan dau",
+    role: "Kỹ thuật thiết bị",
+    problems: "Cần xác nhận đúng thông số theo tải, tốc độ, nhiệt và môi trường để tránh chọn sai mã.",
+    support: "Tư vấn theo thông số vận hành thực tế, đối chiếu catalog và gợi ý nhóm hàng phù hợp cụm máy.",
   },
+  {
+    role: "Mua hàng kỹ thuật",
+    problems: "Thông tin mã từ bảo trì / kỹ thuật không rõ, cần xác nhận nhanh để xử lý đề nghị mua.",
+    support: "Tách rõ thông tin kỹ thuật – thông tin đặt hàng, giúp kiểm tra và so sánh phương án dễ hơn.",
+  },
+  {
+    role: "Chủ xưởng / Cơ điện",
+    problems: "Máy chạy liên tục theo ca, vật tư chịu tải nặng, cần nguồn hỗ trợ kỹ thuật ổn định lâu dài. Thường tự xử lý sửa chữa nhưng khó tìm đúng mã thay thế khi hàng cũ hết hoặc đổi quy cách.",
+    support: "Định hướng nhóm hàng theo vị trí máy, mức tải thực tế và điều kiện vận hành dài hạn. Hỗ trợ đối chiếu mã tương đương khi hàng gốc không còn, gợi ý phương án phù hợp ngân sách và tiến độ xưởng.",
+  },
+];
+
+export const leadFormUploadHint =
+  "Anh/chị có thể gửi ảnh tem, ảnh mẫu cũ hoặc ảnh vị trí lắp để hỗ trợ đối chiếu nhanh hơn.";
+
+export const leadFormBottomNote =
+  "Ưu tiên xử lý nhanh các trường hợp cần thay thế để đảm bảo tiến độ vận hành hoặc bảo trì.";
+
+export const quoteGuideBullets = [
+  "Gửi trước mã cũ, ảnh tem, kích thước hoặc mô tả cụm máy để rút ngắn thời gian đối chiếu.",
+  "Nếu cần xử lý gấp, nên ghi rõ mức độ ưu tiên và mốc thời gian cần vật tư.",
+  "Thông tin kỹ thuật rõ ràng giúp bộ phận mua hàng kiểm tra và đặt hàng nhanh hơn.",
+  "Có thể gửi qua Zalo trước, sau đó điền form để lưu đầy đủ dữ liệu theo từng yêu cầu.",
 ];

@@ -6,6 +6,11 @@ export type BlogPost = {
   excerpt: string;
   category: string;
   publishedAt: string;
+  readTime?: string;
 };
 
 export const blogPosts = postData as BlogPost[];
+
+export function getPostBySlug(slug: string) {
+  return blogPosts.find((post) => post.slug === slug);
+}

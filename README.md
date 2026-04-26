@@ -1,36 +1,127 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Truyền Động Công Nghiệp
 
-## Getting Started
+Website tư vấn vật tư truyền động cho nhà máy và khách công nghiệp.
+Tập trung vào tra mã nhanh, tiếp nhận nhu cầu và hỗ trợ chọn đúng nhóm hàng theo ứng dụng thực tế.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Mục tiêu
+
+- Tra mã vòng bi, gối đỡ, dây curoa, phớt, khớp nối qua chatbot AI
+- Hướng dẫn đúng mã khi chưa biết (discovery flow — tối đa 3 bước)
+- Tiếp nhận yêu cầu báo giá qua form, Zalo, gọi điện
+
+---
+
+## Công nghệ
+
+| Lớp | Stack |
+|---|---|
+| Framework | Next.js 14 · App Router · TypeScript |
+| UI | Tailwind CSS · shadcn/ui |
+| Form | react-hook-form · zod |
+| AI | OpenAI Responses API · Gemini API · function calling |
+| Dữ liệu | JSON catalog · JSON blog |
+
+---
+
+## Routes
+
+| Route | Mô tả |
+|---|---|
+| `/` | Trang chủ |
+| `/san-pham` | Danh mục sản phẩm |
+| `/san-pham/[slug]` | Chi tiết nhóm hàng |
+| `/giai-phap-theo-khach-hang` | Giải pháp theo khách hàng |
+| `/tra-ma-bao-gia` | Tra mã & báo giá |
+| `/kien-thuc` | Bài viết kỹ thuật |
+| `/gioi-thieu` | Giới thiệu |
+| `/lien-he` | Liên hệ |
+
+---
+
+## Chatbot tra mã
+
+- Bubble góc phải dưới, gọi AI qua `/api/assistant`
+- Hỗ trợ cả OpenAI và Gemini (chọn qua env)
+- Nhận input: mã cũ · kích thước · ứng dụng · triệu chứng
+- Parse ngữ cảnh câu cụt, shorthand
+- Discovery flow ngắn nếu thiếu dữ liệu
+- Đối chiếu catalog nội bộ → trả structured output
+- **Không** báo giá tự động · **không** tự kết luận tồn kho
+
+---
+
+## Cấu hình
+
+Site config: `src/config/site.ts`
+
+---
+
+## Biến môi trường
+
+```env
+# Provider (mặc định: openai)
+ASSISTANT_PROVIDER=openai          # hoặc gemini
+
+# OpenAI
+OPENAI_API_KEY=<your_key>
+OPENAI_MODEL=gpt-4o-mini
+
+# Gemini (chỉ cần nếu ASSISTANT_PROVIDER=gemini)
+GEMINI_API_KEY=<your_key>
+GEMINI_MODEL=gemini-2.5-flash
+
+# Debug — hiện provider đang dùng trên chat UI
+NEXT_PUBLIC_SHOW_ASSISTANT_PROVIDER=false
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+> **Lưu ý:**
+> - `ASSISTANT_PROVIDER=gemini` → dùng Gemini, tự fallback về OpenAI nếu Gemini lỗi.
+> - Thiếu API key → site vẫn chạy, chatbot trả lỗi graceful.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Catalog demo
 
-## Learn More
+| File | Vai trò |
+|---|---|
+| `src/data/catalog/master-catalog.json` | Catalog chính |
+| `src/data/catalog/equivalent-map.json` | Bảng mã tương đương |
+| `src/data/catalog/brand-whitelist.json` | Whitelist nhãn hàng |
+| `src/data/catalog/technical-rules.json` | Luật kỹ thuật |
 
-To learn more about Next.js, take a look at the following resources:
+> Dữ liệu mẫu — chưa phải catalog vận hành.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Phát triển local
 
-## Deploy on Vercel
+```bash
+npm install
+npm run dev          # http://localhost:3000
+npm run lint
+npm run build
+npm run start
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+> Yêu cầu Node.js 18.17+.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+---
+
+## Deploy
+
+```bash
+vercel --prod
+```
+
+Hoặc import repo từ Vercel dashboard.
+
+---
+
+## Nâng cấp tiếp theo
+
+- Form → CRM / Google Sheet
+- Upload ảnh → S3 / Cloudinary
+- Blog → Sanity hoặc MDX
+- Tracking conversion (gọi / Zalo / form)

@@ -10,9 +10,9 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
 const contactSchema = z.object({
-  fullName: z.string().min(2, "Vui long nhap ho ten"),
-  phone: z.string().min(8, "Vui long nhap so dien thoai"),
-  message: z.string().min(5, "Vui long nhap noi dung"),
+  fullName: z.string().min(2, "Vui lòng nhập họ tên"),
+  phone: z.string().min(8, "Vui lòng nhập số điện thoại"),
+  message: z.string().min(5, "Vui lòng nhập nội dung"),
 });
 
 type ContactFormValues = z.infer<typeof contactSchema>;
@@ -43,24 +43,24 @@ export function ContactForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
       <div className="space-y-2">
-        <Label htmlFor="contactName">Ho ten</Label>
-        <Input id="contactName" placeholder="Nguyen Van A" {...register("fullName")} />
+        <Label htmlFor="contactName">Họ tên</Label>
+        <Input id="contactName" placeholder="Nguyễn Văn A" {...register("fullName")} />
         {errors.fullName ? <p className="text-xs text-red-600">{errors.fullName.message}</p> : null}
       </div>
       <div className="space-y-2">
-        <Label htmlFor="contactPhone">So dien thoai</Label>
+        <Label htmlFor="contactPhone">Số điện thoại</Label>
         <Input id="contactPhone" placeholder="09xx xxx xxx" {...register("phone")} />
         {errors.phone ? <p className="text-xs text-red-600">{errors.phone.message}</p> : null}
       </div>
       <div className="space-y-2">
-        <Label htmlFor="contactMessage">Noi dung can ho tro</Label>
+        <Label htmlFor="contactMessage">Nội dung cần hỗ trợ</Label>
         <Textarea id="contactMessage" rows={4} {...register("message")} />
         {errors.message ? <p className="text-xs text-red-600">{errors.message.message}</p> : null}
       </div>
-      <Button type="submit" className="w-full bg-blue-700 hover:bg-blue-800" disabled={isSubmitting}>
-        {isSubmitting ? "Dang gui..." : "Gui lien he"}
+      <Button type="submit" className="w-full bg-amber-800 hover:bg-amber-900" disabled={isSubmitting}>
+        {isSubmitting ? "Đang gửi..." : "Gửi liên hệ"}
       </Button>
-      {done ? <p className="text-sm text-blue-700">Da tiep nhan thong tin. Toi se lien he som.</p> : null}
+      {done ? <p className="text-sm text-amber-800">Đã tiếp nhận thông tin. Tôi sẽ liên hệ sớm.</p> : null}
     </form>
   );
 }

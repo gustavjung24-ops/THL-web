@@ -1,0 +1,336 @@
+{
+  "version": "demo-v1",
+  "records": [
+    {
+      "id": "CAT-001",
+      "product_group": "bearings",
+      "brand": "NTN",
+      "exact_code": "6204-2RS C3",
+      "normalized_code": "62042RSC3",
+      "series": "6200",
+      "dimensions": {
+        "id": 20,
+        "od": 47,
+        "width": 14,
+        "thickness": null,
+        "shaft_diameter": 20,
+        "pitch": null,
+        "links": null,
+        "profile": null,
+        "length": null,
+        "housing_type": null,
+        "chain_type": null
+      },
+      "seal_or_shield": "2RS",
+      "clearance": "C3",
+      "applications": [
+        "electric motor",
+        "pump",
+        "gearbox"
+      ],
+      "confusion_note": "Easy to confuse with 6204-ZZ in dusty and wet environments.",
+      "allowed_to_sell": true,
+      "manual_confirmation_required": false
+    },
+    {
+      "id": "CAT-002",
+      "product_group": "bearings",
+      "brand": "KOYO/JTEKT",
+      "exact_code": "6204-ZZ C3",
+      "normalized_code": "6204ZZC3",
+      "series": "6200",
+      "dimensions": {
+        "id": 20,
+        "od": 47,
+        "width": 14,
+        "thickness": null,
+        "shaft_diameter": 20,
+        "pitch": null,
+        "links": null,
+        "profile": null,
+        "length": null,
+        "housing_type": null,
+        "chain_type": null
+      },
+      "seal_or_shield": "ZZ",
+      "clearance": "C3",
+      "applications": [
+        "dry conveyor",
+        "fan unit"
+      ],
+      "confusion_note": "Same core dimensions as 6204-2RS but different sealing behavior.",
+      "allowed_to_sell": true,
+      "manual_confirmation_required": false
+    },
+    {
+      "id": "CAT-003",
+      "product_group": "bearings",
+      "brand": "NACHI",
+      "exact_code": "6305-2NSE C3",
+      "normalized_code": "63052NSEC3",
+      "series": "6300",
+      "dimensions": {
+        "id": 25,
+        "od": 62,
+        "width": 17,
+        "thickness": null,
+        "shaft_diameter": 25,
+        "pitch": null,
+        "links": null,
+        "profile": null,
+        "length": null,
+        "housing_type": null,
+        "chain_type": null
+      },
+      "seal_or_shield": "2NSE",
+      "clearance": "C3",
+      "applications": [
+        "blower",
+        "mixer"
+      ],
+      "confusion_note": "Can be mixed up with 6305-ZZ when only outer ring is visible.",
+      "allowed_to_sell": true,
+      "manual_confirmation_required": false
+    },
+    {
+      "id": "CAT-004",
+      "product_group": "pillow_blocks",
+      "brand": "ASAHI",
+      "exact_code": "UCP205",
+      "normalized_code": "UCP205",
+      "series": "UCP",
+      "dimensions": {
+        "id": null,
+        "od": null,
+        "width": null,
+        "thickness": null,
+        "shaft_diameter": 25,
+        "pitch": null,
+        "links": null,
+        "profile": null,
+        "length": null,
+        "housing_type": "UCP",
+        "chain_type": null
+      },
+      "seal_or_shield": null,
+      "clearance": null,
+      "applications": [
+        "line shaft support",
+        "conveyor frame"
+      ],
+      "confusion_note": "Frequently confused with UCF205 due to same shaft diameter.",
+      "allowed_to_sell": true,
+      "manual_confirmation_required": true
+    },
+    {
+      "id": "CAT-005",
+      "product_group": "pillow_blocks",
+      "brand": "ASAHI",
+      "exact_code": "UCF205",
+      "normalized_code": "UCF205",
+      "series": "UCF",
+      "dimensions": {
+        "id": null,
+        "od": null,
+        "width": null,
+        "thickness": null,
+        "shaft_diameter": 25,
+        "pitch": null,
+        "links": null,
+        "profile": null,
+        "length": null,
+        "housing_type": "UCF",
+        "chain_type": null
+      },
+      "seal_or_shield": null,
+      "clearance": null,
+      "applications": [
+        "plate mount support",
+        "packaging machine"
+      ],
+      "confusion_note": "Mounting style differs from UCP205 and must be reconfirmed.",
+      "allowed_to_sell": true,
+      "manual_confirmation_required": true
+    },
+    {
+      "id": "CAT-006",
+      "product_group": "belts",
+      "brand": "MITSUBA",
+      "exact_code": "A-42",
+      "normalized_code": "A42",
+      "series": "Classical V-Belt A",
+      "dimensions": {
+        "id": null,
+        "od": null,
+        "width": null,
+        "thickness": null,
+        "shaft_diameter": null,
+        "pitch": null,
+        "links": null,
+        "profile": "A",
+        "length": 1067,
+        "housing_type": null,
+        "chain_type": null
+      },
+      "seal_or_shield": null,
+      "clearance": null,
+      "applications": [
+        "air compressor",
+        "agitator"
+      ],
+      "confusion_note": "Profile A can be confused with SPA when only rough length is provided.",
+      "allowed_to_sell": true,
+      "manual_confirmation_required": true
+    },
+    {
+      "id": "CAT-007",
+      "product_group": "industrial_chains",
+      "brand": "DID",
+      "exact_code": "08B-1",
+      "normalized_code": "08B1",
+      "series": "BS simplex",
+      "dimensions": {
+        "id": null,
+        "od": null,
+        "width": null,
+        "thickness": null,
+        "shaft_diameter": null,
+        "pitch": 12.7,
+        "links": 114,
+        "profile": null,
+        "length": null,
+        "housing_type": null,
+        "chain_type": "simplex"
+      },
+      "seal_or_shield": null,
+      "clearance": null,
+      "applications": [
+        "packaging conveyor",
+        "bucket elevator"
+      ],
+      "confusion_note": "08B-1 and RS40-1 are close in pitch but not interchangeable by default.",
+      "allowed_to_sell": true,
+      "manual_confirmation_required": true
+    },
+    {
+      "id": "CAT-008",
+      "product_group": "industrial_chains",
+      "brand": "TSUBAKI",
+      "exact_code": "RS40-1",
+      "normalized_code": "RS401",
+      "series": "ANSI simplex",
+      "dimensions": {
+        "id": null,
+        "od": null,
+        "width": null,
+        "thickness": null,
+        "shaft_diameter": null,
+        "pitch": 12.7,
+        "links": 120,
+        "profile": null,
+        "length": null,
+        "housing_type": null,
+        "chain_type": "simplex"
+      },
+      "seal_or_shield": null,
+      "clearance": null,
+      "applications": [
+        "material handling",
+        "light drive line"
+      ],
+      "confusion_note": "Requires chain standard confirmation before final recommendation.",
+      "allowed_to_sell": true,
+      "manual_confirmation_required": true
+    },
+    {
+      "id": "CAT-009",
+      "product_group": "oil_seals",
+      "brand": "NOK",
+      "exact_code": "TC35X52X7",
+      "normalized_code": "TC35X52X7",
+      "series": "TC",
+      "dimensions": {
+        "id": 35,
+        "od": 52,
+        "width": null,
+        "thickness": 7,
+        "shaft_diameter": 35,
+        "pitch": null,
+        "links": null,
+        "profile": null,
+        "length": null,
+        "housing_type": null,
+        "chain_type": null
+      },
+      "seal_or_shield": "TC",
+      "clearance": null,
+      "applications": [
+        "gear reducer",
+        "hydraulic pump"
+      ],
+      "confusion_note": "TC and SC lip styles are easy to confuse without groove details.",
+      "allowed_to_sell": true,
+      "manual_confirmation_required": true
+    },
+    {
+      "id": "CAT-010",
+      "product_group": "grease",
+      "brand": "KYK",
+      "exact_code": "KYK EP2 400G",
+      "normalized_code": "KYKEP2400G",
+      "series": "Lithium EP2",
+      "dimensions": {
+        "id": null,
+        "od": null,
+        "width": null,
+        "thickness": null,
+        "shaft_diameter": null,
+        "pitch": null,
+        "links": null,
+        "profile": null,
+        "length": null,
+        "housing_type": null,
+        "chain_type": null,
+        "package": "400g cartridge"
+      },
+      "seal_or_shield": null,
+      "clearance": null,
+      "applications": [
+        "general bearing relubrication",
+        "medium load coupling"
+      ],
+      "confusion_note": "Confirm operating temperature before final grease recommendation.",
+      "allowed_to_sell": true,
+      "manual_confirmation_required": true
+    },
+    {
+      "id": "CAT-011",
+      "product_group": "bearings",
+      "brand": "SKF",
+      "exact_code": "6204-2RSH",
+      "normalized_code": "62042RSH",
+      "series": "6200",
+      "dimensions": {
+        "id": 20,
+        "od": 47,
+        "width": 14,
+        "thickness": null,
+        "shaft_diameter": 20,
+        "pitch": null,
+        "links": null,
+        "profile": null,
+        "length": null,
+        "housing_type": null,
+        "chain_type": null
+      },
+      "seal_or_shield": "2RSH",
+      "clearance": "CN",
+      "applications": [
+        "reference only"
+      ],
+      "confusion_note": "Reference record only; brand is outside current sellable whitelist.",
+      "allowed_to_sell": false,
+      "manual_confirmation_required": true
+    }
+  ]
+}

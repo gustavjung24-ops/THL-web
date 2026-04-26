@@ -1,30 +1,40 @@
 export const siteConfig = {
-  brandName: "Luan Phu Tung",
+  brandName: "Truyền Động Công Nghiệp",
   domain: "luanphutung.vn",
-  slogan: "Tra dung ma - tu van dung hang - ho tro nhanh",
-  personalName: "[Ten ca nhan]",
-  phone: "[So dien thoai]",
-  phoneHref: "tel:[So dien thoai]",
-  zaloLabel: "[Zalo Placeholder]",
-  zaloLink: "https://zalo.me/[zalo-id]",
-  email: "[Email Placeholder]",
-  supportArea: "[Khu vuc ho tro]",
-  responseTime: "07:30 - 21:00 moi ngay",
-  defaultOgImage: "/images/og-industrial.jpg",
+  slogan: "Tra mã đúng cụm máy - tư vấn đúng ứng dụng - phản hồi nhanh",
+  personalName: "Khương Bình",
+  phone: "0934 581 487",
+  phoneHref: "tel:0934581487",
+  zaloLabel: "Zalo hỗ trợ",
+  zaloLink: "https://zalo.me/0934581487",
+  email: "khuongbinh@tanhoaloi.net",
+  supportArea: "Hỗ trợ: Toàn quốc",
+  responseTime: "Phản hồi trong giờ hành chính hoặc theo nhu cầu xử lý nhanh",
+  address: "Dĩ An Bình Dương / Phú Thạnh Tân Phú HCM",
+  defaultOgImage: "/images/branding/og-industrial.svg",
+  footerCredit: "By Khương Bình",
 };
 
 export const mainMenu = [
-  { label: "Trang chu", href: "/" },
-  { label: "Gioi thieu", href: "/gioi-thieu" },
-  { label: "San pham", href: "/san-pham" },
-  { label: "Giai phap theo khach hang", href: "/giai-phap-theo-khach-hang" },
-  { label: "Tra ma / Bao gia", href: "/tra-ma-bao-gia" },
-  { label: "Kien thuc", href: "/kien-thuc" },
-  { label: "Lien he", href: "/lien-he" },
+  { label: "Trang chủ", href: "/" },
+  { label: "Giới thiệu", href: "/gioi-thieu" },
+  { label: "Sản phẩm", href: "/san-pham" },
+  { label: "Giải pháp theo khách hàng", href: "/giai-phap-theo-khach-hang" },
+  { label: "Tra mã / Báo giá", href: "/tra-ma-bao-gia" },
+  { label: "Kiến thức", href: "/kien-thuc" },
+  { label: "Liên hệ", href: "/lien-he" },
+] as const;
+
+export const footerMenu = [
+  { label: "Tra mã / Báo giá", href: "/tra-ma-bao-gia" },
+  { label: "Sản phẩm", href: "/san-pham" },
+  { label: "Giải pháp theo khách hàng", href: "/giai-phap-theo-khach-hang" },
+  { label: "Kiến thức", href: "/kien-thuc" },
+  { label: "Liên hệ", href: "/lien-he" },
 ] as const;
 
 export const quickActions = [
-  { label: "Gui ma can tim", href: "/tra-ma-bao-gia" },
+  { label: "Gửi mã cần hỗ trợ", href: "/tra-ma-bao-gia" },
   { label: "Chat Zalo", href: siteConfig.zaloLink, external: true },
-  { label: "Goi ngay", href: siteConfig.phoneHref },
+  { label: "Gọi nhanh bộ phận tư vấn", href: siteConfig.phoneHref },
 ] as const;
