@@ -15,6 +15,10 @@ export const productVisuals: Record<string, { image: string; imageAlt: string }>
     image: "/images/backgrounds/final-cta-industrial.png",
     imageAlt: "Khu vực bảo trì nhà máy dùng vật tư truyền động Soho",
   },
+  nok: {
+    image: "/images/cards/product-phot-chan-dau.webp",
+    imageAlt: "Phớt chặn dầu NOK dùng cho cụm trục và hộp số công nghiệp",
+  },
 };
 
 export const defaultProductVisual = {

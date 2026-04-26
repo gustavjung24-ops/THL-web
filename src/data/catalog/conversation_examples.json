@@ -1,41 +1,77 @@
 {
-  "version": "v1",
-  "description": "Ví dụ hội thoại mẫu để huấn luyện và test chatbot theo danh mục NTN, Koyo, Tsubaki, Soho.",
+  "version": "v2-ntn-focus",
+  "description": "Ví dụ hội thoại tham khảo cho nhóm NTN, Koyo, Tsubaki, Soho và NOK.",
   "conversations": [
     {
       "id": "conv_01",
-      "title": "Tra mã vòng bi NTN",
+      "title": "Tra mã vòng bi NTN theo mã cũ",
       "tags": ["exact_code", "bearings", "ntn"],
       "turns": [
         { "role": "user", "content": "6204 2RS" },
-        { "role": "assistant", "content": "Mã 6204-2RS C3 (NTN) phù hợp. Kích thước ID 20 × OD 47 × W 14mm. Anh/chị gửi thêm ảnh tem hoặc vị trí lắp để em xác nhận kiểu seal và độ rơ trước khi báo giá." }
+        { "role": "assistant", "content": "Mã 6204-2RS C3 (NTN) phù hợp. Kích thước ID 20 x OD 47 x W 14mm. Dùng phổ biến cho motor, bơm, hộp số. Giá được xác nhận riêng." }
       ]
     },
     {
       "id": "conv_02",
-      "title": "Hỏi vòng bi Koyo",
-      "tags": ["brand_request", "bearings", "koyo"],
+      "title": "Đối chiếu vòng bi Koyo",
+      "tags": ["exact_code", "bearings", "koyo"],
       "turns": [
-        { "role": "user", "content": "cần vòng bi koyo cho motor" },
-        { "role": "assistant", "content": "Koyo có thể đối chiếu theo mã cũ hoặc kích thước vòng bi. Anh/chị gửi giúp mã trên tem, hoặc đo ID × OD × W để em khoanh đúng mã và kiểm tra phương án phù hợp." }
+        { "role": "user", "content": "6204 zz c3 koyo" },
+        { "role": "assistant", "content": "6204-ZZ C3 (Koyo/JTEKT) cùng kích thước lõi với 6204-2RS nhưng kiểu che chắn khác. Anh/chị cho em biết môi trường có bụi, ẩm hay chạy khô để chốt đúng loại." }
       ]
     },
     {
       "id": "conv_03",
-      "title": "Xích công nghiệp Tsubaki",
-      "tags": ["industrial_chains", "tsubaki"],
+      "title": "Gối đỡ Koyo UCP205",
+      "tags": ["exact_code", "pillow_blocks", "koyo"],
       "turns": [
-        { "role": "user", "content": "xích 08B-1 dùng tsubaki được không" },
-        { "role": "assistant", "content": "Có thể khoanh theo Tsubaki, nhưng cần xác minh tiêu chuẩn BS/ANSI, bước xích, số mắt và tải làm việc. Anh/chị gửi ảnh xích cũ hoặc thông số trên bao bì để em đối chiếu nhanh." }
+        { "role": "user", "content": "UCP205" },
+        { "role": "assistant", "content": "UCP205 thuộc nhóm gối đỡ trục 25mm. Em sẽ đối chiếu theo Koyo/JTEKT và cần anh/chị xác nhận kiểu chân đế hay mặt bích trước khi chốt." }
       ]
     },
     {
       "id": "conv_04",
-      "title": "Vật tư Soho theo mã thực tế",
-      "tags": ["transmission_parts", "soho"],
+      "title": "Xích Tsubaki",
+      "tags": ["exact_code", "industrial_chains", "tsubaki"],
       "turns": [
-        { "role": "user", "content": "soho có mã này không" },
-        { "role": "assistant", "content": "Em cần mã đầy đủ hoặc ảnh tem để đối chiếu Soho theo đúng vị trí lắp. Nếu có thêm cụm máy đang dùng và mức độ gấp, em sẽ khoanh phương án nhanh hơn." }
+        { "role": "user", "content": "xích rs40-1" },
+        { "role": "assistant", "content": "RS40-1 thuộc nhóm xích công nghiệp Tsubaki. Cần xác nhận số mắt, số dãy và chuẩn lắp hiện tại để tránh nhầm với mã gần tương đương." }
+      ]
+    },
+    {
+      "id": "conv_05",
+      "title": "Dây curoa Soho",
+      "tags": ["exact_code", "belts", "soho"],
+      "turns": [
+        { "role": "user", "content": "dây A42" },
+        { "role": "assistant", "content": "A-42 thuộc nhóm dây curoa profile A. Em đối chiếu theo nhóm Soho; anh/chị gửi thêm ảnh dây cũ hoặc kích thước đo thực tế để xác nhận profile." }
+      ]
+    },
+    {
+      "id": "conv_06",
+      "title": "Chào hỏi",
+      "tags": ["greeting", "discovery"],
+      "turns": [
+        { "role": "user", "content": "chào" },
+        { "role": "assistant", "content": "Chào anh/chị, em hỗ trợ tra mã NTN, Koyo, Tsubaki, Soho và NOK. Anh/chị đang có mã cũ, ảnh tem hay mô tả cụm máy cần thay thế ạ?" }
+      ]
+    },
+    {
+      "id": "conv_07",
+      "title": "Đối chiếu thương hiệu theo mã khách gửi",
+      "tags": ["brand_request", "out_of_scope"],
+      "turns": [
+        { "role": "user", "content": "có hàng SKF không" },
+        { "role": "assistant", "content": "Anh/chị gửi mã SKF cụ thể giúp em. Em sẽ đối chiếu thông số và đề xuất phương án phù hợp trong nhóm NTN, Koyo, Tsubaki, Soho hoặc NOK trước khi chuyển báo giá." }
+      ]
+    },
+    {
+      "id": "conv_08",
+      "title": "Nhu cầu gấp",
+      "tags": ["urgent", "bearings"],
+      "turns": [
+        { "role": "user", "content": "cần thay gấp bi motor đang kêu" },
+        { "role": "assistant", "content": "Em ưu tiên khoanh mã theo NTN trước. Anh/chị gửi giúp mã cũ trên tem hoặc kích thước cốt motor; nếu không có, gửi ảnh cụm máy để em đối chiếu nhanh hơn." }
       ]
     }
   ]

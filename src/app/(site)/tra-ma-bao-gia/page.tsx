@@ -1,4 +1,4 @@
-﻿import { MessageCircle, PhoneCall } from "lucide-react";
+import { MessageCircle, PhoneCall } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { quoteGuideBullets } from "@/data/site-content";
 import { createPageMetadata } from "@/lib/seo";
@@ -7,9 +7,9 @@ import { SectionTitle } from "@/components/shared/section-title";
 import { Button } from "@/components/ui/button";
 
 export const metadata = createPageMetadata({
-  title: "Tra mÃ£ / BÃ¡o giÃ¡",
+  title: "Tra mã / Báo giá",
   description:
-    "Gá»­i mÃ£, áº£nh hoáº·c kÃ­ch thÆ°á»›c Ä‘á»ƒ Ä‘Æ°á»£c há»— trá»£ tra mÃ£ vÃ  bÃ¡o giÃ¡ phá»¥ tÃ¹ng cÃ´ng nghiá»‡p nhanh hÆ¡n.",
+    "Gửi mã, ảnh hoặc kích thước để được hỗ trợ tra mã và báo giá phụ tùng công nghiệp nhanh hơn.",
   path: "/tra-ma-bao-gia",
 });
 
@@ -19,9 +19,9 @@ export default function QuotePage() {
       <div className="page-shell space-y-8">
         <section className="space-y-5 rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_12px_32px_-24px_rgba(30,64,175,0.45)] sm:p-8">
           <SectionTitle
-            eyebrow="Tra mÃ£ / BÃ¡o giÃ¡"
-            title="Gá»­i nhu cáº§u Ä‘á»ƒ há»— trá»£ nhanh hÆ¡n"
-            description="Báº¡n cÃ³ thá»ƒ gá»­i mÃ£ hÃ ng, áº£nh tem, áº£nh máº«u cÅ© hoáº·c kÃ­ch thÆ°á»›c. ThÃ´ng tin cÃ ng rÃµ thÃ¬ Ä‘á»‘i chiáº¿u cÃ ng nhanh."
+            eyebrow="Tra mã / Báo giá"
+            title="Gửi nhu cầu để hỗ trợ nhanh hơn"
+            description="Bạn có thể gửi mã hàng, ảnh tem, ảnh mẫu cũ hoặc kích thước. Thông tin càng rõ thì đối chiếu càng nhanh."
           />
 
           <ul className="space-y-2 text-sm leading-relaxed text-slate-700">
@@ -42,7 +42,7 @@ export default function QuotePage() {
             <Button asChild variant="outline" className="border-blue-300 text-blue-900 hover:bg-blue-50">
               <a href={siteConfig.phoneHref}>
                 <PhoneCall className="mr-2 size-4" />
-                Gá»i ngay
+                Gọi ngay
               </a>
             </Button>
           </div>
@@ -65,4 +65,3 @@ export default function QuotePage() {
     </div>
   );
 }
-

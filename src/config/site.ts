@@ -1,7 +1,7 @@
 export const siteConfig = {
   brandName: "Truyền Động Công Nghiệp",
   domain: "luanphutung.vn",
-  slogan: "NTN chủ đạo - Koyo, Tsubaki, Soho - tra mã nhanh cho nhà máy",
+  slogan: "NTN chủ đạo - Koyo, Tsubaki, Soho, NOK - tra mã nhanh cho nhà máy",
   personalName: "Khương Bình",
   phone: "0902 964 685",
   phoneHref: "tel:0902964685",

@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { MessageCircle, PhoneCall, Search } from "lucide-react";
 import { siteConfig } from "@/config/site";
 
@@ -11,7 +11,7 @@ export function MobileQuickActions() {
           className="flex items-center justify-center gap-1 rounded-md bg-blue-800 px-2 py-2 text-xs font-semibold text-white"
         >
           <Search className="size-4" />
-          Gá»­i mÃ£
+          Gửi mã
         </Link>
         <a
           href={siteConfig.zaloLink}
@@ -27,10 +27,9 @@ export function MobileQuickActions() {
           className="flex items-center justify-center gap-1 rounded-md border border-blue-300 bg-white px-2 py-2 text-xs font-semibold text-blue-900"
         >
           <PhoneCall className="size-4" />
-          Gá»i nhanh
+          Gọi nhanh
         </a>
       </div>
     </div>
   );
 }
-

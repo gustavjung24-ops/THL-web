@@ -54,11 +54,23 @@ export const productEntryCards: HomeEntryCard[] = [
     description: "Nhóm vật tư truyền động Soho cho phương án thay thế phù hợp tiến độ.",
     image: "/images/backgrounds/final-cta-industrial.png",
     imagePrompt:
-      "Ảnh phớt chặn dầu và vị trí làm kín trên trục máy công nghiệp, technical but realistic, clean background, realistic industrial B2B photography, clean lighting, professional, no cartoon, no oversized logos, no poster-style collage, 16:9 aspect ratio",
+      "Khu vực bảo trì nhà máy với dây curoa và vật tư truyền động Soho được sắp xếp gọn trên bàn kỹ thuật, realistic industrial B2B photography, clean lighting, professional, no cartoon, no oversized logos, no poster-style collage, 16:9 aspect ratio",
     imageAlt: "Vật tư truyền động Soho dùng trong khu vực bảo trì nhà máy",
     imageStyleTag: "product-hero",
     href: "/san-pham/soho",
     ctaLabel: "Xem Soho",
+  },
+  {
+    slug: "nok",
+    title: "NOK",
+    description: "Phớt chặn dầu NOK cho cụm trục, hộp số, bơm và vị trí cần làm kín ổn định.",
+    image: "/images/cards/product-phot-chan-dau.webp",
+    imagePrompt:
+      "Ảnh phớt chặn dầu NOK và vị trí làm kín trên trục máy công nghiệp, technical but realistic, clean background, realistic industrial B2B photography, clean lighting, professional, no cartoon, no oversized logos, no poster-style collage, 16:9 aspect ratio",
+    imageAlt: "Phớt chặn dầu NOK lắp tại vị trí làm kín trên trục máy công nghiệp",
+    imageStyleTag: "product-hero",
+    href: "/san-pham/nok",
+    ctaLabel: "Xem NOK",
   },
 ];
 

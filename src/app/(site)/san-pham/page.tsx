@@ -9,9 +9,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
 export const metadata = createPageMetadata({
-  title: "Danh mục theo thương hiệu NTN, Koyo, Tsubaki, Soho",
+  title: "Danh mục theo thương hiệu NTN, Koyo, Tsubaki, Soho, NOK",
   description:
-    "Catalog vật tư công nghiệp theo 4 thương hiệu chủ đạo: NTN, Koyo, Tsubaki và Soho.",
+    "Catalog vật tư công nghiệp theo các thương hiệu trọng tâm: NTN, Koyo, Tsubaki, Soho và NOK.",
   path: "/san-pham",
 });
 
@@ -23,7 +23,7 @@ export default function ProductsPage() {
           <SectionTitle
             eyebrow="Danh mục sản phẩm"
             title="Catalog theo thương hiệu chủ đạo"
-            description="Danh mục hiện tập trung NTN, Koyo, Tsubaki và Soho. Các thương hiệu chưa có trong danh sách tạm thời được bỏ qua để web gọn và rõ hướng."
+            description="Danh mục tập trung vào các thương hiệu được tư vấn thường xuyên cho nhu cầu bảo trì và thay thế trong nhà máy: NTN, Koyo, Tsubaki, Soho và NOK."
           />
           <Button asChild className="w-fit bg-slate-950 hover:bg-slate-800">
             <Link href="/tra-ma-bao-gia">

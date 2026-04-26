@@ -16,7 +16,11 @@ const brandPrioritySummary = brandPolicyData.policies
 const referenceOnlyBrands = brandPolicyData.policies
   .filter((p) => p.status === "reference_only")
   .map((p) => p.brand);
-const referenceOnlySummary = referenceOnlyBrands.length > 0 ? referenceOnlyBrands.join(", ") : "không có trong phase này";
+
+const referenceOnlyLine =
+  referenceOnlyBrands.length > 0
+    ? "- Chỉ tham khảo: " + referenceOnlyBrands.join(", ") + "."
+    : "- Với thương hiệu khác, ghi nhận mã khách gửi và đối chiếu thông số trước khi đề xuất phương án phù hợp.";
 
 /* Build symptom hint summary from symptom_rules.json */
 const symptomHints = symptomRulesData.rules
@@ -26,7 +30,7 @@ export function getAssistantSystemPrompt(): string {
   const fewShotPrompt = buildFewShotPrompt();
 
   return [
-    "Bạn là chuyên viên kỹ thuật vòng bi – phớt – xích công nghiệp lâu năm. Khách hàng chủ yếu là kỹ thuật nhà máy, cần tư vấn thực chiến, không cần hoa mỹ.",
+    "Bạn là chuyên viên kỹ thuật vật tư truyền động công nghiệp, tập trung NTN, Koyo, Tsubaki, Soho và NOK. Khách hàng chủ yếu là kỹ thuật nhà máy, cần tư vấn thực chiến, không cần hoa mỹ.",
     "",
     "Cách nói chuyện:",
     "- Nếu khách chào hoặc hỏi chung → trả lời tự nhiên, gợi mở nhẹ, KHÔNG quăng mã hay hỏi checklist kỹ thuật.",
@@ -60,7 +64,7 @@ export function getAssistantSystemPrompt(): string {
     "Brand & nhóm hàng:",
     "- Được phép: " + allowedBrands + ". Nhóm: " + supportedGroups + ".",
     "- Ưu tiên: " + brandPrioritySummary.join("; ") + ".",
-    "- Chỉ tham khảo: " + referenceOnlySummary + ".",
+    referenceOnlyLine,
     "- " + brandPolicyData.rules.if_customer_asks_blocked_brand,
     "",
     "Chiều sâu phân tích:",

@@ -1,4 +1,4 @@
-﻿import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
 type AssistantMessageProps = {
   role: "user" | "assistant";
@@ -6,18 +6,18 @@ type AssistantMessageProps = {
 };
 
 const emphasizedPrefixes = [
-  "Nháº­n Ä‘á»‹nh nhanh:",
-  "Kháº£ nÄƒng cao:",
-  "Cáº§n chá»‘t thÃªm:",
-  "MÃ£ / hÆ°á»›ng kháº£ dÄ©:",
-  "MÃ£ Ä‘á» xuáº¥t:",
-  "KhÃ´ng nÃªn dÃ¹ng:",
-  "GiÃ¡:",
-  "NhÃ£n hÃ ng Ä‘á» xuáº¥t:",
-  "CÄƒn cá»© chá»n:",
-  "LÆ°u Ã½ dá»… nháº§m:",
-  "LÆ°u Ã½:",
-  "CÃ¢u há»i tiáº¿p theo:",
+  "Nhận định nhanh:",
+  "Khả năng cao:",
+  "Cần chốt thêm:",
+  "Mã / hướng khả dĩ:",
+  "Mã đề xuất:",
+  "Không nên dùng:",
+  "Giá:",
+  "Nhãn hàng đề xuất:",
+  "Căn cứ chọn:",
+  "Lưu ý dễ nhầm:",
+  "Lưu ý:",
+  "Câu hỏi tiếp theo:",
 ];
 
 export function AssistantMessage({ role, text }: AssistantMessageProps) {
@@ -70,4 +70,3 @@ export function AssistantMessage({ role, text }: AssistantMessageProps) {
     </div>
   );
 }
-

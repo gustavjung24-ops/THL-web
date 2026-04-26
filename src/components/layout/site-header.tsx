@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -8,6 +8,16 @@ import { mainMenu, siteConfig } from "@/config/site";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
+
+const desktopMenuLabels: Record<string, string> = {
+  "/": "Trang chủ",
+  "/gioi-thieu": "Giới thiệu",
+  "/san-pham": "Sản phẩm",
+  "/giai-phap-theo-khach-hang": "Giải pháp",
+  "/tra-ma-bao-gia": "Tra mã",
+  "/kien-thuc": "Kiến thức",
+  "/lien-he": "Liên hệ",
+};
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -19,19 +29,19 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur">
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 sm:px-6">
-        <Link href="/" className="flex items-center gap-2">
+        <Link href="/" className="flex min-w-0 items-center gap-3">
           <Image
-            src="/images/branding/logo-new.png"
-            alt="Truyá»n Äá»™ng CÃ´ng Nghiá»‡p"
-            width={180}
-            height={60}
-            className="h-14 w-auto"
+            src="/images/brands/ntn-logo.png"
+            alt="Logo NTN"
+            width={150}
+            height={54}
+            className="h-9 w-auto object-contain sm:h-10"
             priority
           />
           <span className="sr-only">{siteConfig.brandName}</span>
         </Link>
 
-        <nav className="hidden items-center gap-1 lg:flex">
+        <nav className="hidden flex-1 items-center justify-center gap-1 px-4 lg:flex">
           {mainMenu.map((item) => {
             const active = isActive(item.href);
             return (
@@ -39,11 +49,11 @@ export function SiteHeader() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                  "inline-flex h-9 items-center justify-center whitespace-nowrap rounded-md px-2.5 text-[13px] font-semibold transition-colors xl:px-3 xl:text-sm",
                   active ? "bg-blue-800 text-white" : "text-slate-600 hover:bg-blue-50 hover:text-slate-900",
                 )}
               >
-                {item.label}
+                {desktopMenuLabels[item.href] ?? item.label}
               </Link>
             );
           })}
@@ -53,12 +63,12 @@ export function SiteHeader() {
           <Button asChild size="sm" className="hidden bg-blue-800 hover:bg-blue-900 sm:inline-flex">
             <a href={siteConfig.phoneHref}>
               <PhoneCall className="mr-2 size-4" />
-              Gá»i nhanh
+              Gọi nhanh
             </a>
           </Button>
           <Sheet>
             <SheetTrigger asChild className="lg:hidden">
-              <Button variant="outline" size="icon" aria-label="Má»Ÿ menu">
+              <Button variant="outline" size="icon" aria-label="Mở menu">
                 <Menu className="size-5" />
               </Button>
             </SheetTrigger>
@@ -66,11 +76,11 @@ export function SiteHeader() {
               <div className="mt-8 space-y-6">
                 <div className="space-y-1">
                   <Image
-                    src="/images/branding/logo-new.png"
-                    alt="Truyá»n Äá»™ng CÃ´ng Nghiá»‡p"
-                    width={120}
-                    height={42}
-                    className="h-9 w-auto"
+                    src="/images/brands/ntn-logo.png"
+                    alt="Logo NTN"
+                    width={140}
+                    height={50}
+                    className="h-9 w-auto object-contain"
                   />
                   <p className="text-xs leading-relaxed text-slate-500">{siteConfig.slogan}</p>
                 </div>
@@ -97,7 +107,7 @@ export function SiteHeader() {
                   <Button asChild className="bg-blue-800 hover:bg-blue-900">
                     <a href={siteConfig.phoneHref}>
                       <PhoneCall className="mr-2 size-4" />
-                      Gá»i nhanh
+                      Gọi nhanh
                     </a>
                   </Button>
                   <Button asChild variant="outline" className="border-blue-200 text-blue-800 hover:bg-blue-100">
@@ -115,4 +125,3 @@ export function SiteHeader() {
     </header>
   );
 }
-

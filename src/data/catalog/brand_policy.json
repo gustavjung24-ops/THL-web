@@ -1,6 +1,6 @@
 {
-  "version": "v1",
-  "description": "Chính sách thương hiệu — quy định thương hiệu được bán, chỉ tham khảo, và cấm đề xuất.",
+  "version": "v2-ntn-focus",
+  "description": "Chính sách thương hiệu: NTN là chủ đạo; Koyo, Tsubaki, Soho và NOK là các nhóm bổ sung theo đúng ứng dụng.",
   "policies": [
     {
       "brand": "NTN",
@@ -8,15 +8,15 @@
       "sell_allowed": true,
       "priority": 1,
       "product_groups": ["bearings"],
-      "note": "Thương hiệu chủ đạo vòng bi Nhật NTN, ưu tiên đề xuất đầu tiên."
+      "note": "Thương hiệu chủ đạo cho vòng bi Nhật, ưu tiên đề xuất đầu tiên khi phù hợp ứng dụng."
     },
     {
-      "brand": "KOYO",
+      "brand": "KOYO/JTEKT",
       "status": "active",
       "sell_allowed": true,
       "priority": 2,
       "product_groups": ["bearings", "pillow_blocks"],
-      "note": "Thương hiệu bổ sung cho vòng bi và gối đỡ."
+      "note": "Nhóm bổ sung cho vòng bi, gối đỡ và các cụm đỡ trục cần đối chiếu mã."
     },
     {
       "brand": "TSUBAKI",
@@ -24,19 +24,27 @@
       "sell_allowed": true,
       "priority": 3,
       "product_groups": ["industrial_chains"],
-      "note": "Xích công nghiệp và truyền động băng tải."
+      "note": "Nhóm xích công nghiệp và truyền động băng tải."
     },
     {
       "brand": "SOHO",
       "status": "active",
       "sell_allowed": true,
       "priority": 4,
-      "product_groups": ["transmission_parts"],
-      "note": "Nhóm vật tư truyền động bổ sung theo mã thực tế."
+      "product_groups": ["belts"],
+      "note": "Nhóm vật tư truyền động bổ sung, tư vấn theo mã thực tế và điều kiện vận hành."
+    },
+    {
+      "brand": "NOK",
+      "status": "active",
+      "sell_allowed": true,
+      "priority": 5,
+      "product_groups": ["oil_seals"],
+      "note": "Nhóm phớt chặn dầu và làm kín trục, cần xác minh kích thước và kiểu môi."
     }
   ],
   "rules": {
-    "if_customer_asks_blocked_brand": "Ghi nhận thương hiệu khách yêu cầu, đề xuất mã tương đương trong whitelist, ghi chú rõ rằng cần xác nhận trước khi chốt.",
-    "if_no_brand_specified": "Ưu tiên đề xuất theo thứ tự priority trong nhóm hàng tương ứng."
+    "if_customer_asks_blocked_brand": "Ghi nhận thương hiệu khách hỏi; nếu khách gửi mã cụ thể thì hỗ trợ đối chiếu sang nhóm phù hợp trong các thương hiệu đang tư vấn.",
+    "if_no_brand_specified": "Ưu tiên NTN trước cho vòng bi, sau đó cân nhắc Koyo, Tsubaki, Soho hoặc NOK theo đúng nhóm hàng và ứng dụng."
   }
 }

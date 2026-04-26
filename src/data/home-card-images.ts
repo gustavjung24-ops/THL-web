@@ -32,41 +32,51 @@ export const productCardImages: CardImageMeta[] = [
   {
     slug: "ntn",
     imagePrompt:
-      "Kỹ thuật viên cầm vòng bi tại xưởng công nghiệp, phía sau là máy móc và kệ vật tư, " +
+      "Kỹ thuật viên kiểm tra vòng bi Nhật NTN tại xưởng công nghiệp, phía sau là máy móc và kệ vật tư, " +
       GLOBAL_STYLE_SUFFIX,
     imageAlt:
-      "Kỹ thuật viên cầm vòng bi công nghiệp trong xưởng sản xuất",
+      "Kỹ thuật viên kiểm tra vòng bi NTN trong xưởng sản xuất",
     imagePath: "/images/cards/product-vong-bi.webp",
     imageStyleTag: "product-hero",
   },
   {
     slug: "koyo",
     imagePrompt:
-      "Cụm gối đỡ vòng bi gắn trên trục truyền động trong nhà máy, close-up rõ sản phẩm và bối cảnh ứng dụng thực tế, " +
+      "Cụm vòng bi và gối đỡ Koyo gắn trên trục truyền động trong nhà máy, close-up rõ sản phẩm và bối cảnh ứng dụng thực tế, " +
       GLOBAL_STYLE_SUFFIX,
     imageAlt:
-      "Cụm gối đỡ vòng bi lắp trên trục truyền động trong dây chuyền nhà máy",
+      "Cụm vòng bi và gối đỡ Koyo lắp trên trục truyền động trong dây chuyền nhà máy",
     imagePath: "/images/cards/product-goi-do.webp",
     imageStyleTag: "product-hero",
   },
   {
     slug: "tsubaki",
     imagePrompt:
-      "Cụm truyền động xích trên dây chuyền công nghiệp, thấy rõ xích và nhông đang lắp thực tế, no oversized logo, " +
+      "Cụm truyền động xích Tsubaki trên dây chuyền công nghiệp, thấy rõ xích và nhông đang lắp thực tế, no oversized logo, " +
       GLOBAL_STYLE_SUFFIX,
     imageAlt:
-      "Cụm truyền động xích công nghiệp trên dây chuyền sản xuất",
+      "Cụm truyền động xích Tsubaki trên dây chuyền sản xuất",
     imagePath: "/images/cards/product-xich-cong-nghiep.jpg",
     imageStyleTag: "product-hero",
   },
   {
     slug: "soho",
     imagePrompt:
-      "Ảnh phớt chặn dầu và vị trí làm kín trên trục máy công nghiệp, technical but realistic, clean background, " +
+      "Khu vực bảo trì nhà máy với dây curoa và vật tư truyền động Soho được sắp xếp gọn trên bàn kỹ thuật, " +
       GLOBAL_STYLE_SUFFIX,
     imageAlt:
-      "Vật tư truyền động Soho dùng tại vị trí thay thế trong nhà máy",
+      "Vật tư truyền động Soho dùng cho bảo trì nhà máy",
     imagePath: "/images/backgrounds/final-cta-industrial.png",
+    imageStyleTag: "product-hero",
+  },
+  {
+    slug: "nok",
+    imagePrompt:
+      "Ảnh phớt chặn dầu NOK và vị trí làm kín trên trục máy công nghiệp, technical but realistic, clean background, " +
+      GLOBAL_STYLE_SUFFIX,
+    imageAlt:
+      "Phớt chặn dầu NOK dùng cho cụm trục và hộp số công nghiệp",
+    imagePath: "/images/cards/product-phot-chan-dau.webp",
     imageStyleTag: "product-hero",
   },
 ];

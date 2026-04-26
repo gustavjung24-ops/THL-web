@@ -1,6 +1,6 @@
 {
-  "version": "v1",
-  "description": "Danh sách nhóm hàng đang hỗ trợ, kèm thông tin field bắt buộc và từ khoá nhận diện.",
+  "version": "v2-ntn-focus",
+  "description": "Nhóm hàng đang hỗ trợ theo các thương hiệu trọng tâm NTN, Koyo, Tsubaki, Soho và NOK.",
   "groups": [
     {
       "key": "bearings",
@@ -8,9 +8,9 @@
       "label_en": "Bearings",
       "required_fields": ["id", "od", "width", "code", "shaft"],
       "optional_fields": ["seal_or_shield", "clearance", "series"],
-      "keywords": ["vòng bi", "bearing", "bạc đạn", "620", "630", "6200", "6300", "2rs", "zz", "c3"],
-      "priority_brands": ["NTN", "KOYO"],
-      "note": "Nhóm hàng chủ lực, ưu tiên NTN trước rồi đến Koyo."
+      "keywords": ["vòng bi", "bearing", "bạc đạn", "620", "630", "6200", "6300", "2rs", "zz", "c3", "ntn", "koyo"],
+      "priority_brands": ["NTN", "KOYO/JTEKT"],
+      "note": "NTN là ưu tiên chính; Koyo dùng khi khách yêu cầu hoặc cần phương án bổ sung."
     },
     {
       "key": "pillow_blocks",
@@ -18,9 +18,9 @@
       "label_en": "Pillow Blocks / Housing Units",
       "required_fields": ["housing_type", "shaft_diameter"],
       "optional_fields": ["mounting_style", "insert_bearing"],
-      "keywords": ["gối đỡ", "pillow block", "ucp", "ucf", "ucfl", "housing"],
-      "priority_brands": ["KOYO"],
-      "note": "Tạm tập trung Koyo cho gối đỡ và cụm đỡ trục."
+      "keywords": ["gối đỡ", "pillow block", "ucp", "ucf", "ucfl", "housing", "koyo"],
+      "priority_brands": ["KOYO/JTEKT"],
+      "note": "Cần xác minh kiểu thân, đường kính trục và vị trí lắp."
     },
     {
       "key": "industrial_chains",
@@ -28,19 +28,29 @@
       "label_en": "Industrial Chains",
       "required_fields": ["pitch", "chain_type", "links"],
       "optional_fields": ["strand", "standard"],
-      "keywords": ["xích", "chain", "08b", "10b", "rs40", "rs50", "420", "428", "pitch"],
+      "keywords": ["xích", "chain", "08b", "10b", "rs40", "rs50", "pitch", "tsubaki"],
       "priority_brands": ["TSUBAKI"],
-      "note": "Tập trung Tsubaki cho xích công nghiệp và truyền động."
+      "note": "Ưu tiên xác minh bước xích, tiêu chuẩn BS/ANSI và số dãy."
     },
     {
-      "key": "transmission_parts",
-      "label_vi": "Vật tư truyền động",
-      "label_en": "Transmission Parts",
-      "required_fields": [],
-      "optional_fields": ["code", "application", "machine_position"],
-      "keywords": ["soho", "truyền động", "phụ tùng", "vật tư", "thay thế"],
+      "key": "belts",
+      "label_vi": "Dây curoa / vật tư truyền động",
+      "label_en": "V-Belts / Transmission Parts",
+      "required_fields": ["profile", "length"],
+      "optional_fields": ["belt_type", "teeth_count"],
+      "keywords": ["dây curoa", "belt", "v-belt", "curoa", "spa", "spb", "profile a", "profile b", "soho"],
       "priority_brands": ["SOHO"],
-      "note": "Tạm tập trung Soho theo mã thực tế và vị trí lắp."
+      "note": "Dùng Soho cho nhóm vật tư truyền động bổ sung, cần đối chiếu theo mã thực tế."
+    },
+    {
+      "key": "oil_seals",
+      "label_vi": "Phớt chặn dầu",
+      "label_en": "Oil Seals",
+      "required_fields": ["id", "od", "thickness"],
+      "optional_fields": ["lip_type", "material"],
+      "keywords": ["phớt", "oil seal", "chặn dầu", "tc", "sc", "seal", "rò dầu", "nok"],
+      "priority_brands": ["NOK"],
+      "note": "Cần xác minh kích thước cốt-vỏ-dày, kiểu môi và môi trường làm việc."
     }
   ]
 }

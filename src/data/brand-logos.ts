@@ -27,8 +27,14 @@ export const brandLogos: BrandLogo[] = [
   {
     id: "soho",
     name: "Soho",
-    src: "/images/brands/soho-logo.png",
-    alt: "Logo Soho",
+    src: "/images/brands/soho-logo-transparent.png",
+    alt: "Logo Soho V-Belt",
+  },
+  {
+    id: "nok",
+    name: "NOK",
+    src: "/images/brands/nok-corporation.png",
+    alt: "Logo NOK",
   },
 ];
 
@@ -37,6 +43,7 @@ export const brandDescriptions: Record<string, string> = {
   koyo: "Vòng bi · Gối đỡ",
   tsubaki: "Xích công nghiệp",
   soho: "Vật tư truyền động",
+  nok: "Phớt chặn dầu",
 };
 
 export const productGroupBrandMap: Record<string, string[]> = {
@@ -44,15 +51,16 @@ export const productGroupBrandMap: Record<string, string[]> = {
   koyo: ["koyo"],
   tsubaki: ["tsubaki"],
   soho: ["soho"],
+  nok: ["nok"],
 };
 
 export const customerSolutionBrandMap: Record<string, string[]> = {
-  "Nhà máy sản xuất": ["ntn", "koyo"],
-  "Bộ phận bảo trì": ["ntn", "koyo"],
-  "Bộ phận kỹ thuật": ["ntn", "tsubaki"],
-  "Bộ phận mua hàng": ["ntn", "soho"],
+  "Nhà máy sản xuất": ["ntn", "koyo", "nok"],
+  "Bộ phận bảo trì": ["ntn", "koyo", "nok"],
+  "Bộ phận kỹ thuật": ["ntn", "tsubaki", "nok"],
+  "Bộ phận mua hàng": ["ntn", "soho", "nok"],
   "Xưởng cơ khí trong KCN": ["koyo", "tsubaki"],
   "Xưởng chế tạo máy": ["ntn", "koyo"],
   "Nhà thầu cơ điện / lắp đặt công nghiệp": ["tsubaki", "soho"],
-  "Khách công nghiệp cần thay thế định kỳ": ["ntn", "koyo"],
+  "Khách công nghiệp cần thay thế định kỳ": ["ntn", "koyo", "nok"],
 };

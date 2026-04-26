@@ -1,5 +1,5 @@
 {
-  "version": "demo-v1",
+  "version": "v1",
   "rules": [
     {
       "application_key": "cnc_spindle",

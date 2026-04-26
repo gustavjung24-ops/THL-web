@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { MessageCircle, PhoneCall, Search } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
@@ -13,8 +13,8 @@ type PrimaryCtaGroupProps = {
 
 export function PrimaryCtaGroup({
   className,
-  submitLabel = "Tra mÃ£ nhanh",
-  callLabel = "LiÃªn há»‡ tÆ° váº¥n",
+  submitLabel = "Tra mã nhanh",
+  callLabel = "Liên hệ tư vấn",
   zaloLabel = "Chat Zalo",
 }: PrimaryCtaGroupProps) {
   return (
@@ -40,4 +40,3 @@ export function PrimaryCtaGroup({
     </div>
   );
 }
-

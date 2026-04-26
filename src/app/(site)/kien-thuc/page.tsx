@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { blogPosts } from "@/data/posts";
 import { createPageMetadata } from "@/lib/seo";
@@ -6,9 +6,9 @@ import { SectionTitle } from "@/components/shared/section-title";
 import { Card, CardContent } from "@/components/ui/card";
 
 export const metadata = createPageMetadata({
-  title: "Kiáº¿n thá»©c",
+  title: "Kiến thức",
   description:
-    "Danh sÃ¡ch bÃ i viáº¿t kiáº¿n thá»©c phá»¥ tÃ¹ng cÃ´ng nghiá»‡p: vÃ²ng bi, phá»›t, xÃ­ch, dÃ¢y curoa vÃ  lÆ°u Ã½ khi tra mÃ£.",
+    "Danh sách bài viết kiến thức phụ tùng công nghiệp: vòng bi, phớt, xích, dây curoa và lưu ý khi tra mã.",
   path: "/kien-thuc",
 });
 
@@ -25,9 +25,9 @@ export default function KnowledgePage() {
     <div className="section-block">
       <div className="page-shell space-y-8">
         <SectionTitle
-          eyebrow="Kiáº¿n thá»©c"
-          title="Ná»™i dung ngáº¯n gá»n, dá»… Ä‘á»c vÃ  dá»… Ã¡p dá»¥ng"
-          description="CÃ¡c bÃ i viáº¿t táº­p trung vÃ o cÃ¢u há»i thÆ°á»ng gáº·p khi tra mÃ£, chá»n hÃ ng vÃ  thay tháº¿ phá»¥ tÃ¹ng ngoÃ i thá»±c táº¿."
+          eyebrow="Kiến thức"
+          title="Nội dung ngắn gọn, dễ đọc và dễ áp dụng"
+          description="Các bài viết tập trung vào câu hỏi thường gặp khi tra mã, chọn hàng và thay thế phụ tùng ngoài thực tế."
         />
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -43,7 +43,7 @@ export default function KnowledgePage() {
                 <div className="flex items-center justify-between gap-2 pt-1">
                   <p className="text-xs text-slate-500">{formatDate(post.publishedAt)}</p>
                   <Link href="/tra-ma-bao-gia" className="inline-flex items-center text-sm font-semibold text-blue-800 hover:text-blue-900">
-                    Gá»­i mÃ£ cáº§n tÃ¬m
+                    Gửi mã cần tìm
                     <ArrowRight className="ml-1 size-4" />
                   </Link>
                 </div>
@@ -55,4 +55,3 @@ export default function KnowledgePage() {
     </div>
   );
 }
-

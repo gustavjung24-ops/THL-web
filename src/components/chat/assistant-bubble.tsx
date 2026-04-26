@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState } from "react";
 import { MessageCircleMore, X } from "lucide-react";
@@ -56,8 +56,8 @@ export function AssistantBubble() {
             isMobile && open ? "pointer-events-none scale-90 opacity-0" : "scale-100 opacity-100"
           )}
           onClick={() => setOpen((prev) => !prev)}
-          aria-label={open ? "ÄÃ³ng chat tra mÃ£" : "Má»Ÿ chat tra mÃ£"}
-          title="Trá»£ lÃ½ tra mÃ£"
+          aria-label={open ? "Đóng chat tra mã" : "Mở chat tra mã"}
+          title="Trợ lý tra mã"
         >
           {open ? <X className="size-5" /> : <MessageCircleMore className="size-5" />}
         </Button>
@@ -73,4 +73,3 @@ export function AssistantBubble() {
     </>
   );
 }
-

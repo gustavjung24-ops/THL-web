@@ -30,7 +30,7 @@ export const heroContent = {
   eyebrow: "Hỗ trợ vật tư truyền động cho nhà máy",
   heading: "Tra mã – Đối chiếu – Báo giá nhanh cho bảo trì & thay thế",
   subheading:
-    "Dành cho bộ phận bảo trì, kỹ thuật, mua hàng và chủ xưởng cần xử lý thay thế vòng bi, gối đỡ, xích, dây curoa, phớt chặn dầu – đúng mã, đúng cụm máy, không chờ lâu.",
+    "Dành cho bộ phận bảo trì, kỹ thuật, mua hàng và chủ xưởng cần xử lý thay thế theo nhóm NTN, Koyo, Tsubaki, Soho và NOK – đúng mã, đúng cụm máy, không chờ lâu.",
 };
 
 export const trustBullets = [
@@ -123,6 +123,15 @@ export const productGroups: ProductGroup[] = [
     popularApplications: ["Vật tư truyền động", "Cụm thay thế định kỳ", "Máy sản xuất", "Dây chuyền phụ trợ"],
     commonBuyers: ["Mua hàng kỹ thuật", "Bảo trì nhà máy", "Xưởng cơ khí", "Khách thay thế định kỳ"],
   },
+  {
+    slug: "nok",
+    name: "NOK",
+    shortDescription: "NOK tập trung cho phớt chặn dầu, cụm làm kín trục và các vị trí cần chống rò trong vận hành liên tục.",
+    detailDescription:
+      "Dùng NOK cho cụm trục, hộp số, bơm và vị trí cần làm kín ổn định. Khi tư vấn cần đối chiếu kích thước cốt, vỏ, độ dày, kiểu môi và môi trường làm việc.",
+    popularApplications: ["Hộp số", "Máy bơm", "Trục quay", "Cụm thủy lực", "Động cơ", "Máy sản xuất"],
+    commonBuyers: ["Bảo trì nhà máy", "Kỹ thuật thiết bị", "Mua hàng kỹ thuật", "Xưởng cơ khí"],
+  },
 ];
 
 export const customerSegments: CustomerSegment[] = [
@@ -186,49 +195,49 @@ export const solutionByCustomer: CustomerSolution[] = [
     customer: "Nhà máy sản xuất",
     problems: "Dừng máy đột xuất ảnh hưởng trực tiếp đến kế hoạch sản xuất.",
     support: "Ưu tiên đối chiếu mã nhanh theo cụm máy và điều kiện vận hành thực tế.",
-    products: "Vòng bi, gối đỡ, xích công nghiệp, mỡ bôi trơn",
+    products: "NTN, Koyo, Tsubaki, NOK",
   },
   {
     customer: "Bộ phận bảo trì",
     problems: "Cần xử lý sự cố nhanh nhưng dữ liệu mã cũ không đầy đủ.",
     support: "Đối chiếu theo ảnh tem, kích thước, hiện trạng và lịch sử thay thế gần nhất.",
-    products: "Vòng bi, phớt chặn dầu, mỡ bôi trơn",
+    products: "NTN, Koyo, NOK",
   },
   {
     customer: "Bộ phận kỹ thuật",
     problems: "Cần xác nhận đúng phương án theo tải, nhiệt, bụi và thời gian chạy máy.",
     support: "Tư vấn theo thông số vận hành để giảm rủi ro chọn sai mã.",
-    products: "Vòng bi, gối đỡ, dây curoa, xích công nghiệp",
+    products: "NTN, Koyo, Tsubaki, Soho, NOK",
   },
   {
     customer: "Bộ phận mua hàng",
     problems: "Cần thông tin mã rõ để xử lý đề nghị mua và so sánh phương án nhanh.",
     support: "Hỗ trợ tách rõ thông tin kỹ thuật và thông tin đặt hàng cho từng nhóm vật tư.",
-    products: "Vòng bi, gối đỡ, dây curoa, phớt chặn dầu",
+    products: "NTN, Koyo, Soho, NOK",
   },
   {
     customer: "Xưởng cơ khí trong KCN",
     problems: "Máy chạy theo ca, vật tư chịu tải thực tế cao và cần thay đúng chuẩn.",
     support: "Định hướng nhóm hàng theo vị trí máy, mức tải và điều kiện làm việc.",
-    products: "Vòng bi, gối đỡ, xích công nghiệp",
+    products: "NTN, Koyo, Tsubaki, NOK",
   },
   {
     customer: "Xưởng chế tạo máy",
     problems: "Sai quy cách từ đầu dẫn đến chỉnh sửa lắp ráp và tăng thời gian hoàn thiện máy.",
     support: "Đối chiếu sớm theo bản vẽ, cụm lắp và vật tư tương thích.",
-    products: "Gối đỡ, vòng bi, xích công nghiệp, phớt chặn dầu",
+    products: "Koyo, NTN, Tsubaki, NOK",
   },
   {
     customer: "Nhà thầu cơ điện / lắp đặt công nghiệp",
     problems: "Tiến độ hiện trường yêu cầu phản hồi nhanh và mã hàng rõ ràng theo hồ sơ.",
     support: "Hỗ trợ đối chiếu theo hiện trạng và khối lượng thi công theo giai đoạn.",
-    products: "Vòng bi, gối đỡ, dây curoa, xích công nghiệp",
+    products: "NTN, Koyo, Tsubaki, Soho, NOK",
   },
   {
     customer: "Khách công nghiệp cần thay thế định kỳ",
     problems: "Cần nguồn hỗ trợ ổn định cho kế hoạch bảo trì tháng, quý, năm.",
     support: "Theo dõi nhu cầu thay thế định kỳ và gợi ý nhóm hàng theo chu kỳ vận hành.",
-    products: "Vòng bi, mỡ bôi trơn, phớt chặn dầu, dây curoa",
+    products: "NTN, Koyo, Soho, NOK",
   },
 ];
 

@@ -1,4 +1,4 @@
-﻿import Image from "next/image";
+import Image from "next/image";
 import { Clock3, Mail, MapPin, MessageCircle, PhoneCall, UserRound } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { createPageMetadata } from "@/lib/seo";
@@ -7,9 +7,9 @@ import { SectionTitle } from "@/components/shared/section-title";
 import { Button } from "@/components/ui/button";
 
 export const metadata = createPageMetadata({
-  title: "LiÃªn há»‡",
+  title: "Liên hệ",
   description:
-    "ThÃ´ng tin liÃªn há»‡ vÃ  form gá»­i nhu cáº§u há»— trá»£ tra mÃ£, tÆ° váº¥n nhÃ³m hÃ ng, bÃ¡o giÃ¡ phá»¥ tÃ¹ng cÃ´ng nghiá»‡p.",
+    "Thông tin liên hệ và form gửi nhu cầu hỗ trợ tra mã, tư vấn nhóm hàng, báo giá phụ tùng công nghiệp.",
   path: "/lien-he",
 });
 
@@ -18,16 +18,16 @@ export default function ContactPage() {
     <div className="section-block">
       <div className="page-shell space-y-8">
         <SectionTitle
-          eyebrow="LiÃªn há»‡"
-          title="Trao Ä‘á»•i nhanh qua Ä‘iá»‡n thoáº¡i, Zalo hoáº·c form"
-          description="Báº¡n cÃ³ thá»ƒ gá»­i thÃ´ng tin ngay Ä‘á»ƒ Ä‘Æ°á»£c há»— trá»£ tra mÃ£ vÃ  Ä‘á»‹nh hÆ°á»›ng nhÃ³m hÃ ng phÃ¹ há»£p nhu cáº§u thá»±c táº¿."
+          eyebrow="Liên hệ"
+          title="Trao đổi nhanh qua điện thoại, Zalo hoặc form"
+          description="Bạn có thể gửi thông tin ngay để được hỗ trợ tra mã và định hướng nhóm hàng phù hợp nhu cầu thực tế."
         />
 
         <div className="grid gap-6 lg:grid-cols-[1fr_1.1fr]">
           <section className="space-y-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_10px_28px_-22px_rgba(30,64,175,0.45)] sm:p-6">
             <Image
               src="/images/branding/logo-new.png"
-              alt="Truyá»n Äá»™ng CÃ´ng Nghiá»‡p"
+              alt="Truyền Động Công Nghiệp"
               width={160}
               height={56}
               className="h-12 w-auto"
@@ -67,7 +67,7 @@ export default function ContactPage() {
               <Button asChild className="bg-blue-800 hover:bg-blue-900">
                 <a href={siteConfig.phoneHref}>
                   <PhoneCall className="mr-2 size-4" />
-                  Gá»i ngay
+                  Gọi ngay
                 </a>
               </Button>
               <Button asChild variant="outline" className="border-blue-200 text-blue-800 hover:bg-blue-100">
@@ -87,4 +87,3 @@ export default function ContactPage() {
     </div>
   );
 }
-

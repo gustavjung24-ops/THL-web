@@ -1,4 +1,4 @@
-﻿import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { ReplyOptionStyle } from "@/lib/assistant/reply-templates";
 
@@ -55,4 +55,3 @@ export function ChatOptionChips({
     </div>
   );
 }
-

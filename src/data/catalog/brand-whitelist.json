@@ -1,15 +1,17 @@
 {
-  "version": "demo-v1",
+  "version": "v2-ntn-focus",
   "brand_whitelist": [
     "NTN",
-    "KOYO",
+    "KOYO/JTEKT",
     "TSUBAKI",
-    "SOHO"
+    "SOHO",
+    "NOK"
   ],
   "product_groups": [
     "bearings",
     "pillow_blocks",
+    "belts",
     "industrial_chains",
-    "transmission_parts"
+    "oil_seals"
   ]
 }

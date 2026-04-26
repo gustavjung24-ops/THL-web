@@ -276,7 +276,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         ok: false,
-        error: "Hệ thống tạm chưa sẵn sàng.",
+        error: "Hệ thống chưa sẵn sàng.",
         detail: reason,
         result: {
           ...assistantResponseFallback,
