@@ -3,482 +3,351 @@ import Link from "next/link";
 import {
   ArrowRight,
   BadgeCheck,
-  Building2,
   CheckCircle2,
-  ClipboardCheck,
   Clock3,
   Factory,
   Gauge,
-  Globe,
-  Handshake,
-  Landmark,
-  Layers3,
-  MapPin,
   MessageCircle,
   PhoneCall,
   Search,
   ShieldCheck,
-  Users,
   Wrench,
-  Workflow,
 } from "lucide-react";
 import { siteConfig } from "@/config/site";
-import { blogPosts } from "@/data/posts";
-import { brandLogos, brandDescriptions, productGroupBrandMap } from "@/data/brand-logos";
-import { productEntryCards, solutionEntryCards } from "@/data/home-entry-sections";
-import {
-  heroContent,
-  heroHighlights,
-  leadFormIntro,
-  productGroups,
-  supportCards,
-  supportProcess,
-  supportProcessNote,
-  trustBullets,
-  whyContactDescription,
-  whyContactBullets,
-} from "@/data/site-content";
+import { brandLogos } from "@/data/brand-logos";
+import { industryApplications } from "@/data/industry-applications";
+import { defaultProductVisual, productBenefitBullets, productVisuals } from "@/data/product-visuals";
+import { heroContent, productGroups, supportProcess, trustBullets } from "@/data/site-content";
 import { createPageMetadata } from "@/lib/seo";
-import { LeadForm } from "@/components/forms/lead-form";
-import { PrimaryCtaGroup } from "@/components/shared/primary-cta-group";
 import { SectionTitle } from "@/components/shared/section-title";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 
 export const metadata = createPageMetadata({
-  title: "Hỗ trợ tra mã và báo giá vật tư truyền động cho nhà máy | Truyền Động Công Nghiệp",
+  title: "Catalog vật tư công nghiệp cho bảo trì nhà máy",
   description:
-    "Kênh tư vấn vật tư kỹ thuật cho nhà máy và khách công nghiệp. Hỗ trợ tra mã, đối chiếu ứng dụng và báo giá vòng bi, gối đỡ, dây curoa, xích công nghiệp, phớt chặn dầu và mỡ bôi trơn.",
+    "Catalog vật tư truyền động công nghiệp, hỗ trợ tra mã nhanh, đối chiếu ứng dụng và báo giá cho vòng bi, gối đỡ, xích, dây curoa, phớt chặn dầu.",
   path: "/",
 });
 
-const previewPosts = blogPosts.slice(0, 6);
-const brandById = Object.fromEntries(brandLogos.map((brand) => [brand.id, brand]));
+const featuredProducts = productGroups.slice(0, 6);
 
-const trustBulletIcons = [ShieldCheck, Clock3, Users, Gauge];
-const supportCardIcons = [Search, Gauge, Workflow, Handshake, ClipboardCheck, Layers3];
-const supportProcessIcons = [MessageCircle, Search, BadgeCheck, ArrowRight];
+const heroStats = [
+  { value: "6", label: "nhóm vật tư chính" },
+  { value: "5", label: "nhóm ứng dụng nhà máy" },
+  { value: "24h", label: "ưu tiên phản hồi nhu cầu gấp" },
+];
 
-const contactInfoItems = [
+const whyChooseItems = [
   {
-    label: siteConfig.phone,
-    Icon: PhoneCall,
+    title: "Tra mã theo cụm máy",
+    description: trustBullets[0],
+    Icon: Search,
   },
   {
-    label: siteConfig.zaloLabel,
-    Icon: MessageCircle,
-  },
-  {
-    label: siteConfig.supportArea,
-    Icon: Globe,
-  },
-  {
-    label: siteConfig.responseTime,
+    title: "Phản hồi rõ để mua hàng xử lý",
+    description: trustBullets[1],
     Icon: Clock3,
+  },
+  {
+    title: "Tư vấn theo vận hành thực tế",
+    description: trustBullets[3],
+    Icon: Gauge,
+  },
+  {
+    title: "Giảm rủi ro đặt sai vật tư",
+    description: "Tách rõ mã, kích thước, ứng dụng và phương án tương đương trước khi báo giá.",
+    Icon: ShieldCheck,
   },
 ];
 
-function formatDate(dateString: string) {
-  return new Intl.DateTimeFormat("vi-VN", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  }).format(new Date(dateString));
-}
+const capabilityItems = [
+  {
+    title: "Vật tư truyền động",
+    description: "Vòng bi, gối đỡ, dây curoa, xích công nghiệp và mỡ bôi trơn cho cụm quay.",
+    Icon: Wrench,
+  },
+  {
+    title: "Vật tư làm kín",
+    description: "Phớt chặn dầu, phớt thủy lực và vật tư thay thế cho hộp số, bơm, motor.",
+    Icon: BadgeCheck,
+  },
+  {
+    title: "Hỗ trợ nhà máy",
+    description: "Tiếp nhận ảnh tem, mã cũ, kích thước và tình trạng vận hành để đối chiếu nhanh.",
+    Icon: Factory,
+  },
+];
 
 export default function Home() {
   return (
-    <div className="overflow-x-hidden">
-      <section className="relative overflow-hidden border-b border-slate-200/80 pb-12 pt-10 sm:pt-14">
-        <Image
-          src="/images/backgrounds/he-sinh-thai-home.jpeg"
-          alt=""
-          fill
-          aria-hidden
-          className="pointer-events-none absolute inset-0 select-none object-cover object-top opacity-[0.50]"
-        />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(146,64,14,0.06),_transparent_60%),radial-gradient(circle_at_15%_80%,_rgba(120,53,15,0.04),_transparent_55%)]" />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/30 via-white/38 to-white/55" />
-        <div className="page-shell relative grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-          <div className="space-y-6">
-            <p className="inline-flex rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-amber-800">
+    <div className="overflow-x-hidden bg-white">
+      <section className="relative isolate overflow-hidden bg-slate-950 text-white">
+        <video
+          className="absolute inset-0 h-full w-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster="/images/backgrounds/he-sinh-thai-home.jpeg"
+          aria-label="Không gian nhà máy và vật tư công nghiệp"
+        >
+          <source src="/videos/hero-industrial.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-slate-950/58" />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/78 to-slate-950/25" />
+
+        <div className="page-shell relative flex min-h-[620px] flex-col justify-center gap-8 py-20 sm:min-h-[660px] lg:py-24">
+          <div className="max-w-3xl space-y-6">
+            <p className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-cyan-100 backdrop-blur">
               {heroContent.eyebrow}
             </p>
-            <h1 className="font-heading text-balance text-3xl font-bold leading-tight text-slate-900 sm:text-4xl lg:text-[2.45rem]">
-              {heroContent.heading}
+            <h1 className="font-heading text-balance text-4xl font-bold leading-tight sm:text-5xl lg:text-[3.5rem]">
+              Catalog vật tư công nghiệp cho bảo trì nhà máy
             </h1>
-            <p className="max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">{heroContent.subheading}</p>
+            <p className="max-w-2xl text-base leading-relaxed text-slate-100 sm:text-lg">
+              Tra mã, đối chiếu ứng dụng và nhận tư vấn báo giá cho vòng bi, gối đỡ, xích, dây curoa, phớt chặn dầu và vật tư truyền động.
+            </p>
 
-            <PrimaryCtaGroup />
-
-            <ul className="grid gap-3 pt-1 sm:grid-cols-2">
-              {trustBullets.map((bullet, index) => {
-                const Icon = trustBulletIcons[index] ?? CheckCircle2;
-
-                return (
-                  <li
-                    key={bullet}
-                    className="flex items-start gap-2 rounded-lg border border-slate-200 bg-white/90 p-3 text-sm text-slate-700 shadow-[0_8px_20px_-22px_rgba(15,23,42,0.6)]"
-                  >
-                    <Icon className="mt-0.5 size-4 shrink-0 text-amber-800" />
-                    <span>{bullet}</span>
-                  </li>
-                );
-              })}
-            </ul>
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <Button asChild className="h-11 bg-cyan-500 px-5 text-slate-950 hover:bg-cyan-400">
+                <Link href="/tra-ma-bao-gia">
+                  <Search className="mr-2 size-4" />
+                  Tra mã nhanh
+                </Link>
+              </Button>
+              <Button asChild variant="outline" className="h-11 border-white/30 bg-white/10 px-5 text-white hover:bg-white hover:text-slate-950">
+                <Link href="/lien-he">
+                  <MessageCircle className="mr-2 size-4" />
+                  Liên hệ tư vấn
+                </Link>
+              </Button>
+            </div>
           </div>
 
-          <Card className="border-slate-200 bg-white/95 shadow-[0_16px_30px_-24px_rgba(120,53,15,0.45)]">
-            <CardContent className="p-4 sm:p-5">
-              <div className="relative h-52 overflow-hidden rounded-lg border border-slate-200 sm:h-60">
-                <Image
-                  src="/images/backgrounds/chain-drive.jpg"
-                  alt="Cụm truyền động xích và vòng bi trong nhà máy"
-                  fill
-                  className="object-cover"
-                  priority
-                />
+          <div className="grid max-w-3xl gap-3 sm:grid-cols-3">
+            {heroStats.map((item) => (
+              <div key={item.label} className="rounded-lg border border-white/15 bg-white/10 p-4 backdrop-blur">
+                <p className="font-heading text-2xl font-bold text-white">{item.value}</p>
+                <p className="mt-1 text-sm text-slate-200">{item.label}</p>
               </div>
-              <div className="mt-4 grid gap-3">
-                {heroHighlights.map((highlight) => (
-                  <div key={highlight} className="rounded-lg border border-amber-200 bg-amber-50/70 p-3">
-                    <p className="text-sm font-semibold text-slate-900">{highlight}</p>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
-
-      <section className="section-block border-b border-slate-100/80">
-        <div className="page-shell space-y-7">
-          <SectionTitle
-            eyebrow="Dịch vụ hỗ trợ"
-            title="Những nhu cầu tôi đang hỗ trợ cho khách nhà máy"
-            description="Nhiều nhà máy không thiếu nơi bán hàng, mà thiếu đầu mối tiếp nhận đủ nhanh, hiểu đúng ứng dụng và hỗ trợ đối chiếu mã rõ ràng giữa bộ phận kỹ thuật, bảo trì và mua hàng."
-          />
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {supportCards.map((card, index) => {
-              const Icon = supportCardIcons[index] ?? CheckCircle2;
-
-              return (
-                <Card
-                  key={card.title}
-                  className="border-slate-200 bg-white shadow-[0_12px_28px_-24px_rgba(15,23,42,0.55)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_36px_-22px_rgba(120,53,15,0.35)]"
-                >
-                  <CardHeader>
-                    <CardTitle className="flex items-start gap-2 text-base text-slate-900">
-                      <span className="mt-0.5 inline-flex rounded-md border border-amber-200 bg-amber-50 p-1.5">
-                        <Icon className="size-4 text-amber-800" />
-                      </span>
-                      <span>{card.title}</span>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-2">
-                    <p className="text-sm text-slate-600"><span className="font-medium text-slate-700">Khách gửi:</span> {card.clientSends}</p>
-                    <p className="text-sm text-slate-600"><span className="font-medium text-slate-700">Hỗ trợ:</span> {card.weSupport}</p>
-                    <p className="text-sm text-slate-600"><span className="font-medium text-amber-800">Kết quả:</span> {card.clientGets}</p>
-                  </CardContent>
-                </Card>
-              );
-            })}
+            ))}
           </div>
         </div>
       </section>
 
       <section className="section-block bg-white">
-        <div className="page-shell space-y-7">
-          <div className="max-w-3xl space-y-3">
-            <p className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-amber-800">
-              <BadgeCheck className="size-3.5" />
-              Đối chiếu thương hiệu
-            </p>
-            <h2 className="font-heading text-2xl font-bold leading-tight text-slate-900 sm:text-3xl">
-              Thương hiệu đang phân phối và hỗ trợ đối chiếu
-            </h2>
-            <p className="text-sm leading-relaxed text-slate-600 sm:text-base">
-              Danh mục dưới đây được dùng để hỗ trợ đối chiếu mã theo ứng dụng thực tế, giúp bộ phận kỹ thuật và mua hàng trao đổi nhanh hơn khi cần thay thế.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-            {brandLogos.map((brand) => (
-              <div
-                key={brand.id}
-                className="group flex min-h-24 flex-col items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-50/70 p-4 shadow-[0_10px_20px_-22px_rgba(15,23,42,0.6)] transition hover:border-amber-200 hover:bg-white"
-              >
-                <Image
-                  src={brand.src}
-                  alt={brand.alt}
-                  width={120}
-                  height={44}
-                  className="h-auto max-h-9 w-auto object-contain opacity-70 grayscale transition duration-200 group-hover:opacity-100 group-hover:grayscale-0"
-                />
-                {brandDescriptions[brand.id] ? (
-                  <p className="text-center text-[11px] leading-tight text-slate-500">{brandDescriptions[brand.id]}</p>
-                ) : null}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section-block bg-slate-50/70">
-        <div className="page-shell space-y-7">
-          <SectionTitle
-            eyebrow="Nhóm sản phẩm chính"
-            title="Vật tư phục vụ bảo trì & thay thế trong nhà máy"
-            description="Chọn nhóm sản phẩm để xem chi tiết, đối chiếu mã hoặc gửi nhu cầu báo giá."
-          />
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {productEntryCards.map((card) => (
-              <Link key={card.slug} href={card.href} className="group">
-                <Card className="h-full overflow-hidden border-slate-200 bg-white shadow-[0_10px_26px_-24px_rgba(15,23,42,0.55)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_36px_-22px_rgba(120,53,15,0.35)]">
-                  <div className="relative aspect-[16/9] w-full overflow-hidden">
-                    <Image
-                      src={card.image}
-                      alt={card.imageAlt}
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                      className="object-cover object-center transition duration-300 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-slate-900/20 to-transparent" />
-                    <h3 className="absolute bottom-3 left-4 right-4 text-sm font-bold text-white drop-shadow-sm">{card.title}</h3>
-                  </div>
-                  <CardContent className="p-4">
-                    <p className="text-sm leading-relaxed text-slate-600">{card.description}</p>
-                    <p className="mt-3 inline-flex items-center text-sm font-semibold text-amber-800 group-hover:text-amber-900">
-                      {card.ctaLabel}
-                      <ArrowRight className="ml-1 size-4 transition group-hover:translate-x-0.5" />
-                    </p>
-                  </CardContent>
-                </Card>
+        <div className="page-shell space-y-8">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <SectionTitle
+              eyebrow="Nhóm sản phẩm chính"
+              title="Vật tư bảo trì và thay thế cho dây chuyền công nghiệp"
+              description="Tập trung các nhóm hàng dùng thường xuyên trong bảo trì nhà máy. Mỗi nhóm có mô tả ngắn, ứng dụng phổ biến và CTA để gửi mã cần đối chiếu."
+            />
+            <Button asChild variant="outline" className="w-fit border-cyan-200 text-slate-800 hover:bg-cyan-50">
+              <Link href="/san-pham">
+                Xem toàn bộ danh mục
+                <ArrowRight className="ml-2 size-4" />
               </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section-block">
-        <div className="page-shell space-y-7">
-          <SectionTitle
-            eyebrow="Theo vai trò"
-            title="Anh/chị đang ở vai trò nào trong nhà máy?"
-            description="Mỗi vai trò có nhu cầu khác nhau — chọn đúng giải pháp để được hỗ trợ phù hợp."
-          />
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {solutionEntryCards.map((card) => (
-              <Link key={card.slug} href={card.href} className="group">
-                <Card className="h-full overflow-hidden border-slate-200 bg-white shadow-[0_10px_26px_-24px_rgba(15,23,42,0.55)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_36px_-22px_rgba(120,53,15,0.35)]">
-                  <div className="relative aspect-[16/9] w-full overflow-hidden">
-                    <Image
-                      src={card.image}
-                      alt={card.imageAlt}
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                      className="object-cover object-center transition duration-300 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-slate-900/20 to-transparent" />
-                    <h3 className="absolute bottom-3 left-4 right-4 text-sm font-bold text-white drop-shadow-sm">{card.title}</h3>
-                  </div>
-                  <CardContent className="p-4">
-                    <p className="text-sm leading-relaxed text-slate-600">{card.description}</p>
-                    <p className="mt-3 inline-flex items-center text-sm font-semibold text-amber-800 group-hover:text-amber-900">
-                      {card.ctaLabel}
-                      <ArrowRight className="ml-1 size-4 transition group-hover:translate-x-0.5" />
-                    </p>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section-block bg-slate-50/70">
-        <div className="page-shell space-y-7">
-          <SectionTitle
-            eyebrow="Nhóm sản phẩm"
-            title="Nhóm vật tư đang hỗ trợ tư vấn cho nhà máy"
-            description="Tập trung các nhóm vật tư truyền động và làm kín, phục vụ trực tiếp nhu cầu bảo trì, thay thế và vận hành thiết bị trong nhà máy."
-          />
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {productGroups.map((group) => {
-              const relatedBrands = (productGroupBrandMap[group.slug] ?? [])
-                .map((brandId) => brandById[brandId])
-                .filter(Boolean);
-
-              return (
-                <Card key={group.slug} className="border-slate-200 bg-white shadow-[0_10px_26px_-24px_rgba(15,23,42,0.6)]">
-                  <CardHeader>
-                    <CardTitle className="text-base text-slate-900">{group.name}</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <p className="text-sm leading-relaxed text-slate-600">{group.shortDescription}</p>
-                    {relatedBrands.length > 0 ? (
-                      <div className="flex flex-wrap gap-2 border-t border-slate-100 pt-3">
-                        {relatedBrands.map((brand) => (
-                          <span
-                            key={`${group.slug}-${brand.id}`}
-                            className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-1"
-                          >
-                            <Image src={brand.src} alt={brand.alt} width={44} height={16} className="h-3.5 w-auto object-contain" />
-                          </span>
-                        ))}
-                      </div>
-                    ) : null}
-                    <Link
-                      href={`/san-pham/${group.slug}`}
-                      className="inline-flex items-center text-sm font-semibold text-amber-800 hover:text-amber-900"
-                    >
-                      Xem chi tiết
-                      <ArrowRight className="ml-1 size-4" />
-                    </Link>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
-
-          <Button asChild variant="outline" className="border-amber-200 text-amber-800 hover:bg-amber-100">
-            <Link href="/san-pham">Xem nhóm sản phẩm phù hợp cho nhà máy</Link>
-          </Button>
-        </div>
-      </section>
-
-      <section className="section-block bg-slate-50/70">
-        <div className="page-shell grid gap-8 lg:grid-cols-2">
-          <div className="space-y-6">
-            <SectionTitle
-              eyebrow="Lý do liên hệ"
-              title="Vì sao khách nhà máy thường cần một đầu mối tư vấn rõ ràng?"
-              description="Các nhu cầu thay thế trong nhà máy thường đòi hỏi đối chiếu nhanh, đúng ứng dụng và phối hợp tốt giữa nhiều bộ phận nội bộ."
-            />
-            <ul className="space-y-3">
-              {whyContactBullets.map((item) => (
-                <li key={item} className="flex items-start gap-2 rounded-lg border border-slate-200 bg-white p-3 text-sm text-slate-700">
-                  <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-amber-800" />
-                  {item}
-                </li>
-              ))}
-            </ul>
-            <p className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm leading-relaxed text-slate-700">
-              {whyContactDescription}
-            </p>
-          </div>
-
-          <div className="space-y-6">
-            <SectionTitle
-              eyebrow="Quy trình"
-              title="Quy trình hỗ trợ nhanh cho nhu cầu thay thế và bảo trì"
-              description="Quy trình ngắn gọn, bám kỹ thuật thực tế để giảm thời gian chờ đối chiếu và xử lý báo giá."
-            />
-            <div className="space-y-3">
-              {supportProcess.map((step, index) => {
-                const Icon = supportProcessIcons[index] ?? CheckCircle2;
-
-                return (
-                  <div key={step} className="rounded-lg border border-slate-200 bg-white p-4 shadow-[0_10px_24px_-24px_rgba(15,23,42,0.55)]">
-                    <p className="text-xs font-semibold uppercase tracking-wide text-amber-800">Bước {index + 1}</p>
-                    <p className="mt-2 flex items-start gap-2 text-sm text-slate-700">
-                      <Icon className="mt-0.5 size-4 shrink-0 text-amber-800" />
-                      <span>{step}</span>
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
-            <p className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm leading-relaxed text-slate-700">
-              {supportProcessNote}
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="section-block">
-        <div className="page-shell space-y-7">
-          <SectionTitle
-            eyebrow="Tra mã / Báo giá"
-            title="Gửi nhu cầu cần hỗ trợ"
-            description={leadFormIntro}
-          />
-          <LeadForm />
-        </div>
-      </section>
-
-      <section className="section-block bg-slate-50/70">
-        <div className="page-shell space-y-7">
-          <div className="flex items-end justify-between gap-4">
-            <SectionTitle
-              eyebrow="Kiến thức"
-              title="Nội dung thực tế cho bảo trì, kỹ thuật và mua hàng"
-              description="Tập trung các tình huống thường gặp khi đối chiếu mã, chọn phương án thay thế và xử lý báo giá trong môi trường công nghiệp."
-            />
-            <Button asChild variant="outline" className="hidden border-amber-200 text-amber-800 hover:bg-amber-100 sm:inline-flex">
-              <Link href="/kien-thuc">Xem toàn bộ nội dung kỹ thuật</Link>
             </Button>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {previewPosts.map((post) => (
-              <Card key={post.slug} className="border-slate-200 bg-white">
-                <CardContent className="space-y-3 p-5">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-amber-800">{post.category}</p>
-                  <h3 className="text-base font-semibold leading-snug text-slate-900">{post.title}</h3>
-                  <p className="text-sm leading-relaxed text-slate-600">{post.excerpt}</p>
-                  <p className="text-xs text-slate-500">{formatDate(post.publishedAt)}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+            {featuredProducts.map((group) => {
+              const visual = productVisuals[group.slug] ?? defaultProductVisual;
 
-          <Button asChild variant="outline" className="w-full border-amber-200 text-amber-800 hover:bg-amber-100 sm:hidden">
-            <Link href="/kien-thuc">Xem toàn bộ nội dung kỹ thuật</Link>
-          </Button>
+              return (
+                <Link key={group.slug} href={`/san-pham/${group.slug}`} className="group">
+                  <Card className="h-full rounded-lg border-slate-200 bg-white py-0 shadow-[0_12px_30px_-24px_rgba(15,23,42,0.65)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_38px_-24px_rgba(8,47,73,0.35)]">
+                    <div className="relative aspect-[16/9] overflow-hidden">
+                      <Image
+                        src={visual.image}
+                        alt={visual.imageAlt}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover transition duration-300 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent" />
+                      <h3 className="absolute bottom-3 left-4 right-4 text-base font-bold text-white">{group.name}</h3>
+                    </div>
+                    <CardContent className="space-y-4 p-4">
+                      <p className="text-sm leading-relaxed text-slate-600">{group.shortDescription}</p>
+                      <div className="flex flex-wrap gap-2">
+                        {group.popularApplications.slice(0, 3).map((item) => (
+                          <span key={item} className="rounded-md border border-slate-200 bg-slate-50 px-2 py-1 text-xs text-slate-600">
+                            {item}
+                          </span>
+                        ))}
+                      </div>
+                      <p className="inline-flex items-center text-sm font-semibold text-cyan-700 group-hover:text-cyan-800">
+                        Xem chi tiết
+                        <ArrowRight className="ml-1 size-4 transition group-hover:translate-x-0.5" />
+                      </p>
+                    </CardContent>
+                  </Card>
+                </Link>
+              );
+            })}
+          </div>
         </div>
       </section>
 
-      <section className="section-block">
-        <div className="page-shell relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_10px_32px_-24px_rgba(120,53,15,0.4)] sm:p-8">
-          <Image
-            src="/images/backgrounds/final-cta-industrial.png"
-            alt=""
-            fill
-            aria-hidden
-            className="pointer-events-none absolute inset-0 object-cover opacity-[0.50]"
+      <section className="section-block bg-slate-50">
+        <div className="page-shell space-y-8">
+          <SectionTitle
+            eyebrow="Ứng dụng theo ngành"
+            title="Chọn vật tư theo loại máy và điều kiện vận hành"
+            description="Các trang ứng dụng giúp khoanh vùng nhóm vật tư thường dùng theo máy gỗ, CNC, ép nhựa, bơm quạt, động cơ và băng tải."
           />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/35 via-white/42 to-amber-50/20" />
-          <div className="relative grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
-            <div className="space-y-3">
-              <h2 className="font-heading text-2xl font-bold text-slate-900">Cần đối chiếu mã, xác nhận cụm thay thế hoặc báo giá gấp?</h2>
-              <p className="text-sm text-slate-600">
-                Gửi mã cũ, ảnh tem hoặc mô tả cụm máy – tiếp nhận và phản hồi trong ngày cho các nhu cầu ảnh hưởng tiến độ sản xuất.
-              </p>
-              <div className="grid gap-2 text-sm text-slate-700 sm:grid-cols-2">
-                {contactInfoItems.map((item) => (
-                  <p key={item.label} className="flex items-center gap-2">
-                    <item.Icon className="size-4 text-amber-800" />
-                    {item.label}
-                  </p>
-                ))}
+
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+            {industryApplications.map((app) => (
+              <Link key={app.slug} href={`/ung-dung/${app.slug}`} className="group">
+                <Card className="h-full rounded-lg border-slate-200 bg-white py-0 transition hover:-translate-y-0.5 hover:shadow-[0_16px_34px_-24px_rgba(15,23,42,0.55)]">
+                  <div className="relative aspect-[4/3] overflow-hidden">
+                    <Image
+                      src={app.image}
+                      alt={app.imageAlt}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
+                      className="object-cover transition duration-300 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/20 to-transparent" />
+                    <h3 className="absolute bottom-3 left-3 right-3 text-sm font-bold text-white">{app.name}</h3>
+                  </div>
+                  <CardContent className="space-y-3 p-4">
+                    <p className="text-sm leading-relaxed text-slate-600">{app.description}</p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {app.commonParts.slice(0, 3).map((part) => (
+                        <span key={part} className="rounded-md bg-emerald-50 px-2 py-1 text-xs text-emerald-800">
+                          {part}
+                        </span>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section-block bg-white">
+        <div className="page-shell grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+          <SectionTitle
+            eyebrow="Vì sao chọn chúng tôi"
+            title="Tập trung vào đúng mã, đúng ứng dụng, đúng tiến độ"
+            description="Không làm e-commerce dàn trải ở phase này. Website ưu tiên catalog rõ, form tra mã nhanh và tuyến liên hệ tư vấn cho nhu cầu công nghiệp."
+          />
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            {whyChooseItems.map((item) => (
+              <div key={item.title} className="rounded-lg border border-slate-200 bg-white p-5 shadow-[0_10px_28px_-24px_rgba(15,23,42,0.6)]">
+                <div className="mb-4 inline-flex rounded-md bg-cyan-50 p-2 text-cyan-700">
+                  <item.Icon className="size-5" />
+                </div>
+                <h3 className="font-heading text-base font-bold text-slate-900">{item.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-600">{item.description}</p>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section-block bg-slate-950 text-white">
+        <div className="page-shell grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+          <div className="space-y-6">
+            <div className="space-y-3">
+              <p className="inline-flex rounded-full border border-cyan-300/30 bg-cyan-300/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-cyan-100">
+                Thương hiệu / cam kết / năng lực
+              </p>
+              <h2 className="font-heading text-2xl font-bold leading-tight sm:text-3xl">
+                Hỗ trợ nhiều nhóm thương hiệu và tình huống thay thế trong nhà máy
+              </h2>
+              <p className="text-sm leading-relaxed text-slate-300 sm:text-base">
+                Tư vấn dựa trên mã cũ, hình ảnh tem, kích thước và điều kiện vận hành. Mục tiêu là giúp bảo trì, kỹ thuật và mua hàng thống nhất nhanh phương án.
+              </p>
             </div>
 
-            <div className="flex flex-col gap-2 lg:items-end">
-              <Button asChild className="bg-amber-800 hover:bg-amber-900">
-                <a href={siteConfig.phoneHref}>
-                  <PhoneCall className="mr-2 size-4" />
-                  Gọi ngay để đối chiếu mã
-                </a>
-              </Button>
-              <Button asChild variant="outline" className="border-amber-200 text-amber-800 hover:bg-amber-100">
-                <a href={siteConfig.zaloLink} target="_blank" rel="noreferrer">
-                  <MessageCircle className="mr-2 size-4" />
-                  Gửi ảnh tem qua Zalo
-                </a>
-              </Button>
+            <div className="space-y-3">
+              {supportProcess.slice(0, 4).map((step, index) => (
+                <div key={step} className="flex gap-3 rounded-lg border border-white/10 bg-white/5 p-3">
+                  <span className="flex size-7 shrink-0 items-center justify-center rounded-md bg-cyan-400 text-sm font-bold text-slate-950">
+                    {index + 1}
+                  </span>
+                  <p className="text-sm leading-relaxed text-slate-200">{step}</p>
+                </div>
+              ))}
             </div>
+          </div>
+
+          <div className="space-y-5">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+              {brandLogos.map((brand) => (
+                <div key={brand.id} className="flex min-h-20 items-center justify-center rounded-lg border border-white/10 bg-white p-3">
+                  <Image src={brand.src} alt={brand.alt} width={130} height={46} className="h-auto max-h-10 w-auto object-contain" />
+                </div>
+              ))}
+            </div>
+
+            <div className="grid gap-3 sm:grid-cols-3">
+              {capabilityItems.map((item) => (
+                <div key={item.title} className="rounded-lg border border-white/10 bg-white/5 p-4">
+                  <item.Icon className="size-5 text-cyan-300" />
+                  <h3 className="mt-3 text-sm font-semibold text-white">{item.title}</h3>
+                  <p className="mt-2 text-xs leading-relaxed text-slate-300">{item.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="relative overflow-hidden bg-white">
+        <Image
+          src="/images/backgrounds/final-cta-industrial.png"
+          alt=""
+          fill
+          aria-hidden
+          sizes="100vw"
+          className="pointer-events-none object-cover opacity-45"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/92 to-white/70" />
+        <div className="page-shell relative grid gap-6 py-14 sm:py-16 lg:grid-cols-[1fr_auto] lg:items-center">
+          <div className="max-w-2xl space-y-3">
+            <p className="inline-flex items-center gap-2 text-sm font-semibold text-cyan-800">
+              <CheckCircle2 className="size-4" />
+              Không cần đặt hàng online đầy đủ ở phase này
+            </p>
+            <h2 className="font-heading text-2xl font-bold text-slate-950 sm:text-3xl">
+              Gửi mã, ảnh tem hoặc mô tả cụm máy để được tư vấn nhanh
+            </h2>
+            <p className="text-sm leading-relaxed text-slate-600 sm:text-base">
+              Đội ngũ tiếp nhận sẽ đối chiếu mã, xác nhận nhóm sản phẩm phù hợp và chuyển hướng báo giá theo nhu cầu thực tế của nhà máy.
+            </p>
+            <div className="flex flex-wrap gap-2 pt-1">
+              {productBenefitBullets.map((item) => (
+                <span key={item} className="rounded-md border border-slate-200 bg-white/90 px-2.5 py-1.5 text-xs text-slate-700">
+                  {item}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-2 sm:flex-row lg:flex-col">
+            <Button asChild className="h-11 bg-slate-950 px-5 hover:bg-slate-800">
+              <Link href="/tra-ma-bao-gia">
+                <Search className="mr-2 size-4" />
+                Tra mã nhanh
+              </Link>
+            </Button>
+            <Button asChild variant="outline" className="h-11 border-cyan-200 bg-white text-cyan-800 hover:bg-cyan-50">
+              <a href={siteConfig.phoneHref}>
+                <PhoneCall className="mr-2 size-4" />
+                Liên hệ tư vấn
+              </a>
+            </Button>
           </div>
         </div>
       </section>
