@@ -13,8 +13,8 @@ type PrimaryCtaGroupProps = {
 
 export function PrimaryCtaGroup({
   className,
-  submitLabel = "Gửi mã cần hỗ trợ",
-  callLabel = "Gọi nhanh bộ phận tư vấn",
+  submitLabel = "Tra mã nhanh",
+  callLabel = "Liên hệ tư vấn",
   zaloLabel = "Chat Zalo",
 }: PrimaryCtaGroupProps) {
   return (
