@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -22,7 +22,7 @@ export function SiteHeader() {
         <Link href="/" className="flex items-center gap-2">
           <Image
             src="/images/branding/logo-new.png"
-            alt="Truyền Động Công Nghiệp"
+            alt="Truyá»n Äá»™ng CÃ´ng Nghiá»‡p"
             width={180}
             height={60}
             className="h-14 w-auto"
@@ -40,7 +40,7 @@ export function SiteHeader() {
                 href={item.href}
                 className={cn(
                   "rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                  active ? "bg-amber-800 text-white" : "text-slate-600 hover:bg-amber-50 hover:text-slate-900",
+                  active ? "bg-blue-800 text-white" : "text-slate-600 hover:bg-blue-50 hover:text-slate-900",
                 )}
               >
                 {item.label}
@@ -50,15 +50,15 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Button asChild size="sm" className="hidden bg-amber-800 hover:bg-amber-900 sm:inline-flex">
+          <Button asChild size="sm" className="hidden bg-blue-800 hover:bg-blue-900 sm:inline-flex">
             <a href={siteConfig.phoneHref}>
               <PhoneCall className="mr-2 size-4" />
-              Gọi nhanh
+              Gá»i nhanh
             </a>
           </Button>
           <Sheet>
             <SheetTrigger asChild className="lg:hidden">
-              <Button variant="outline" size="icon" aria-label="Mở menu">
+              <Button variant="outline" size="icon" aria-label="Má»Ÿ menu">
                 <Menu className="size-5" />
               </Button>
             </SheetTrigger>
@@ -67,7 +67,7 @@ export function SiteHeader() {
                 <div className="space-y-1">
                   <Image
                     src="/images/branding/logo-new.png"
-                    alt="Truyền Động Công Nghiệp"
+                    alt="Truyá»n Äá»™ng CÃ´ng Nghiá»‡p"
                     width={120}
                     height={42}
                     className="h-9 w-auto"
@@ -84,7 +84,7 @@ export function SiteHeader() {
                         href={item.href}
                         className={cn(
                           "rounded-md px-3 py-2 text-sm font-medium",
-                          active ? "bg-amber-800 text-white" : "text-slate-700 hover:bg-amber-50",
+                          active ? "bg-blue-800 text-white" : "text-slate-700 hover:bg-blue-50",
                         )}
                       >
                         {item.label}
@@ -94,13 +94,13 @@ export function SiteHeader() {
                 </div>
 
                 <div className="grid gap-2">
-                  <Button asChild className="bg-amber-800 hover:bg-amber-900">
+                  <Button asChild className="bg-blue-800 hover:bg-blue-900">
                     <a href={siteConfig.phoneHref}>
                       <PhoneCall className="mr-2 size-4" />
-                      Gọi nhanh
+                      Gá»i nhanh
                     </a>
                   </Button>
-                  <Button asChild variant="outline" className="border-amber-200 text-amber-800 hover:bg-amber-100">
+                  <Button asChild variant="outline" className="border-blue-200 text-blue-800 hover:bg-blue-100">
                     <a href={siteConfig.zaloLink} target="_blank" rel="noreferrer">
                       <MessageCircle className="mr-2 size-4" />
                       Chat Zalo
@@ -115,3 +115,4 @@ export function SiteHeader() {
     </header>
   );
 }
+

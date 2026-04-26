@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+﻿import { cn } from "@/lib/utils";
 
 type AssistantMessageProps = {
   role: "user" | "assistant";
@@ -6,18 +6,18 @@ type AssistantMessageProps = {
 };
 
 const emphasizedPrefixes = [
-  "Nhận định nhanh:",
-  "Khả năng cao:",
-  "Cần chốt thêm:",
-  "Mã / hướng khả dĩ:",
-  "Mã đề xuất:",
-  "Không nên dùng:",
-  "Giá:",
-  "Nhãn hàng đề xuất:",
-  "Căn cứ chọn:",
-  "Lưu ý dễ nhầm:",
-  "Lưu ý:",
-  "Câu hỏi tiếp theo:",
+  "Nháº­n Ä‘á»‹nh nhanh:",
+  "Kháº£ nÄƒng cao:",
+  "Cáº§n chá»‘t thÃªm:",
+  "MÃ£ / hÆ°á»›ng kháº£ dÄ©:",
+  "MÃ£ Ä‘á» xuáº¥t:",
+  "KhÃ´ng nÃªn dÃ¹ng:",
+  "GiÃ¡:",
+  "NhÃ£n hÃ ng Ä‘á» xuáº¥t:",
+  "CÄƒn cá»© chá»n:",
+  "LÆ°u Ã½ dá»… nháº§m:",
+  "LÆ°u Ã½:",
+  "CÃ¢u há»i tiáº¿p theo:",
 ];
 
 export function AssistantMessage({ role, text }: AssistantMessageProps) {
@@ -30,7 +30,7 @@ export function AssistantMessage({ role, text }: AssistantMessageProps) {
         className={cn(
           "max-w-[92%] rounded-2xl px-4 py-3 text-[13px] leading-[1.7] sm:text-sm",
           isAssistant
-            ? "border border-amber-100/60 bg-gradient-to-b from-amber-50/40 via-white to-white text-slate-700 shadow-[0_2px_8px_-4px_rgba(15,23,42,0.1)]"
+            ? "border border-blue-100/60 bg-gradient-to-b from-blue-50/40 via-white to-white text-slate-700 shadow-[0_2px_8px_-4px_rgba(15,23,42,0.1)]"
             : "bg-slate-800 text-white shadow-[0_2px_10px_-6px_rgba(15,23,42,0.35)]"
         )}
       >
@@ -70,3 +70,4 @@ export function AssistantMessage({ role, text }: AssistantMessageProps) {
     </div>
   );
 }
+

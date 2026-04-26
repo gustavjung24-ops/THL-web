@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+﻿import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { ReplyOptionStyle } from "@/lib/assistant/reply-templates";
 
@@ -41,8 +41,8 @@ export function ChatOptionChips({
               styleType === "chips" ? "rounded-2xl" : "w-full justify-start rounded-xl",
               isMobile ? "px-3 py-2 text-[12.5px]" : "text-[13px]",
               isSelected
-                ? "border-amber-300 bg-amber-50 text-amber-900"
-                : "border-slate-200 text-slate-700 hover:border-amber-200 hover:bg-amber-50 hover:text-amber-900",
+                ? "border-blue-300 bg-blue-50 text-blue-900"
+                : "border-slate-200 text-slate-700 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-900",
               (disabled || isResolved) && "cursor-not-allowed opacity-70 hover:border-slate-200 hover:bg-white hover:text-slate-700"
             )}
             onClick={() => onSelect(option)}
@@ -55,3 +55,4 @@ export function ChatOptionChips({
     </div>
   );
 }
+

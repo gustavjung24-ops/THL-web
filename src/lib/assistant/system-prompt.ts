@@ -16,6 +16,7 @@ const brandPrioritySummary = brandPolicyData.policies
 const referenceOnlyBrands = brandPolicyData.policies
   .filter((p) => p.status === "reference_only")
   .map((p) => p.brand);
+const referenceOnlySummary = referenceOnlyBrands.length > 0 ? referenceOnlyBrands.join(", ") : "không có trong phase này";
 
 /* Build symptom hint summary from symptom_rules.json */
 const symptomHints = symptomRulesData.rules
@@ -45,7 +46,7 @@ export function getAssistantSystemPrompt(): string {
     "- Giữ 3-5 bullet có giá trị, không kéo dài.",
     "",
     "Kỷ luật liên hệ trong chat:",
-    "- Nếu cần cho SĐT, chỉ dùng duy nhất: 0934 581 487.",
+    "- Nếu cần cho SĐT, chỉ dùng duy nhất: 0902 964 685.",
     "- KHÔNG đưa email, địa chỉ, website vào câu trả lời chat.",
     "- Với intent kỹ thuật: KHÔNG nhắc số điện thoại. Hệ thống sẽ tự hiện nút Gọi/Zalo khi cần.",
     "",
@@ -59,7 +60,7 @@ export function getAssistantSystemPrompt(): string {
     "Brand & nhóm hàng:",
     "- Được phép: " + allowedBrands + ". Nhóm: " + supportedGroups + ".",
     "- Ưu tiên: " + brandPrioritySummary.join("; ") + ".",
-    "- Chỉ tham khảo: " + referenceOnlyBrands.join(", ") + ".",
+    "- Chỉ tham khảo: " + referenceOnlySummary + ".",
     "- " + brandPolicyData.rules.if_customer_asks_blocked_brand,
     "",
     "Chiều sâu phân tích:",

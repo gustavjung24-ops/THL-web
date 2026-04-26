@@ -1,27 +1,19 @@
 export const productVisuals: Record<string, { image: string; imageAlt: string }> = {
-  "vong-bi": {
+  ntn: {
     image: "/images/cards/product-vong-bi.webp",
-    imageAlt: "Kỹ thuật viên kiểm tra vòng bi trong xưởng công nghiệp",
+    imageAlt: "Kỹ thuật viên kiểm tra vòng bi NTN trong xưởng công nghiệp",
   },
-  "goi-do": {
+  koyo: {
     image: "/images/cards/product-goi-do.webp",
-    imageAlt: "Cụm truyền động và gối đỡ trong dây chuyền công nghiệp",
+    imageAlt: "Cụm vòng bi và gối đỡ Koyo trong dây chuyền công nghiệp",
   },
-  "day-curoa": {
-    image: "/images/backgrounds/he-sinh-thai-home.jpeg",
-    imageAlt: "Khu vực máy công nghiệp cần vật tư truyền động thay thế",
-  },
-  "xich-cong-nghiep": {
+  tsubaki: {
     image: "/images/cards/product-xich-cong-nghiep.jpg",
-    imageAlt: "Xích công nghiệp DID dùng cho truyền động và băng tải",
+    imageAlt: "Xích công nghiệp Tsubaki dùng cho truyền động và băng tải",
   },
-  "phot-chan-dau": {
-    image: "/images/cards/product-phot-chan-dau.webp",
-    imageAlt: "Phớt chặn dầu dùng trong cụm trục và hộp số công nghiệp",
-  },
-  "mo-boi-tron": {
+  soho: {
     image: "/images/backgrounds/final-cta-industrial.png",
-    imageAlt: "Khu vực bảo trì nhà máy dùng mỡ bôi trơn cho cụm quay",
+    imageAlt: "Khu vực bảo trì nhà máy dùng vật tư truyền động Soho",
   },
 };
 

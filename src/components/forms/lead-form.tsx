@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
@@ -14,15 +14,15 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 
 const leadSchema = z.object({
-  fullName: z.string().min(2, "Vui lòng nhập họ tên người liên hệ"),
-  phone: z.string().min(8, "Vui lòng nhập số điện thoại"),
-  company: z.string().min(2, "Vui lòng nhập nhà máy / công ty"),
-  area: z.string().min(2, "Vui lòng nhập khu vực / KCN"),
-  productGroup: z.string().min(1, "Vui lòng chọn nhóm vật tư cần hỗ trợ"),
-  requestedCode: z.string().min(2, "Vui lòng nhập mã đang dùng"),
+  fullName: z.string().min(2, "Vui lÃ²ng nháº­p há» tÃªn ngÆ°á»i liÃªn há»‡"),
+  phone: z.string().min(8, "Vui lÃ²ng nháº­p sá»‘ Ä‘iá»‡n thoáº¡i"),
+  company: z.string().min(2, "Vui lÃ²ng nháº­p nhÃ  mÃ¡y / cÃ´ng ty"),
+  area: z.string().min(2, "Vui lÃ²ng nháº­p khu vá»±c / KCN"),
+  productGroup: z.string().min(1, "Vui lÃ²ng chá»n nhÃ³m váº­t tÆ° cáº§n há»— trá»£"),
+  requestedCode: z.string().min(2, "Vui lÃ²ng nháº­p mÃ£ Ä‘ang dÃ¹ng"),
   application: z.string().optional(),
   quantity: z.string().optional(),
-  priority: z.string().min(1, "Vui lòng chọn mức độ ưu tiên"),
+  priority: z.string().min(1, "Vui lÃ²ng chá»n má»©c Ä‘á»™ Æ°u tiÃªn"),
   notes: z.string().optional(),
 });
 
@@ -71,7 +71,7 @@ export function LeadForm() {
   async function onSubmit(values: LeadFormValues) {
     await new Promise((resolve) => setTimeout(resolve, 700));
     setSubmitMessage(
-      `Đã tiếp nhận yêu cầu hỗ trợ của ${values.fullName}. Bộ phận tư vấn sẽ phản hồi sớm theo mức độ ưu tiên đã chọn.`,
+      `ÄÃ£ tiáº¿p nháº­n yÃªu cáº§u há»— trá»£ cá»§a ${values.fullName}. Bá»™ pháº­n tÆ° váº¥n sáº½ pháº£n há»“i sá»›m theo má»©c Ä‘á»™ Æ°u tiÃªn Ä‘Ã£ chá»n.`,
     );
     reset(defaultValues);
     setUploadedImages([]);
@@ -83,12 +83,12 @@ export function LeadForm() {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="fullName">Họ tên người liên hệ</Label>
-              <Input id="fullName" placeholder="Nguyễn Văn A" {...register("fullName")} />
+              <Label htmlFor="fullName">Há» tÃªn ngÆ°á»i liÃªn há»‡</Label>
+              <Input id="fullName" placeholder="Nguyá»…n VÄƒn A" {...register("fullName")} />
               {errors.fullName ? <p className="text-xs text-red-600">{errors.fullName.message}</p> : null}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="phone">Số điện thoại</Label>
+              <Label htmlFor="phone">Sá»‘ Ä‘iá»‡n thoáº¡i</Label>
               <Input id="phone" placeholder="09xx xxx xxx" {...register("phone")} />
               {errors.phone ? <p className="text-xs text-red-600">{errors.phone.message}</p> : null}
             </div>
@@ -96,20 +96,20 @@ export function LeadForm() {
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="company">Nhà máy / công ty</Label>
-              <Input id="company" placeholder="Công ty ABC" {...register("company")} />
+              <Label htmlFor="company">NhÃ  mÃ¡y / cÃ´ng ty</Label>
+              <Input id="company" placeholder="CÃ´ng ty ABC" {...register("company")} />
               {errors.company ? <p className="text-xs text-red-600">{errors.company.message}</p> : null}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="area">Khu vực / KCN</Label>
-              <Input id="area" placeholder="KCN Sóng Thần / Bình Dương" {...register("area")} />
+              <Label htmlFor="area">Khu vá»±c / KCN</Label>
+              <Input id="area" placeholder="KCN SÃ³ng Tháº§n / BÃ¬nh DÆ°Æ¡ng" {...register("area")} />
               {errors.area ? <p className="text-xs text-red-600">{errors.area.message}</p> : null}
             </div>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
-              <Label>Nhóm vật tư cần hỗ trợ</Label>
+              <Label>NhÃ³m váº­t tÆ° cáº§n há»— trá»£</Label>
               <Select
                 value={selectedProductGroup}
                 onValueChange={(value) =>
@@ -117,7 +117,7 @@ export function LeadForm() {
                 }
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Chọn nhóm vật tư" />
+                  <SelectValue placeholder="Chá»n nhÃ³m váº­t tÆ°" />
                 </SelectTrigger>
                 <SelectContent>
                   {productGroups.map((group) => (
@@ -131,18 +131,18 @@ export function LeadForm() {
             </div>
 
             <div className="space-y-2">
-              <Label>Mức độ ưu tiên</Label>
+              <Label>Má»©c Ä‘á»™ Æ°u tiÃªn</Label>
               <Select
                 value={selectedPriority}
                 onValueChange={(value) => setValue("priority", value ?? "", { shouldValidate: true, shouldDirty: true })}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Chọn mức độ ưu tiên" />
+                  <SelectValue placeholder="Chá»n má»©c Ä‘á»™ Æ°u tiÃªn" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Khẩn trong ngày">Khẩn trong ngày</SelectItem>
-                  <SelectItem value="Ưu tiên trong ca">Ưu tiên trong ca</SelectItem>
-                  <SelectItem value="Bình thường theo kế hoạch">Bình thường theo kế hoạch</SelectItem>
+                  <SelectItem value="Kháº©n trong ngÃ y">Kháº©n trong ngÃ y</SelectItem>
+                  <SelectItem value="Æ¯u tiÃªn trong ca">Æ¯u tiÃªn trong ca</SelectItem>
+                  <SelectItem value="BÃ¬nh thÆ°á»ng theo káº¿ hoáº¡ch">BÃ¬nh thÆ°á»ng theo káº¿ hoáº¡ch</SelectItem>
                 </SelectContent>
               </Select>
               {errors.priority ? <p className="text-xs text-red-600">{errors.priority.message}</p> : null}
@@ -150,29 +150,29 @@ export function LeadForm() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="requestedCode">Mã đang dùng</Label>
-            <Input id="requestedCode" placeholder="Ví dụ: 6205-2RS" {...register("requestedCode")} />
+            <Label htmlFor="requestedCode">MÃ£ Ä‘ang dÃ¹ng</Label>
+            <Input id="requestedCode" placeholder="VÃ­ dá»¥: 6205-2RS" {...register("requestedCode")} />
             {errors.requestedCode ? <p className="text-xs text-red-600">{errors.requestedCode.message}</p> : null}
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="application">Thiết bị / cụm máy đang lắp</Label>
-              <Input id="application" placeholder="Motor quạt lò sấy / trục băng tải..." {...register("application")} />
+              <Label htmlFor="application">Thiáº¿t bá»‹ / cá»¥m mÃ¡y Ä‘ang láº¯p</Label>
+              <Input id="application" placeholder="Motor quáº¡t lÃ² sáº¥y / trá»¥c bÄƒng táº£i..." {...register("application")} />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="quantity">Số lượng dự kiến</Label>
-              <Input id="quantity" placeholder="Ví dụ: 10 bộ" {...register("quantity")} />
+              <Label htmlFor="quantity">Sá»‘ lÆ°á»£ng dá»± kiáº¿n</Label>
+              <Input id="quantity" placeholder="VÃ­ dá»¥: 10 bá»™" {...register("quantity")} />
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="notes">Ghi chú thêm</Label>
-            <Textarea id="notes" placeholder="Thông tin bổ sung để đối chiếu nhanh hơn" rows={4} {...register("notes")} />
+            <Label htmlFor="notes">Ghi chÃº thÃªm</Label>
+            <Textarea id="notes" placeholder="ThÃ´ng tin bá»• sung Ä‘á»ƒ Ä‘á»‘i chiáº¿u nhanh hÆ¡n" rows={4} {...register("notes")} />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="images">Tải ảnh tem / ảnh mẫu / ảnh vị trí lắp</Label>
+            <Label htmlFor="images">Táº£i áº£nh tem / áº£nh máº«u / áº£nh vá»‹ trÃ­ láº¯p</Label>
             <Input id="images" type="file" multiple accept="image/*" onChange={onUploadChange} />
             <p className="text-xs text-slate-500">{leadFormUploadHint}</p>
             {uploadedImages.length ? (
@@ -184,15 +184,16 @@ export function LeadForm() {
             ) : null}
           </div>
 
-          <Button type="submit" className="w-full bg-amber-800 hover:bg-amber-900" disabled={isSubmitting}>
-            {isSubmitting ? "Đang gửi..." : "Gửi yêu cầu hỗ trợ"}
+          <Button type="submit" className="w-full bg-blue-800 hover:bg-blue-900" disabled={isSubmitting}>
+            {isSubmitting ? "Äang gá»­i..." : "Gá»­i yÃªu cáº§u há»— trá»£"}
           </Button>
 
           <p className="text-xs text-slate-600">{leadFormBottomNote}</p>
 
-          {submitMessage ? <p className="rounded-md bg-amber-50 p-3 text-sm text-amber-800">{submitMessage}</p> : null}
+          {submitMessage ? <p className="rounded-md bg-blue-50 p-3 text-sm text-blue-800">{submitMessage}</p> : null}
         </form>
       </CardContent>
     </Card>
   );
 }
+

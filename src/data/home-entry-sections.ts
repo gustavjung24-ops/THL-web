@@ -10,55 +10,55 @@ export type HomeEntryCard = {
   ctaLabel: string;
 };
 
-/** Cụm 1: Nhóm sản phẩm chính trên homepage */
+/** Cụm 1: Nhóm thương hiệu chính trên homepage */
 export const productEntryCards: HomeEntryCard[] = [
   {
-    slug: "vong-bi",
-    title: "Vòng bi công nghiệp",
-    description: "Đối chiếu mã theo cụm máy, tải và môi trường vận hành thực tế.",
+    slug: "ntn",
+    title: "NTN",
+    description: "Vòng bi Nhật NTN là nhóm chủ đạo cho nhu cầu bảo trì nhà máy.",
     image: "/images/cards/product-vong-bi.webp",
     imagePrompt:
       "Kỹ thuật viên cầm vòng bi tại xưởng công nghiệp, phía sau là máy móc và kệ vật tư, realistic industrial B2B photography, clean lighting, professional, no cartoon, no oversized logos, no poster-style collage, 16:9 aspect ratio",
     imageAlt: "Kỹ thuật viên cầm vòng bi công nghiệp trong xưởng sản xuất",
     imageStyleTag: "product-hero",
-    href: "/san-pham/vong-bi",
-    ctaLabel: "Xem vòng bi",
+    href: "/san-pham/ntn",
+    ctaLabel: "Xem NTN",
   },
   {
-    slug: "goi-do",
-    title: "Gối đỡ vòng bi",
-    description: "Chọn gối đỡ theo kiểu lắp, đường kính trục và vị trí đỡ trong dây chuyền.",
+    slug: "koyo",
+    title: "Koyo",
+    description: "Vòng bi và gối đỡ Koyo cho cụm quay, cụm đỡ trục và dây chuyền.",
     image: "/images/cards/product-goi-do.webp",
     imagePrompt:
       "Cụm gối đỡ vòng bi gắn trên trục truyền động trong nhà máy, close-up rõ sản phẩm và bối cảnh ứng dụng thực tế, realistic industrial B2B photography, clean lighting, professional, no cartoon, no oversized logos, no poster-style collage, 16:9 aspect ratio",
     imageAlt: "Cụm gối đỡ vòng bi lắp trên trục truyền động trong dây chuyền nhà máy",
     imageStyleTag: "product-hero",
-    href: "/san-pham/goi-do",
-    ctaLabel: "Xem gối đỡ",
+    href: "/san-pham/koyo",
+    ctaLabel: "Xem Koyo",
   },
   {
-    slug: "xich-cong-nghiep",
-    title: "Xích công nghiệp DID",
-    description: "Đối chiếu bước xích, số mắt và tải cho băng tải, dây chuyền sản xuất.",
+    slug: "tsubaki",
+    title: "Tsubaki",
+    description: "Xích công nghiệp Tsubaki cho băng tải và cơ cấu truyền động.",
     image: "/images/cards/product-xich-cong-nghiep.jpg",
     imagePrompt:
       "Cụm truyền động xích trên dây chuyền công nghiệp, thấy rõ xích và nhông đang lắp thực tế, no oversized logo, realistic industrial B2B photography, clean lighting, professional, no cartoon, no poster-style collage, 16:9 aspect ratio",
     imageAlt: "Cụm truyền động xích công nghiệp trên dây chuyền sản xuất",
     imageStyleTag: "product-hero",
-    href: "/san-pham/xich-cong-nghiep",
-    ctaLabel: "Xem xích công nghiệp",
+    href: "/san-pham/tsubaki",
+    ctaLabel: "Xem Tsubaki",
   },
   {
-    slug: "phot-chan-dau",
-    title: "Phớt chặn dầu NOK",
-    description: "Tư vấn theo kích thước trục-vỏ và yêu cầu giữ kín trong cụm quay.",
-    image: "/images/cards/product-phot-chan-dau.webp",
+    slug: "soho",
+    title: "Soho",
+    description: "Nhóm vật tư truyền động Soho cho phương án thay thế phù hợp tiến độ.",
+    image: "/images/backgrounds/final-cta-industrial.png",
     imagePrompt:
       "Ảnh phớt chặn dầu và vị trí làm kín trên trục máy công nghiệp, technical but realistic, clean background, realistic industrial B2B photography, clean lighting, professional, no cartoon, no oversized logos, no poster-style collage, 16:9 aspect ratio",
-    imageAlt: "Phớt chặn dầu NOK lắp tại vị trí làm kín trên trục máy công nghiệp",
+    imageAlt: "Vật tư truyền động Soho dùng trong khu vực bảo trì nhà máy",
     imageStyleTag: "product-hero",
-    href: "/san-pham/phot-chan-dau",
-    ctaLabel: "Xem phớt chặn dầu",
+    href: "/san-pham/soho",
+    ctaLabel: "Xem Soho",
   },
 ];
 

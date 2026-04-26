@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef, useState } from "react";
 import { ImagePlus, SendHorizonal, X } from "lucide-react";
@@ -57,7 +57,7 @@ type AssistantPanelProps = {
 };
 
 const defaultGreeting =
-  "Chào anh/chị, em hỗ trợ tra mã nhanh. Mình có thể gửi mã cũ, ảnh tem hoặc mô tả cụm máy.";
+  "ChÃ o anh/chá»‹, em há»— trá»£ tra mÃ£ nhanh. MÃ¬nh cÃ³ thá»ƒ gá»­i mÃ£ cÅ©, áº£nh tem hoáº·c mÃ´ táº£ cá»¥m mÃ¡y.";
 
 const INTERNAL_FIELD_TOKENS = [
   "exact_code", "normalized_code", "dimensions", "application_detail",
@@ -121,12 +121,12 @@ function sanitizeOptions(options: string[]): string[] {
 }
 
 function getDiscoveryOptionLabel(option: string): string {
-  if (option === "Tôi có ảnh tem / ảnh mẫu") {
-    return "Tôi có ảnh tem";
+  if (option === "TÃ´i cÃ³ áº£nh tem / áº£nh máº«u") {
+    return "TÃ´i cÃ³ áº£nh tem";
   }
 
-  if (option === "Tôi chỉ biết hệ máy / triệu chứng") {
-    return "Tôi mô tả theo máy";
+  if (option === "TÃ´i chá»‰ biáº¿t há»‡ mÃ¡y / triá»‡u chá»©ng") {
+    return "TÃ´i mÃ´ táº£ theo mÃ¡y";
   }
 
   return option;
@@ -158,7 +158,7 @@ function buildDiscoveryPromptMessage(prompt: DiscoveryPrompt): UiMessage {
 
 function TypingDots() {
   return (
-    <span className="inline-flex items-center gap-[3px]" aria-label="Đang soạn">
+    <span className="inline-flex items-center gap-[3px]" aria-label="Äang soáº¡n">
       {[0, 1, 2].map((i) => (
         <span
           key={i}
@@ -185,32 +185,32 @@ function buildPromptFromParsed(parsed: ParsedIntent): DiscoveryPrompt {
   if (normalized.includes("hino") || normalized.includes("xe tai") || normalized.includes("4hk1")) {
     return {
       stage: "machine_flow_1",
-      message: "Anh/chị đang kiểm tra vòng bi ở cụm nào: bánh xe, máy phát, puly tăng, lốc lạnh hay hộp số?",
-      options: ["Bánh xe", "Máy phát", "Puly tăng", "Lốc lạnh", "Hộp số"],
+      message: "Anh/chá»‹ Ä‘ang kiá»ƒm tra vÃ²ng bi á»Ÿ cá»¥m nÃ o: bÃ¡nh xe, mÃ¡y phÃ¡t, puly tÄƒng, lá»‘c láº¡nh hay há»™p sá»‘?",
+      options: ["BÃ¡nh xe", "MÃ¡y phÃ¡t", "Puly tÄƒng", "Lá»‘c láº¡nh", "Há»™p sá»‘"],
     };
   }
 
   if (normalized.includes("spindle") || normalized.includes("cnc")) {
     return {
       stage: "machine_flow_1",
-      message: "Anh/chị đang kiểm tra cụm nào trên spindle: ổ trước, ổ sau, puly truyền hay cụm phớt?",
-      options: ["Ổ trước spindle", "Ổ sau spindle", "Puly truyền", "Cụm phớt", "Chưa rõ vị trí"],
+      message: "Anh/chá»‹ Ä‘ang kiá»ƒm tra cá»¥m nÃ o trÃªn spindle: á»• trÆ°á»›c, á»• sau, puly truyá»n hay cá»¥m phá»›t?",
+      options: ["á»” trÆ°á»›c spindle", "á»” sau spindle", "Puly truyá»n", "Cá»¥m phá»›t", "ChÆ°a rÃµ vá»‹ trÃ­"],
     };
   }
 
   if (normalized.includes("may bom") || normalized.includes("bom")) {
     return {
       stage: "machine_flow_1",
-      message: "Em cần khoanh đúng cụm trước. Máy đang nóng ở ổ trục, puly hay vị trí phớt?",
-      options: ["Ổ trục bơm", "Puly bơm", "Cụm phớt", "Khớp nối", "Chưa rõ vị trí"],
+      message: "Em cáº§n khoanh Ä‘Ãºng cá»¥m trÆ°á»›c. MÃ¡y Ä‘ang nÃ³ng á»Ÿ á»• trá»¥c, puly hay vá»‹ trÃ­ phá»›t?",
+      options: ["á»” trá»¥c bÆ¡m", "Puly bÆ¡m", "Cá»¥m phá»›t", "Khá»›p ná»‘i", "ChÆ°a rÃµ vá»‹ trÃ­"],
     };
   }
 
   return (
     getPromptForStage("greeting") ?? {
       stage: "greeting",
-      message: "Anh/chị đang có mã cũ hay đang mô tả theo máy?",
-      options: ["Tôi có mã cũ", "Tôi có ảnh tem", "Tôi mô tả theo máy", "Tôi cần thay gấp"],
+      message: "Anh/chá»‹ Ä‘ang cÃ³ mÃ£ cÅ© hay Ä‘ang mÃ´ táº£ theo mÃ¡y?",
+      options: ["TÃ´i cÃ³ mÃ£ cÅ©", "TÃ´i cÃ³ áº£nh tem", "TÃ´i mÃ´ táº£ theo mÃ¡y", "TÃ´i cáº§n thay gáº¥p"],
     }
   );
 }
@@ -462,7 +462,7 @@ export function AssistantPanel({
       await wait(getHumanDelay({ kind: "status" }));
 
       appendAssistantMessage({
-        text: "Đã ghi nhận, em đang đối chiếu nhanh theo cụm máy...",
+        text: "ÄÃ£ ghi nháº­n, em Ä‘ang Ä‘á»‘i chiáº¿u nhanh theo cá»¥m mÃ¡y...",
         isOptionResolved: true,
       });
 
@@ -485,7 +485,7 @@ export function AssistantPanel({
       return;
     }
 
-    if (option === "Thử lại") {
+    if (option === "Thá»­ láº¡i") {
       resolveOptionMessage(messageId);
       const lastUserMsg = [...messagesRef.current].reverse().find((m) => m.role === "user");
       if (lastUserMsg) {
@@ -555,7 +555,7 @@ export function AssistantPanel({
       return;
     }
 
-    /* Conversational intents — reply locally, no API call */
+    /* Conversational intents â€” reply locally, no API call */
     if (isConversationalIntent(parsed.intent_route)) {
       setAssistantUiState("typing");
       const reply = buildConversationalReply(parsed.intent_route, content);
@@ -584,19 +584,19 @@ export function AssistantPanel({
         className
       )}
       role="dialog"
-      aria-label="Trợ lý tra mã"
+      aria-label="Trá»£ lÃ½ tra mÃ£"
     >
       <div className="shrink-0 border-b border-slate-200/65 bg-white/85 px-4 pb-2.5 pt-2 supports-[backdrop-filter]:backdrop-blur-sm">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             {isMobile && (
-              <p className="mb-1 inline-flex rounded-full border border-amber-200/70 bg-amber-50/85 px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-amber-900/85">
-                Trợ lý trực tuyến
+              <p className="mb-1 inline-flex rounded-full border border-blue-200/70 bg-blue-50/85 px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-blue-900/85">
+                Trá»£ lÃ½ trá»±c tuyáº¿n
               </p>
             )}
-            <h3 className="font-heading text-[15px] font-semibold tracking-tight text-slate-900">Tra mã nhanh</h3>
+            <h3 className="font-heading text-[15px] font-semibold tracking-tight text-slate-900">Tra mÃ£ nhanh</h3>
             <p className="mt-0.5 text-[11.5px] leading-[1.45] text-slate-500">
-              Tra cứu theo mã, ảnh tem hoặc cụm máy.
+              Tra cá»©u theo mÃ£, áº£nh tem hoáº·c cá»¥m mÃ¡y.
             </p>
           </div>
           {showCloseButton && (
@@ -606,7 +606,7 @@ export function AssistantPanel({
               size="icon-sm"
               className="mt-0.5 shrink-0 rounded-full text-slate-500 hover:bg-slate-100 hover:text-slate-800"
               onClick={onClose}
-              aria-label="Đóng trợ lý tra mã"
+              aria-label="ÄÃ³ng trá»£ lÃ½ tra mÃ£"
             >
               <X className="size-4" />
             </Button>
@@ -642,7 +642,7 @@ export function AssistantPanel({
 
           {assistantUiState !== "idle" && (
             <div className="flex w-full justify-start pr-10">
-              <div className="inline-flex items-center gap-2 rounded-2xl border border-amber-100/60 bg-gradient-to-b from-amber-50/40 via-white to-white px-4 py-3 shadow-[0_2px_8px_-4px_rgba(15,23,42,0.1)]">
+              <div className="inline-flex items-center gap-2 rounded-2xl border border-blue-100/60 bg-gradient-to-b from-blue-50/40 via-white to-white px-4 py-3 shadow-[0_2px_8px_-4px_rgba(15,23,42,0.1)]">
                 <TypingDots />
               </div>
             </div>
@@ -658,9 +658,9 @@ export function AssistantPanel({
           )}
         >
           <div className="flex items-center gap-2">
-            <label className="inline-flex h-9 cursor-pointer items-center gap-1.5 rounded-xl border border-slate-300/80 bg-white px-3 text-[12px] text-slate-700 shadow-sm transition hover:border-amber-200 hover:bg-amber-50">
+            <label className="inline-flex h-9 cursor-pointer items-center gap-1.5 rounded-xl border border-slate-300/80 bg-white px-3 text-[12px] text-slate-700 shadow-sm transition hover:border-blue-200 hover:bg-blue-50">
               <ImagePlus className="size-3.5" />
-              Tải ảnh
+              Táº£i áº£nh
               <Input
                 type="file"
                 accept="image/*"
@@ -689,30 +689,30 @@ export function AssistantPanel({
                   void submitMessage(inputValue);
                 }
               }}
-              placeholder="Nhập mã, kích thước hoặc cụm máy..."
+              placeholder="Nháº­p mÃ£, kÃ­ch thÆ°á»›c hoáº·c cá»¥m mÃ¡y..."
               className="min-h-10 max-h-32 flex-1 resize-none border-0 bg-transparent px-1.5 py-1.5 text-[13px] leading-6 shadow-none placeholder:text-slate-400 focus-visible:ring-0 sm:text-sm"
             />
             <Button
               type="button"
               size="sm"
-              className="h-10 shrink-0 rounded-xl bg-amber-700 px-3 text-[12px] font-semibold text-white shadow-[0_12px_20px_-16px_rgba(180,83,9,0.95)] hover:bg-amber-800 disabled:bg-amber-600/70 disabled:opacity-60"
+              className="h-10 shrink-0 rounded-xl bg-blue-700 px-3 text-[12px] font-semibold text-white shadow-[0_12px_20px_-16px_rgba(180,83,9,0.95)] hover:bg-blue-800 disabled:bg-blue-600/70 disabled:opacity-60"
               onClick={() => void submitMessage(inputValue)}
               disabled={isBusy || inputValue.trim().length === 0}
-              aria-label="Tra mã ngay"
+              aria-label="Tra mÃ£ ngay"
             >
               <SendHorizonal className="mr-1 size-3.5" />
-              Gửi
+              Gá»­i
             </Button>
           </div>
 
           <p className="mt-1.5 px-1 text-[10.5px] leading-4 text-slate-400">
-            Trả lời theo ứng dụng thực tế. Giá xác nhận riêng.
+            Tráº£ lá»i theo á»©ng dá»¥ng thá»±c táº¿. GiÃ¡ xÃ¡c nháº­n riÃªng.
           </p>
 
           {process.env.NEXT_PUBLIC_SHOW_ASSISTANT_PROVIDER === "true" && providerInfo && (
             <div className="mt-1 px-1 text-[10px] leading-4 text-slate-400/80">
               <p>AI: {providerInfo.provider}</p>
-              <p>Model: {providerInfo.model || "(không xác định)"}</p>
+              <p>Model: {providerInfo.model || "(khÃ´ng xÃ¡c Ä‘á»‹nh)"}</p>
             </div>
           )}
         </div>
@@ -720,3 +720,4 @@ export function AssistantPanel({
     </section>
   );
 }
+

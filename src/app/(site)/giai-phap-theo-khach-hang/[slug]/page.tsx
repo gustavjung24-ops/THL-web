@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+﻿import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, CheckCircle2 } from "lucide-react";
 import { customerRoles } from "@/data/site-content";
@@ -7,48 +7,48 @@ import { PrimaryCtaGroup } from "@/components/shared/primary-cta-group";
 import { SectionTitle } from "@/components/shared/section-title";
 
 const roleSlugMap: Record<string, string> = {
-  "bao-tri": "Bảo trì nhà máy",
-  "ky-thuat": "Kỹ thuật thiết bị",
-  "mua-hang": "Mua hàng kỹ thuật",
-  "chu-xuong": "Chủ xưởng / Cơ điện",
+  "bao-tri": "Báº£o trÃ¬ nhÃ  mÃ¡y",
+  "ky-thuat": "Ká»¹ thuáº­t thiáº¿t bá»‹",
+  "mua-hang": "Mua hÃ ng ká»¹ thuáº­t",
+  "chu-xuong": "Chá»§ xÆ°á»Ÿng / CÆ¡ Ä‘iá»‡n",
 };
 
 const roleDetails: Record<string, { situations: string[]; products: string[] }> = {
   "bao-tri": {
     situations: [
-      "Máy dừng đột xuất, cần đối chiếu mã gấp trong ngày",
-      "Mã cũ mờ hoặc thiếu dữ liệu, chỉ có ảnh tem hoặc kích thước",
-      "Cần phương án tương đương khi hàng gốc hết hoặc chờ lâu",
-      "Thay vòng bi kèm phớt và mỡ, cần đồng bộ nhóm hàng",
+      "MÃ¡y dá»«ng Ä‘á»™t xuáº¥t, cáº§n Ä‘á»‘i chiáº¿u mÃ£ gáº¥p trong ngÃ y",
+      "MÃ£ cÅ© má» hoáº·c thiáº¿u dá»¯ liá»‡u, chá»‰ cÃ³ áº£nh tem hoáº·c kÃ­ch thÆ°á»›c",
+      "Cáº§n phÆ°Æ¡ng Ã¡n tÆ°Æ¡ng Ä‘Æ°Æ¡ng khi hÃ ng gá»‘c háº¿t hoáº·c chá» lÃ¢u",
+      "Thay vÃ²ng bi kÃ¨m phá»›t vÃ  má»¡, cáº§n Ä‘á»“ng bá»™ nhÃ³m hÃ ng",
     ],
-    products: ["Vòng bi", "Phớt chặn dầu", "Mỡ bôi trơn", "Gối đỡ"],
+    products: ["VÃ²ng bi", "Phá»›t cháº·n dáº§u", "Má»¡ bÃ´i trÆ¡n", "Gá»‘i Ä‘á»¡"],
   },
   "ky-thuat": {
     situations: [
-      "Cần xác nhận mã theo tải, tốc độ, nhiệt và môi trường vận hành",
-      "So sánh phương án giữa nhiều hãng cho cùng vị trí lắp",
-      "Kiểm tra tương thích khi thay đổi quy cách theo bản vẽ mới",
-      "Cần thông số để lập phương án bảo trì định kỳ",
+      "Cáº§n xÃ¡c nháº­n mÃ£ theo táº£i, tá»‘c Ä‘á»™, nhiá»‡t vÃ  mÃ´i trÆ°á»ng váº­n hÃ nh",
+      "So sÃ¡nh phÆ°Æ¡ng Ã¡n giá»¯a nhiá»u hÃ£ng cho cÃ¹ng vá»‹ trÃ­ láº¯p",
+      "Kiá»ƒm tra tÆ°Æ¡ng thÃ­ch khi thay Ä‘á»•i quy cÃ¡ch theo báº£n váº½ má»›i",
+      "Cáº§n thÃ´ng sá»‘ Ä‘á»ƒ láº­p phÆ°Æ¡ng Ã¡n báº£o trÃ¬ Ä‘á»‹nh ká»³",
     ],
-    products: ["Vòng bi", "Gối đỡ", "Dây curoa", "Xích công nghiệp"],
+    products: ["VÃ²ng bi", "Gá»‘i Ä‘á»¡", "DÃ¢y curoa", "XÃ­ch cÃ´ng nghiá»‡p"],
   },
   "mua-hang": {
     situations: [
-      "Nhận đề nghị mua từ bảo trì / kỹ thuật nhưng thông tin mã chưa rõ",
-      "Cần xác nhận nhanh mã và quy cách để so sánh phương án",
-      "Cần tách rõ thông tin kỹ thuật và thông tin đặt hàng",
-      "Cần phản hồi nhanh để xử lý đề nghị mua đúng hạn",
+      "Nháº­n Ä‘á» nghá»‹ mua tá»« báº£o trÃ¬ / ká»¹ thuáº­t nhÆ°ng thÃ´ng tin mÃ£ chÆ°a rÃµ",
+      "Cáº§n xÃ¡c nháº­n nhanh mÃ£ vÃ  quy cÃ¡ch Ä‘á»ƒ so sÃ¡nh phÆ°Æ¡ng Ã¡n",
+      "Cáº§n tÃ¡ch rÃµ thÃ´ng tin ká»¹ thuáº­t vÃ  thÃ´ng tin Ä‘áº·t hÃ ng",
+      "Cáº§n pháº£n há»“i nhanh Ä‘á»ƒ xá»­ lÃ½ Ä‘á» nghá»‹ mua Ä‘Ãºng háº¡n",
     ],
-    products: ["Vòng bi", "Gối đỡ", "Dây curoa", "Phớt chặn dầu"],
+    products: ["VÃ²ng bi", "Gá»‘i Ä‘á»¡", "DÃ¢y curoa", "Phá»›t cháº·n dáº§u"],
   },
   "chu-xuong": {
     situations: [
-      "Máy chạy liên tục theo ca, vật tư chịu tải nặng và mòn nhanh",
-      "Hàng cũ hết hoặc đổi quy cách, cần tìm mã thay thế tương đương",
-      "Tự sửa chữa nhưng không rõ mã chính xác của phớt, bi, gối đỡ",
-      "Cần nguồn hỗ trợ kỹ thuật ổn định, không phải mỗi lần lại tìm mới",
+      "MÃ¡y cháº¡y liÃªn tá»¥c theo ca, váº­t tÆ° chá»‹u táº£i náº·ng vÃ  mÃ²n nhanh",
+      "HÃ ng cÅ© háº¿t hoáº·c Ä‘á»•i quy cÃ¡ch, cáº§n tÃ¬m mÃ£ thay tháº¿ tÆ°Æ¡ng Ä‘Æ°Æ¡ng",
+      "Tá»± sá»­a chá»¯a nhÆ°ng khÃ´ng rÃµ mÃ£ chÃ­nh xÃ¡c cá»§a phá»›t, bi, gá»‘i Ä‘á»¡",
+      "Cáº§n nguá»“n há»— trá»£ ká»¹ thuáº­t á»•n Ä‘á»‹nh, khÃ´ng pháº£i má»—i láº§n láº¡i tÃ¬m má»›i",
     ],
-    products: ["Vòng bi", "Gối đỡ", "Xích công nghiệp", "Phớt chặn dầu", "Mỡ bôi trơn"],
+    products: ["VÃ²ng bi", "Gá»‘i Ä‘á»¡", "XÃ­ch cÃ´ng nghiá»‡p", "Phá»›t cháº·n dáº§u", "Má»¡ bÃ´i trÆ¡n"],
   },
 };
 
@@ -60,8 +60,8 @@ export function generateMetadata({ params }: { params: { slug: string } }) {
   const roleName = roleSlugMap[params.slug];
   if (!roleName) return {};
   return createPageMetadata({
-    title: `Giải pháp cho ${roleName}`,
-    description: `Hỗ trợ vật tư truyền động dành cho ${roleName} trong nhà máy và khu công nghiệp.`,
+    title: `Giáº£i phÃ¡p cho ${roleName}`,
+    description: `Há»— trá»£ váº­t tÆ° truyá»n Ä‘á»™ng dÃ nh cho ${roleName} trong nhÃ  mÃ¡y vÃ  khu cÃ´ng nghiá»‡p.`,
     path: `/giai-phap-theo-khach-hang/${params.slug}`,
   });
 }
@@ -78,30 +78,30 @@ export default function CustomerSolutionDetail({ params }: { params: { slug: str
   return (
     <div className="section-block">
       <div className="page-shell max-w-3xl space-y-8">
-        <Link href="/giai-phap-theo-khach-hang" className="inline-flex items-center text-sm text-amber-800 hover:text-amber-900">
+        <Link href="/giai-phap-theo-khach-hang" className="inline-flex items-center text-sm text-blue-800 hover:text-blue-900">
           <ArrowLeft className="mr-1 size-4" />
-          Tất cả giải pháp
+          Táº¥t cáº£ giáº£i phÃ¡p
         </Link>
 
         <SectionTitle
-          eyebrow="Giải pháp theo vai trò"
+          eyebrow="Giáº£i phÃ¡p theo vai trÃ²"
           title={role.role}
           description={role.problems}
         />
 
         <div className="space-y-4">
           <div className="rounded-xl border border-slate-200 bg-white p-6">
-            <h3 className="text-sm font-semibold text-slate-900">Vấn đề thường gặp</h3>
+            <h3 className="text-sm font-semibold text-slate-900">Váº¥n Ä‘á» thÆ°á»ng gáº·p</h3>
             <p className="mt-2 text-sm leading-relaxed text-slate-600">{role.problems}</p>
           </div>
 
           {details ? (
             <div className="rounded-xl border border-slate-200 bg-slate-50 p-6">
-              <h3 className="text-sm font-semibold text-slate-900">Tình huống cụ thể</h3>
+              <h3 className="text-sm font-semibold text-slate-900">TÃ¬nh huá»‘ng cá»¥ thá»ƒ</h3>
               <ul className="mt-3 space-y-2">
                 {details.situations.map((s) => (
                   <li key={s} className="flex items-start gap-2 text-sm text-slate-600">
-                    <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-amber-800" />
+                    <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-blue-800" />
                     {s}
                   </li>
                 ))}
@@ -109,14 +109,14 @@ export default function CustomerSolutionDetail({ params }: { params: { slug: str
             </div>
           ) : null}
 
-          <div className="rounded-xl border border-amber-200 bg-amber-50/70 p-6">
-            <h3 className="text-sm font-semibold text-amber-900">Hỗ trợ từ bên mình</h3>
+          <div className="rounded-xl border border-blue-200 bg-blue-50/70 p-6">
+            <h3 className="text-sm font-semibold text-blue-900">Há»— trá»£ tá»« bÃªn mÃ¬nh</h3>
             <p className="mt-2 text-sm leading-relaxed text-slate-700">{role.support}</p>
           </div>
 
           {details ? (
             <div className="rounded-xl border border-slate-200 bg-white p-6">
-              <h3 className="text-sm font-semibold text-slate-900">Nhóm vật tư thường dùng</h3>
+              <h3 className="text-sm font-semibold text-slate-900">NhÃ³m váº­t tÆ° thÆ°á»ng dÃ¹ng</h3>
               <div className="mt-3 flex flex-wrap gap-2">
                 {details.products.map((p) => (
                   <span key={p} className="rounded-md border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm text-slate-700">{p}</span>
@@ -131,3 +131,4 @@ export default function CustomerSolutionDetail({ params }: { params: { slug: str
     </div>
   );
 }
+

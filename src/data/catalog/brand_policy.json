@@ -3,100 +3,36 @@
   "description": "Chính sách thương hiệu — quy định thương hiệu được bán, chỉ tham khảo, và cấm đề xuất.",
   "policies": [
     {
-      "brand": "KOYO/JTEKT",
-      "status": "active",
-      "sell_allowed": true,
-      "priority": 1,
-      "product_groups": ["bearings"],
-      "note": "Thương hiệu chủ lực vòng bi, ưu tiên đề xuất đầu tiên."
-    },
-    {
       "brand": "NTN",
       "status": "active",
       "sell_allowed": true,
+      "priority": 1,
+      "product_groups": ["bearings"],
+      "note": "Thương hiệu chủ đạo vòng bi Nhật NTN, ưu tiên đề xuất đầu tiên."
+    },
+    {
+      "brand": "KOYO",
+      "status": "active",
+      "sell_allowed": true,
       "priority": 2,
-      "product_groups": ["bearings"],
-      "note": "Thương hiệu vòng bi Nhật song song KOYO."
-    },
-    {
-      "brand": "NACHI",
-      "status": "active",
-      "sell_allowed": true,
-      "priority": 3,
-      "product_groups": ["bearings"],
-      "note": "Dùng cho dòng chuyên dụng hoặc khi KOYO/NTN không có hàng."
-    },
-    {
-      "brand": "ASAHI",
-      "status": "active",
-      "sell_allowed": true,
-      "priority": 1,
-      "product_groups": ["pillow_blocks"],
-      "note": "Thương hiệu chủ lực gối đỡ."
-    },
-    {
-      "brand": "DID",
-      "status": "active",
-      "sell_allowed": true,
-      "priority": 1,
-      "product_groups": ["industrial_chains"],
-      "note": "Xích công nghiệp Nhật Bản chính hãng."
+      "product_groups": ["bearings", "pillow_blocks"],
+      "note": "Thương hiệu bổ sung cho vòng bi và gối đỡ."
     },
     {
       "brand": "TSUBAKI",
       "status": "active",
       "sell_allowed": true,
-      "priority": 2,
+      "priority": 3,
       "product_groups": ["industrial_chains"],
-      "note": "Xích Nhật cao cấp, ưu tiên sau DID."
+      "note": "Xích công nghiệp và truyền động băng tải."
     },
     {
-      "brand": "NOK",
+      "brand": "SOHO",
       "status": "active",
       "sell_allowed": true,
-      "priority": 1,
-      "product_groups": ["oil_seals"],
-      "note": "Phớt chặn dầu Nhật Bản chính hãng."
-    },
-    {
-      "brand": "MITSUBA",
-      "status": "active",
-      "sell_allowed": true,
-      "priority": 1,
-      "product_groups": ["belts"],
-      "note": "Dây curoa công nghiệp."
-    },
-    {
-      "brand": "KYK",
-      "status": "active",
-      "sell_allowed": true,
-      "priority": 1,
-      "product_groups": ["grease"],
-      "note": "Mỡ bôi trơn công nghiệp."
-    },
-    {
-      "brand": "SKF",
-      "status": "reference_only",
-      "sell_allowed": false,
-      "priority": null,
-      "product_groups": ["bearings"],
-      "note": "Chỉ dùng để đối chiếu mã, không bán trực tiếp."
-    },
-    {
-      "brand": "FAG",
-      "status": "reference_only",
-      "sell_allowed": false,
-      "priority": null,
-      "product_groups": ["bearings"],
-      "note": "Chỉ dùng để đối chiếu mã, không bán trực tiếp."
-    },
-    {
-      "brand": "NSK",
-      "status": "reference_only",
-      "sell_allowed": false,
-      "priority": null,
-      "product_groups": ["bearings"],
-      "note": "Chỉ dùng để đối chiếu mã, không bán trực tiếp."
+      "priority": 4,
+      "product_groups": ["transmission_parts"],
+      "note": "Nhóm vật tư truyền động bổ sung theo mã thực tế."
     }
   ],
   "rules": {

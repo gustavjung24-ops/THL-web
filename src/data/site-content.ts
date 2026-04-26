@@ -87,59 +87,41 @@ export const supportCards: SupportService[] = [
 
 export const productGroups: ProductGroup[] = [
   {
-    slug: "vong-bi",
-    name: "Vòng bi",
-    shortDescription: "Dùng trong động cơ, bơm, quạt, hộp số. Hay thay khi ổ kêu, rung, nóng hoặc đến kỳ bảo trì. Bảo trì và kỹ thuật nhà máy hỏi nhiều nhất.",
+    slug: "ntn",
+    name: "NTN",
+    shortDescription: "Vòng bi Nhật NTN là nhóm chủ đạo cho nhà máy cần độ ổn định, mã rõ và khả năng đối chiếu nhanh khi bảo trì.",
     detailDescription:
-      "Phù hợp cho các hệ truyền động và cụm quay cần vận hành ổn định trong nhà máy chạy theo ca.",
+      "Ưu tiên NTN cho các cụm quay cần vận hành liên tục, dễ truy xuất mã cũ và cần phương án thay thế đáng tin cậy trong môi trường công nghiệp.",
     popularApplications: ["Động cơ điện", "Máy bơm", "Quạt công nghiệp", "Hộp số", "Trục quay", "Con lăn"],
     commonBuyers: ["Bộ phận bảo trì", "Kỹ thuật nhà máy", "Mua hàng kỹ thuật", "Xưởng cơ khí trong KCN"],
   },
   {
-    slug: "goi-do",
-    name: "Gối đỡ",
+    slug: "koyo",
+    name: "Koyo",
     shortDescription:
-      "Dùng trong băng tải, trục truyền động, dây chuyền đóng gói. Hay thay khi lỏng, lệch tâm hoặc kèm thay vòng bi. Bảo trì dây chuyền hỏi nhiều nhất.",
+      "Koyo phù hợp cho vòng bi, gối đỡ và cụm đỡ trục trong dây chuyền cần độ bền ổn định.",
     detailDescription:
-      "Ưu tiên phương án đồng bộ với cụm đỡ trục trong dây chuyền để giảm thời gian chỉnh sửa khi thay thế.",
-    popularApplications: ["Băng tải", "Trục truyền động", "Cụm đỡ trong dây chuyền", "Máy đóng gói"],
+      "Dùng Koyo như nhóm bổ sung mạnh bên cạnh NTN, nhất là khi cần đối chiếu vòng bi, gối đỡ hoặc mã thay thế cho cụm máy đang vận hành.",
+    popularApplications: ["Băng tải", "Trục truyền động", "Cụm đỡ trong dây chuyền", "Máy đóng gói", "Motor", "Hộp số"],
     commonBuyers: ["Bảo trì nhà máy", "Kỹ thuật dây chuyền", "Xưởng cơ khí", "Nhà thầu lắp đặt"],
   },
   {
-    slug: "day-curoa",
-    name: "Dây curoa",
-    shortDescription: "Dùng trong quạt, máy nén khí, hệ truyền động phụ. Hay thay khi trượt, nứt, giãn hoặc đến kỳ. Bảo trì và kỹ thuật nhà máy hỏi nhiều.",
+    slug: "tsubaki",
+    name: "Tsubaki",
+    shortDescription: "Tsubaki tập trung cho xích công nghiệp, truyền động băng tải và các cơ cấu chạy tải liên tục.",
     detailDescription:
-      "Tập trung cho các cụm truyền động phụ cần thay thế định kỳ để giữ ổn định tiến độ sản xuất.",
-    popularApplications: ["Quạt công nghiệp", "Máy nén khí", "Máy dệt", "Máy đóng gói", "Hệ truyền động phụ"],
-    commonBuyers: ["Bảo trì", "Kỹ thuật thiết bị", "Nhà máy sản xuất", "Xưởng chế tạo"],
-  },
-  {
-    slug: "xich-cong-nghiep",
-    name: "Xích công nghiệp",
-    shortDescription: "Dùng trong băng tải xích, dây chuyền sản xuất, cơ cấu truyền động. Hay thay khi giãn, mòn hoặc đứt mắt. Bảo trì dây chuyền hỏi nhiều nhất.",
-    detailDescription:
-      "Ưu tiên các hệ thống băng tải và cơ cấu truyền động cần xử lý nhanh để giảm thời gian dừng thiết bị.",
-    popularApplications: ["Băng tải xích", "Máy sản xuất", "Dây chuyền chuyển phôi", "Cơ cấu truyền động"],
+      "Phù hợp cho các dây chuyền cần xích truyền động ổn định, đối chiếu theo bước xích, số mắt, tải và điều kiện làm việc thực tế.",
+    popularApplications: ["Băng tải xích", "Dây chuyền chuyển phôi", "Máy đóng gói", "Cơ cấu truyền động", "Nhông xích"],
     commonBuyers: ["Bảo trì dây chuyền", "Kỹ thuật nhà máy", "Xưởng chế tạo máy", "Nhà thầu cơ điện"],
   },
   {
-    slug: "phot-chan-dau",
-    name: "Phớt chặn dầu",
-    shortDescription: "Dùng trong hộp số, cụm trục, bơm, motor giảm tốc. Hay thay khi rò dầu, rỉ mỡ hoặc kèm theo thay vòng bi. Bảo trì và kỹ thuật hỏi nhiều.",
+    slug: "soho",
+    name: "Soho",
+    shortDescription: "Soho là nhóm vật tư truyền động bổ sung, dùng khi cần phương án phù hợp ngân sách và tiến độ thay thế.",
     detailDescription:
-      "Phớt chặn dầu (oil seal) giữ vai trò ngăn rò rỉ dầu và mỡ tại các cụm quay, cụm kín dầu và cụm truyền động trong nhà máy. Khi phớt bị mòn, cứng hoặc biến dạng do nhiệt và hóa chất, dầu rỉ ra ngoài gây hư hỏng vòng bi, mất bôi trơn và giảm tuổi thọ thiết bị. Nhóm hàng phớt NOK và DINGZING được đối chiếu theo kích thước trục × vỏ × chiều cao, vật liệu (NBR, FKM/Viton, PTFE) và điều kiện vận hành (nhiệt độ, tốc độ, áp suất, môi trường hóa chất). Phớt thường được thay kèm khi thay vòng bi hoặc khi phát hiện rò dầu ở hộp số, motor giảm tốc, bơm và xi-lanh thủy lực.",
-    popularApplications: ["Hộp số công nghiệp", "Cụm trục chính", "Bơm nước / bơm hóa chất", "Motor giảm tốc", "Máy thủy lực", "Xi-lanh thủy lực"],
-    commonBuyers: ["Bảo trì nhà máy", "Kỹ thuật thiết bị", "Nhà máy sản xuất", "Đơn vị sửa chữa công nghiệp", "Xưởng cơ khí"],
-  },
-  {
-    slug: "mo-boi-tron",
-    name: "Mỡ bôi trơn",
-    shortDescription: "Dùng cho vòng bi, con lăn, motor, cụm quay liên tục. Hay dùng khi bổ sung định kỳ hoặc kèm thay vòng bi. Bảo trì nhà máy dùng nhiều nhất.",
-    detailDescription:
-      "Phù hợp cho các cụm chạy liên tục theo ca, cần độ ổn định bôi trơn và kế hoạch bảo trì rõ ràng.",
-    popularApplications: ["Vòng bi tốc độ cao", "Cụm con lăn", "Motor", "Quạt", "Cụm chạy liên tục theo ca"],
-    commonBuyers: ["Bảo trì nhà máy", "Kỹ thuật vận hành", "Khách thay thế định kỳ"],
+      "Dùng Soho như lựa chọn bổ sung trong danh mục, cần đối chiếu theo mã thực tế, vị trí lắp và yêu cầu vận hành trước khi chốt báo giá.",
+    popularApplications: ["Vật tư truyền động", "Cụm thay thế định kỳ", "Máy sản xuất", "Dây chuyền phụ trợ"],
+    commonBuyers: ["Mua hàng kỹ thuật", "Bảo trì nhà máy", "Xưởng cơ khí", "Khách thay thế định kỳ"],
   },
 ];
 

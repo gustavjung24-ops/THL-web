@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { customerSegments, productGroups } from "@/data/site-content";
@@ -8,9 +8,9 @@ import { SectionTitle } from "@/components/shared/section-title";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const metadata = createPageMetadata({
-  title: "Giới thiệu",
+  title: "Giá»›i thiá»‡u",
   description:
-    "Giới thiệu kênh tư vấn cá nhân Truyền Động Công Nghiệp, tập trung hỗ trợ tra mã, chọn hàng và báo giá vật tư truyền động.",
+    "Giá»›i thiá»‡u kÃªnh tÆ° váº¥n cÃ¡ nhÃ¢n Truyá»n Äá»™ng CÃ´ng Nghiá»‡p, táº­p trung há»— trá»£ tra mÃ£, chá»n hÃ ng vÃ  bÃ¡o giÃ¡ váº­t tÆ° truyá»n Ä‘á»™ng.",
   path: "/gioi-thieu",
 });
 
@@ -22,13 +22,13 @@ export default function AboutPage() {
           <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
             <div className="space-y-6">
               <SectionTitle
-                eyebrow="Giới thiệu"
-                title="Kênh tư vấn cá nhân về phụ tùng công nghiệp"
-                description="Website này được xây dựng để hỗ trợ tra mã, tư vấn nhóm hàng và tiếp nhận nhu cầu báo giá nhanh. Đây là kênh làm việc cá nhân, không phải website chính thức của công ty."
+                eyebrow="Giá»›i thiá»‡u"
+                title="KÃªnh tÆ° váº¥n cÃ¡ nhÃ¢n vá» phá»¥ tÃ¹ng cÃ´ng nghiá»‡p"
+                description="Website nÃ y Ä‘Æ°á»£c xÃ¢y dá»±ng Ä‘á»ƒ há»— trá»£ tra mÃ£, tÆ° váº¥n nhÃ³m hÃ ng vÃ  tiáº¿p nháº­n nhu cáº§u bÃ¡o giÃ¡ nhanh. ÄÃ¢y lÃ  kÃªnh lÃ m viá»‡c cÃ¡ nhÃ¢n, khÃ´ng pháº£i website chÃ­nh thá»©c cá»§a cÃ´ng ty."
               />
               <p className="text-sm leading-relaxed text-slate-700 sm:text-base">
-                Cách làm việc tập trung vào nhu cầu thực tế ngoài thị trường: nhận thông tin rõ, đối chiếu mã nhanh,
-                gợi ý phương án phù hợp ứng dụng và dễ trao đổi qua điện thoại hoặc Zalo.
+                CÃ¡ch lÃ m viá»‡c táº­p trung vÃ o nhu cáº§u thá»±c táº¿ ngoÃ i thá»‹ trÆ°á»ng: nháº­n thÃ´ng tin rÃµ, Ä‘á»‘i chiáº¿u mÃ£ nhanh,
+                gá»£i Ã½ phÆ°Æ¡ng Ã¡n phÃ¹ há»£p á»©ng dá»¥ng vÃ  dá»… trao Ä‘á»•i qua Ä‘iá»‡n thoáº¡i hoáº·c Zalo.
               </p>
               <PrimaryCtaGroup />
             </div>
@@ -36,7 +36,7 @@ export default function AboutPage() {
             <div className="overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
               <Image
                 src="/images/industry/industry-support.svg"
-                alt="Placeholder khu vực tư vấn phụ tùng công nghiệp"
+                alt="Placeholder khu vá»±c tÆ° váº¥n phá»¥ tÃ¹ng cÃ´ng nghiá»‡p"
                 width={1200}
                 height={720}
                 className="h-auto w-full"
@@ -47,9 +47,9 @@ export default function AboutPage() {
 
         <section className="space-y-6">
           <SectionTitle
-            eyebrow="Nhóm sản phẩm"
-            title="Các nhóm hàng đang hỗ trợ"
-            description="Tập trung 6 nhóm sản phẩm phổ biến, đủ để xử lý phần lớn nhu cầu thay thế và bảo trì."
+            eyebrow="NhÃ³m sáº£n pháº©m"
+            title="CÃ¡c nhÃ³m hÃ ng Ä‘ang há»— trá»£"
+            description="Táº­p trung 6 nhÃ³m sáº£n pháº©m phá»• biáº¿n, Ä‘á»§ Ä‘á»ƒ xá»­ lÃ½ pháº§n lá»›n nhu cáº§u thay tháº¿ vÃ  báº£o trÃ¬."
           />
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -60,8 +60,8 @@ export default function AboutPage() {
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <p className="text-sm leading-relaxed text-slate-600">{group.shortDescription}</p>
-                  <Link href={`/san-pham/${group.slug}`} className="inline-flex items-center text-sm font-semibold text-amber-800 hover:text-amber-900">
-                    Xem chi tiết
+                  <Link href={`/san-pham/${group.slug}`} className="inline-flex items-center text-sm font-semibold text-blue-800 hover:text-blue-900">
+                    Xem chi tiáº¿t
                     <ArrowRight className="ml-1 size-4" />
                   </Link>
                 </CardContent>
@@ -72,9 +72,9 @@ export default function AboutPage() {
 
         <section className="space-y-6">
           <SectionTitle
-            eyebrow="Nhóm khách"
-            title="Những nhóm khách phù hợp"
-            description="Phù hợp cho khách cần xử lý nhu cầu nhanh, trao đổi rõ ràng và dễ đối chiếu theo thông tin thực tế."
+            eyebrow="NhÃ³m khÃ¡ch"
+            title="Nhá»¯ng nhÃ³m khÃ¡ch phÃ¹ há»£p"
+            description="PhÃ¹ há»£p cho khÃ¡ch cáº§n xá»­ lÃ½ nhu cáº§u nhanh, trao Ä‘á»•i rÃµ rÃ ng vÃ  dá»… Ä‘á»‘i chiáº¿u theo thÃ´ng tin thá»±c táº¿."
           />
 
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -90,3 +90,4 @@ export default function AboutPage() {
     </div>
   );
 }
+

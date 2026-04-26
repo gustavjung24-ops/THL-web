@@ -24,16 +24,16 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
 export const metadata = createPageMetadata({
-  title: "Catalog vật tư công nghiệp cho bảo trì nhà máy",
+  title: "NTN chủ đạo | Catalog vật tư công nghiệp cho nhà máy",
   description:
-    "Catalog vật tư truyền động công nghiệp, hỗ trợ tra mã nhanh, đối chiếu ứng dụng và báo giá cho vòng bi, gối đỡ, xích, dây curoa, phớt chặn dầu.",
+    "Catalog vật tư công nghiệp tập trung NTN, Koyo, Tsubaki và Soho. Hỗ trợ tra mã nhanh, đối chiếu ứng dụng và báo giá cho nhà máy.",
   path: "/",
 });
 
-const featuredProducts = productGroups.slice(0, 6);
+const featuredProducts = productGroups.slice(0, 4);
 
 const heroStats = [
-  { value: "6", label: "nhóm vật tư chính" },
+  { value: "4", label: "thương hiệu chủ đạo" },
   { value: "5", label: "nhóm ứng dụng nhà máy" },
   { value: "24h", label: "ưu tiên phản hồi nhu cầu gấp" },
 ];
@@ -63,18 +63,18 @@ const whyChooseItems = [
 
 const capabilityItems = [
   {
-    title: "Vật tư truyền động",
-    description: "Vòng bi, gối đỡ, dây curoa, xích công nghiệp và mỡ bôi trơn cho cụm quay.",
+    title: "NTN là trục chính",
+    description: "Ưu tiên vòng bi Nhật NTN cho nhu cầu bảo trì cần mã rõ và độ ổn định cao.",
     Icon: Wrench,
   },
   {
-    title: "Vật tư làm kín",
-    description: "Phớt chặn dầu, phớt thủy lực và vật tư thay thế cho hộp số, bơm, motor.",
+    title: "Koyo và Tsubaki bổ sung",
+    description: "Koyo cho vòng bi, gối đỡ; Tsubaki cho xích và cơ cấu truyền động.",
     Icon: BadgeCheck,
   },
   {
-    title: "Hỗ trợ nhà máy",
-    description: "Tiếp nhận ảnh tem, mã cũ, kích thước và tình trạng vận hành để đối chiếu nhanh.",
+    title: "Soho theo mã thực tế",
+    description: "Soho được tư vấn theo mã, vị trí lắp và nhu cầu thay thế cụ thể.",
     Icon: Factory,
   },
 ];
@@ -104,10 +104,10 @@ export default function Home() {
               {heroContent.eyebrow}
             </p>
             <h1 className="font-heading text-balance text-4xl font-bold leading-tight sm:text-5xl lg:text-[3.5rem]">
-              Catalog vật tư công nghiệp cho bảo trì nhà máy
+              NTN chủ đạo cho nhu cầu bảo trì nhà máy
             </h1>
             <p className="max-w-2xl text-base leading-relaxed text-slate-100 sm:text-lg">
-              Tra mã, đối chiếu ứng dụng và nhận tư vấn báo giá cho vòng bi, gối đỡ, xích, dây curoa, phớt chặn dầu và vật tư truyền động.
+              Tập trung NTN, Koyo, Tsubaki và Soho. Tra mã, đối chiếu ứng dụng và nhận tư vấn báo giá theo cụm máy thực tế.
             </p>
 
             <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
@@ -142,8 +142,8 @@ export default function Home() {
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <SectionTitle
               eyebrow="Nhóm sản phẩm chính"
-              title="Vật tư bảo trì và thay thế cho dây chuyền công nghiệp"
-              description="Tập trung các nhóm hàng dùng thường xuyên trong bảo trì nhà máy. Mỗi nhóm có mô tả ngắn, ứng dụng phổ biến và CTA để gửi mã cần đối chiếu."
+              title="Nhóm sản phẩm chính theo thương hiệu"
+              description="Phase này chỉ tập trung NTN, Koyo, Tsubaki và Soho. Các thương hiệu chưa có trong danh sách tạm thời không hiển thị trên web."
             />
             <Button asChild variant="outline" className="w-fit border-cyan-200 text-slate-800 hover:bg-cyan-50">
               <Link href="/san-pham">
@@ -237,8 +237,8 @@ export default function Home() {
         <div className="page-shell grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
           <SectionTitle
             eyebrow="Vì sao chọn chúng tôi"
-            title="Tập trung vào đúng mã, đúng ứng dụng, đúng tiến độ"
-            description="Không làm e-commerce dàn trải ở phase này. Website ưu tiên catalog rõ, form tra mã nhanh và tuyến liên hệ tư vấn cho nhu cầu công nghiệp."
+              title="Tập trung vào đúng mã, đúng ứng dụng, đúng tiến độ"
+            description="Không làm e-commerce dàn trải ở phase này. Website ưu tiên catalog theo thương hiệu, form tra mã nhanh và tuyến liên hệ tư vấn cho nhu cầu công nghiệp."
           />
 
           <div className="grid gap-4 sm:grid-cols-2">
@@ -263,10 +263,10 @@ export default function Home() {
                 Thương hiệu / cam kết / năng lực
               </p>
               <h2 className="font-heading text-2xl font-bold leading-tight sm:text-3xl">
-                Hỗ trợ nhiều nhóm thương hiệu và tình huống thay thế trong nhà máy
+                Hỗ trợ NTN, Koyo, Tsubaki, Soho cho tình huống thay thế trong nhà máy
               </h2>
               <p className="text-sm leading-relaxed text-slate-300 sm:text-base">
-                Tư vấn dựa trên mã cũ, hình ảnh tem, kích thước và điều kiện vận hành. Mục tiêu là giúp bảo trì, kỹ thuật và mua hàng thống nhất nhanh phương án.
+                Tư vấn dựa trên mã cũ, hình ảnh tem, kích thước và điều kiện vận hành. Những thương hiệu ngoài danh sách sẽ được để lại cho phase sau.
               </p>
             </div>
 

@@ -114,7 +114,7 @@ const buyingMotiveMatchers: Array<{ motive: Exclude<BuyingMotive, null>; keyword
   { motive: "exact_match", keywords: ["dung ma", "đúng mã", "chot dung ma", "chốt đúng mã"] },
   { motive: "equivalent_option", keywords: ["tuong duong", "tương đương", "thay the", "thay thế"] },
   { motive: "cost_optimization", keywords: ["toi uu chi phi", "tối ưu chi phí", "chi phi", "chi phí"] },
-  { motive: "brand_specific", keywords: ["dung hang", "đúng hãng", "ntn", "koyo", "asahi", "nachi", "did", "nok"] },
+  { motive: "brand_specific", keywords: ["dung hang", "đúng hãng", "ntn", "koyo", "tsubaki", "soho"] },
   { motive: "price_check", keywords: ["hoi gia", "hỏi giá", "tham khao gia", "tham khảo giá"] },
   { motive: "technical_consult", keywords: ["tu van ky thuat", "tư vấn kỹ thuật", "coi giup", "coi giúp"] },
   { motive: "urgent_replacement", keywords: ["thay gap", "thay gấp", "can lien", "cần liền", "dung may", "dừng máy"] },
@@ -228,12 +228,10 @@ const codeLookupHints = [
   "xích",
   "phot",
   "phớt",
+  "ntn",
   "koyo",
-  "did",
-  "nok",
-  "mitsuba",
-  "sunrise",
-  "dingzing",
+  "tsubaki",
+  "soho",
 ];
 
 function stripDiacritics(input: string): string {

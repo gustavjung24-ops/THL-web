@@ -30,27 +30,27 @@ export const GLOBAL_STYLE_SUFFIX =
 
 export const productCardImages: CardImageMeta[] = [
   {
-    slug: "vong-bi",
+    slug: "ntn",
     imagePrompt:
       "Kỹ thuật viên cầm vòng bi tại xưởng công nghiệp, phía sau là máy móc và kệ vật tư, " +
       GLOBAL_STYLE_SUFFIX,
     imageAlt:
       "Kỹ thuật viên cầm vòng bi công nghiệp trong xưởng sản xuất",
-    imagePath: "/images/cards/product-vong-bi.jpg",
+    imagePath: "/images/cards/product-vong-bi.webp",
     imageStyleTag: "product-hero",
   },
   {
-    slug: "goi-do",
+    slug: "koyo",
     imagePrompt:
       "Cụm gối đỡ vòng bi gắn trên trục truyền động trong nhà máy, close-up rõ sản phẩm và bối cảnh ứng dụng thực tế, " +
       GLOBAL_STYLE_SUFFIX,
     imageAlt:
       "Cụm gối đỡ vòng bi lắp trên trục truyền động trong dây chuyền nhà máy",
-    imagePath: "/images/cards/product-goi-do.jpg",
+    imagePath: "/images/cards/product-goi-do.webp",
     imageStyleTag: "product-hero",
   },
   {
-    slug: "xich-cong-nghiep",
+    slug: "tsubaki",
     imagePrompt:
       "Cụm truyền động xích trên dây chuyền công nghiệp, thấy rõ xích và nhông đang lắp thực tế, no oversized logo, " +
       GLOBAL_STYLE_SUFFIX,
@@ -60,13 +60,13 @@ export const productCardImages: CardImageMeta[] = [
     imageStyleTag: "product-hero",
   },
   {
-    slug: "phot-chan-dau",
+    slug: "soho",
     imagePrompt:
       "Ảnh phớt chặn dầu và vị trí làm kín trên trục máy công nghiệp, technical but realistic, clean background, " +
       GLOBAL_STYLE_SUFFIX,
     imageAlt:
-      "Phớt chặn dầu NOK lắp tại vị trí làm kín trên trục máy công nghiệp",
-    imagePath: "/images/cards/product-phot-chan-dau.jpg",
+      "Vật tư truyền động Soho dùng tại vị trí thay thế trong nhà máy",
+    imagePath: "/images/backgrounds/final-cta-industrial.png",
     imageStyleTag: "product-hero",
   },
 ];
