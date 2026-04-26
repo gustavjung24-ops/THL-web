@@ -19,6 +19,30 @@ const desktopMenuLabels: Record<string, string> = {
   "/lien-he": "Liên hệ",
 };
 
+function CoreBrandMarks({ compact = false }: { compact?: boolean }) {
+  return (
+    <span className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2.5 py-1.5">
+      <Image
+        src="/images/brands/ntn-logo.png"
+        alt="Logo NTN"
+        width={116}
+        height={40}
+        className={cn("h-7 w-auto object-contain", !compact && "sm:h-8")}
+        priority
+      />
+      <span className="h-7 w-px bg-slate-200" aria-hidden />
+      <Image
+        src="/images/brands/tsubaki-logo.png"
+        alt="Logo Tsubaki"
+        width={116}
+        height={34}
+        className={cn("h-6 w-auto object-contain", compact ? "block" : "hidden sm:block")}
+        priority
+      />
+    </span>
+  );
+}
+
 export function SiteHeader() {
   const pathname = usePathname();
   const isActive = (href: string) => {
@@ -29,15 +53,8 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur">
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 sm:px-6">
-        <Link href="/" className="flex min-w-0 items-center gap-3">
-          <Image
-            src="/images/brands/ntn-logo.png"
-            alt="Logo NTN"
-            width={150}
-            height={54}
-            className="h-9 w-auto object-contain sm:h-10"
-            priority
-          />
+        <Link href="/" className="flex min-w-0 items-center gap-2">
+          <CoreBrandMarks />
           <span className="sr-only">{siteConfig.brandName}</span>
         </Link>
 
@@ -63,7 +80,7 @@ export function SiteHeader() {
           <Button asChild size="sm" className="hidden bg-blue-800 hover:bg-blue-900 sm:inline-flex">
             <a href={siteConfig.phoneHref}>
               <PhoneCall className="mr-2 size-4" />
-              Gọi nhanh
+              Liên hệ B2B
             </a>
           </Button>
           <Sheet>
@@ -74,14 +91,8 @@ export function SiteHeader() {
             </SheetTrigger>
             <SheetContent side="right" className="w-[280px]">
               <div className="mt-8 space-y-6">
-                <div className="space-y-1">
-                  <Image
-                    src="/images/brands/ntn-logo.png"
-                    alt="Logo NTN"
-                    width={140}
-                    height={50}
-                    className="h-9 w-auto object-contain"
-                  />
+                <div className="space-y-2">
+                  <CoreBrandMarks compact />
                   <p className="text-xs leading-relaxed text-slate-500">{siteConfig.slogan}</p>
                 </div>
 
@@ -107,13 +118,13 @@ export function SiteHeader() {
                   <Button asChild className="bg-blue-800 hover:bg-blue-900">
                     <a href={siteConfig.phoneHref}>
                       <PhoneCall className="mr-2 size-4" />
-                      Gọi nhanh
+                      Liên hệ kinh doanh
                     </a>
                   </Button>
                   <Button asChild variant="outline" className="border-blue-200 text-blue-800 hover:bg-blue-100">
                     <a href={siteConfig.zaloLink} target="_blank" rel="noreferrer">
                       <MessageCircle className="mr-2 size-4" />
-                      Chat Zalo
+                      Zalo kinh doanh
                     </a>
                   </Button>
                 </div>

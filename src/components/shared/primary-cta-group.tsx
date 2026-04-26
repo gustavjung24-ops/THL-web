@@ -13,9 +13,9 @@ type PrimaryCtaGroupProps = {
 
 export function PrimaryCtaGroup({
   className,
-  submitLabel = "Tra mã nhanh",
-  callLabel = "Liên hệ tư vấn",
-  zaloLabel = "Chat Zalo",
+  submitLabel = "Gửi yêu cầu kỹ thuật",
+  callLabel = "Liên hệ B2B",
+  zaloLabel = "Zalo kinh doanh",
 }: PrimaryCtaGroupProps) {
   return (
     <div className={cn("flex flex-col gap-3 sm:flex-row sm:flex-wrap", className)}>

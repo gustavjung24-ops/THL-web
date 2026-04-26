@@ -9,9 +9,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
 export const metadata = createPageMetadata({
-  title: "Danh mục theo thương hiệu NTN, Koyo, Tsubaki, Soho, NOK",
+  title: "Danh mục NTN & Tsubaki chính hãng",
   description:
-    "Catalog vật tư công nghiệp theo các thương hiệu trọng tâm: NTN, Koyo, Tsubaki, Soho và NOK.",
+    "Danh mục vật tư truyền động công nghiệp của THL với hai thương hiệu chủ lực NTN, Tsubaki và các nhóm bổ trợ Koyo, NOK, Soho.",
   path: "/san-pham",
 });
 
@@ -22,13 +22,13 @@ export default function ProductsPage() {
         <div className="page-shell grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
           <SectionTitle
             eyebrow="Danh mục sản phẩm"
-            title="Catalog theo thương hiệu chủ đạo"
-            description="Danh mục tập trung vào các thương hiệu được tư vấn thường xuyên cho nhu cầu bảo trì và thay thế trong nhà máy: NTN, Koyo, Tsubaki, Soho và NOK."
+            title="NTN và Tsubaki là hai thương hiệu chủ lực"
+            description="THL tổ chức danh mục theo hệ vật tư truyền động Nhật Bản chính hãng: NTN cho vòng bi và cụm quay, Tsubaki cho xích và cơ cấu truyền động; Koyo, NOK, Soho bổ trợ theo ứng dụng."
           />
-          <Button asChild className="w-fit bg-slate-950 hover:bg-slate-800">
+          <Button asChild className="w-fit bg-blue-800 hover:bg-blue-900">
             <Link href="/tra-ma-bao-gia">
               <Search className="mr-2 size-4" />
-              Tra mã nhanh
+              Gửi yêu cầu kỹ thuật
             </Link>
           </Button>
         </div>
@@ -38,6 +38,7 @@ export default function ProductsPage() {
         <div className="page-shell grid gap-5 lg:grid-cols-2">
           {productGroups.map((group) => {
             const visual = productVisuals[group.slug] ?? defaultProductVisual;
+            const isCore = group.slug === "ntn" || group.slug === "tsubaki";
 
             return (
               <Card key={group.slug} id={group.slug} className="rounded-lg border-slate-200 bg-white py-0">
@@ -51,6 +52,9 @@ export default function ProductsPage() {
                       className="object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/50 to-transparent md:bg-slate-950/10" />
+                    <span className="absolute left-3 top-3 rounded-md border border-white/30 bg-white/15 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-white backdrop-blur">
+                      {isCore ? "Chủ lực" : "Bổ trợ"}
+                    </span>
                   </div>
 
                   <CardContent className="space-y-4 p-5">
@@ -73,20 +77,20 @@ export default function ProductsPage() {
                     <div className="space-y-2 border-t border-slate-100 pt-3">
                       {productBenefitBullets.slice(0, 2).map((benefit) => (
                         <p key={benefit} className="flex items-start gap-2 text-sm text-slate-600">
-                          <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-cyan-700" />
+                          <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-blue-800" />
                           {benefit}
                         </p>
                       ))}
                     </div>
 
                     <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                      <Button asChild variant="outline" className="border-cyan-200 text-cyan-800 hover:bg-cyan-50">
+                      <Button asChild variant="outline" className="border-blue-200 text-blue-800 hover:bg-blue-50">
                         <Link href="/tra-ma-bao-gia">
                           <Search className="mr-2 size-4" />
                           Gửi mã cần tìm
                         </Link>
                       </Button>
-                      <Link href={`/san-pham/${group.slug}`} className="inline-flex items-center text-sm font-semibold text-cyan-700 hover:text-cyan-800">
+                      <Link href={`/san-pham/${group.slug}`} className="inline-flex items-center text-sm font-semibold text-blue-800 hover:text-blue-900">
                         Xem chi tiết
                         <ArrowRight className="ml-1 size-4" />
                       </Link>

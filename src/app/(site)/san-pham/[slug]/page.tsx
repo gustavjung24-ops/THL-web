@@ -24,13 +24,13 @@ export function generateMetadata({ params }: ProductDetailPageProps) {
   if (!product) {
     return createPageMetadata({
       title: "Sản phẩm",
-      description: "Thông tin nhóm sản phẩm phụ tùng công nghiệp.",
+      description: "Thông tin nhóm sản phẩm vật tư truyền động công nghiệp.",
       path: "/san-pham",
     });
   }
 
   return createPageMetadata({
-    title: product.name,
+    title: `${product.name} | Vật tư truyền động công nghiệp`,
     description: product.shortDescription,
     path: `/san-pham/${product.slug}`,
   });
@@ -44,6 +44,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
   }
 
   const visual = productVisuals[product.slug] ?? defaultProductVisual;
+  const isCore = product.slug === "ntn" || product.slug === "tsubaki";
 
   return (
     <div className="bg-white">
@@ -59,26 +60,28 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
         />
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/88 to-slate-950/45" />
         <div className="page-shell relative py-12 sm:py-16">
-          <Link href="/san-pham" className="inline-flex items-center text-sm font-semibold text-cyan-100 hover:text-white">
+          <Link href="/san-pham" className="inline-flex items-center text-sm font-semibold text-blue-100 hover:text-white">
             <ArrowLeft className="mr-1 size-4" />
             Tất cả sản phẩm
           </Link>
 
           <div className="mt-8 max-w-3xl space-y-4">
-            <p className="text-xs font-semibold uppercase tracking-wide text-cyan-200">Chi tiết nhóm sản phẩm</p>
+            <p className="text-xs font-semibold uppercase tracking-wide text-blue-200">
+              {isCore ? "Thương hiệu chủ lực" : "Thương hiệu bổ trợ"}
+            </p>
             <h1 className="font-heading text-3xl font-bold leading-tight sm:text-4xl">{product.name}</h1>
             <p className="text-base leading-relaxed text-slate-100">{product.shortDescription}</p>
             <div className="flex flex-col gap-2 pt-2 sm:flex-row">
-              <Button asChild className="bg-cyan-500 text-slate-950 hover:bg-cyan-400">
+              <Button asChild className="bg-blue-600 text-white hover:bg-blue-500">
                 <Link href="/tra-ma-bao-gia">
                   <Search className="mr-2 size-4" />
-                  Yêu cầu báo giá
+                  Gửi yêu cầu báo giá
                 </Link>
               </Button>
               <Button asChild variant="outline" className="border-white/30 bg-white/10 text-white hover:bg-white hover:text-slate-950">
                 <a href={siteConfig.zaloLink} target="_blank" rel="noreferrer">
                   <MessageCircle className="mr-2 size-4" />
-                  Tư vấn kỹ thuật
+                  Zalo kinh doanh
                 </a>
               </Button>
             </div>
@@ -90,7 +93,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
         <div className="page-shell grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="space-y-5">
             <div className="rounded-lg border border-slate-200 bg-white p-5">
-              <h2 className="font-heading text-xl font-bold text-slate-950">Mô tả ngắn</h2>
+              <h2 className="font-heading text-xl font-bold text-slate-950">Mô tả nhóm hàng</h2>
               <p className="mt-3 text-sm leading-relaxed text-slate-600 sm:text-base">{product.detailDescription}</p>
             </div>
 
@@ -107,12 +110,12 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
           </div>
 
           <div className="space-y-5">
-            <div className="rounded-lg border border-cyan-200 bg-cyan-50 p-5">
-              <h2 className="font-heading text-xl font-bold text-slate-950">Lợi ích / điểm mạnh</h2>
+            <div className="rounded-lg border border-blue-200 bg-blue-50 p-5">
+              <h2 className="font-heading text-xl font-bold text-slate-950">Lợi ích kỹ thuật</h2>
               <ul className="mt-4 space-y-3">
                 {productBenefitBullets.map((benefit) => (
                   <li key={benefit} className="flex items-start gap-2 text-sm leading-relaxed text-slate-700">
-                    <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-cyan-700" />
+                    <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-blue-800" />
                     {benefit}
                   </li>
                 ))}
@@ -131,19 +134,19 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
             </div>
 
             <div className="rounded-lg border border-slate-900 bg-slate-950 p-5 text-white">
-              <h2 className="font-heading text-xl font-bold">Cần xác nhận mã hoặc tư vấn thay thế?</h2>
+              <h2 className="font-heading text-xl font-bold">Cần xác nhận mã hoặc phương án thay thế?</h2>
               <p className="mt-3 text-sm leading-relaxed text-slate-300">
-                Gửi mã cũ, ảnh tem, kích thước hoặc ảnh vị trí lắp để được đối chiếu trước khi báo giá.
+                Gửi mã cũ, ảnh tem, kích thước hoặc ảnh vị trí lắp để THL đối chiếu trước khi báo giá.
               </p>
               <div className="mt-4 flex flex-col gap-2">
-                <Button asChild className="bg-cyan-500 text-slate-950 hover:bg-cyan-400">
+                <Button asChild className="bg-blue-500 text-white hover:bg-blue-400">
                   <Link href="/tra-ma-bao-gia">
                     <Search className="mr-2 size-4" />
                     Gửi thông tin báo giá
                   </Link>
                 </Button>
                 <Button asChild variant="outline" className="border-white/20 bg-white/10 text-white hover:bg-white hover:text-slate-950">
-                  <a href={siteConfig.phoneHref}>Gọi tư vấn kỹ thuật</a>
+                  <a href={siteConfig.phoneHref}>Liên hệ phòng kinh doanh</a>
                 </Button>
               </div>
             </div>

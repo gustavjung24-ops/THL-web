@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Clock3, Globe, MessageCircle, PhoneCall } from "lucide-react";
+import { Clock3, Globe, MessageCircle, PhoneCall, ShieldCheck } from "lucide-react";
 import { footerMenu, siteConfig } from "@/config/site";
 
 const footerContactItems = [
@@ -19,24 +19,23 @@ export function SiteFooter() {
         width={800}
         height={520}
         aria-hidden
-        className="pointer-events-none absolute -bottom-16 -right-24 h-auto w-[50%] max-w-none select-none opacity-[0.04] blur-[2px] sm:opacity-[0.055]"
+        className="pointer-events-none absolute -bottom-16 -right-24 h-auto w-[50%] max-w-none select-none opacity-[0.035] blur-[2px]"
       />
       <div className="mx-auto grid w-full max-w-6xl gap-6 px-4 py-6 sm:grid-cols-2 sm:px-6 lg:grid-cols-3 lg:py-7">
         <div className="space-y-2.5">
-          <Link href="/" className="inline-block">
-            <Image
-              src="/images/brands/ntn-logo.png"
-              alt="Logo NTN"
-              width={132}
-              height={44}
-              className="h-8 w-auto object-contain"
-            />
+          <Link href="/" className="inline-flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2.5 py-1.5">
+            <Image src="/images/brands/ntn-logo.png" alt="Logo NTN" width={112} height={38} className="h-7 w-auto object-contain" />
+            <span className="h-7 w-px bg-slate-200" aria-hidden />
+            <Image src="/images/brands/tsubaki-logo.png" alt="Logo Tsubaki" width={112} height={34} className="h-6 w-auto object-contain" />
           </Link>
-          <p className="text-sm leading-relaxed text-slate-600">{siteConfig.slogan}</p>
+          <p className="text-sm font-semibold leading-relaxed text-slate-800">{siteConfig.slogan}</p>
           <p className="text-sm leading-relaxed text-slate-600">
-            Kênh tư vấn cá nhân tập trung vật tư truyền động cho nhà máy, bộ phận bảo trì, kỹ thuật và mua hàng.
+            THL cung cấp vật tư truyền động công nghiệp chính hãng cho nhà máy, bộ phận bảo trì, kỹ thuật và mua hàng.
           </p>
-          <p className="text-xs leading-relaxed text-slate-500">Kênh tư vấn thuộc Phòng Kinh Doanh của Công Ty TNHH Tân Hòa Lợi.</p>
+          <p className="inline-flex items-center gap-1.5 text-xs font-medium text-blue-800">
+            <ShieldCheck className="size-3.5" />
+            Kênh tư vấn thuộc Phòng Kinh Doanh của Công Ty TNHH Tân Hòa Lợi.
+          </p>
         </div>
 
         <div className="space-y-2.5">

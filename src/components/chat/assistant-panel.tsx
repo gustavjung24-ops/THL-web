@@ -594,9 +594,9 @@ export function AssistantPanel({
                 Trợ lý trực tuyến
               </p>
             )}
-            <h3 className="font-heading text-[15px] font-semibold tracking-tight text-slate-900">Tra mã nhanh</h3>
+            <h3 className="font-heading text-[15px] font-semibold tracking-tight text-slate-900">Hỗ trợ kỹ thuật THL</h3>
             <p className="mt-0.5 text-[11.5px] leading-[1.45] text-slate-500">
-              Tra cứu theo mã, ảnh tem hoặc cụm máy.
+              Đối chiếu NTN, Tsubaki và vật tư truyền động.
             </p>
           </div>
           {showCloseButton && (

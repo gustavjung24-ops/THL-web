@@ -36,7 +36,7 @@ export default function QuotePage() {
             <Button asChild variant="outline" className="border-blue-200 text-blue-800 hover:bg-blue-100">
               <a href={siteConfig.zaloLink} target="_blank" rel="noreferrer">
                 <MessageCircle className="mr-2 size-4" />
-                Chat Zalo
+                Zalo kinh doanh
               </a>
             </Button>
             <Button asChild variant="outline" className="border-blue-300 text-blue-900 hover:bg-blue-50">
@@ -60,7 +60,7 @@ export default function QuotePage() {
         className="fixed bottom-24 right-4 z-30 hidden items-center gap-2 rounded-full border border-blue-200 bg-blue-800 px-4 py-2 text-sm font-semibold text-white shadow-md hover:bg-blue-900 md:flex lg:bottom-6"
       >
         <MessageCircle className="size-4" />
-        Chat Zalo
+        Zalo kinh doanh
       </a>
     </div>
   );

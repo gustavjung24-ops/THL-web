@@ -1,18 +1,18 @@
 export const siteConfig = {
-  brandName: "Truyền Động Công Nghiệp",
+  brandName: "Công Ty TNHH Tân Hòa Lợi",
   domain: "luanphutung.vn",
-  slogan: "NTN chủ đạo - Koyo, Tsubaki, Soho, NOK - tra mã nhanh cho nhà máy",
-  personalName: "Khương Bình",
+  slogan: "Nhà phân phối chính thức NTN & Tsubaki cho vật tư truyền động công nghiệp",
+  personalName: "Phòng Kinh Doanh THL",
   phone: "0902 964 685",
   phoneHref: "tel:0902964685",
-  zaloLabel: "Zalo hỗ trợ",
+  zaloLabel: "Zalo kinh doanh",
   zaloLink: "https://zalo.me/0902964685",
   email: "khuongbinh.info@gmail.com",
-  supportArea: "Hỗ trợ: Toàn quốc",
-  responseTime: "Phản hồi trong giờ hành chính hoặc theo nhu cầu xử lý nhanh",
-  address: "Dĩ An Bình Dương / Phú Thạnh Tân Phú HCM",
+  supportArea: "Phục vụ: Nhà máy toàn quốc",
+  responseTime: "Phản hồi trong giờ hành chính hoặc theo mức độ ưu tiên của yêu cầu B2B",
+  address: "Dĩ An, Bình Dương / Phú Thạnh, Tân Phú, TP.HCM",
   defaultOgImage: "/images/branding/og-industrial.svg",
-  footerCredit: "By Khương Bình",
+  footerCredit: "Công Ty TNHH Tân Hòa Lợi",
 };
 
 export const mainMenu = [
@@ -34,7 +34,7 @@ export const footerMenu = [
 ] as const;
 
 export const quickActions = [
-  { label: "Gửi mã cần hỗ trợ", href: "/tra-ma-bao-gia" },
-  { label: "Chat Zalo", href: siteConfig.zaloLink, external: true },
-  { label: "Gọi nhanh bộ phận tư vấn", href: siteConfig.phoneHref },
+  { label: "Gửi yêu cầu kỹ thuật", href: "/tra-ma-bao-gia" },
+  { label: "Zalo kinh doanh", href: siteConfig.zaloLink, external: true },
+  { label: "Liên hệ phòng kinh doanh", href: siteConfig.phoneHref },
 ] as const;

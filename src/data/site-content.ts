@@ -26,62 +26,50 @@ export type CustomerSolution = {
   products: string;
 };
 
+export type CustomerRole = {
+  role: string;
+  problems: string;
+  support: string;
+};
+
 export const heroContent = {
-  eyebrow: "Hỗ trợ vật tư truyền động cho nhà máy",
-  heading: "Tra mã – Đối chiếu – Báo giá nhanh cho bảo trì & thay thế",
+  eyebrow: "Nhà phân phối chính thức NTN & Tsubaki",
+  heading: "Vật tư truyền động Nhật Bản chính hãng cho nhà máy",
   subheading:
-    "Dành cho bộ phận bảo trì, kỹ thuật, mua hàng và chủ xưởng cần xử lý thay thế theo nhóm NTN, Koyo, Tsubaki, Soho và NOK – đúng mã, đúng cụm máy, không chờ lâu.",
+    "THL tập trung NTN và Tsubaki làm hai thương hiệu chủ lực, bổ sung Koyo, NOK và Soho theo đúng nhóm ứng dụng bảo trì công nghiệp.",
 };
 
 export const trustBullets = [
-  "Giảm rủi ro đặt sai mã ngay từ bước đối chiếu đầu tiên",
-  "Phản hồi trong ngày cho nhu cầu thay thế ảnh hưởng sản xuất",
-  "Phối hợp được giữa bảo trì – kỹ thuật – mua hàng cùng nhà máy",
-  "Gợi ý theo điều kiện vận hành thực tế, không chỉ gửi giá",
+  "Định vị rõ vai trò nhà phân phối chính thức cho NTN và Tsubaki",
+  "Danh mục Nhật Bản chính hãng, ưu tiên vật tư truyền động cho nhà máy",
+  "Đối chiếu kỹ thuật theo mã, cụm máy và điều kiện vận hành thực tế",
+  "Phối hợp được giữa bảo trì, kỹ thuật và mua hàng trong cùng quy trình B2B",
 ];
 
 export const heroHighlights = [
-  "Cần đối chiếu mã gấp theo tem cũ hoặc cụm máy đang dừng",
-  "Chưa rõ cụm nào cần thay – cần tư vấn theo hiện trạng",
-  "Cần phương án tương đương phù hợp tải, nhiệt, môi trường vận hành",
+  "NTN cho vòng bi, cụm quay và các vị trí cần độ ổn định vận hành",
+  "Tsubaki cho xích công nghiệp, băng tải và cơ cấu truyền động tải liên tục",
+  "Koyo, NOK, Soho bổ trợ theo đúng nhóm ứng dụng và yêu cầu thay thế",
 ];
 
 export const supportCards: SupportService[] = [
   {
-    title: "Đối chiếu mã theo cụm máy",
-    clientSends: "Gửi mã cũ, ảnh tem hoặc kích thước",
-    weSupport: "Đối chiếu theo catalog và ứng dụng thực tế",
-    clientGets: "Mã chính xác, giảm rủi ro đặt sai",
+    title: "Tiếp nhận nhu cầu kỹ thuật",
+    clientSends: "Mã cũ, ảnh tem, ảnh cụm máy hoặc yêu cầu vận hành",
+    weSupport: "Tách nhóm hàng, thương hiệu và điều kiện ứng dụng",
+    clientGets: "Thông tin rõ để kỹ thuật và mua hàng cùng kiểm tra",
   },
   {
-    title: "Tư vấn chọn hàng theo vận hành",
-    clientSends: "Mô tả cụm máy, tải, nhiệt, môi trường",
-    weSupport: "Phân tích điều kiện và gợi ý nhóm hàng phù hợp",
-    clientGets: "Phương án đúng ứng dụng, không thừa không thiếu",
+    title: "Đối chiếu theo catalog",
+    clientSends: "Thông số, kích thước, tải, nhiệt hoặc môi trường làm việc",
+    weSupport: "Đối chiếu NTN, Tsubaki và nhóm bổ trợ phù hợp",
+    clientGets: "Phương án đúng ứng dụng trước khi chuyển báo giá",
   },
   {
-    title: "Xử lý gấp khi máy dừng",
-    clientSends: "Tình trạng thiết bị, mốc thời gian cần hàng",
-    weSupport: "Ưu tiên đối chiếu nhanh, đề xuất hàng tương đương",
-    clientGets: "Phương án thay thế ngay, giảm thời gian chờ",
-  },
-  {
-    title: "Phối hợp nội bộ nhà máy",
-    clientSends: "Nhu cầu từ bảo trì hoặc kỹ thuật",
-    weSupport: "Tách rõ phần kỹ thuật và phần đặt hàng",
-    clientGets: "Thông tin gọn, mua hàng dễ kiểm tra và xử lý",
-  },
-  {
-    title: "Tiếp nhận báo giá nhanh",
-    clientSends: "Danh sách mã hoặc nhu cầu cụ thể",
-    weSupport: "Ưu tiên các trường hợp ảnh hưởng tiến độ",
-    clientGets: "Báo giá theo tình huống, không chờ quy trình dài",
-  },
-  {
-    title: "Định hướng nhóm hàng phù hợp",
-    clientSends: "Ngân sách, tiến độ, yêu cầu chất lượng",
-    weSupport: "Cân đối giữa độ ổn định, thời gian giao và chi phí",
-    clientGets: "Phương án phù hợp thực tế, không bị oversell",
+    title: "Hỗ trợ tiến độ nhà máy",
+    clientSends: "Mức độ gấp và thời điểm cần vật tư",
+    weSupport: "Ưu tiên phản hồi các nhu cầu ảnh hưởng sản xuất",
+    clientGets: "Hướng xử lý rõ, hạn chế trao đổi vòng lại",
   },
 ];
 
@@ -89,59 +77,63 @@ export const productGroups: ProductGroup[] = [
   {
     slug: "ntn",
     name: "NTN",
-    shortDescription: "Vòng bi Nhật NTN là nhóm chủ đạo cho nhà máy cần độ ổn định, mã rõ và khả năng đối chiếu nhanh khi bảo trì.",
+    shortDescription:
+      "NTN là thương hiệu chủ lực cho vòng bi, cụm quay và các vị trí cần độ ổn định cao trong vận hành nhà máy.",
     detailDescription:
-      "Ưu tiên NTN cho các cụm quay cần vận hành liên tục, dễ truy xuất mã cũ và cần phương án thay thế đáng tin cậy trong môi trường công nghiệp.",
+      "THL ưu tiên NTN cho nhu cầu vòng bi công nghiệp, motor, bơm, quạt, hộp số, con lăn và các cụm quay cần độ tin cậy. Khi xử lý yêu cầu, thông tin được đối chiếu theo mã, kích thước, vị trí lắp và điều kiện vận hành.",
     popularApplications: ["Động cơ điện", "Máy bơm", "Quạt công nghiệp", "Hộp số", "Trục quay", "Con lăn"],
-    commonBuyers: ["Bộ phận bảo trì", "Kỹ thuật nhà máy", "Mua hàng kỹ thuật", "Xưởng cơ khí trong KCN"],
+    commonBuyers: ["Bảo trì nhà máy", "Kỹ thuật thiết bị", "Mua hàng kỹ thuật", "Xưởng cơ khí trong KCN"],
+  },
+  {
+    slug: "tsubaki",
+    name: "Tsubaki",
+    shortDescription:
+      "Tsubaki là thương hiệu chủ lực cho xích công nghiệp, băng tải và cơ cấu truyền động tải liên tục.",
+    detailDescription:
+      "THL định vị Tsubaki ngang vai NTN trong danh mục Nhật Bản chính hãng, tập trung vào xích truyền động, nhông xích, băng tải xích và các cơ cấu chạy tải cần độ bền ổn định.",
+    popularApplications: ["Băng tải xích", "Dây chuyền chuyển phôi", "Máy đóng gói", "Cơ cấu truyền động", "Nhông xích"],
+    commonBuyers: ["Bảo trì dây chuyền", "Kỹ thuật nhà máy", "Xưởng chế tạo máy", "Nhà thầu cơ điện"],
   },
   {
     slug: "koyo",
     name: "Koyo",
     shortDescription:
-      "Koyo phù hợp cho vòng bi, gối đỡ và cụm đỡ trục trong dây chuyền cần độ bền ổn định.",
+      "Koyo bổ trợ cho vòng bi, gối đỡ và cụm đỡ trục khi nhà máy cần thêm phương án kỹ thuật phù hợp.",
     detailDescription:
-      "Dùng Koyo như nhóm bổ sung mạnh bên cạnh NTN, nhất là khi cần đối chiếu vòng bi, gối đỡ hoặc mã thay thế cho cụm máy đang vận hành.",
+      "Koyo được dùng như nhóm bổ trợ mạnh bên cạnh NTN, phù hợp khi cần đối chiếu vòng bi, gối đỡ hoặc mã thay thế cho cụm máy đang vận hành.",
     popularApplications: ["Băng tải", "Trục truyền động", "Cụm đỡ trong dây chuyền", "Máy đóng gói", "Motor", "Hộp số"],
     commonBuyers: ["Bảo trì nhà máy", "Kỹ thuật dây chuyền", "Xưởng cơ khí", "Nhà thầu lắp đặt"],
   },
   {
-    slug: "tsubaki",
-    name: "Tsubaki",
-    shortDescription: "Tsubaki tập trung cho xích công nghiệp, truyền động băng tải và các cơ cấu chạy tải liên tục.",
+    slug: "nok",
+    name: "NOK",
+    shortDescription:
+      "NOK bổ trợ cho phớt chặn dầu, cụm làm kín trục và các vị trí cần kiểm soát rò rỉ trong vận hành liên tục.",
     detailDescription:
-      "Phù hợp cho các dây chuyền cần xích truyền động ổn định, đối chiếu theo bước xích, số mắt, tải và điều kiện làm việc thực tế.",
-    popularApplications: ["Băng tải xích", "Dây chuyền chuyển phôi", "Máy đóng gói", "Cơ cấu truyền động", "Nhông xích"],
-    commonBuyers: ["Bảo trì dây chuyền", "Kỹ thuật nhà máy", "Xưởng chế tạo máy", "Nhà thầu cơ điện"],
+      "NOK phù hợp cho cụm trục, hộp số, bơm và vị trí cần làm kín ổn định. Khi tư vấn cần đối chiếu kích thước cốt, vỏ, độ dày, kiểu môi và môi trường làm việc.",
+    popularApplications: ["Hộp số", "Máy bơm", "Trục quay", "Cụm thủy lực", "Động cơ", "Máy sản xuất"],
+    commonBuyers: ["Bảo trì nhà máy", "Kỹ thuật thiết bị", "Mua hàng kỹ thuật", "Xưởng cơ khí"],
   },
   {
     slug: "soho",
     name: "Soho",
-    shortDescription: "Soho là nhóm vật tư truyền động bổ sung, dùng khi cần phương án phù hợp ngân sách và tiến độ thay thế.",
+    shortDescription:
+      "Soho là nhóm vật tư truyền động bổ trợ khi cần phương án thay thế phù hợp tiến độ và ngân sách.",
     detailDescription:
-      "Dùng Soho như lựa chọn bổ sung trong danh mục, cần đối chiếu theo mã thực tế, vị trí lắp và yêu cầu vận hành trước khi chốt báo giá.",
+      "Soho được tư vấn theo mã thực tế, vị trí lắp và yêu cầu vận hành. Nhóm này giữ vai trò bổ sung, không làm loãng hai trụ cột chính NTN và Tsubaki.",
     popularApplications: ["Vật tư truyền động", "Cụm thay thế định kỳ", "Máy sản xuất", "Dây chuyền phụ trợ"],
     commonBuyers: ["Mua hàng kỹ thuật", "Bảo trì nhà máy", "Xưởng cơ khí", "Khách thay thế định kỳ"],
-  },
-  {
-    slug: "nok",
-    name: "NOK",
-    shortDescription: "NOK tập trung cho phớt chặn dầu, cụm làm kín trục và các vị trí cần chống rò trong vận hành liên tục.",
-    detailDescription:
-      "Dùng NOK cho cụm trục, hộp số, bơm và vị trí cần làm kín ổn định. Khi tư vấn cần đối chiếu kích thước cốt, vỏ, độ dày, kiểu môi và môi trường làm việc.",
-    popularApplications: ["Hộp số", "Máy bơm", "Trục quay", "Cụm thủy lực", "Động cơ", "Máy sản xuất"],
-    commonBuyers: ["Bảo trì nhà máy", "Kỹ thuật thiết bị", "Mua hàng kỹ thuật", "Xưởng cơ khí"],
   },
 ];
 
 export const customerSegments: CustomerSegment[] = [
   {
     name: "Nhà máy sản xuất",
-    summary: "Cần vật tư thay thế ổn định để duy trì tiến độ vận hành và hạn chế dừng máy.",
+    summary: "Cần nguồn vật tư chính hãng, ổn định để duy trì tiến độ vận hành và hạn chế dừng máy.",
   },
   {
     name: "Bộ phận bảo trì",
-    summary: "Cần đối chiếu mã nhanh, rõ ứng dụng và có phương án xử lý khi vật tư hỏng đột xuất.",
+    summary: "Cần đối chiếu nhanh mã, nhóm hàng và phương án thay thế khi vật tư hỏng đột xuất.",
   },
   {
     name: "Bộ phận kỹ thuật",
@@ -149,11 +141,11 @@ export const customerSegments: CustomerSegment[] = [
   },
   {
     name: "Bộ phận mua hàng",
-    summary: "Cần thông tin mã rõ, mô tả dễ kiểm tra và phản hồi nhanh để xử lý đề nghị mua.",
+    summary: "Cần thông tin rõ ràng về mã, thương hiệu, mô tả kỹ thuật và hướng báo giá để xử lý đề nghị mua.",
   },
   {
     name: "Xưởng cơ khí trong KCN",
-    summary: "Cần vật tư truyền động và đỡ trục phù hợp cho máy chạy liên tục và tải thực tế.",
+    summary: "Cần vòng bi, xích, gối đỡ và vật tư truyền động phù hợp cho máy chạy liên tục.",
   },
   {
     name: "Xưởng chế tạo máy",
@@ -165,119 +157,113 @@ export const customerSegments: CustomerSegment[] = [
   },
   {
     name: "Khách công nghiệp cần thay thế định kỳ",
-    summary: "Cần nguồn hỗ trợ ổn định để phục vụ bảo trì theo kế hoạch tháng, quý, năm.",
+    summary: "Cần nguồn hỗ trợ ổn định cho kế hoạch bảo trì tháng, quý, năm.",
   },
 ];
 
 export const whyContactBullets = [
-  "Giảm rủi ro đặt sai mã – đối chiếu trước khi đặt hàng",
-  "Phối hợp thuận lợi giữa bảo trì, kỹ thuật và mua hàng",
-  "Có phương án theo ứng dụng thực tế, không chỉ tra giá",
-  "Xử lý nhanh các tình huống thay thế đang ảnh hưởng sản xuất",
-  "Gửi mã, ảnh, kích thước qua Zalo – tiếp nhận ngay",
+  "Làm việc trực tiếp với Phòng Kinh Doanh THL",
+  "Ưu tiên NTN và Tsubaki cho danh mục Nhật Bản chính hãng",
+  "Đối chiếu kỹ thuật trước khi chốt mã và báo giá",
+  "Phối hợp được với bảo trì, kỹ thuật và mua hàng",
+  "Tiếp nhận mã, ảnh tem, kích thước qua Zalo hoặc form",
 ];
 
 export const whyContactDescription =
-  "Mục tiêu: giúp xác định đúng mã, đúng cụm, đúng phương án – để nội bộ nhà máy xác nhận nhanh và đặt hàng không mất thêm thời gian.";
+  "Mục tiêu là giúp nhà máy xác định đúng nhóm hàng, đúng thương hiệu, đúng ứng dụng trước khi đặt vật tư.";
 
 export const supportProcess = [
-  "Gửi mã cũ, ảnh tem, ảnh cụm máy hoặc kích thước đang có",
-  "Đối chiếu nhanh theo ứng dụng, catalog và điều kiện vận hành",
-  "Xác nhận nhóm hàng phù hợp – mã chính hoặc phương án tương đương",
+  "Tiếp nhận mã cũ, ảnh tem, ảnh cụm máy hoặc kích thước đang có",
+  "Đối chiếu theo catalog, ứng dụng và điều kiện vận hành",
+  "Xác nhận nhóm hàng phù hợp trong NTN, Tsubaki hoặc thương hiệu bổ trợ",
   "Chuyển xử lý báo giá, xác nhận số lượng và theo dõi tiến độ",
 ];
 
 export const supportProcessNote =
-  "Gửi càng rõ thông tin cụm máy, mã cũ hoặc hình ảnh tem → xử lý càng nhanh, giảm trao đổi qua lại.";
+  "Thông tin cụm máy, mã cũ hoặc hình ảnh tem càng rõ thì quá trình đối chiếu và báo giá càng nhanh.";
 
 export const solutionByCustomer: CustomerSolution[] = [
   {
     customer: "Nhà máy sản xuất",
     problems: "Dừng máy đột xuất ảnh hưởng trực tiếp đến kế hoạch sản xuất.",
     support: "Ưu tiên đối chiếu mã nhanh theo cụm máy và điều kiện vận hành thực tế.",
-    products: "NTN, Koyo, Tsubaki, NOK",
+    products: "NTN, Tsubaki, Koyo, NOK",
   },
   {
     customer: "Bộ phận bảo trì",
     problems: "Cần xử lý sự cố nhanh nhưng dữ liệu mã cũ không đầy đủ.",
     support: "Đối chiếu theo ảnh tem, kích thước, hiện trạng và lịch sử thay thế gần nhất.",
-    products: "NTN, Koyo, NOK",
+    products: "NTN, Tsubaki, Koyo, NOK",
   },
   {
     customer: "Bộ phận kỹ thuật",
     problems: "Cần xác nhận đúng phương án theo tải, nhiệt, bụi và thời gian chạy máy.",
     support: "Tư vấn theo thông số vận hành để giảm rủi ro chọn sai mã.",
-    products: "NTN, Koyo, Tsubaki, Soho, NOK",
+    products: "NTN, Tsubaki, Koyo, Soho, NOK",
   },
   {
     customer: "Bộ phận mua hàng",
-    problems: "Cần thông tin mã rõ để xử lý đề nghị mua và so sánh phương án nhanh.",
-    support: "Hỗ trợ tách rõ thông tin kỹ thuật và thông tin đặt hàng cho từng nhóm vật tư.",
-    products: "NTN, Koyo, Soho, NOK",
+    problems: "Cần thông tin rõ để xử lý đề nghị mua và so sánh phương án nhanh.",
+    support: "Tách rõ thông tin kỹ thuật, thương hiệu và thông tin đặt hàng cho từng nhóm vật tư.",
+    products: "NTN, Tsubaki, Koyo, Soho, NOK",
   },
   {
     customer: "Xưởng cơ khí trong KCN",
     problems: "Máy chạy theo ca, vật tư chịu tải thực tế cao và cần thay đúng chuẩn.",
     support: "Định hướng nhóm hàng theo vị trí máy, mức tải và điều kiện làm việc.",
-    products: "NTN, Koyo, Tsubaki, NOK",
+    products: "NTN, Tsubaki, Koyo, NOK",
   },
   {
     customer: "Xưởng chế tạo máy",
     problems: "Sai quy cách từ đầu dẫn đến chỉnh sửa lắp ráp và tăng thời gian hoàn thiện máy.",
     support: "Đối chiếu sớm theo bản vẽ, cụm lắp và vật tư tương thích.",
-    products: "Koyo, NTN, Tsubaki, NOK",
+    products: "NTN, Tsubaki, Koyo, NOK",
   },
   {
     customer: "Nhà thầu cơ điện / lắp đặt công nghiệp",
     problems: "Tiến độ hiện trường yêu cầu phản hồi nhanh và mã hàng rõ ràng theo hồ sơ.",
     support: "Hỗ trợ đối chiếu theo hiện trạng và khối lượng thi công theo giai đoạn.",
-    products: "NTN, Koyo, Tsubaki, Soho, NOK",
+    products: "Tsubaki, NTN, Koyo, Soho",
   },
   {
     customer: "Khách công nghiệp cần thay thế định kỳ",
     problems: "Cần nguồn hỗ trợ ổn định cho kế hoạch bảo trì tháng, quý, năm.",
     support: "Theo dõi nhu cầu thay thế định kỳ và gợi ý nhóm hàng theo chu kỳ vận hành.",
-    products: "NTN, Koyo, Soho, NOK",
+    products: "NTN, Tsubaki, Koyo, NOK",
   },
 ];
 
 export const leadFormIntro =
-  "Anh/chị có thể gửi mã cũ, ảnh tem, ảnh vị trí lắp, kích thước hoặc mô tả thiết bị để hỗ trợ đối chiếu nhanh hơn.";
-
-export type CustomerRole = {
-  role: string;
-  problems: string;
-  support: string;
-};
+  "Anh/chị có thể gửi mã cũ, ảnh tem, ảnh vị trí lắp, kích thước hoặc mô tả thiết bị để THL đối chiếu nhanh hơn.";
 
 export const customerRoles: CustomerRole[] = [
   {
     role: "Bảo trì nhà máy",
-    problems: "Máy hỏng đột xuất, mã cũ mờ hoặc thiếu, cần xử lý gấp trong ngày để không ảnh hưởng sản xuất.",
-    support: "Đối chiếu mã theo ảnh tem, kích thước, hiện trạng – đề xuất phương án thay thế nhanh nhất.",
+    problems: "Máy hỏng đột xuất, mã cũ mờ hoặc thiếu, cần xử lý nhanh để không ảnh hưởng sản xuất.",
+    support: "Đối chiếu theo ảnh tem, kích thước và hiện trạng; ưu tiên NTN, Tsubaki hoặc nhóm bổ trợ đúng ứng dụng.",
   },
   {
     role: "Kỹ thuật thiết bị",
     problems: "Cần xác nhận đúng thông số theo tải, tốc độ, nhiệt và môi trường để tránh chọn sai mã.",
-    support: "Tư vấn theo thông số vận hành thực tế, đối chiếu catalog và gợi ý nhóm hàng phù hợp cụm máy.",
+    support: "Tư vấn theo điều kiện vận hành thực tế, catalog và nhóm hàng phù hợp cụm máy.",
   },
   {
     role: "Mua hàng kỹ thuật",
-    problems: "Thông tin mã từ bảo trì / kỹ thuật không rõ, cần xác nhận nhanh để xử lý đề nghị mua.",
-    support: "Tách rõ thông tin kỹ thuật – thông tin đặt hàng, giúp kiểm tra và so sánh phương án dễ hơn.",
+    problems: "Thông tin từ bảo trì hoặc kỹ thuật chưa đủ rõ để xử lý đề nghị mua.",
+    support: "Tách rõ phần kỹ thuật, thương hiệu và thông tin đặt hàng để kiểm tra dễ hơn.",
   },
   {
     role: "Chủ xưởng / Cơ điện",
-    problems: "Máy chạy liên tục theo ca, vật tư chịu tải nặng, cần nguồn hỗ trợ kỹ thuật ổn định lâu dài. Thường tự xử lý sửa chữa nhưng khó tìm đúng mã thay thế khi hàng cũ hết hoặc đổi quy cách.",
-    support: "Định hướng nhóm hàng theo vị trí máy, mức tải thực tế và điều kiện vận hành dài hạn. Hỗ trợ đối chiếu mã tương đương khi hàng gốc không còn, gợi ý phương án phù hợp ngân sách và tiến độ xưởng.",
+    problems: "Máy chạy liên tục theo ca, vật tư chịu tải nặng và cần nguồn hỗ trợ kỹ thuật ổn định.",
+    support: "Định hướng nhóm hàng theo vị trí máy, mức tải thực tế và tiến độ thay thế dài hạn.",
   },
 ];
 
 export const leadFormUploadHint =
-  "Anh/chị có thể gửi ảnh tem, ảnh mẫu cũ hoặc ảnh vị trí lắp để hỗ trợ đối chiếu nhanh hơn.";
+  "Có thể gửi ảnh tem, ảnh mẫu cũ hoặc ảnh vị trí lắp để hỗ trợ đối chiếu nhanh hơn.";
 
 export const leadFormBottomNote =
-  "Ưu tiên xử lý nhanh các trường hợp cần thay thế để đảm bảo tiến độ vận hành hoặc bảo trì.";
+  "THL ưu tiên xử lý các yêu cầu kỹ thuật rõ thông tin và các trường hợp ảnh hưởng tiến độ vận hành.";
 
 export const quoteGuideBullets = [
   "Gửi trước mã cũ, ảnh tem, kích thước hoặc mô tả cụm máy để rút ngắn thời gian đối chiếu.",

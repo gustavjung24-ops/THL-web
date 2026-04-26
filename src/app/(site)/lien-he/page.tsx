@@ -73,7 +73,7 @@ export default function ContactPage() {
               <Button asChild variant="outline" className="border-blue-200 text-blue-800 hover:bg-blue-100">
                 <a href={siteConfig.zaloLink} target="_blank" rel="noreferrer">
                   <MessageCircle className="mr-2 size-4" />
-                  Chat Zalo
+                  Zalo kinh doanh
                 </a>
               </Button>
             </div>

@@ -11,7 +11,7 @@ export function MobileQuickActions() {
           className="flex items-center justify-center gap-1 rounded-md bg-blue-800 px-2 py-2 text-xs font-semibold text-white"
         >
           <Search className="size-4" />
-          Gửi mã
+          Gửi yêu cầu
         </Link>
         <a
           href={siteConfig.zaloLink}
@@ -20,14 +20,14 @@ export function MobileQuickActions() {
           className="flex items-center justify-center gap-1 rounded-md border border-blue-200 bg-blue-50 px-2 py-2 text-xs font-semibold text-blue-800"
         >
           <MessageCircle className="size-4" />
-          Zalo
+          Zalo KD
         </a>
         <a
           href={siteConfig.phoneHref}
           className="flex items-center justify-center gap-1 rounded-md border border-blue-300 bg-white px-2 py-2 text-xs font-semibold text-blue-900"
         >
           <PhoneCall className="size-4" />
-          Gọi nhanh
+          Liên hệ
         </a>
       </div>
     </div>

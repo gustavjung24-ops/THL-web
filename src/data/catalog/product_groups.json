@@ -1,6 +1,6 @@
 {
-  "version": "v2-ntn-focus",
-  "description": "Nhóm hàng đang hỗ trợ theo các thương hiệu trọng tâm NTN, Koyo, Tsubaki, Soho và NOK.",
+  "version": "v3-ntn-tsubaki-core",
+  "description": "Nhóm hàng đang hỗ trợ theo hệ thương hiệu NTN và Tsubaki chủ lực, Koyo, NOK và Soho bổ trợ.",
   "groups": [
     {
       "key": "bearings",
@@ -10,7 +10,17 @@
       "optional_fields": ["seal_or_shield", "clearance", "series"],
       "keywords": ["vòng bi", "bearing", "bạc đạn", "620", "630", "6200", "6300", "2rs", "zz", "c3", "ntn", "koyo"],
       "priority_brands": ["NTN", "KOYO/JTEKT"],
-      "note": "NTN là ưu tiên chính; Koyo dùng khi khách yêu cầu hoặc cần phương án bổ sung."
+      "note": "NTN là thương hiệu chủ lực cho vòng bi; Koyo dùng khi khách yêu cầu hoặc cần phương án bổ trợ."
+    },
+    {
+      "key": "industrial_chains",
+      "label_vi": "Xích công nghiệp",
+      "label_en": "Industrial Chains",
+      "required_fields": ["pitch", "chain_type", "links"],
+      "optional_fields": ["strand", "standard"],
+      "keywords": ["xích", "chain", "08b", "10b", "rs40", "rs50", "pitch", "tsubaki"],
+      "priority_brands": ["TSUBAKI"],
+      "note": "Tsubaki là thương hiệu chủ lực cho xích công nghiệp; cần xác minh bước xích, tiêu chuẩn BS/ANSI và số dãy."
     },
     {
       "key": "pillow_blocks",
@@ -23,14 +33,14 @@
       "note": "Cần xác minh kiểu thân, đường kính trục và vị trí lắp."
     },
     {
-      "key": "industrial_chains",
-      "label_vi": "Xích công nghiệp",
-      "label_en": "Industrial Chains",
-      "required_fields": ["pitch", "chain_type", "links"],
-      "optional_fields": ["strand", "standard"],
-      "keywords": ["xích", "chain", "08b", "10b", "rs40", "rs50", "pitch", "tsubaki"],
-      "priority_brands": ["TSUBAKI"],
-      "note": "Ưu tiên xác minh bước xích, tiêu chuẩn BS/ANSI và số dãy."
+      "key": "oil_seals",
+      "label_vi": "Phớt chặn dầu",
+      "label_en": "Oil Seals",
+      "required_fields": ["id", "od", "thickness"],
+      "optional_fields": ["lip_type", "material"],
+      "keywords": ["phớt", "oil seal", "chặn dầu", "tc", "sc", "seal", "rò dầu", "nok"],
+      "priority_brands": ["NOK"],
+      "note": "Cần xác minh kích thước cốt-vỏ-dày, kiểu môi và môi trường làm việc."
     },
     {
       "key": "belts",
@@ -40,17 +50,7 @@
       "optional_fields": ["belt_type", "teeth_count"],
       "keywords": ["dây curoa", "belt", "v-belt", "curoa", "spa", "spb", "profile a", "profile b", "soho"],
       "priority_brands": ["SOHO"],
-      "note": "Dùng Soho cho nhóm vật tư truyền động bổ sung, cần đối chiếu theo mã thực tế."
-    },
-    {
-      "key": "oil_seals",
-      "label_vi": "Phớt chặn dầu",
-      "label_en": "Oil Seals",
-      "required_fields": ["id", "od", "thickness"],
-      "optional_fields": ["lip_type", "material"],
-      "keywords": ["phớt", "oil seal", "chặn dầu", "tc", "sc", "seal", "rò dầu", "nok"],
-      "priority_brands": ["NOK"],
-      "note": "Cần xác minh kích thước cốt-vỏ-dày, kiểu môi và môi trường làm việc."
+      "note": "Dùng Soho cho nhóm vật tư truyền động bổ trợ, cần đối chiếu theo mã thực tế."
     }
   ]
 }
