@@ -35,5 +35,5 @@ export const footerMenu = [
 export const quickActions = [
   { label: "Gửi yêu cầu kỹ thuật", href: "/tra-ma-bao-gia" },
   { label: "Zalo kinh doanh", href: siteConfig.zaloLink, external: true },
-  { label: "Liên hệ phòng kinh doanh", href: siteConfig.phoneHref },
+  { label: "Liên hệ B2B", href: siteConfig.phoneHref },
 ] as const;

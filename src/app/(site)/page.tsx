@@ -20,6 +20,8 @@ import { industryApplications } from "@/data/industry-applications";
 import { defaultProductVisual, productBenefitBullets, productVisuals } from "@/data/product-visuals";
 import { productGroups, supportProcess, trustBullets } from "@/data/site-content";
 import { createPageMetadata } from "@/lib/seo";
+import { createBreadcrumbSchema, createOrganizationSchema, createWebPageSchema, createWebSiteSchema } from "@/lib/schema";
+import { StructuredData } from "@/components/shared/structured-data";
 import { SectionTitle } from "@/components/shared/section-title";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -30,6 +32,10 @@ export const metadata = createPageMetadata({
     "Công Ty TNHH Tân Hòa Lợi phân phối chính thức NTN và Tsubaki, cung cấp vật tư truyền động Nhật Bản chính hãng cho nhà máy.",
   path: "/",
 });
+
+const homepageTitle = "Nhà phân phối chính thức NTN & Tsubaki";
+const homepageDescription =
+  "Công Ty TNHH Tân Hòa Lợi phân phối chính thức NTN và Tsubaki, cung cấp vật tư truyền động Nhật Bản chính hãng cho nhà máy.";
 
 const coreProducts = productGroups.filter((group) => group.slug === "ntn" || group.slug === "tsubaki");
 const supportingProducts = productGroups.filter((group) => group.slug !== "ntn" && group.slug !== "tsubaki");
@@ -188,8 +194,18 @@ const capabilityItems = [
 ];
 
 export default function Home() {
+  const pageSchema = createWebPageSchema({
+    title: homepageTitle,
+    description: homepageDescription,
+    path: "/",
+  });
+
+  const breadcrumbSchema = createBreadcrumbSchema([{ name: "Trang chủ", path: "/" }]);
+
   return (
-    <div className="overflow-x-hidden bg-white">
+    <>
+      <StructuredData data={[createOrganizationSchema(), createWebSiteSchema(), pageSchema, breadcrumbSchema]} />
+      <div className="overflow-x-hidden bg-white">
       <section className="relative isolate overflow-hidden bg-slate-950 text-white">
         <video
           className="absolute inset-0 h-full w-full object-cover"
@@ -228,7 +244,7 @@ export default function Home() {
               <Button asChild variant="outline" className="h-11 border-white/30 bg-white/10 px-5 text-white hover:bg-white hover:text-slate-950">
                 <Link href="/lien-he">
                   <MessageCircle className="mr-2 size-4" />
-                  Liên hệ phòng kinh doanh
+                  Liên hệ THL
                 </Link>
               </Button>
             </div>
@@ -584,7 +600,7 @@ export default function Home() {
                 Làm rõ phương án trước khi đặt hàng
               </p>
               <h2 className="font-heading text-2xl font-bold text-white sm:text-3xl">
-                Gửi mã, ảnh tem hoặc mô tả cụm máy cho Phòng Kinh Doanh THL
+                Gửi mã, ảnh tem hoặc mô tả cụm máy cho THL
               </h2>
               <p className="text-sm leading-relaxed text-slate-300 sm:text-base">
                 THL đối chiếu nhóm hàng phù hợp, ưu tiên NTN và Tsubaki, sau đó chuyển hướng báo giá theo nhu cầu thực tế.
@@ -615,6 +631,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-    </div>
+      </div>
+    </>
   );
 }

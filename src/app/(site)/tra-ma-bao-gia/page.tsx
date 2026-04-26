@@ -3,6 +3,8 @@ import { siteConfig } from "@/config/site";
 import { quoteGuideBullets } from "@/data/site-content";
 import { createPageMetadata } from "@/lib/seo";
 import { LeadForm } from "@/components/forms/lead-form";
+import { StructuredData } from "@/components/shared/structured-data";
+import { createBreadcrumbSchema, createWebPageSchema } from "@/lib/schema";
 import { SectionTitle } from "@/components/shared/section-title";
 import { Button } from "@/components/ui/button";
 
@@ -14,9 +16,23 @@ export const metadata = createPageMetadata({
 });
 
 export default function QuotePage() {
+  const pageSchema = createWebPageSchema({
+    title: "Gửi yêu cầu kỹ thuật / báo giá",
+    description:
+      "Gửi mã hàng, ảnh tem, kích thước hoặc mô tả cụm máy để THL đối chiếu NTN, Tsubaki và nhóm vật tư truyền động phù hợp.",
+    path: "/tra-ma-bao-gia",
+  });
+
+  const breadcrumbSchema = createBreadcrumbSchema([
+    { name: "Trang chủ", path: "/" },
+    { name: "Yêu cầu kỹ thuật", path: "/tra-ma-bao-gia" },
+  ]);
+
   return (
-    <div className="section-block">
-      <div className="page-shell space-y-8">
+    <>
+      <StructuredData data={[pageSchema, breadcrumbSchema]} />
+      <div className="section-block">
+        <div className="page-shell space-y-8">
         <section className="space-y-5 rounded-lg border border-slate-200 bg-white p-6 shadow-[0_12px_32px_-26px_rgba(15,23,42,0.45)] sm:p-8">
           <SectionTitle
             eyebrow="Yêu cầu kỹ thuật / báo giá"
@@ -51,9 +67,9 @@ export default function QuotePage() {
         <section>
           <LeadForm />
         </section>
-      </div>
+        </div>
 
-      <a
+        <a
         href={siteConfig.zaloLink}
         target="_blank"
         rel="noreferrer"
@@ -61,7 +77,8 @@ export default function QuotePage() {
       >
         <MessageCircle className="size-4" />
         Zalo kinh doanh
-      </a>
-    </div>
+        </a>
+      </div>
+    </>
   );
 }

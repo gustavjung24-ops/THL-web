@@ -4,6 +4,8 @@ import { ArrowRight, BadgeCheck, Building2, ClipboardCheck, Factory, ShieldCheck
 import { customerSegments, productGroups, supportProcess } from "@/data/site-content";
 import { brandLogos } from "@/data/brand-logos";
 import { createPageMetadata } from "@/lib/seo";
+import { createBreadcrumbSchema, createWebPageSchema } from "@/lib/schema";
+import { StructuredData } from "@/components/shared/structured-data";
 import { SectionTitle } from "@/components/shared/section-title";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -39,9 +41,24 @@ const capabilityBlocks = [
 ];
 
 export default function AboutPage() {
+  const pageSchema = createWebPageSchema({
+    title: "Giới thiệu THL | Nhà phân phối chính thức NTN & Tsubaki",
+    description:
+      "Công Ty TNHH Tân Hòa Lợi là nhà phân phối chính thức NTN và Tsubaki, cung cấp vật tư truyền động công nghiệp chính hãng cho nhà máy.",
+    path: "/gioi-thieu",
+    type: "AboutPage",
+  });
+
+  const breadcrumbSchema = createBreadcrumbSchema([
+    { name: "Trang chủ", path: "/" },
+    { name: "Giới thiệu", path: "/gioi-thieu" },
+  ]);
+
   return (
-    <div className="section-block">
-      <div className="page-shell space-y-12">
+    <>
+      <StructuredData data={[pageSchema, breadcrumbSchema]} />
+      <div className="section-block">
+        <div className="page-shell space-y-12">
         <section className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-[0_16px_36px_-30px_rgba(15,23,42,0.55)]">
           <div className="grid gap-0 lg:grid-cols-[1.02fr_0.98fr] lg:items-stretch">
             <div className="space-y-6 p-6 sm:p-8 lg:p-10">
@@ -184,7 +201,8 @@ export default function AboutPage() {
             ))}
           </div>
         </section>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

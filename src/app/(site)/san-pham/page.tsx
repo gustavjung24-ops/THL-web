@@ -4,6 +4,8 @@ import { ArrowRight, CheckCircle2, Search } from "lucide-react";
 import { defaultProductVisual, productBenefitBullets, productVisuals } from "@/data/product-visuals";
 import { productGroups } from "@/data/site-content";
 import { createPageMetadata } from "@/lib/seo";
+import { createBreadcrumbSchema, createWebPageSchema } from "@/lib/schema";
+import { StructuredData } from "@/components/shared/structured-data";
 import { SectionTitle } from "@/components/shared/section-title";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -88,9 +90,24 @@ function ProductCard({ slug }: { slug: string }) {
 }
 
 export default function ProductsPage() {
+  const pageSchema = createWebPageSchema({
+    title: "Danh mục NTN & Tsubaki chính hãng",
+    description:
+      "Danh mục vật tư truyền động công nghiệp của THL với hai thương hiệu chủ lực NTN, Tsubaki và các nhóm bổ trợ Koyo, NOK, Soho.",
+    path: "/san-pham",
+    type: "CollectionPage",
+  });
+
+  const breadcrumbSchema = createBreadcrumbSchema([
+    { name: "Trang chủ", path: "/" },
+    { name: "Sản phẩm", path: "/san-pham" },
+  ]);
+
   return (
-    <div className="bg-white">
-      <section className="section-block border-b border-slate-100">
+    <>
+      <StructuredData data={[pageSchema, breadcrumbSchema]} />
+      <div className="bg-white">
+        <section className="section-block border-b border-slate-100">
         <div className="page-shell grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
           <SectionTitle
             eyebrow="Danh mục sản phẩm"
@@ -104,10 +121,10 @@ export default function ProductsPage() {
             </Link>
           </Button>
         </div>
-      </section>
+        </section>
 
-      <section className="section-block bg-slate-50">
-        <div className="page-shell space-y-10">
+        <section className="section-block bg-slate-50">
+          <div className="page-shell space-y-10">
           <div className="space-y-5">
             <SectionTitle
               eyebrow="Hai thương hiệu chủ lực"
@@ -133,8 +150,9 @@ export default function ProductsPage() {
               ))}
             </div>
           </div>
-        </div>
-      </section>
-    </div>
+          </div>
+        </section>
+      </div>
+    </>
   );
 }

@@ -84,10 +84,11 @@ export function SiteHeader() {
             </a>
           </Button>
           <Sheet>
-            <SheetTrigger asChild className="lg:hidden">
-              <Button variant="outline" size="icon" aria-label="Mở menu">
+            <SheetTrigger
+              className="inline-flex size-8 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 transition-colors hover:bg-slate-50 hover:text-slate-950 lg:hidden"
+              aria-label="Mở menu"
+            >
                 <Menu className="size-5" />
-              </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-[280px]">
               <div className="mt-8 space-y-6">

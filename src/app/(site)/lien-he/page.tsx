@@ -2,7 +2,9 @@ import Image from "next/image";
 import { Building2, Clock3, MapPin, MessageCircle, PhoneCall } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { createPageMetadata } from "@/lib/seo";
+import { createBreadcrumbSchema, createWebPageSchema } from "@/lib/schema";
 import { ContactForm } from "@/components/forms/contact-form";
+import { StructuredData } from "@/components/shared/structured-data";
 import { SectionTitle } from "@/components/shared/section-title";
 import { Button } from "@/components/ui/button";
 
@@ -14,9 +16,24 @@ export const metadata = createPageMetadata({
 });
 
 export default function ContactPage() {
+  const pageSchema = createWebPageSchema({
+    title: "Liên hệ THL | Yêu cầu vật tư truyền động",
+    description:
+      "Liên hệ Công Ty TNHH Tân Hòa Lợi để gửi nhu cầu vật tư truyền động công nghiệp NTN, Tsubaki và nhóm thương hiệu bổ trợ cho nhà máy.",
+    path: "/lien-he",
+    type: "ContactPage",
+  });
+
+  const breadcrumbSchema = createBreadcrumbSchema([
+    { name: "Trang chủ", path: "/" },
+    { name: "Liên hệ", path: "/lien-he" },
+  ]);
+
   return (
-    <div className="section-block">
-      <div className="page-shell space-y-8">
+    <>
+      <StructuredData data={[pageSchema, breadcrumbSchema]} />
+      <div className="section-block">
+        <div className="page-shell space-y-8">
         <SectionTitle
           eyebrow="Liên hệ THL"
           title="Gửi nhu cầu vật tư truyền động cho THL"
@@ -85,7 +102,8 @@ export default function ContactPage() {
             <ContactForm />
           </section>
         </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
