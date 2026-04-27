@@ -85,7 +85,7 @@ export default function SolutionsPage() {
               </Button>
               <Button asChild variant="outline" className="border-blue-200 text-blue-800 hover:bg-blue-100">
                 <Link href="/lien-he">
-                  Liên hệ phòng kinh doanh
+                  Liên hệ THL B2B
                   <ArrowRight className="ml-2 size-4" />
                 </Link>
               </Button>

@@ -36,7 +36,7 @@ export const productCardImages: CardImageMeta[] = [
       GLOBAL_STYLE_SUFFIX,
     imageAlt:
       "Kỹ thuật viên kiểm tra vòng bi NTN trong xưởng sản xuất",
-    imagePath: "/images/cards/products/ntn.webp",
+    imagePath: "/images/cards/products/ntn.png",
     imageStyleTag: "product-hero",
   },
   {
@@ -46,7 +46,7 @@ export const productCardImages: CardImageMeta[] = [
       GLOBAL_STYLE_SUFFIX,
     imageAlt:
       "Cụm vòng bi và gối đỡ Koyo lắp trên trục truyền động trong dây chuyền nhà máy",
-    imagePath: "/images/cards/products/koyo.webp",
+    imagePath: "/images/cards/products/koyo.png",
     imageStyleTag: "product-hero",
   },
   {
@@ -56,7 +56,7 @@ export const productCardImages: CardImageMeta[] = [
       GLOBAL_STYLE_SUFFIX,
     imageAlt:
       "Cụm truyền động xích Tsubaki trên dây chuyền sản xuất",
-    imagePath: "/images/cards/products/tsubaki.webp",
+    imagePath: "/images/cards/products/tsubaki.png",
     imageStyleTag: "product-hero",
   },
   {
@@ -66,7 +66,7 @@ export const productCardImages: CardImageMeta[] = [
       GLOBAL_STYLE_SUFFIX,
     imageAlt:
       "Vật tư truyền động Soho dùng cho bảo trì nhà máy",
-    imagePath: "/images/cards/products/soho.webp",
+    imagePath: "/images/cards/products/soho.png",
     imageStyleTag: "product-hero",
   },
   {
@@ -76,7 +76,7 @@ export const productCardImages: CardImageMeta[] = [
       GLOBAL_STYLE_SUFFIX,
     imageAlt:
       "Phớt chặn dầu NOK dùng cho cụm trục và hộp số công nghiệp",
-    imagePath: "/images/cards/products/nok.webp",
+    imagePath: "/images/cards/products/nok.png",
     imageStyleTag: "product-hero",
   },
 ];
@@ -93,7 +93,7 @@ export const solutionCardImages: CardImageMeta[] = [
       GLOBAL_STYLE_SUFFIX,
     imageAlt:
       "Nhân viên bảo trì nhà máy kiểm tra cụm máy và linh kiện thay thế",
-    imagePath: "/images/cards/solutions/bao-tri.webp",
+    imagePath: "/images/cards/solutions/bao-tri.png",
     imageStyleTag: "solution-role",
   },
   {
@@ -103,7 +103,7 @@ export const solutionCardImages: CardImageMeta[] = [
       GLOBAL_STYLE_SUFFIX,
     imageAlt:
       "Kỹ thuật viên đo kích thước trục và kiểm tra cụm ổ trục trong nhà máy",
-    imagePath: "/images/cards/solutions/ky-thuat.webp",
+    imagePath: "/images/cards/solutions/ky-thuat.png",
     imageStyleTag: "solution-role",
   },
   {
@@ -113,7 +113,7 @@ export const solutionCardImages: CardImageMeta[] = [
       GLOBAL_STYLE_SUFFIX,
     imageAlt:
       "Nhân viên mua hàng kỹ thuật đối chiếu mã và catalog vật tư tại bàn làm việc",
-    imagePath: "/images/cards/solutions/mua-hang.webp",
+    imagePath: "/images/cards/solutions/mua-hang.png",
     imageStyleTag: "solution-role",
   },
   {
@@ -123,7 +123,7 @@ export const solutionCardImages: CardImageMeta[] = [
       GLOBAL_STYLE_SUFFIX,
     imageAlt:
       "Chủ xưởng và kỹ thuật viên trao đổi trước cụm máy sản xuất",
-    imagePath: "/images/cards/solutions/chu-xuong.webp",
+    imagePath: "/images/cards/solutions/chu-xuong.png",
     imageStyleTag: "solution-role",
   },
 ];
@@ -140,7 +140,7 @@ export const industryCardImages: CardImageMeta[] = [
       GLOBAL_STYLE_SUFFIX,
     imageAlt:
       "Máy cưa gỗ công nghiệp đang vận hành với trục quay và hệ truyền động",
-    imagePath: "/images/cards/industry/may-go.webp",
+    imagePath: "/images/cards/industry/may-go.png",
     imageStyleTag: "industry-app",
   },
   {
@@ -150,7 +150,7 @@ export const industryCardImages: CardImageMeta[] = [
       GLOBAL_STYLE_SUFFIX,
     imageAlt:
       "Máy phay CNC đang gia công kim loại, trục chính quay tốc độ cao",
-    imagePath: "/images/cards/industry/cnc.webp",
+    imagePath: "/images/cards/industry/cnc.png",
     imageStyleTag: "industry-app",
   },
   {
@@ -160,7 +160,7 @@ export const industryCardImages: CardImageMeta[] = [
       GLOBAL_STYLE_SUFFIX,
     imageAlt:
       "Máy ép nhựa công nghiệp với cụm kẹp và hệ thống thủy lực",
-    imagePath: "/images/cards/industry/ep-nhua.webp",
+    imagePath: "/images/cards/industry/ep-nhua.png",
     imageStyleTag: "industry-app",
   },
   {
@@ -170,7 +170,7 @@ export const industryCardImages: CardImageMeta[] = [
       GLOBAL_STYLE_SUFFIX,
     imageAlt:
       "Cụm bơm nước và quạt công nghiệp với motor và truyền động dây curoa",
-    imagePath: "/images/cards/industry/bom-quat-dong-co.webp",
+    imagePath: "/images/cards/industry/bom-quat-dong-co.png",
     imageStyleTag: "industry-app",
   },
   {
@@ -180,7 +180,7 @@ export const industryCardImages: CardImageMeta[] = [
       GLOBAL_STYLE_SUFFIX,
     imageAlt:
       "Hệ băng tải xích và con lăn trong dây chuyền sản xuất công nghiệp",
-    imagePath: "/images/cards/industry/bang-tai-truyen-dong.webp",
+    imagePath: "/images/cards/industry/bang-tai-truyen-dong.png",
     imageStyleTag: "industry-app",
   },
 ];

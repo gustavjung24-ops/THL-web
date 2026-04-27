@@ -168,7 +168,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
                   </Link>
                 </Button>
                 <Button asChild variant="outline" className="border-white/20 bg-white/10 text-white hover:bg-white hover:text-slate-950">
-                  <a href={siteConfig.phoneHref}>Liên hệ phòng kinh doanh</a>
+                  <a href={siteConfig.phoneHref}>Liên hệ THL B2B</a>
                 </Button>
               </div>
             </div>
