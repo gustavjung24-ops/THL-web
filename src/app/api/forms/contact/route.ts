@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { siteConfig } from "@/config/site";
 import { contactSubmitSchema } from "@/lib/forms/form-schemas";
-import { getInternalRecipient, sendMail } from "@/lib/forms/mailer";
+import { buildMailBrandHeaderHtml, getInternalRecipient, sendMail } from "@/lib/forms/mailer";
 
 export const runtime = "nodejs";
 
@@ -26,6 +26,7 @@ function formatContactHtml(payload: {
   const safeMessage = escapeHtml(payload.message).replace(/\n/g, "<br/>");
 
   return `
+    ${buildMailBrandHeaderHtml()}
     <h2>Yêu cầu liên hệ mới từ website THL</h2>
     <p><strong>Họ tên:</strong> ${safeFullName}</p>
     <p><strong>Email:</strong> ${safeEmail}</p>
@@ -55,6 +56,7 @@ function formatContactAutoReplyHtml(payload: { fullName: string }) {
   const safeFullName = escapeHtml(payload.fullName);
 
   return `
+    ${buildMailBrandHeaderHtml()}
     <p>Kính gửi anh/chị ${safeFullName},</p>
     <p>THL B2B đã tiếp nhận thông tin liên hệ của anh/chị.</p>
     <p>Đội THL B2B sẽ rà soát nội dung và phản hồi chi tiết thủ công qua email hoặc điện thoại trong khung giờ làm việc.</p>

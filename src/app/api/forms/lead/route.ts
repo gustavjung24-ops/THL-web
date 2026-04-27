@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { siteConfig } from "@/config/site";
 import { leadSubmitSchema } from "@/lib/forms/form-schemas";
-import { getInternalRecipient, sendMail } from "@/lib/forms/mailer";
+import { buildMailBrandHeaderHtml, getInternalRecipient, sendMail } from "@/lib/forms/mailer";
 
 export const runtime = "nodejs";
 
@@ -68,6 +68,7 @@ function formatLeadInternalHtml(payload: {
 }) {
   const lines = buildLeadLines(payload);
   return `
+    ${buildMailBrandHeaderHtml()}
     <h2>Yêu cầu kỹ thuật mới từ website THL</h2>
     <ul>
       ${lines.map((line) => `<li>${toSafeHtml(line)}</li>`).join("")}
@@ -96,6 +97,7 @@ function formatLeadAutoReplyHtml(payload: { fullName: string }) {
   const safeFullName = escapeHtml(payload.fullName);
 
   return `
+    ${buildMailBrandHeaderHtml()}
     <p>Kính gửi anh/chị ${safeFullName},</p>
     <p>THL B2B đã tiếp nhận yêu cầu kỹ thuật / báo giá của anh/chị.</p>
     <p>Đội THL B2B sẽ đối chiếu dữ liệu và phản hồi chi tiết thủ công qua email hoặc điện thoại, bao gồm hướng xử lý kỹ thuật tiếp theo.</p>
