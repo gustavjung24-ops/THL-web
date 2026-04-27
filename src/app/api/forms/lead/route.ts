@@ -3,7 +3,7 @@ import { siteConfig } from "@/config/site";
 import { leadSubmitSchema } from "@/lib/forms/form-schemas";
 import { buildMailBrandHeaderHtml, getInternalRecipient, sendMail } from "@/lib/forms/mailer";
 
-export const runtime = "nodejs";
+export const runtime = "edge";
 
 function escapeHtml(value: string) {
   return value

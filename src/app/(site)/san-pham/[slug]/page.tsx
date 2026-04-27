@@ -16,6 +16,8 @@ type ProductDetailPageProps = {
   };
 };
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return productGroups.map((group) => ({ slug: group.slug }));
 }

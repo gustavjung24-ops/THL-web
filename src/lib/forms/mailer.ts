@@ -1,4 +1,3 @@
-import { Resend } from "resend";
 import { siteConfig } from "@/config/site";
 
 const INTERNAL_RECIPIENT = "khuongbinh.info@gmail.com";
@@ -12,8 +11,6 @@ type SendMailInput = {
   text: string;
   replyTo?: string;
 };
-
-let resendClient: Resend | null = null;
 
 function normalizeAssetBaseUrl(rawUrl: string) {
   const trimmed = rawUrl.trim().replace(/\/+$/, "");
@@ -30,12 +27,7 @@ function getResendClient() {
   if (!apiKey) {
     throw new Error("RESEND_API_KEY is missing");
   }
-
-  if (!resendClient) {
-    resendClient = new Resend(apiKey);
-  }
-
-  return resendClient;
+  return apiKey;
 }
 
 export function getInternalRecipient() {
@@ -87,17 +79,40 @@ export function buildMailBrandHeaderHtml() {
 }
 
 export async function sendMail(input: SendMailInput) {
-  const resend = getResendClient();
-  const { error } = await resend.emails.send({
+  const apiKey = getResendClient();
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: getMailFromAddress(),
+      to: input.to,
+      subject: input.subject,
+      html: input.html,
+      text: input.text,
+      ...(input.replyTo ? { reply_to: input.replyTo } : {}),
+    }),
+    cache: "no-store",
+  });
+
+  const payload = (await response.json().catch(() => null)) as
+    | { error?: { message?: string } }
+    | null;
+
+  if (!response.ok) {
+    const message = payload?.error?.message ?? `Resend request failed with status ${response.status}`;
+    throw new Error(message);
+  }
+
+  if (payload?.error?.message) {
+    throw new Error(payload.error.message);
+  }
+
+  return {
     from: getMailFromAddress(),
     to: input.to,
     subject: input.subject,
-    html: input.html,
-    text: input.text,
-    replyTo: input.replyTo,
-  });
-
-  if (error) {
-    throw new Error(error.message);
-  }
+  };
 }

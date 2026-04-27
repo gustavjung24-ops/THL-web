@@ -15,6 +15,8 @@ const applicationBenefits = [
   "Ưu tiên NTN, Tsubaki và bổ sung Koyo/NOK/Soho theo đúng điều kiện ứng dụng",
 ];
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return industryApplications.map((app) => ({ slug: app.slug }));
 }
