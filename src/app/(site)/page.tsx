@@ -213,7 +213,7 @@ export default function Home() {
           poster="/images/backgrounds/he-sinh-thai-home.jpeg"
           aria-label="Không gian nhà máy và vật tư truyền động công nghiệp"
         >
-          <source src="/videos/hero-video.mp4" type="video/mp4" />
+          <source src="/videos/hero-industrial.mp4" type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-slate-950/66" />
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/84 to-slate-950/35" />
