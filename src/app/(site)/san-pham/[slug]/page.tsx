@@ -6,6 +6,8 @@ import { siteConfig } from "@/config/site";
 import { defaultProductVisual, productBenefitBullets, productVisuals } from "@/data/product-visuals";
 import { productGroups } from "@/data/site-content";
 import { createPageMetadata } from "@/lib/seo";
+import { createBreadcrumbSchema, createProductSchema, createWebPageSchema } from "@/lib/schema";
+import { StructuredData } from "@/components/shared/structured-data";
 import { Button } from "@/components/ui/button";
 
 type ProductDetailPageProps = {
@@ -45,9 +47,29 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
 
   const visual = productVisuals[product.slug] ?? defaultProductVisual;
   const isCore = product.slug === "ntn" || product.slug === "tsubaki";
+  const path = `/san-pham/${product.slug}`;
+  const pageSchema = createWebPageSchema({
+    title: `${product.name} | Vật tư truyền động công nghiệp`,
+    description: product.shortDescription,
+    path,
+  });
+  const productSchema = createProductSchema({
+    name: product.name,
+    description: product.detailDescription,
+    path,
+    image: visual.image,
+    brandName: product.name,
+  });
+  const breadcrumbSchema = createBreadcrumbSchema([
+    { name: "Trang chủ", path: "/" },
+    { name: "Sản phẩm", path: "/san-pham" },
+    { name: product.name, path },
+  ]);
 
   return (
-    <div className="bg-white">
+    <>
+      <StructuredData data={[pageSchema, productSchema, breadcrumbSchema]} />
+      <div className="bg-white">
       <section className="relative overflow-hidden bg-slate-950 text-white">
         <Image
           src={visual.image}
@@ -153,6 +175,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
           </div>
         </div>
       </section>
-    </div>
+      </div>
+    </>
   );
 }

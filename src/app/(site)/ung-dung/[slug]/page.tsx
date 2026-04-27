@@ -5,6 +5,8 @@ import { ArrowLeft, CheckCircle2, MessageCircle, ClipboardCheck } from "lucide-r
 import { siteConfig } from "@/config/site";
 import { industryApplications } from "@/data/industry-applications";
 import { createPageMetadata } from "@/lib/seo";
+import { createBreadcrumbSchema, createWebPageSchema } from "@/lib/schema";
+import { StructuredData } from "@/components/shared/structured-data";
 import { Button } from "@/components/ui/button";
 
 const applicationBenefits = [
@@ -31,9 +33,22 @@ export function generateMetadata({ params }: { params: { slug: string } }) {
 export default function IndustryApplicationDetail({ params }: { params: { slug: string } }) {
   const app = industryApplications.find((item) => item.slug === params.slug);
   if (!app) notFound();
+  const path = `/ung-dung/${app.slug}`;
+  const pageSchema = createWebPageSchema({
+    title: `Vật tư truyền động cho ${app.name}`,
+    description: app.description,
+    path,
+  });
+  const breadcrumbSchema = createBreadcrumbSchema([
+    { name: "Trang chủ", path: "/" },
+    { name: "Ứng dụng", path: "/ung-dung" },
+    { name: app.name, path },
+  ]);
 
   return (
-    <div className="bg-white">
+    <>
+      <StructuredData data={[pageSchema, breadcrumbSchema]} />
+      <div className="bg-white">
       <section className="relative overflow-hidden bg-slate-950 text-white">
         <Image
           src={app.image}
@@ -99,6 +114,7 @@ export default function IndustryApplicationDetail({ params }: { params: { slug: 
           </div>
         </div>
       </section>
-    </div>
+      </div>
+    </>
   );
 }
