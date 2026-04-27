@@ -1,4 +1,7 @@
+import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 import { PHASE_DEVELOPMENT_SERVER } from "next/constants.js";
+
+initOpenNextCloudflareForDev();
 
 /** @type {import('next').NextConfig} */
 const createNextConfig = (phase) => ({

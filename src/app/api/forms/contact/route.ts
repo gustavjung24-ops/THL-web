@@ -3,8 +3,6 @@ import { siteConfig } from "@/config/site";
 import { contactSubmitSchema } from "@/lib/forms/form-schemas";
 import { buildMailBrandHeaderHtml, getInternalRecipient, sendMail } from "@/lib/forms/mailer";
 
-export const runtime = "edge";
-
 function escapeHtml(value: string) {
   return value
     .replaceAll("&", "&amp;")

@@ -14,8 +14,6 @@ import { getAssistantSystemPrompt } from "@/lib/assistant/system-prompt";
 import { callProvider } from "@/lib/assistant/providers";
 import { buildIntentScopedSeedContext } from "@/lib/assistant/seed-context";
 
-export const runtime = "edge";
-
 type ChatRole = "user" | "assistant";
 
 type IncomingMessage = {

@@ -1,6 +1,6 @@
 import { siteConfig } from "@/config/site";
 
-const INTERNAL_RECIPIENT = "khuongbinh.info@gmail.com";
+const DEFAULT_INTERNAL_RECIPIENT = "khuongbinh.info@gmail.com";
 const DEFAULT_FROM = "THL B2B <onboarding@resend.dev>";
 const DEFAULT_ASSET_BASE_URL = `https://${siteConfig.domain}`;
 
@@ -11,6 +11,11 @@ type SendMailInput = {
   text: string;
   replyTo?: string;
 };
+
+function readNonEmptyEnv(name: string) {
+  const value = process.env[name]?.trim();
+  return value && value.length > 0 ? value : null;
+}
 
 function normalizeAssetBaseUrl(rawUrl: string) {
   const trimmed = rawUrl.trim().replace(/\/+$/, "");
@@ -31,15 +36,25 @@ function getResendClient() {
 }
 
 export function getInternalRecipient() {
-  return INTERNAL_RECIPIENT;
+  return readNonEmptyEnv("FORM_MAIL_TO") ?? DEFAULT_INTERNAL_RECIPIENT;
 }
 
 export function getMailFromAddress() {
-  return process.env.FORM_MAIL_FROM ?? DEFAULT_FROM;
+  const configured = readNonEmptyEnv("FORM_MAIL_FROM");
+
+  if (configured) {
+    return configured;
+  }
+
+  if (process.env.NODE_ENV === "production") {
+    throw new Error("FORM_MAIL_FROM is missing");
+  }
+
+  return DEFAULT_FROM;
 }
 
 export function getMailAssetBaseUrl() {
-  const configured = process.env.FORM_ASSET_BASE_URL;
+  const configured = readNonEmptyEnv("FORM_ASSET_BASE_URL");
   return normalizeAssetBaseUrl(configured && configured.trim().length > 0 ? configured : DEFAULT_ASSET_BASE_URL);
 }
 

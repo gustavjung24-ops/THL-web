@@ -77,14 +77,19 @@ NEXT_PUBLIC_SHOW_ASSISTANT_PROVIDER=false
 
 # Form email (bắt buộc cho submit form liên hệ/lead)
 RESEND_API_KEY=<your_key>
+FORM_MAIL_TO=khuongbinh.info@gmail.com
 
-# Tuỳ chọn, mặc định: THL B2B <onboarding@resend.dev>
-FORM_MAIL_FROM="THL B2B <no-reply@your-domain.com>"
+# Bắt buộc trên Cloudflare/production
+FORM_MAIL_FROM="THL B2B <noreply@mail.your-domain.com>"
+
+# Khuyến nghị để logo trong email dùng đúng domain live
+FORM_ASSET_BASE_URL=https://luanphutung.vn
 ```
 
 > **Lưu ý:**
 > - `ASSISTANT_PROVIDER=gemini` → dùng Gemini, tự fallback về OpenAI nếu Gemini lỗi.
 > - Thiếu API key → site vẫn chạy, chatbot trả lỗi graceful.
+> - `FORM_MAIL_FROM` không nên dùng `onboarding@resend.dev` khi chạy production. Hãy verify domain gửi trong Resend trước khi deploy.
 
 ---
 
@@ -122,6 +127,42 @@ vercel --prod
 ```
 
 Hoặc import repo từ Vercel dashboard.
+
+### Cloudflare Workers
+
+Repo này đã được chuẩn bị để deploy theo adapter OpenNext của Cloudflare, không dùng `next-on-pages` cũ nữa.
+
+1. Cài dependencies mới:
+
+```bash
+pnpm install
+```
+
+2. Tạo và verify domain gửi mail trong Resend bằng DNS trên Cloudflare.
+
+3. Khai báo env trên Cloudflare Workers/Pages:
+
+```env
+RESEND_API_KEY=...
+FORM_MAIL_TO=khuongbinh.info@gmail.com
+FORM_MAIL_FROM=THL B2B <noreply@mail.your-domain.com>
+FORM_ASSET_BASE_URL=https://luanphutung.vn
+OPENAI_API_KEY=... # hoặc GEMINI_API_KEY nếu dùng Gemini
+```
+
+4. Preview local bằng runtime Cloudflare:
+
+```bash
+pnpm preview
+```
+
+5. Deploy:
+
+```bash
+pnpm deploy
+```
+
+Nếu đang dùng build command cũ `npx @cloudflare/next-on-pages@1`, hãy đổi sang script OpenNext hoặc pipeline `pnpm deploy`.
 
 ---
 
