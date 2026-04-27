@@ -49,6 +49,6 @@ export function getProductVisual(slug: string) {
 
 export const productBenefitBullets = [
   "Đối chiếu theo mã cũ, kích thước và vị trí lắp thực tế",
-  "Ưu tiên NTN và Tsubaki trước khi chọn nhóm bổ trợ",
-  "Hỗ trợ phương án thay thế khi cần đảm bảo tiến độ nhà máy",
+  "Ưu tiên NTN và Tsubaki, đồng thời mở rộng sang Koyo/NOK/Soho đúng điều kiện ứng dụng",
+  "Hỗ trợ phương án thay thế chính thức khi cần đảm bảo tiến độ nhà máy",
 ];

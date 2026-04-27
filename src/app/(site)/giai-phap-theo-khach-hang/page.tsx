@@ -13,7 +13,7 @@ const brandById = Object.fromEntries(brandLogos.map((brand) => [brand.id, brand]
 export const metadata = createPageMetadata({
   title: "Giải pháp theo khách hàng",
   description:
-    "Giải pháp vật tư truyền động theo từng vai trò trong nhà máy: bảo trì, kỹ thuật, mua hàng và chủ xưởng, ưu tiên NTN và Tsubaki.",
+    "Giải pháp vật tư truyền động theo từng vai trò trong nhà máy: bảo trì, kỹ thuật, mua hàng và chủ xưởng, bám danh mục NTN, Tsubaki, Koyo cùng các nhóm triển khai theo ứng dụng.",
   path: "/giai-phap-theo-khach-hang",
 });
 
@@ -74,7 +74,7 @@ export default function SolutionsPage() {
         <div className="rounded-lg border border-slate-200 bg-slate-50 p-5 sm:p-6">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-sm text-slate-700">
-              Gửi mã cũ, ảnh tem, kích thước hoặc mô tả cụm máy để THL khoanh nhóm NTN, Tsubaki hoặc vật tư bổ trợ phù hợp.
+              Gửi mã cũ, ảnh tem, kích thước hoặc mô tả cụm máy để THL khoanh đúng NTN, Tsubaki, Koyo và nhóm vật tư triển khai theo ứng dụng.
             </p>
             <div className="flex flex-col gap-2 sm:flex-row">
               <Button asChild className="bg-blue-800 hover:bg-blue-900">

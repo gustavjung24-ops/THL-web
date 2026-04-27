@@ -1,6 +1,6 @@
 {
   "version": "v3-ntn-tsubaki-core",
-  "description": "Ví dụ hội thoại tham khảo cho hệ NTN và Tsubaki chủ lực, Koyo, NOK và Soho bổ trợ.",
+  "description": "Ví dụ hội thoại tham khảo cho hệ NTN và Tsubaki chủ lực truyền thông, Koyo phân phối chính thức và NOK/Soho theo ứng dụng.",
   "conversations": [
     {
       "id": "conv_01",
@@ -8,7 +8,7 @@
       "tags": ["exact_code", "bearings", "ntn"],
       "turns": [
         { "role": "user", "content": "6204 2RS" },
-        { "role": "assistant", "content": "Mã 6204-2RS thuộc nhóm vòng bi. Em ưu tiên đối chiếu theo NTN trước; kích thước lõi thường là ID 20 x OD 47 x W 14mm. Anh/chị cho em thêm môi trường chạy để xác nhận che chắn và độ rơ phù hợp." }
+        { "role": "assistant", "content": "Mã 6204-2RS thuộc nhóm vòng bi. THL ưu tiên đối chiếu theo NTN trước; kích thước lõi thường là ID 20 x OD 47 x W 14mm. Anh/chị vui lòng bổ sung môi trường chạy để THL xác nhận kiểu che chắn và độ rơ phù hợp." }
       ]
     },
     {
@@ -26,7 +26,7 @@
       "tags": ["exact_code", "bearings", "koyo"],
       "turns": [
         { "role": "user", "content": "6204 zz c3 koyo" },
-        { "role": "assistant", "content": "6204-ZZ C3 Koyo/JTEKT cùng kích thước lõi với 6204-2RS nhưng kiểu che chắn khác. Em sẽ giữ Koyo như phương án bổ trợ; anh/chị cho biết môi trường có bụi, ẩm hay chạy khô để chốt đúng loại." }
+        { "role": "assistant", "content": "6204-ZZ C3 Koyo/JTEKT cùng kích thước lõi với 6204-2RS nhưng kiểu che chắn khác. THL dùng Koyo như phương án phân phối chính thức trong nhóm vòng bi; anh/chị cho biết môi trường có bụi, ẩm hay chạy khô để chốt đúng loại." }
       ]
     },
     {
@@ -44,7 +44,7 @@
       "tags": ["exact_code", "belts", "soho"],
       "turns": [
         { "role": "user", "content": "dây A42" },
-        { "role": "assistant", "content": "A-42 thuộc nhóm dây curoa profile A. Em đối chiếu theo nhóm Soho như vật tư bổ trợ; anh/chị gửi thêm ảnh dây cũ hoặc kích thước đo thực tế để xác nhận profile." }
+        { "role": "assistant", "content": "A-42 thuộc nhóm dây curoa profile A. THL đối chiếu theo nhóm Soho theo ứng dụng; anh/chị gửi thêm ảnh dây cũ hoặc kích thước đo thực tế để xác nhận profile." }
       ]
     },
     {
@@ -53,7 +53,7 @@
       "tags": ["greeting", "discovery"],
       "turns": [
         { "role": "user", "content": "chào" },
-        { "role": "assistant", "content": "Chào anh/chị, em là bộ phận hỗ trợ kỹ thuật THL. THL ưu tiên NTN và Tsubaki, đồng thời hỗ trợ Koyo, NOK, Soho theo ứng dụng. Anh/chị đang có mã cũ, ảnh tem hay mô tả cụm máy cần thay thế ạ?" }
+        { "role": "assistant", "content": "Chào anh/chị, THL B2B đã tiếp nhận yêu cầu. THL ưu tiên NTN và Tsubaki trên trục truyền thông chính, đồng thời triển khai Koyo, NOK, Soho theo ứng dụng. Anh/chị đang có mã cũ, ảnh tem hay mô tả cụm máy cần thay thế?" }
       ]
     },
     {

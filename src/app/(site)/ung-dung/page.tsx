@@ -10,7 +10,7 @@ import { Card, CardContent } from "@/components/ui/card";
 export const metadata = createPageMetadata({
   title: "Ứng dụng theo ngành máy",
   description:
-    "Khoanh vùng vật tư truyền động theo loại máy và điều kiện vận hành, ưu tiên NTN, Tsubaki và nhóm thương hiệu bổ trợ của THL.",
+    "Khoanh vùng vật tư truyền động theo loại máy và điều kiện vận hành, ưu tiên NTN, Tsubaki cùng các nhóm triển khai phù hợp của THL.",
   path: "/ung-dung",
 });
 
@@ -22,7 +22,7 @@ export default function IndustryApplicationsPage() {
           <SectionTitle
             eyebrow="Ứng dụng theo ngành"
             title="Khoanh vùng vật tư theo loại máy và điều kiện vận hành"
-            description="Mỗi cụm máy có tải, tốc độ, môi trường và tiêu chuẩn lắp khác nhau. THL dùng bối cảnh ứng dụng để chọn đúng nhóm NTN, Tsubaki hoặc thương hiệu bổ trợ."
+            description="Mỗi cụm máy có tải, tốc độ, môi trường và tiêu chuẩn lắp khác nhau. THL dùng bối cảnh ứng dụng để chọn đúng NTN, Tsubaki, Koyo hoặc nhóm triển khai liên quan."
           />
           <Button asChild className="w-fit bg-blue-800 hover:bg-blue-900">
             <Link href="/tra-ma-bao-gia">

@@ -64,7 +64,7 @@ export const industryApplications: IndustryApplication[] = [
     slug: "bang-tai-truyen-dong",
     name: "Băng tải / Truyền động",
     description:
-      "Hệ băng tải xích, con lăn và cơ cấu truyền động cần Tsubaki cho xích, NTN/Koyo cho cụm quay, Soho cho nhóm dây truyền động bổ trợ.",
+      "Hệ băng tải xích, con lăn và cơ cấu truyền động cần Tsubaki cho xích, NTN/Koyo cho cụm quay, Soho cho nhóm dây truyền động theo tiến độ vận hành.",
     commonParts: ["Xích Tsubaki", "Vòng bi NTN/Koyo", "Gối đỡ", "Dây curoa Soho"],
     image: resolveIndustryCardImage("bang-tai-truyen-dong", "/images/cards/industry-bang-tai.webp"),
     imagePrompt:

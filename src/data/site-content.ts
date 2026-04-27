@@ -33,15 +33,15 @@ export type CustomerRole = {
 };
 
 export const heroContent = {
-  eyebrow: "Nhà phân phối chính thức NTN & Tsubaki",
+  eyebrow: "Nhà phân phối chính thức NTN, Tsubaki, Koyo",
   heading: "Vật tư truyền động Nhật Bản chính hãng cho nhà máy",
   subheading:
-    "THL tập trung NTN và Tsubaki làm hai thương hiệu chủ lực, bổ sung Koyo, NOK và Soho theo đúng nhóm ứng dụng bảo trì công nghiệp.",
+    "THL là nhà phân phối chính thức của NTN, Tsubaki và Koyo. Website giữ trọng tâm triển khai NTN, Tsubaki, NOK, Soho; Koyo được giới thiệu ở tầng hỗ trợ truyền thông nhưng vẫn là phương án chính thức trong nhóm vòng bi và gối đỡ.",
 };
 
 export const trustBullets = [
-  "Định vị rõ vai trò nhà phân phối chính thức cho NTN và Tsubaki",
-  "Danh mục Nhật Bản chính hãng, ưu tiên vật tư truyền động cho nhà máy",
+  "Định vị rõ vai trò nhà phân phối chính thức cho NTN, Tsubaki và Koyo",
+  "Danh mục Nhật Bản chính hãng với trục truyền thông tập trung cho NTN, Tsubaki, NOK, Soho",
   "Đối chiếu kỹ thuật theo mã, cụm máy và điều kiện vận hành thực tế",
   "Phối hợp được giữa bảo trì, kỹ thuật và mua hàng trong cùng quy trình B2B",
 ];
@@ -49,7 +49,7 @@ export const trustBullets = [
 export const heroHighlights = [
   "NTN cho vòng bi, cụm quay và các vị trí cần độ ổn định vận hành",
   "Tsubaki cho xích công nghiệp, băng tải và cơ cấu truyền động tải liên tục",
-  "Koyo, NOK, Soho bổ trợ theo đúng nhóm ứng dụng và yêu cầu thay thế",
+  "Koyo là thương hiệu phân phối chính thức trong nhóm vòng bi; NOK và Soho nằm trong nhóm triển khai trọng tâm theo ứng dụng",
 ];
 
 export const supportCards: SupportService[] = [
@@ -62,7 +62,7 @@ export const supportCards: SupportService[] = [
   {
     title: "Đối chiếu theo catalog",
     clientSends: "Thông số, kích thước, tải, nhiệt hoặc môi trường làm việc",
-    weSupport: "Đối chiếu NTN, Tsubaki và nhóm bổ trợ phù hợp",
+    weSupport: "Đối chiếu NTN, Tsubaki, Koyo và nhóm triển khai trọng tâm phù hợp",
     clientGets: "Phương án đúng ứng dụng trước khi chuyển báo giá",
   },
   {
@@ -98,9 +98,9 @@ export const productGroups: ProductGroup[] = [
     slug: "koyo",
     name: "Koyo",
     shortDescription:
-      "Koyo bổ trợ cho vòng bi, gối đỡ và cụm đỡ trục khi nhà máy cần thêm phương án kỹ thuật phù hợp.",
+      "Koyo là thương hiệu phân phối chính thức của THL cho nhóm vòng bi, gối đỡ và cụm đỡ trục trong dây chuyền công nghiệp.",
     detailDescription:
-      "Koyo được dùng như nhóm bổ trợ mạnh bên cạnh NTN, phù hợp khi cần đối chiếu vòng bi, gối đỡ hoặc mã thay thế cho cụm máy đang vận hành.",
+      "THL phân phối chính thức Koyo và sử dụng Koyo như phương án kỹ thuật chính thức cho nhóm vòng bi và gối đỡ. Trên website, Koyo được giữ ở tầng hỗ trợ truyền thông để không làm loãng trục triển khai hiện tại của NTN, Tsubaki, NOK và Soho.",
     popularApplications: ["Băng tải", "Trục truyền động", "Cụm đỡ trong dây chuyền", "Máy đóng gói", "Motor", "Hộp số"],
     commonBuyers: ["Bảo trì nhà máy", "Kỹ thuật dây chuyền", "Xưởng cơ khí", "Nhà thầu lắp đặt"],
   },
@@ -108,7 +108,7 @@ export const productGroups: ProductGroup[] = [
     slug: "nok",
     name: "NOK",
     shortDescription:
-      "NOK bổ trợ cho phớt chặn dầu, cụm làm kín trục và các vị trí cần kiểm soát rò rỉ trong vận hành liên tục.",
+      "NOK nằm trong nhóm thương hiệu THL triển khai trọng tâm cho phớt chặn dầu, cụm làm kín trục và các vị trí cần kiểm soát rò rỉ.",
     detailDescription:
       "NOK phù hợp cho cụm trục, hộp số, bơm và vị trí cần làm kín ổn định. Khi tư vấn cần đối chiếu kích thước cốt, vỏ, độ dày, kiểu môi và môi trường làm việc.",
     popularApplications: ["Hộp số", "Máy bơm", "Trục quay", "Cụm thủy lực", "Động cơ", "Máy sản xuất"],
@@ -118,9 +118,9 @@ export const productGroups: ProductGroup[] = [
     slug: "soho",
     name: "Soho",
     shortDescription:
-      "Soho là nhóm vật tư truyền động bổ trợ khi cần phương án thay thế phù hợp tiến độ và ngân sách.",
+      "Soho nằm trong nhóm triển khai trọng tâm của THL cho các hạng mục vật tư truyền động cần phương án thay thế phù hợp tiến độ và ngân sách.",
     detailDescription:
-      "Soho được tư vấn theo mã thực tế, vị trí lắp và yêu cầu vận hành. Nhóm này giữ vai trò bổ sung, không làm loãng hai trụ cột chính NTN và Tsubaki.",
+      "Soho được tư vấn theo mã thực tế, vị trí lắp và yêu cầu vận hành. Nhóm này giúp mở rộng phương án chính thức theo tiến độ nhà máy, đồng thời vẫn giữ trọng tâm truyền thông cho các thương hiệu ưu tiên trên website.",
     popularApplications: ["Vật tư truyền động", "Cụm thay thế định kỳ", "Máy sản xuất", "Dây chuyền phụ trợ"],
     commonBuyers: ["Mua hàng kỹ thuật", "Bảo trì nhà máy", "Xưởng cơ khí", "Khách thay thế định kỳ"],
   },
@@ -162,8 +162,8 @@ export const customerSegments: CustomerSegment[] = [
 ];
 
 export const whyContactBullets = [
-  "Làm việc trực tiếp với bộ phận kinh doanh THL",
-  "Ưu tiên NTN và Tsubaki cho danh mục Nhật Bản chính hãng",
+  "Làm việc trực tiếp với đội THL B2B",
+  "Đối chiếu trên danh mục phân phối chính thức NTN, Tsubaki, Koyo và nhóm triển khai trọng tâm",
   "Đối chiếu kỹ thuật trước khi chốt mã và báo giá",
   "Phối hợp được với bảo trì, kỹ thuật và mua hàng",
   "Tiếp nhận mã, ảnh tem, kích thước qua Zalo hoặc form",
@@ -175,7 +175,7 @@ export const whyContactDescription =
 export const supportProcess = [
   "Tiếp nhận mã cũ, ảnh tem, ảnh cụm máy hoặc kích thước đang có",
   "Đối chiếu theo catalog, ứng dụng và điều kiện vận hành",
-  "Xác nhận nhóm hàng phù hợp trong NTN, Tsubaki hoặc thương hiệu bổ trợ",
+  "Xác nhận nhóm hàng phù hợp trong NTN, Tsubaki, Koyo và nhóm triển khai trọng tâm",
   "Chuyển xử lý báo giá, xác nhận số lượng và theo dõi tiến độ",
 ];
 
@@ -240,7 +240,7 @@ export const customerRoles: CustomerRole[] = [
   {
     role: "Bảo trì nhà máy",
     problems: "Máy hỏng đột xuất, mã cũ mờ hoặc thiếu, cần xử lý nhanh để không ảnh hưởng sản xuất.",
-    support: "Đối chiếu theo ảnh tem, kích thước và hiện trạng; ưu tiên NTN, Tsubaki hoặc nhóm bổ trợ đúng ứng dụng.",
+    support: "Đối chiếu theo ảnh tem, kích thước và hiện trạng; ưu tiên NTN, Tsubaki, Koyo cùng nhóm triển khai đúng ứng dụng.",
   },
   {
     role: "Kỹ thuật thiết bị",

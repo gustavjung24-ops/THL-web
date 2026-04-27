@@ -44,7 +44,7 @@ export const productEntryCards: HomeEntryCard[] = [
     slug: "koyo",
     title: "Koyo",
     tier: "supporting",
-    description: "Nhóm bổ trợ cho vòng bi, gối đỡ và cụm đỡ trục khi cần thêm phương án kỹ thuật.",
+    description: "Thương hiệu phân phối chính thức cho vòng bi, gối đỡ và cụm đỡ trục trong các phương án kỹ thuật theo ứng dụng.",
     image: resolveProductCardImage("koyo", "/images/cards/product-goi-do.webp"),
     imagePrompt:
       "Cụm vòng bi và gối đỡ Koyo gắn trên trục truyền động trong nhà máy, close-up rõ sản phẩm và bối cảnh ứng dụng thực tế, realistic industrial B2B photography, clean lighting, professional, no cartoon, no oversized logos, no poster-style collage, 16:9 aspect ratio",
@@ -57,7 +57,7 @@ export const productEntryCards: HomeEntryCard[] = [
     slug: "nok",
     title: "NOK",
     tier: "supporting",
-    description: "Nhóm bổ trợ cho phớt chặn dầu, cụm làm kín trục, hộp số và bơm công nghiệp.",
+    description: "Nhóm triển khai trọng tâm cho phớt chặn dầu, cụm làm kín trục, hộp số và bơm công nghiệp.",
     image: resolveProductCardImage("nok", "/images/cards/product-phot-chan-dau.webp"),
     imagePrompt:
       "Ảnh phớt chặn dầu NOK và vị trí làm kín trên trục máy công nghiệp, technical but realistic, clean background, realistic industrial B2B photography, clean lighting, professional, no cartoon, no oversized logos, no poster-style collage, 16:9 aspect ratio",
@@ -70,7 +70,7 @@ export const productEntryCards: HomeEntryCard[] = [
     slug: "soho",
     title: "Soho",
     tier: "supporting",
-    description: "Nhóm vật tư truyền động bổ trợ khi cần phương án thay thế phù hợp tiến độ và ngân sách.",
+    description: "Nhóm vật tư truyền động triển khai theo nhu cầu thay thế, phù hợp tiến độ và ngân sách vận hành.",
     image: resolveProductCardImage("soho", "/images/backgrounds/final-cta-industrial.png"),
     imagePrompt:
       "Khu vực bảo trì nhà máy với dây curoa và vật tư truyền động Soho được sắp xếp gọn trên bàn kỹ thuật, realistic industrial B2B photography, clean lighting, professional, no cartoon, no oversized logos, no poster-style collage, 16:9 aspect ratio",

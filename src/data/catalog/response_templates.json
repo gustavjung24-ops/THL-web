@@ -1,6 +1,6 @@
 {
   "version": "v2",
-  "description": "Mẫu câu trả lời cho hệ tư vấn THL, ưu tiên NTN và Tsubaki theo đúng ứng dụng.",
+  "description": "Mẫu câu trả lời cho đội THL B2B, bám danh mục phân phối chính thức NTN, Tsubaki, Koyo và trục triển khai theo ứng dụng.",
   "templates": [
     {
       "key": "found_exact",
@@ -23,13 +23,13 @@
     {
       "key": "not_in_catalog",
       "scenario": "Mã không có trong catalog hiện tại.",
-      "template": "Mã {query} chưa có trong hệ thống tra cứu. Ngoài danh mục đang hỗ trợ. Chưa báo mã để tránh sai.",
+      "template": "Mã {query} chưa có trong hệ thống tra cứu hiện hành. THL cần đối chiếu thủ công trước khi xác nhận để tránh sai mã.",
       "variables": ["query"]
     },
     {
       "key": "brand_not_allowed",
       "scenario": "Khách hỏi thương hiệu ngoài whitelist.",
-      "template": "Thương hiệu {brand} hiện ngoài danh mục đang hỗ trợ. Có thể cân nhắc mã tương đương: {suggested}.",
+      "template": "Thương hiệu {brand} hiện ngoài phạm vi danh mục triển khai trên hệ thống. THL đề xuất phương án tương đương đã đối chiếu: {suggested}.",
       "variables": ["brand", "suggested"]
     },
     {
@@ -47,7 +47,7 @@
     {
       "key": "outside_scope",
       "scenario": "Hàng ngoài phạm vi hỗ trợ (VD: xích xe máy 420/428).",
-      "template": "Nhóm hàng này ({item}) nằm ngoài danh mục xích công nghiệp đang hỗ trợ. Anh/chị vui lòng liên hệ đại lý chuyên dụng.",
+      "template": "Nhóm hàng này ({item}) nằm ngoài danh mục xích công nghiệp THL đang triển khai. Anh/chị vui lòng liên hệ đơn vị chuyên dụng để được hỗ trợ phù hợp.",
       "variables": ["item"]
     },
     {
@@ -59,7 +59,7 @@
     {
       "key": "greeting",
       "scenario": "Khách chào hỏi chung chung.",
-      "template": "Chào anh/chị, THL hỗ trợ đối chiếu NTN, Tsubaki và vật tư truyền động. Anh/chị gửi mã cũ, ảnh tem hoặc mô tả máy để em kiểm tra nhé.",
+      "template": "Chào anh/chị, THL hỗ trợ đối chiếu danh mục NTN, Tsubaki, Koyo và các nhóm vật tư truyền động theo ứng dụng. Anh/chị gửi mã cũ, ảnh tem hoặc mô tả máy để THL kiểm tra chính xác.",
       "variables": []
     }
   ]

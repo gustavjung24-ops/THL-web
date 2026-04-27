@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 export const metadata = createPageMetadata({
   title: "Liên hệ THL | Yêu cầu vật tư truyền động",
   description:
-    "Liên hệ Công Ty TNHH Tân Hòa Lợi để gửi nhu cầu vật tư truyền động công nghiệp NTN, Tsubaki và nhóm thương hiệu bổ trợ cho nhà máy.",
+    "Liên hệ Công Ty TNHH Tân Hòa Lợi để gửi nhu cầu vật tư truyền động công nghiệp theo danh mục NTN, Tsubaki, Koyo và các nhóm triển khai theo ứng dụng.",
   path: "/lien-he",
 });
 
@@ -21,7 +21,7 @@ export default function ContactPage() {
   const pageSchema = createWebPageSchema({
     title: "Liên hệ THL | Yêu cầu vật tư truyền động",
     description:
-      "Liên hệ Công Ty TNHH Tân Hòa Lợi để gửi nhu cầu vật tư truyền động công nghiệp NTN, Tsubaki và nhóm thương hiệu bổ trợ cho nhà máy.",
+      "Liên hệ Công Ty TNHH Tân Hòa Lợi để gửi nhu cầu vật tư truyền động công nghiệp theo danh mục NTN, Tsubaki, Koyo và các nhóm triển khai theo ứng dụng.",
     path: "/lien-he",
     type: "ContactPage",
   });
@@ -39,7 +39,7 @@ export default function ContactPage() {
         <SectionTitle
           eyebrow="Liên hệ THL"
           title="Gửi nhu cầu vật tư truyền động cho THL"
-          description="THL tiếp nhận mã hàng, ảnh tem, thông tin cụm máy hoặc yêu cầu đặt hàng để đối chiếu nhóm NTN, Tsubaki và vật tư bổ trợ phù hợp."
+          description="THL tiếp nhận mã hàng, ảnh tem, thông tin cụm máy hoặc yêu cầu đặt hàng để đối chiếu đúng danh mục NTN, Tsubaki, Koyo và các nhóm triển khai theo ứng dụng."
         />
 
         <div className="grid gap-6 lg:grid-cols-[0.92fr_1.08fr]">
@@ -53,7 +53,7 @@ export default function ContactPage() {
             <div>
               <p className="font-semibold text-slate-950">Công Ty TNHH Tân Hòa Lợi</p>
               <p className="mt-2 text-sm leading-relaxed text-slate-600">
-                Nhà phân phối chính thức NTN & Tsubaki cho vật tư truyền động công nghiệp.
+                Nhà phân phối chính thức NTN, Tsubaki, Koyo cho vật tư truyền động công nghiệp.
               </p>
             </div>
 

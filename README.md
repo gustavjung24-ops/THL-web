@@ -74,6 +74,12 @@ GEMINI_MODEL=gemini-2.5-flash
 
 # Debug — hiện provider đang dùng trên chat UI
 NEXT_PUBLIC_SHOW_ASSISTANT_PROVIDER=false
+
+# Form email (bắt buộc cho submit form liên hệ/lead)
+RESEND_API_KEY=<your_key>
+
+# Tuỳ chọn, mặc định: THL B2B <onboarding@resend.dev>
+FORM_MAIL_FROM="THL B2B <no-reply@your-domain.com>"
 ```
 
 > **Lưu ý:**

@@ -10,7 +10,7 @@ export interface UploadProvider {
   upload(files: File[]): Promise<UploadedImage[]>;
 }
 
-export class LocalMockUploadProvider implements UploadProvider {
+export class LocalPreviewUploadProvider implements UploadProvider {
   async upload(files: File[]): Promise<UploadedImage[]> {
     return files.map((file) => ({
       id: crypto.randomUUID(),
@@ -22,4 +22,4 @@ export class LocalMockUploadProvider implements UploadProvider {
   }
 }
 
-export const uploadProvider: UploadProvider = new LocalMockUploadProvider();
+export const uploadProvider: UploadProvider = new LocalPreviewUploadProvider();

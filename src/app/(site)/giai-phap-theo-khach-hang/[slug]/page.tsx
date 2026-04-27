@@ -19,14 +19,14 @@ const roleDetails: Record<string, { situations: string[]; products: string[] }> 
       "Máy dừng đột xuất, cần đối chiếu vật tư trong ngày",
       "Mã cũ mờ hoặc thiếu dữ liệu, chỉ có ảnh tem, mẫu cũ hoặc kích thước",
       "Cần phương án tương đương khi hàng gốc hết hoặc thời gian giao kéo dài",
-      "Ưu tiên NTN cho vòng bi, Tsubaki cho truyền động; bổ sung Koyo, NOK khi phù hợp",
+      "Ưu tiên NTN cho vòng bi, Tsubaki cho truyền động; dùng Koyo, NOK theo yêu cầu ứng dụng thực tế",
     ],
     products: ["NTN", "Tsubaki", "Koyo", "NOK"],
   },
   "ky-thuat": {
     situations: [
       "Cần xác nhận mã theo tải, tốc độ, nhiệt và môi trường vận hành",
-      "So sánh phương án giữa NTN, Tsubaki và nhóm bổ trợ theo cùng vị trí lắp",
+      "So sánh phương án giữa NTN, Tsubaki, Koyo, NOK, Soho theo cùng vị trí lắp",
       "Kiểm tra tương thích khi thay đổi quy cách theo bản vẽ hoặc tiêu chuẩn mới",
       "Cần dữ liệu để lập phương án bảo trì định kỳ",
     ],
@@ -62,7 +62,7 @@ export function generateMetadata({ params }: { params: { slug: string } }) {
 
   return createPageMetadata({
     title: `Giải pháp cho ${roleName}`,
-    description: `Giải pháp vật tư truyền động dành cho ${roleName}, ưu tiên NTN và Tsubaki trong hệ danh mục THL.`,
+    description: `Giải pháp vật tư truyền động dành cho ${roleName}, theo danh mục NTN, Tsubaki, Koyo và các nhóm triển khai theo ứng dụng của THL.`,
     path: `/giai-phap-theo-khach-hang/${params.slug}`,
   });
 }

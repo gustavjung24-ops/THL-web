@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 const applicationBenefits = [
   "Khoanh nhóm vật tư theo cụm máy, tải, tốc độ và môi trường vận hành",
   "Đối chiếu mã theo ảnh tem, kích thước hoặc mẫu cũ đang lắp",
-  "Ưu tiên NTN, Tsubaki trước khi cân nhắc nhóm bổ trợ phù hợp",
+  "Ưu tiên NTN, Tsubaki và bổ sung Koyo/NOK/Soho theo đúng điều kiện ứng dụng",
 ];
 
 export function generateStaticParams() {

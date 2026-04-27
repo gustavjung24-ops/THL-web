@@ -3,8 +3,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { leadFormBottomNote, leadFormUploadHint, productGroups } from "@/data/site-content";
+import { leadSubmitSchema, type LeadSubmitValues } from "@/lib/forms/form-schemas";
 import { uploadProvider, type UploadedImage } from "@/lib/upload";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -13,23 +13,13 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
-const leadSchema = z.object({
-  fullName: z.string().min(2, "Vui lòng nhập họ tên người liên hệ"),
-  phone: z.string().min(8, "Vui lòng nhập số điện thoại"),
-  company: z.string().min(2, "Vui lòng nhập nhà máy / công ty"),
-  area: z.string().min(2, "Vui lòng nhập khu vực / KCN"),
-  productGroup: z.string().min(1, "Vui lòng chọn nhóm vật tư cần đối chiếu"),
-  requestedCode: z.string().min(2, "Vui lòng nhập mã đang dùng hoặc mô tả vật tư"),
-  application: z.string().optional(),
-  quantity: z.string().optional(),
-  priority: z.string().min(1, "Vui lòng chọn mức độ ưu tiên"),
-  notes: z.string().optional(),
-});
+type LeadApiPayload = LeadSubmitValues & {
+  uploadedFiles?: string[];
+};
 
-type LeadFormValues = z.infer<typeof leadSchema>;
-
-const defaultValues: LeadFormValues = {
+const defaultValues: LeadSubmitValues = {
   fullName: "",
+  email: "",
   phone: "",
   company: "",
   area: "",
@@ -44,6 +34,7 @@ const defaultValues: LeadFormValues = {
 export function LeadForm() {
   const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
   const [submitMessage, setSubmitMessage] = useState("");
+  const [submitError, setSubmitError] = useState("");
 
   const {
     register,
@@ -52,8 +43,8 @@ export function LeadForm() {
     watch,
     formState: { errors, isSubmitting },
     reset,
-  } = useForm<LeadFormValues>({
-    resolver: zodResolver(leadSchema),
+  } = useForm<LeadSubmitValues>({
+    resolver: zodResolver(leadSubmitSchema),
     defaultValues,
   });
 
@@ -68,13 +59,39 @@ export function LeadForm() {
     setUploadedImages((prev) => [...prev, ...uploaded]);
   }
 
-  async function onSubmit(values: LeadFormValues) {
-    await new Promise((resolve) => setTimeout(resolve, 700));
-    setSubmitMessage(
-      `Đã tiếp nhận yêu cầu kỹ thuật của ${values.fullName}. Đội THL B2B sẽ phản hồi theo mức độ ưu tiên đã chọn.`,
-    );
-    reset(defaultValues);
-    setUploadedImages([]);
+  async function onSubmit(values: LeadSubmitValues) {
+    setSubmitMessage("");
+    setSubmitError("");
+
+    const payload: LeadApiPayload = {
+      ...values,
+      uploadedFiles: uploadedImages.map((image) => image.name),
+    };
+
+    try {
+      const response = await fetch("/api/forms/lead", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data: { ok?: boolean; message?: string; error?: string } = await response.json().catch(() => ({}));
+
+      if (!response.ok || !data.ok) {
+        setSubmitError(data.error ?? "Không thể gửi yêu cầu. Vui lòng thử lại hoặc liên hệ trực tiếp đội THL B2B qua điện thoại.");
+        return;
+      }
+
+      setSubmitMessage(
+        data.message ?? "THL đã tiếp nhận yêu cầu kỹ thuật. Đội THL B2B sẽ phản hồi chi tiết thủ công qua email hoặc điện thoại.",
+      );
+      reset(defaultValues);
+      setUploadedImages([]);
+    } catch {
+      setSubmitError("Không thể kết nối hệ thống gửi form. Vui lòng thử lại hoặc liên hệ trực tiếp đội THL B2B qua điện thoại.");
+    }
   }
 
   return (
@@ -88,23 +105,29 @@ export function LeadForm() {
               {errors.fullName ? <p className="text-xs text-red-600">{errors.fullName.message}</p> : null}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="phone">Số điện thoại</Label>
-              <Input id="phone" placeholder="09xx xxx xxx" {...register("phone")} />
-              {errors.phone ? <p className="text-xs text-red-600">{errors.phone.message}</p> : null}
+              <Label htmlFor="email">Email công việc</Label>
+              <Input id="email" type="email" placeholder="ten@congty.com" {...register("email")} />
+              {errors.email ? <p className="text-xs text-red-600">{errors.email.message}</p> : null}
             </div>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
+              <Label htmlFor="phone">Số điện thoại</Label>
+              <Input id="phone" placeholder="09xx xxx xxx" {...register("phone")} />
+              {errors.phone ? <p className="text-xs text-red-600">{errors.phone.message}</p> : null}
+            </div>
+            <div className="space-y-2">
               <Label htmlFor="company">Nhà máy / công ty</Label>
               <Input id="company" placeholder="Công ty ABC" {...register("company")} />
               {errors.company ? <p className="text-xs text-red-600">{errors.company.message}</p> : null}
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="area">Khu vực / KCN</Label>
-              <Input id="area" placeholder="KCN Sóng Thần / Bình Dương" {...register("area")} />
-              {errors.area ? <p className="text-xs text-red-600">{errors.area.message}</p> : null}
-            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="area">Khu vực / KCN</Label>
+            <Input id="area" placeholder="KCN Sóng Thần / Bình Dương" {...register("area")} />
+            {errors.area ? <p className="text-xs text-red-600">{errors.area.message}</p> : null}
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">
@@ -112,9 +135,7 @@ export function LeadForm() {
               <Label>Nhóm vật tư cần đối chiếu</Label>
               <Select
                 value={selectedProductGroup}
-                onValueChange={(value) =>
-                  setValue("productGroup", value ?? "", { shouldValidate: true, shouldDirty: true })
-                }
+                onValueChange={(value) => setValue("productGroup", value ?? "", { shouldValidate: true, shouldDirty: true })}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Chọn nhóm vật tư" />
@@ -168,7 +189,12 @@ export function LeadForm() {
 
           <div className="space-y-2">
             <Label htmlFor="notes">Ghi chú thêm</Label>
-            <Textarea id="notes" placeholder="Thông tin bổ sung về tải, tốc độ, môi trường hoặc tiến độ cần xử lý" rows={4} {...register("notes")} />
+            <Textarea
+              id="notes"
+              placeholder="Thông tin bổ sung về tải, tốc độ, môi trường hoặc tiến độ cần xử lý"
+              rows={4}
+              {...register("notes")}
+            />
           </div>
 
           <div className="space-y-2">
@@ -189,7 +215,7 @@ export function LeadForm() {
           </Button>
 
           <p className="text-xs text-slate-600">{leadFormBottomNote}</p>
-
+          {submitError ? <p className="rounded-md bg-red-50 p-3 text-sm text-red-700">{submitError}</p> : null}
           {submitMessage ? <p className="rounded-md bg-blue-50 p-3 text-sm text-blue-800">{submitMessage}</p> : null}
         </form>
       </CardContent>

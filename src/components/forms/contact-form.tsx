@@ -3,41 +3,58 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { contactSubmitSchema, type ContactSubmitValues } from "@/lib/forms/form-schemas";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
-const contactSchema = z.object({
-  fullName: z.string().min(2, "Vui lòng nhập họ tên"),
-  phone: z.string().min(8, "Vui lòng nhập số điện thoại"),
-  message: z.string().min(5, "Vui lòng nhập nội dung"),
-});
-
-type ContactFormValues = z.infer<typeof contactSchema>;
-
 export function ContactForm() {
-  const [done, setDone] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState("");
+  const [submitError, setSubmitError] = useState("");
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<ContactFormValues>({
-    resolver: zodResolver(contactSchema),
+  } = useForm<ContactSubmitValues>({
+    resolver: zodResolver(contactSubmitSchema),
     defaultValues: {
       fullName: "",
+      email: "",
       phone: "",
       message: "",
     },
   });
 
-  async function onSubmit() {
-    await new Promise((resolve) => setTimeout(resolve, 500));
-    setDone(true);
-    reset();
+  async function onSubmit(values: ContactSubmitValues) {
+    setSubmitMessage("");
+    setSubmitError("");
+
+    try {
+      const response = await fetch("/api/forms/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+
+      const payload: { ok?: boolean; message?: string; error?: string } = await response.json().catch(() => ({}));
+
+      if (!response.ok || !payload.ok) {
+        setSubmitError(payload.error ?? "Không thể gửi yêu cầu. Vui lòng thử lại hoặc liên hệ trực tiếp đội THL B2B qua điện thoại.");
+        return;
+      }
+
+      setSubmitMessage(
+        payload.message ?? "THL đã tiếp nhận thông tin. Đội THL B2B sẽ phản hồi chi tiết thủ công qua email hoặc điện thoại.",
+      );
+      reset();
+    } catch {
+      setSubmitError("Không thể kết nối hệ thống gửi form. Vui lòng thử lại hoặc liên hệ trực tiếp đội THL B2B qua điện thoại.");
+    }
   }
 
   return (
@@ -47,20 +64,36 @@ export function ContactForm() {
         <Input id="contactName" placeholder="Nguyễn Văn A" {...register("fullName")} />
         {errors.fullName ? <p className="text-xs text-red-600">{errors.fullName.message}</p> : null}
       </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="contactEmail">Email công việc</Label>
+        <Input id="contactEmail" type="email" placeholder="ten@congty.com" {...register("email")} />
+        {errors.email ? <p className="text-xs text-red-600">{errors.email.message}</p> : null}
+      </div>
+
       <div className="space-y-2">
         <Label htmlFor="contactPhone">Số điện thoại</Label>
         <Input id="contactPhone" placeholder="09xx xxx xxx" {...register("phone")} />
         {errors.phone ? <p className="text-xs text-red-600">{errors.phone.message}</p> : null}
       </div>
+
       <div className="space-y-2">
         <Label htmlFor="contactMessage">Nội dung cần THL hỗ trợ</Label>
-        <Textarea id="contactMessage" rows={4} placeholder="Mã hàng, nhóm vật tư, ứng dụng hoặc tiến độ cần xử lý" {...register("message")} />
+        <Textarea
+          id="contactMessage"
+          rows={4}
+          placeholder="Mã hàng, nhóm vật tư, ứng dụng hoặc tiến độ cần xử lý"
+          {...register("message")}
+        />
         {errors.message ? <p className="text-xs text-red-600">{errors.message.message}</p> : null}
       </div>
+
       <Button type="submit" className="w-full bg-blue-800 hover:bg-blue-900" disabled={isSubmitting}>
         {isSubmitting ? "Đang gửi..." : "Gửi liên hệ"}
       </Button>
-      {done ? <p className="text-sm text-blue-800">Đã tiếp nhận thông tin. Đội THL B2B sẽ phản hồi sớm.</p> : null}
+
+      {submitError ? <p className="text-sm text-red-700">{submitError}</p> : null}
+      {submitMessage ? <p className="text-sm text-blue-800">{submitMessage}</p> : null}
     </form>
   );
 }

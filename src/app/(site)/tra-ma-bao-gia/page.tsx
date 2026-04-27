@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 export const metadata = createPageMetadata({
   title: "Gửi yêu cầu kỹ thuật / báo giá",
   description:
-    "Gửi mã hàng, ảnh tem, kích thước hoặc mô tả cụm máy để THL đối chiếu NTN, Tsubaki và nhóm vật tư truyền động phù hợp.",
+    "Gửi mã hàng, ảnh tem, kích thước hoặc mô tả cụm máy để THL đối chiếu đúng danh mục NTN, Tsubaki, Koyo và nhóm triển khai theo ứng dụng.",
   path: "/tra-ma-bao-gia",
 });
 
@@ -19,7 +19,7 @@ export default function QuotePage() {
   const pageSchema = createWebPageSchema({
     title: "Gửi yêu cầu kỹ thuật / báo giá",
     description:
-      "Gửi mã hàng, ảnh tem, kích thước hoặc mô tả cụm máy để THL đối chiếu NTN, Tsubaki và nhóm vật tư truyền động phù hợp.",
+      "Gửi mã hàng, ảnh tem, kích thước hoặc mô tả cụm máy để THL đối chiếu đúng danh mục NTN, Tsubaki, Koyo và nhóm triển khai theo ứng dụng.",
     path: "/tra-ma-bao-gia",
   });
 
@@ -37,7 +37,7 @@ export default function QuotePage() {
           <SectionTitle
             eyebrow="Yêu cầu kỹ thuật / báo giá"
             title="Gửi thông tin để THL đối chiếu đúng nhóm vật tư"
-            description="Mã hàng, ảnh tem, kích thước, vị trí lắp và điều kiện vận hành giúp khoanh đúng NTN, Tsubaki hoặc nhóm bổ trợ trước khi chuyển báo giá."
+            description="Mã hàng, ảnh tem, kích thước, vị trí lắp và điều kiện vận hành giúp khoanh đúng NTN, Tsubaki, Koyo hoặc nhóm triển khai theo ứng dụng trước khi chuyển báo giá."
           />
 
           <ul className="grid gap-2 text-sm leading-relaxed text-slate-700 sm:grid-cols-2">

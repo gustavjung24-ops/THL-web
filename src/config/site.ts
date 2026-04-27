@@ -1,7 +1,7 @@
 export const siteConfig = {
   brandName: "Công Ty TNHH Tân Hòa Lợi",
   domain: "luanphutung.vn",
-  slogan: "Nhà phân phối chính thức NTN & Tsubaki cho vật tư truyền động công nghiệp",
+  slogan: "Nhà phân phối chính thức NTN, Tsubaki, Koyo cho vật tư truyền động công nghiệp",
   personalName: "Đội THL B2B",
   phone: "0902 964 685",
   phoneHref: "tel:0902964685",

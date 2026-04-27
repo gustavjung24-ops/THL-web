@@ -11,21 +11,21 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const metadata = createPageMetadata({
-  title: "Giới thiệu THL | Nhà phân phối chính thức NTN & Tsubaki",
+  title: "Giới thiệu THL | Nhà phân phối chính thức NTN, Tsubaki, Koyo",
   description:
-    "Công Ty TNHH Tân Hòa Lợi là nhà phân phối chính thức NTN và Tsubaki, cung cấp vật tư truyền động công nghiệp chính hãng cho nhà máy.",
+    "Công Ty TNHH Tân Hòa Lợi là nhà phân phối chính thức NTN, Tsubaki, Koyo và triển khai tư vấn vật tư truyền động công nghiệp theo chuẩn B2B.",
   path: "/gioi-thieu",
 });
 
 const capabilityBlocks = [
   {
     title: "Nhà phân phối chính thức",
-    description: "THL định vị rõ vai trò doanh nghiệp trong hệ cung ứng NTN và Tsubaki cho khách hàng công nghiệp.",
+    description: "THL định vị rõ vai trò doanh nghiệp trong hệ phân phối chính thức NTN, Tsubaki và Koyo cho khách hàng công nghiệp.",
     Icon: ShieldCheck,
   },
   {
-    title: "Danh mục Nhật Bản chủ lực",
-    description: "NTN và Tsubaki là hai trụ cột; Koyo, NOK và Soho bổ trợ theo nhóm ứng dụng bảo trì.",
+    title: "Danh mục triển khai có trọng tâm",
+    description: "NTN và Tsubaki là trục truyền thông chính; Koyo giữ vai trò phân phối chính thức theo nhóm vòng bi; NOK và Soho là nhóm triển khai trọng tâm.",
     Icon: BadgeCheck,
   },
   {
@@ -42,9 +42,9 @@ const capabilityBlocks = [
 
 export default function AboutPage() {
   const pageSchema = createWebPageSchema({
-    title: "Giới thiệu THL | Nhà phân phối chính thức NTN & Tsubaki",
+    title: "Giới thiệu THL | Nhà phân phối chính thức NTN, Tsubaki, Koyo",
     description:
-      "Công Ty TNHH Tân Hòa Lợi là nhà phân phối chính thức NTN và Tsubaki, cung cấp vật tư truyền động công nghiệp chính hãng cho nhà máy.",
+      "Công Ty TNHH Tân Hòa Lợi là nhà phân phối chính thức NTN, Tsubaki, Koyo và triển khai tư vấn vật tư truyền động công nghiệp theo chuẩn B2B.",
     path: "/gioi-thieu",
     type: "AboutPage",
   });
@@ -64,8 +64,8 @@ export default function AboutPage() {
             <div className="space-y-6 p-6 sm:p-8 lg:p-10">
               <SectionTitle
                 eyebrow="Giới thiệu THL"
-                title="Nhà phân phối chính thức NTN & Tsubaki cho vật tư truyền động công nghiệp"
-                description="Công Ty TNHH Tân Hòa Lợi cung cấp danh mục vật tư truyền động chính hãng cho nhà máy, với NTN và Tsubaki là hai thương hiệu chủ lực trong hệ sản phẩm Nhật Bản."
+                title="Nhà phân phối chính thức NTN, Tsubaki, Koyo cho vật tư truyền động công nghiệp"
+                description="Công Ty TNHH Tân Hòa Lợi cung cấp danh mục vật tư truyền động chính hãng cho nhà máy. Website giữ trục truyền thông chính cho NTN và Tsubaki, đồng thời duy trì Koyo là phương án phân phối chính thức theo nhóm vòng bi."
               />
               <p className="text-sm leading-relaxed text-slate-700 sm:text-base">
                 THL làm việc theo hướng doanh nghiệp B2B: tiếp nhận nhu cầu kỹ thuật, đối chiếu mã và ứng dụng, sau đó chuyển hướng báo giá rõ ràng để bộ phận bảo trì, kỹ thuật và mua hàng cùng kiểm tra.
@@ -118,8 +118,8 @@ export default function AboutPage() {
         <section className="space-y-6">
           <SectionTitle
             eyebrow="Thương hiệu phân phối"
-            title="NTN và Tsubaki là hai trụ cột"
-            description="Koyo, NOK và Soho được giữ trong vai trò bổ trợ để mở rộng phương án theo nhóm ứng dụng, nhưng không làm loãng trọng tâm thương hiệu chính."
+            title="NTN và Tsubaki là trục truyền thông chính"
+            description="THL là nhà phân phối chính thức của NTN, Tsubaki và Koyo. Trên website, Koyo được giữ ở tầng hỗ trợ truyền thông để phù hợp trọng tâm triển khai hiện tại; NOK và Soho là nhóm triển khai theo ứng dụng."
           />
 
           <div className="grid gap-3 sm:grid-cols-5">
@@ -133,7 +133,7 @@ export default function AboutPage() {
                   className="h-auto max-h-12 w-auto max-w-full object-contain"
                 />
                 <span className="rounded-md bg-slate-100 px-2 py-1 text-[11px] font-semibold uppercase tracking-wide text-slate-600">
-                  {brand.role === "core" ? "Chủ lực" : "Bổ trợ"}
+                  {brand.role === "core" ? "Chủ lực" : "Triển khai"}
                 </span>
               </div>
             ))}
@@ -163,7 +163,7 @@ export default function AboutPage() {
           <SectionTitle
             eyebrow="Nhóm sản phẩm"
             title="Danh mục vật tư truyền động chính"
-            description="Các nhóm hàng được sắp theo vai trò thương hiệu: NTN và Tsubaki là chủ lực; Koyo, NOK và Soho bổ trợ theo ứng dụng."
+            description="Các nhóm hàng được sắp theo vai trò thương hiệu: NTN và Tsubaki là chủ lực truyền thông; Koyo là phương án phân phối chính thức cho vòng bi; NOK và Soho triển khai theo ứng dụng."
           />
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">

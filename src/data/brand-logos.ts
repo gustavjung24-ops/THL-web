@@ -57,9 +57,9 @@ export function getCoreBrandLogos() {
 export const brandDescriptions: Record<string, string> = {
   ntn: "Chủ lực Nhật Bản · Vòng bi",
   tsubaki: "Chủ lực Nhật Bản · Xích truyền động",
-  koyo: "Bổ trợ · Vòng bi, gối đỡ",
-  nok: "Bổ trợ · Phớt làm kín",
-  soho: "Bổ trợ · Vật tư truyền động",
+  koyo: "Phân phối chính thức · Vòng bi, gối đỡ (tầng hỗ trợ truyền thông)",
+  nok: "Trọng tâm triển khai · Phớt làm kín",
+  soho: "Trọng tâm triển khai · Vật tư truyền động",
 };
 
 export const productGroupBrandMap: Record<string, string[]> = {

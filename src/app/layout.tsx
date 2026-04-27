@@ -23,11 +23,11 @@ export const metadata: Metadata = {
     template: `%s | ${siteConfig.brandName}`,
   },
   description:
-    "Công Ty TNHH Tân Hòa Lợi phân phối chính thức NTN và Tsubaki, cung cấp vật tư truyền động công nghiệp chính hãng cho nhà máy.",
+    "Công Ty TNHH Tân Hòa Lợi là nhà phân phối chính thức NTN, Tsubaki và Koyo cho hệ vật tư truyền động công nghiệp chính hãng.",
   openGraph: {
     title: `${siteConfig.brandName} | ${siteConfig.slogan}`,
     description:
-      "Danh mục NTN và Tsubaki chủ lực, bổ sung Koyo, NOK và Soho theo đúng ứng dụng bảo trì công nghiệp.",
+      "Danh mục triển khai tập trung NTN, Tsubaki, NOK, Soho; Koyo được phân phối chính thức trong nhóm vòng bi và gối đỡ.",
     type: "website",
     locale: "vi_VN",
     siteName: siteConfig.brandName,

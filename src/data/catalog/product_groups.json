@@ -1,6 +1,6 @@
 {
   "version": "v3-ntn-tsubaki-core",
-  "description": "Nhóm hàng đang hỗ trợ theo hệ thương hiệu NTN và Tsubaki chủ lực, Koyo, NOK và Soho bổ trợ.",
+  "description": "Nhóm hàng đang hỗ trợ theo hệ thương hiệu NTN và Tsubaki chủ lực truyền thông, Koyo phân phối chính thức theo nhóm vòng bi, cùng NOK và Soho theo ứng dụng.",
   "groups": [
     {
       "key": "bearings",
@@ -10,7 +10,7 @@
       "optional_fields": ["seal_or_shield", "clearance", "series"],
       "keywords": ["vòng bi", "bearing", "bạc đạn", "620", "630", "6200", "6300", "2rs", "zz", "c3", "ntn", "koyo"],
       "priority_brands": ["NTN", "KOYO/JTEKT"],
-      "note": "NTN là thương hiệu chủ lực cho vòng bi; Koyo dùng khi khách yêu cầu hoặc cần phương án bổ trợ."
+      "note": "NTN là thương hiệu chủ lực cho vòng bi; Koyo là thương hiệu phân phối chính thức và được triển khai theo nhu cầu ứng dụng."
     },
     {
       "key": "industrial_chains",
@@ -50,7 +50,7 @@
       "optional_fields": ["belt_type", "teeth_count"],
       "keywords": ["dây curoa", "belt", "v-belt", "curoa", "spa", "spb", "profile a", "profile b", "soho"],
       "priority_brands": ["SOHO"],
-      "note": "Dùng Soho cho nhóm vật tư truyền động bổ trợ, cần đối chiếu theo mã thực tế."
+      "note": "Dùng Soho cho nhóm vật tư truyền động theo ứng dụng, cần đối chiếu theo mã thực tế."
     }
   ]
 }
