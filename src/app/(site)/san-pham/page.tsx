@@ -20,26 +20,27 @@ export const metadata = createPageMetadata({
 const coreProducts = productGroups.filter((group) => group.slug === "ntn" || group.slug === "tsubaki");
 const supportingProducts = productGroups.filter((group) => group.slug !== "ntn" && group.slug !== "tsubaki");
 
-function ProductCard({ slug }: { slug: string }) {
+function ProductCard({ slug, layout = "horizontal" }: { slug: string; layout?: "horizontal" | "vertical" }) {
   const group = productGroups.find((item) => item.slug === slug);
 
   if (!group) return null;
 
   const visual = getProductVisual(group.slug);
   const isCore = group.slug === "ntn" || group.slug === "tsubaki";
+  const isVertical = layout === "vertical";
 
   return (
     <Card key={group.slug} id={group.slug} className="rounded-lg border-slate-200 bg-white py-0 shadow-[0_14px_34px_-28px_rgba(15,23,42,0.24)]">
-      <div className="grid gap-0 md:grid-cols-[220px_1fr]">
-        <div className="relative min-h-52 overflow-hidden md:min-h-full">
+      <div className={isVertical ? "grid gap-0" : "grid gap-0 md:grid-cols-[220px_1fr]"}>
+        <div className={isVertical ? "relative aspect-[16/9] overflow-hidden" : "relative min-h-52 overflow-hidden md:min-h-full"}>
           <Image
             src={visual.image}
             alt={visual.imageAlt}
             fill
-            sizes="(max-width: 768px) 100vw, 220px"
+            sizes={isVertical ? "(max-width: 1280px) 100vw, 33vw" : "(max-width: 768px) 100vw, 220px"}
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/50 to-transparent md:bg-slate-950/10" />
+          <div className={isVertical ? "absolute inset-0 bg-gradient-to-t from-slate-950/45 via-slate-950/12 to-transparent" : "absolute inset-0 bg-gradient-to-t from-slate-950/50 to-transparent md:bg-slate-950/10"} />
           <span className="absolute left-3 top-3 rounded-md border border-white/30 bg-white/15 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-white backdrop-blur">
             {isCore ? "Chủ lực" : "Triển khai"}
           </span>
@@ -186,7 +187,7 @@ export default function ProductsPage() {
             />
             <div className="grid gap-5 lg:grid-cols-2 xl:grid-cols-3">
               {supportingProducts.map((group) => (
-                <ProductCard key={group.slug} slug={group.slug} />
+                <ProductCard key={group.slug} slug={group.slug} layout="vertical" />
               ))}
             </div>
           </div>
