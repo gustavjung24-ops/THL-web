@@ -108,18 +108,58 @@ export default function ProductsPage() {
       <StructuredData data={[pageSchema, breadcrumbSchema]} />
       <div className="bg-white">
         <section className="section-block border-b border-slate-100">
-        <div className="page-shell grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
-          <SectionTitle
-            eyebrow="Danh mục sản phẩm"
-            title="NTN và Tsubaki là hai thương hiệu chủ lực"
-            description="THL tổ chức danh mục theo hệ vật tư truyền động Nhật Bản chính hãng: NTN cho vòng bi và cụm quay, Tsubaki cho xích và cơ cấu truyền động; Koyo là phương án phân phối chính thức cho nhóm vòng bi, NOK và Soho triển khai theo ứng dụng."
-          />
-          <Button asChild className="w-fit bg-blue-800 hover:bg-blue-900">
-            <Link href="/tra-ma-bao-gia">
-              <Search className="mr-2 size-4" />
-              Gửi yêu cầu kỹ thuật
-            </Link>
-          </Button>
+        <div className="page-shell">
+          <div className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-[0_16px_36px_-30px_rgba(15,23,42,0.55)]">
+            <div className="grid gap-0 lg:grid-cols-[1.02fr_0.98fr] lg:items-stretch">
+              <div className="space-y-6 p-6 sm:p-8 lg:p-10">
+                <SectionTitle
+                  eyebrow="Danh mục sản phẩm"
+                  title="NTN và Tsubaki là hai thương hiệu chủ lực trong danh mục THL"
+                  description="THL tổ chức danh mục theo hệ vật tư truyền động Nhật Bản chính hãng: NTN cho vòng bi và cụm quay, Tsubaki cho xích và cơ cấu truyền động; Koyo là phương án phân phối chính thức cho nhóm vòng bi, NOK và Soho triển khai theo ứng dụng."
+                />
+                <p className="max-w-2xl text-sm leading-relaxed text-slate-700 sm:text-base">
+                  Trang sản phẩm được chia theo vai trò phân phối và nhóm ứng dụng để bộ phận bảo trì, kỹ thuật và mua hàng khoanh nhanh đúng thương hiệu trước khi đi vào chi tiết mã hàng.
+                </p>
+                <div className="grid max-w-xl gap-3 sm:grid-cols-3">
+                  <div className="rounded-md border border-slate-200 bg-slate-50 px-4 py-3">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Trục chính</p>
+                    <p className="mt-1 text-sm font-semibold text-slate-950">NTN và Tsubaki</p>
+                  </div>
+                  <div className="rounded-md border border-slate-200 bg-slate-50 px-4 py-3">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Phân phối chính thức</p>
+                    <p className="mt-1 text-sm font-semibold text-slate-950">Koyo theo nhóm vòng bi</p>
+                  </div>
+                  <div className="rounded-md border border-slate-200 bg-slate-50 px-4 py-3">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Triển khai theo ứng dụng</p>
+                    <p className="mt-1 text-sm font-semibold text-slate-950">NOK và Soho</p>
+                  </div>
+                </div>
+                <Button asChild className="w-fit bg-blue-800 hover:bg-blue-900">
+                  <Link href="/tra-ma-bao-gia">
+                    <Search className="mr-2 size-4" />
+                    Gửi yêu cầu kỹ thuật
+                  </Link>
+                </Button>
+              </div>
+
+              <div className="relative min-h-72 bg-slate-100">
+                <Image
+                  src="/images/seo/seo-san-pham-ntn-koyo-tsubaki-soho-nok.png"
+                  alt="Danh mục vật tư truyền động THL với NTN, Tsubaki, Koyo, NOK và Soho"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 560px"
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/50 via-slate-950/12 to-transparent" />
+                <div className="absolute bottom-4 left-4 right-4 rounded-lg border border-white/20 bg-slate-950/65 px-4 py-3 backdrop-blur">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-100">Danh mục chính hãng</p>
+                  <p className="mt-2 text-sm leading-relaxed text-white/90">
+                    Ưu tiên NTN và Tsubaki ở tầng truyền thông chính, đồng thời giữ Koyo, NOK và Soho trong cấu trúc tư vấn theo ứng dụng thực tế.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         </section>
 
