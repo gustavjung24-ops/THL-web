@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2, Search } from "lucide-react";
-import { defaultProductVisual, productBenefitBullets, productVisuals } from "@/data/product-visuals";
+import { getProductVisual, productBenefitBullets } from "@/data/product-visuals";
 import { productGroups } from "@/data/site-content";
 import { createPageMetadata } from "@/lib/seo";
 import { createBreadcrumbSchema, createWebPageSchema } from "@/lib/schema";
@@ -25,7 +25,7 @@ function ProductCard({ slug }: { slug: string }) {
 
   if (!group) return null;
 
-  const visual = productVisuals[group.slug] ?? defaultProductVisual;
+  const visual = getProductVisual(group.slug);
   const isCore = group.slug === "ntn" || group.slug === "tsubaki";
 
   return (

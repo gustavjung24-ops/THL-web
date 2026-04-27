@@ -1,3 +1,5 @@
+import { resolveProductCardImage, resolveSolutionCardImage } from "@/lib/image-resolver";
+
 export type HomeEntryCard = {
   slug: string;
   title: string;
@@ -17,7 +19,7 @@ export const productEntryCards: HomeEntryCard[] = [
     title: "NTN",
     tier: "core",
     description: "Thương hiệu chủ lực cho vòng bi, cụm quay, motor, bơm, quạt và hộp số trong nhà máy.",
-    image: "/images/cards/product-vong-bi.webp",
+    image: resolveProductCardImage("ntn", "/images/cards/product-vong-bi.webp"),
     imagePrompt:
       "Kỹ thuật viên kiểm tra vòng bi NTN trong xưởng công nghiệp, máy móc và kệ vật tư phía sau, realistic industrial B2B photography, clean lighting, professional, no cartoon, no oversized logos, no poster-style collage, 16:9 aspect ratio",
     imageAlt: "Kỹ thuật viên kiểm tra vòng bi NTN trong xưởng sản xuất",
@@ -30,7 +32,7 @@ export const productEntryCards: HomeEntryCard[] = [
     title: "Tsubaki",
     tier: "core",
     description: "Thương hiệu chủ lực cho xích công nghiệp, nhông xích, băng tải xích và cơ cấu truyền động.",
-    image: "/images/cards/product-xich-cong-nghiep.jpg",
+    image: resolveProductCardImage("tsubaki", "/images/cards/product-xich-cong-nghiep.jpg"),
     imagePrompt:
       "Cụm truyền động xích Tsubaki trên dây chuyền công nghiệp, thấy rõ xích và nhông đang lắp thực tế, realistic industrial B2B photography, clean lighting, professional, no cartoon, no oversized logos, no poster-style collage, 16:9 aspect ratio",
     imageAlt: "Cụm truyền động xích Tsubaki trên dây chuyền sản xuất",
@@ -43,7 +45,7 @@ export const productEntryCards: HomeEntryCard[] = [
     title: "Koyo",
     tier: "supporting",
     description: "Nhóm bổ trợ cho vòng bi, gối đỡ và cụm đỡ trục khi cần thêm phương án kỹ thuật.",
-    image: "/images/cards/product-goi-do.webp",
+    image: resolveProductCardImage("koyo", "/images/cards/product-goi-do.webp"),
     imagePrompt:
       "Cụm vòng bi và gối đỡ Koyo gắn trên trục truyền động trong nhà máy, close-up rõ sản phẩm và bối cảnh ứng dụng thực tế, realistic industrial B2B photography, clean lighting, professional, no cartoon, no oversized logos, no poster-style collage, 16:9 aspect ratio",
     imageAlt: "Cụm vòng bi và gối đỡ Koyo lắp trên trục truyền động trong dây chuyền nhà máy",
@@ -56,7 +58,7 @@ export const productEntryCards: HomeEntryCard[] = [
     title: "NOK",
     tier: "supporting",
     description: "Nhóm bổ trợ cho phớt chặn dầu, cụm làm kín trục, hộp số và bơm công nghiệp.",
-    image: "/images/cards/product-phot-chan-dau.webp",
+    image: resolveProductCardImage("nok", "/images/cards/product-phot-chan-dau.webp"),
     imagePrompt:
       "Ảnh phớt chặn dầu NOK và vị trí làm kín trên trục máy công nghiệp, technical but realistic, clean background, realistic industrial B2B photography, clean lighting, professional, no cartoon, no oversized logos, no poster-style collage, 16:9 aspect ratio",
     imageAlt: "Phớt chặn dầu NOK lắp tại vị trí làm kín trên trục máy công nghiệp",
@@ -69,7 +71,7 @@ export const productEntryCards: HomeEntryCard[] = [
     title: "Soho",
     tier: "supporting",
     description: "Nhóm vật tư truyền động bổ trợ khi cần phương án thay thế phù hợp tiến độ và ngân sách.",
-    image: "/images/backgrounds/final-cta-industrial.png",
+    image: resolveProductCardImage("soho", "/images/backgrounds/final-cta-industrial.png"),
     imagePrompt:
       "Khu vực bảo trì nhà máy với dây curoa và vật tư truyền động Soho được sắp xếp gọn trên bàn kỹ thuật, realistic industrial B2B photography, clean lighting, professional, no cartoon, no oversized logos, no poster-style collage, 16:9 aspect ratio",
     imageAlt: "Vật tư truyền động Soho dùng trong khu vực bảo trì nhà máy",
@@ -84,7 +86,7 @@ export const solutionEntryCards: HomeEntryCard[] = [
     slug: "bao-tri",
     title: "Bảo trì nhà máy",
     description: "Đối chiếu vật tư theo mã cũ, ảnh tem, kích thước và tình trạng máy đang vận hành.",
-    image: "/images/cards/solution-bao-tri.webp",
+    image: resolveSolutionCardImage("bao-tri", "/images/cards/solution-bao-tri.webp"),
     imagePrompt:
       "Nhân sự bảo trì kiểm tra cụm máy, cầm mẫu linh kiện thay thế trong xưởng công nghiệp, realistic industrial B2B photography, clean lighting, professional, no cartoon, no oversized logos, no poster-style collage, 16:9 aspect ratio",
     imageAlt: "Nhân viên bảo trì nhà máy kiểm tra cụm máy và linh kiện thay thế",
@@ -96,7 +98,7 @@ export const solutionEntryCards: HomeEntryCard[] = [
     slug: "ky-thuat",
     title: "Kỹ thuật thiết bị",
     description: "Xác nhận thông số theo tải, tốc độ, môi trường và tiêu chuẩn lắp thực tế.",
-    image: "/images/cards/solution-ky-thuat.webp",
+    image: resolveSolutionCardImage("ky-thuat", "/images/cards/solution-ky-thuat.webp"),
     imagePrompt:
       "Kỹ thuật viên đo kích thước trục và kiểm tra cụm ổ trục bằng thước kẹp, realistic factory environment, realistic industrial B2B photography, clean lighting, professional, no cartoon, no oversized logos, no poster-style collage, 16:9 aspect ratio",
     imageAlt: "Kỹ thuật viên đo kích thước trục và kiểm tra cụm ổ trục trong nhà máy",
@@ -108,7 +110,7 @@ export const solutionEntryCards: HomeEntryCard[] = [
     slug: "mua-hang",
     title: "Mua hàng kỹ thuật",
     description: "Tách rõ thông tin kỹ thuật, nhóm thương hiệu và yêu cầu đặt hàng để báo giá rành mạch.",
-    image: "/images/cards/solution-mua-hang.webp",
+    image: resolveSolutionCardImage("mua-hang", "/images/cards/solution-mua-hang.webp"),
     imagePrompt:
       "Nhân sự mua hàng kỹ thuật đối chiếu mã, catalog, tem hàng và danh sách vật tư trên bàn làm việc công nghiệp, realistic industrial B2B photography, clean lighting, professional, no cartoon, no oversized logos, no poster-style collage, 16:9 aspect ratio",
     imageAlt: "Nhân viên mua hàng kỹ thuật đối chiếu mã và catalog vật tư tại bàn làm việc",
@@ -120,7 +122,7 @@ export const solutionEntryCards: HomeEntryCard[] = [
     slug: "chu-xuong",
     title: "Chủ xưởng / Cơ điện",
     description: "Định hướng nhóm vật tư theo vị trí máy, mức tải và kế hoạch vận hành dài hạn.",
-    image: "/images/cards/solution-chu-xuong.webp",
+    image: resolveSolutionCardImage("chu-xuong", "/images/cards/solution-chu-xuong.webp"),
     imagePrompt:
       "Chủ xưởng và kỹ thuật trao đổi trước cụm máy sản xuất, industrial realistic, professional, realistic industrial B2B photography, clean lighting, no cartoon, no oversized logos, no poster-style collage, 16:9 aspect ratio",
     imageAlt: "Chủ xưởng và kỹ thuật viên trao đổi trước cụm máy sản xuất",

@@ -17,7 +17,7 @@ import {
 import { siteConfig } from "@/config/site";
 import { brandDescriptions, brandLogos } from "@/data/brand-logos";
 import { industryApplications } from "@/data/industry-applications";
-import { defaultProductVisual, productBenefitBullets, productVisuals } from "@/data/product-visuals";
+import { getProductVisual, productBenefitBullets } from "@/data/product-visuals";
 import { productGroups, supportProcess, trustBullets } from "@/data/site-content";
 import { createPageMetadata } from "@/lib/seo";
 import { createBreadcrumbSchema, createOrganizationSchema, createWebPageSchema, createWebSiteSchema } from "@/lib/schema";
@@ -105,10 +105,6 @@ const defaultBrandTheme = brandThemes.ntn;
 
 function getBrandTheme(brandId: string) {
   return brandThemes[brandId] ?? defaultBrandTheme;
-}
-
-function getProductVisual(slug: string) {
-  return productVisuals[slug] ?? defaultProductVisual;
 }
 
 const trustArchitecture = [

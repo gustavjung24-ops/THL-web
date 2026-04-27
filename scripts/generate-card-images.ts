@@ -16,8 +16,16 @@ import * as path from "node:path";
 const OUTPUT_DIR = path.resolve(__dirname, "../public/images/cards");
 const PROMPTS_OUTPUT = path.resolve(__dirname, "../card-image-prompts.json");
 
+function ensureTargetDirectories(prompts: ReturnType<typeof getAllImagePrompts>) {
+  for (const item of prompts) {
+    const fullPath = path.resolve(__dirname, "..", "public", item.targetPath.replace(/^\//, ""));
+    fs.mkdirSync(path.dirname(fullPath), { recursive: true });
+  }
+}
+
 async function main() {
   const prompts = getAllImagePrompts();
+  ensureTargetDirectories(prompts);
 
   // Đảm bảo thư mục output tồn tại
   if (!fs.existsSync(OUTPUT_DIR)) {

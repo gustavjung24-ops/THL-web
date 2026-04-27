@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, CheckCircle2, MessageCircle, Search } from "lucide-react";
 import { siteConfig } from "@/config/site";
-import { defaultProductVisual, productBenefitBullets, productVisuals } from "@/data/product-visuals";
+import { getProductVisual, productBenefitBullets } from "@/data/product-visuals";
 import { productGroups } from "@/data/site-content";
 import { createPageMetadata } from "@/lib/seo";
 import { createBreadcrumbSchema, createProductSchema, createWebPageSchema } from "@/lib/schema";
@@ -45,7 +45,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
     notFound();
   }
 
-  const visual = productVisuals[product.slug] ?? defaultProductVisual;
+  const visual = getProductVisual(product.slug);
   const isCore = product.slug === "ntn" || product.slug === "tsubaki";
   const path = `/san-pham/${product.slug}`;
   const pageSchema = createWebPageSchema({

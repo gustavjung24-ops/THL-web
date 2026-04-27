@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Clock3, Globe, MessageCircle, PhoneCall, ShieldCheck } from "lucide-react";
 import { footerMenu, siteConfig } from "@/config/site";
+import { getCoreBrandLogos } from "@/data/brand-logos";
 
 const footerContactItems = [
   { label: siteConfig.phone, href: siteConfig.phoneHref, Icon: PhoneCall },
@@ -11,6 +12,9 @@ const footerContactItems = [
 ] as const;
 
 export function SiteFooter() {
+  const coreBrandLogos = getCoreBrandLogos();
+  const [ntnLogo, tsubakiLogo] = coreBrandLogos;
+
   return (
     <footer className="relative overflow-hidden border-t border-slate-200 bg-slate-50">
       <Image
@@ -24,9 +28,9 @@ export function SiteFooter() {
       <div className="mx-auto grid w-full max-w-6xl gap-6 px-4 py-6 sm:grid-cols-2 sm:px-6 lg:grid-cols-3 lg:py-7">
         <div className="space-y-2.5">
           <Link href="/" className="inline-flex items-center gap-2 rounded-md border border-slate-200 bg-white px-2.5 py-1.5">
-            <Image src="/images/brands/ntn-logo.png" alt="Logo NTN" width={112} height={38} className="h-7 w-auto object-contain" />
+            {ntnLogo ? <Image src={ntnLogo.src} alt={ntnLogo.alt} width={112} height={38} className="h-7 w-auto object-contain" /> : null}
             <span className="h-7 w-px bg-slate-200" aria-hidden />
-            <Image src="/images/brands/tsubaki-logo.png" alt="Logo Tsubaki" width={112} height={34} className="h-6 w-auto object-contain" />
+            {tsubakiLogo ? <Image src={tsubakiLogo.src} alt={tsubakiLogo.alt} width={112} height={34} className="h-6 w-auto object-contain" /> : null}
           </Link>
           <p className="text-sm font-semibold leading-relaxed text-slate-800">{siteConfig.slogan}</p>
           <p className="text-sm leading-relaxed text-slate-600">

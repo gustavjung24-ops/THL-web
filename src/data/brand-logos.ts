@@ -1,3 +1,5 @@
+import { resolveBrandLogo } from "@/lib/image-resolver";
+
 export type BrandLogo = {
   id: string;
   name: string;
@@ -10,39 +12,47 @@ export const brandLogos: BrandLogo[] = [
   {
     id: "ntn",
     name: "NTN",
-    src: "/images/brands/ntn-logo.png",
+    src: resolveBrandLogo("ntn", "/images/brands/ntn-logo.png"),
     alt: "Logo NTN",
     role: "core",
   },
   {
     id: "tsubaki",
     name: "Tsubaki",
-    src: "/images/brands/tsubaki-logo.png",
+    src: resolveBrandLogo("tsubaki", "/images/brands/tsubaki-logo.png"),
     alt: "Logo Tsubaki",
     role: "core",
   },
   {
     id: "koyo",
     name: "Koyo",
-    src: "/images/brands/koyo-logo.png",
+    src: resolveBrandLogo("koyo", "/images/brands/koyo-logo.png"),
     alt: "Logo Koyo",
     role: "supporting",
   },
   {
     id: "nok",
     name: "NOK",
-    src: "/images/brands/nok-corporation.png",
+    src: resolveBrandLogo("nok", "/images/brands/nok-corporation.png"),
     alt: "Logo NOK",
     role: "supporting",
   },
   {
     id: "soho",
     name: "Soho",
-    src: "/images/brands/soho-logo-transparent.png",
+    src: resolveBrandLogo("soho", "/images/brands/soho-logo-transparent.png"),
     alt: "Logo Soho V-Belt",
     role: "supporting",
   },
 ];
+
+export function getBrandLogoById(id: string) {
+  return brandLogos.find((brand) => brand.id === id);
+}
+
+export function getCoreBrandLogos() {
+  return ["ntn", "tsubaki"].map((id) => getBrandLogoById(id)).filter((brand): brand is BrandLogo => Boolean(brand));
+}
 
 export const brandDescriptions: Record<string, string> = {
   ntn: "Chủ lực Nhật Bản · Vòng bi",
