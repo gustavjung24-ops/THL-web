@@ -6,6 +6,7 @@ type ResolveImageInput = {
   directory: string;
   extensions: readonly string[];
   fallback: string;
+  preferConvention?: boolean;
 };
 
 const publicRoot = path.join(process.cwd(), "public");
@@ -21,15 +22,19 @@ function publicFileExists(publicPath: string) {
   return fs.existsSync(diskPath);
 }
 
-function resolveImageBySlug({ slug, directory, extensions, fallback }: ResolveImageInput) {
+function resolveImageBySlug({ slug, directory, extensions, fallback, preferConvention = false }: ResolveImageInput) {
   const normalizedFallback = normalizePublicPath(fallback);
-  if (publicFileExists(normalizedFallback)) {
-    return normalizedFallback;
-  }
-
   const normalizedDirectory = directory.replace(/\/$/, "");
   const candidates = extensions.map((extension) => `${normalizedDirectory}/${slug}.${extension}`);
   const conventionMatch = candidates.find(publicFileExists);
+
+  if (preferConvention && conventionMatch) {
+    return conventionMatch;
+  }
+
+  if (publicFileExists(normalizedFallback)) {
+    return normalizedFallback;
+  }
 
   return conventionMatch ?? normalizedFallback;
 }
@@ -49,6 +54,7 @@ export function resolveProductCardImage(slug: string, fallback: string) {
     directory: "/images/cards/products",
     extensions: ["webp", "png", "jpg", "jpeg"],
     fallback,
+    preferConvention: true,
   });
 }
 
@@ -58,6 +64,7 @@ export function resolveSolutionCardImage(slug: string, fallback: string) {
     directory: "/images/cards/solutions",
     extensions: ["webp", "png", "jpg", "jpeg"],
     fallback,
+    preferConvention: true,
   });
 }
 
@@ -67,5 +74,6 @@ export function resolveIndustryCardImage(slug: string, fallback: string) {
     directory: "/images/cards/industry",
     extensions: ["webp", "png", "jpg", "jpeg"],
     fallback,
+    preferConvention: true,
   });
 }

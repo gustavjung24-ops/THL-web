@@ -2,13 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, BadgeCheck, Building2, ClipboardCheck, Factory, ShieldCheck } from "lucide-react";
 import { customerSegments, productGroups, supportProcess } from "@/data/site-content";
-import { brandLogos } from "@/data/brand-logos";
+import { brandLogos, getBrandLogoById } from "@/data/brand-logos";
+import { getProductVisual } from "@/data/product-visuals";
 import { createPageMetadata } from "@/lib/seo";
 import { createBreadcrumbSchema, createWebPageSchema } from "@/lib/schema";
 import { StructuredData } from "@/components/shared/structured-data";
 import { SectionTitle } from "@/components/shared/section-title";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 
 export const metadata = createPageMetadata({
   title: "Giới thiệu THL | Nhà phân phối chính thức NTN, Tsubaki, Koyo",
@@ -70,6 +71,13 @@ export default function AboutPage() {
               <p className="text-sm leading-relaxed text-slate-700 sm:text-base">
                 THL làm việc theo hướng doanh nghiệp B2B: tiếp nhận nhu cầu kỹ thuật, đối chiếu mã và ứng dụng, sau đó chuyển hướng báo giá rõ ràng để bộ phận bảo trì, kỹ thuật và mua hàng cùng kiểm tra.
               </p>
+              <div className="grid max-w-md grid-cols-3 gap-2">
+                {brandLogos.slice(0, 3).map((brand) => (
+                  <div key={brand.id} className="flex h-12 items-center justify-center rounded-md border border-slate-200 bg-white p-2">
+                    <Image src={brand.src} alt={brand.alt} width={96} height={30} className="h-auto max-h-7 w-auto max-w-full object-contain" />
+                  </div>
+                ))}
+              </div>
               <div className="flex flex-col gap-3 sm:flex-row">
                 <Button asChild className="bg-blue-800 hover:bg-blue-900">
                   <Link href="/san-pham">
@@ -85,12 +93,13 @@ export default function AboutPage() {
 
             <div className="relative min-h-72 bg-slate-100">
               <Image
-                src="/images/industry/industry-support.svg"
-                alt="Năng lực hỗ trợ vật tư truyền động công nghiệp của THL"
+                src="/images/cards/solutions/ky-thuat.png"
+                alt="Đội kỹ thuật THL đối chiếu vật tư truyền động theo cụm máy tại nhà máy"
                 fill
                 sizes="(max-width: 1024px) 100vw, 560px"
                 className="object-cover"
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/45 via-slate-950/10 to-transparent" />
             </div>
           </div>
         </section>
@@ -166,21 +175,43 @@ export default function AboutPage() {
             description="Các nhóm hàng được sắp theo vai trò thương hiệu: NTN và Tsubaki là chủ lực truyền thông; Koyo là phương án phân phối chính thức cho vòng bi; NOK và Soho triển khai theo ứng dụng."
           />
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-            {productGroups.map((group) => (
-              <Card key={group.slug} className="border-slate-200 bg-white">
-                <CardHeader>
-                  <CardTitle className="text-base text-slate-900">{group.name}</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <p className="text-sm leading-relaxed text-slate-600">{group.shortDescription}</p>
-                  <Link href={`/san-pham/${group.slug}`} className="inline-flex items-center text-sm font-semibold text-blue-800 hover:text-blue-900">
-                    Xem chi tiết
-                    <ArrowRight className="ml-1 size-4" />
-                  </Link>
-                </CardContent>
-              </Card>
-            ))}
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+            {productGroups.map((group) => {
+              const visual = getProductVisual(group.slug);
+              const logo = getBrandLogoById(group.slug);
+              const isCore = group.slug === "ntn" || group.slug === "tsubaki";
+
+              return (
+                <Card key={group.slug} className="overflow-hidden border-slate-200 bg-white py-0 shadow-[0_12px_32px_-24px_rgba(15,23,42,0.35)]">
+                  <div className="relative aspect-[16/10] overflow-hidden">
+                    <Image
+                      src={visual.image}
+                      alt={visual.imageAlt}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1280px) 33vw, 20vw"
+                      className="object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/65 via-slate-950/15 to-transparent" />
+                    <span className="absolute left-3 top-3 rounded-full border border-white/40 bg-white/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white backdrop-blur">
+                      {isCore ? "Chủ lực" : "Triển khai"}
+                    </span>
+                    {logo ? (
+                      <div className="absolute bottom-3 left-3 flex h-9 w-24 items-center justify-center rounded-md border border-white/30 bg-white/95 p-1.5 shadow-sm">
+                        <Image src={logo.src} alt={logo.alt} width={88} height={26} className="h-auto max-h-6 w-auto max-w-full object-contain" />
+                      </div>
+                    ) : null}
+                  </div>
+                  <CardContent className="space-y-3 p-4">
+                    <h3 className="text-base font-bold text-slate-900">{group.name}</h3>
+                    <p className="text-sm leading-relaxed text-slate-600">{group.shortDescription}</p>
+                    <Link href={`/san-pham/${group.slug}`} className="inline-flex items-center text-sm font-semibold text-blue-800 hover:text-blue-900">
+                      Xem chi tiết
+                      <ArrowRight className="ml-1 size-4" />
+                    </Link>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         </section>
 
