@@ -41,7 +41,7 @@
     {
       "key": "manual_review",
       "scenario": "Cần review thủ công trước khi trả kết quả.",
-      "template": "Trường hợp này cần xác minh thủ công. Anh/chị vui lòng gửi thêm ảnh tem hoặc liên hệ Phòng Kinh Doanh THL để được đối chiếu rõ hơn.",
+      "template": "Trường hợp này cần xác minh thủ công. Anh/chị vui lòng gửi thêm ảnh tem hoặc liên hệ đội THL B2B để được đối chiếu rõ hơn.",
       "variables": []
     },
     {

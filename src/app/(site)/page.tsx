@@ -541,7 +541,7 @@ export default function Home() {
                   Một đầu mối cho NTN, Tsubaki và nhóm vật tư bổ trợ
                 </h2>
                 <p className="text-sm leading-relaxed text-slate-300 sm:text-base">
-                  Phòng Kinh Doanh THL tiếp nhận thông tin, đối chiếu kỹ thuật và chuyển hướng báo giá theo nhu cầu thực tế của nhà máy.
+                  Đội THL B2B tiếp nhận thông tin, đối chiếu kỹ thuật và chuyển hướng báo giá theo nhu cầu thực tế của nhà máy.
                 </p>
               </div>
 

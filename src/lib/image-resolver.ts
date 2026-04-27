@@ -22,11 +22,16 @@ function publicFileExists(publicPath: string) {
 }
 
 function resolveImageBySlug({ slug, directory, extensions, fallback }: ResolveImageInput) {
+  const normalizedFallback = normalizePublicPath(fallback);
+  if (publicFileExists(normalizedFallback)) {
+    return normalizedFallback;
+  }
+
   const normalizedDirectory = directory.replace(/\/$/, "");
   const candidates = extensions.map((extension) => `${normalizedDirectory}/${slug}.${extension}`);
   const conventionMatch = candidates.find(publicFileExists);
 
-  return conventionMatch ?? fallback;
+  return conventionMatch ?? normalizedFallback;
 }
 
 export function resolveBrandLogo(slug: string, fallback: string) {

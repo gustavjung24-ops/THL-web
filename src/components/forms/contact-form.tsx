@@ -60,7 +60,7 @@ export function ContactForm() {
       <Button type="submit" className="w-full bg-blue-800 hover:bg-blue-900" disabled={isSubmitting}>
         {isSubmitting ? "Đang gửi..." : "Gửi liên hệ"}
       </Button>
-      {done ? <p className="text-sm text-blue-800">Đã tiếp nhận thông tin. Phòng Kinh Doanh THL sẽ phản hồi sớm.</p> : null}
+      {done ? <p className="text-sm text-blue-800">Đã tiếp nhận thông tin. Đội THL B2B sẽ phản hồi sớm.</p> : null}
     </form>
   );
 }

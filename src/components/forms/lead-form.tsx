@@ -71,7 +71,7 @@ export function LeadForm() {
   async function onSubmit(values: LeadFormValues) {
     await new Promise((resolve) => setTimeout(resolve, 700));
     setSubmitMessage(
-      `Đã tiếp nhận yêu cầu kỹ thuật của ${values.fullName}. Phòng Kinh Doanh THL sẽ phản hồi theo mức độ ưu tiên đã chọn.`,
+      `Đã tiếp nhận yêu cầu kỹ thuật của ${values.fullName}. Đội THL B2B sẽ phản hồi theo mức độ ưu tiên đã chọn.`,
     );
     reset(defaultValues);
     setUploadedImages([]);
