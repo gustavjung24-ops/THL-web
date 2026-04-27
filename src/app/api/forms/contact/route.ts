@@ -106,26 +106,34 @@ export async function POST(request: NextRequest) {
       text: formatContactText(payload),
       replyTo: payload.email,
     });
+  } catch (error) {
+    console.error("[forms/contact] send internal mail error:", error);
+    return NextResponse.json(
+      {
+        ok: false,
+        error: "THL đã nhận yêu cầu nhưng chưa gửi được email nội bộ. Vui lòng liên hệ trực tiếp qua số điện thoại.",
+      },
+      { status: 500 },
+    );
+  }
 
+  let autoReplySent = true;
+  try {
     await sendMail({
       to: payload.email,
       subject: "THL B2B đã tiếp nhận thông tin liên hệ",
       html: formatContactAutoReplyHtml(payload),
       text: formatContactAutoReplyText(payload),
     });
-
-    return NextResponse.json({
-      ok: true,
-      message: "THL đã tiếp nhận thông tin. Đội THL B2B sẽ phản hồi chi tiết thủ công qua email hoặc điện thoại.",
-    });
   } catch (error) {
-    console.error("[forms/contact] send mail error:", error);
-    return NextResponse.json(
-      {
-        ok: false,
-        error: "THL đã nhận yêu cầu nhưng chưa gửi được email. Vui lòng liên hệ trực tiếp qua số điện thoại.",
-      },
-      { status: 500 },
-    );
+    autoReplySent = false;
+    console.error("[forms/contact] send autoresponse error:", error);
   }
+
+  return NextResponse.json({
+    ok: true,
+    message: autoReplySent
+      ? "THL đã tiếp nhận thông tin. Đội THL B2B sẽ phản hồi chi tiết thủ công qua email hoặc điện thoại."
+      : "THL đã tiếp nhận thông tin. Email xác nhận tự động tạm thời chưa gửi được, đội THL B2B vẫn sẽ phản hồi thủ công qua email hoặc điện thoại.",
+  });
 }
