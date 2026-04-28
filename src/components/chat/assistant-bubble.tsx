@@ -77,7 +77,7 @@ export function AssistantBubble() {
             </div>
 
             <p className="text-[11px] leading-relaxed text-slate-500">
-              Ban tra nay dang la khung UI. Du lieu danh muc va logic tim se gan sau khi ban cung cap.
+              Nhập mã hoặc kích thước để tra nhanh. Nếu chưa có mã, bạn có thể gửi mô tả ứng dụng để THL hỗ trợ đối chiếu.
             </p>
           </div>
         </div>

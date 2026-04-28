@@ -36,12 +36,12 @@ export const heroContent = {
   eyebrow: "Nhà phân phối chính thức NTN, Tsubaki, Koyo",
   heading: "Vật tư truyền động Nhật Bản chính hãng cho nhà máy",
   subheading:
-    "THL là nhà phân phối chính thức của NTN, Tsubaki và Koyo. Website giữ trọng tâm triển khai NTN, Tsubaki, NOK, Soho; Koyo được giới thiệu ở tầng hỗ trợ truyền thông nhưng vẫn là phương án chính thức trong nhóm vòng bi và gối đỡ.",
+    "THL là nhà phân phối chính thức của NTN, Tsubaki và Koyo. Danh mục được tổ chức rõ theo từng nhóm sản phẩm và ứng dụng để bộ phận bảo trì, kỹ thuật, mua hàng dễ tra cứu.",
 };
 
 export const trustBullets = [
   "Định vị rõ vai trò nhà phân phối chính thức cho NTN, Tsubaki và Koyo",
-  "Danh mục Nhật Bản chính hãng với trục truyền thông tập trung cho NTN, Tsubaki, NOK, Soho",
+  "Danh mục Nhật Bản chính hãng theo từng nhóm sản phẩm và ứng dụng",
   "Đối chiếu kỹ thuật theo mã, cụm máy và điều kiện vận hành thực tế",
   "Phối hợp được giữa bảo trì, kỹ thuật và mua hàng trong cùng quy trình B2B",
 ];
@@ -49,7 +49,7 @@ export const trustBullets = [
 export const heroHighlights = [
   "NTN cho vòng bi, cụm quay và các vị trí cần độ ổn định vận hành",
   "Tsubaki cho xích công nghiệp, băng tải và cơ cấu truyền động tải liên tục",
-  "Koyo là thương hiệu phân phối chính thức trong nhóm vòng bi; NOK và Soho nằm trong nhóm triển khai trọng tâm theo ứng dụng",
+  "Koyo là thương hiệu phân phối chính thức trong nhóm vòng bi; NOK và Soho đáp ứng nhu cầu theo ứng dụng",
 ];
 
 export const supportCards: SupportService[] = [
@@ -62,7 +62,7 @@ export const supportCards: SupportService[] = [
   {
     title: "Đối chiếu theo catalog",
     clientSends: "Thông số, kích thước, tải, nhiệt hoặc môi trường làm việc",
-    weSupport: "Đối chiếu NTN, Tsubaki, Koyo và nhóm triển khai trọng tâm phù hợp",
+    weSupport: "Đối chiếu NTN, Tsubaki, Koyo và nhóm phù hợp theo ứng dụng",
     clientGets: "Phương án đúng ứng dụng trước khi chuyển báo giá",
   },
   {
@@ -78,7 +78,7 @@ export const productGroups: ProductGroup[] = [
     slug: "ntn",
     name: "NTN",
     shortDescription:
-      "NTN là thương hiệu chủ lực cho vòng bi, cụm quay và các vị trí cần độ ổn định cao trong vận hành nhà máy.",
+      "NTN phù hợp cho vòng bi, cụm quay và các vị trí cần độ ổn định cao trong vận hành nhà máy.",
     detailDescription:
       "THL ưu tiên NTN cho nhu cầu vòng bi công nghiệp, motor, bơm, quạt, hộp số, con lăn và các cụm quay cần độ tin cậy. Khi xử lý yêu cầu, thông tin được đối chiếu theo mã, kích thước, vị trí lắp và điều kiện vận hành.",
     popularApplications: ["Động cơ điện", "Máy bơm", "Quạt công nghiệp", "Hộp số", "Trục quay", "Con lăn"],
@@ -88,7 +88,7 @@ export const productGroups: ProductGroup[] = [
     slug: "tsubaki",
     name: "Tsubaki",
     shortDescription:
-      "Tsubaki là thương hiệu chủ lực cho xích công nghiệp, băng tải và cơ cấu truyền động tải liên tục.",
+      "Tsubaki phù hợp cho xích công nghiệp, băng tải và cơ cấu truyền động tải liên tục.",
     detailDescription:
       "THL định vị Tsubaki ngang vai NTN trong danh mục Nhật Bản chính hãng, tập trung vào xích truyền động, nhông xích, băng tải xích và các cơ cấu chạy tải cần độ bền ổn định.",
     popularApplications: ["Băng tải xích", "Dây chuyền chuyển phôi", "Máy đóng gói", "Cơ cấu truyền động", "Nhông xích"],
@@ -100,7 +100,7 @@ export const productGroups: ProductGroup[] = [
     shortDescription:
       "Koyo là thương hiệu phân phối chính thức của THL cho nhóm vòng bi, gối đỡ và cụm đỡ trục trong dây chuyền công nghiệp.",
     detailDescription:
-      "THL phân phối chính thức Koyo và sử dụng Koyo như phương án kỹ thuật chính thức cho nhóm vòng bi và gối đỡ. Trên website, Koyo được giữ ở tầng hỗ trợ truyền thông để không làm loãng trục triển khai hiện tại của NTN, Tsubaki, NOK và Soho.",
+      "THL phân phối chính thức Koyo và sử dụng Koyo như phương án kỹ thuật cho nhóm vòng bi và gối đỡ trong các nhu cầu thay thế và bảo trì.",
     popularApplications: ["Băng tải", "Trục truyền động", "Cụm đỡ trong dây chuyền", "Máy đóng gói", "Motor", "Hộp số"],
     commonBuyers: ["Bảo trì nhà máy", "Kỹ thuật dây chuyền", "Xưởng cơ khí", "Nhà thầu lắp đặt"],
   },
@@ -120,7 +120,7 @@ export const productGroups: ProductGroup[] = [
     shortDescription:
       "Soho nằm trong nhóm triển khai trọng tâm của THL cho các hạng mục vật tư truyền động cần phương án thay thế phù hợp tiến độ và ngân sách.",
     detailDescription:
-      "Soho được tư vấn theo mã thực tế, vị trí lắp và yêu cầu vận hành. Nhóm này giúp mở rộng phương án chính thức theo tiến độ nhà máy, đồng thời vẫn giữ trọng tâm truyền thông cho các thương hiệu ưu tiên trên website.",
+      "Soho được tư vấn theo mã thực tế, vị trí lắp và yêu cầu vận hành, giúp mở rộng phương án thay thế phù hợp tiến độ nhà máy.",
     popularApplications: ["Vật tư truyền động", "Cụm thay thế định kỳ", "Máy sản xuất", "Dây chuyền phụ trợ"],
     commonBuyers: ["Mua hàng kỹ thuật", "Bảo trì nhà máy", "Xưởng cơ khí", "Khách thay thế định kỳ"],
   },

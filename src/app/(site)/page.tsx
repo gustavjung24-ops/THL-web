@@ -41,15 +41,15 @@ const coreProducts = productGroups.filter((group) => group.slug === "ntn" || gro
 const supportingProducts = productGroups.filter((group) => group.slug !== "ntn" && group.slug !== "tsubaki");
 
 const heroStats = [
-  { value: "2", label: "thương hiệu chủ lực Nhật Bản" },
-  { value: "3", label: "thương hiệu triển khai trọng tâm" },
+  { value: "2", label: "thương hiệu Nhật Bản chính" },
+  { value: "3", label: "thương hiệu theo ứng dụng" },
   { value: "24h", label: "phản hồi B2B ưu tiên" },
 ];
 
 const heroFocusCards = [
-  { label: "Phân phối chính thức", value: "NTN · Tsubaki · Koyo", helper: "NTN và Tsubaki là trục truyền thông chính của site" },
+  { label: "Phân phối chính thức", value: "NTN · Tsubaki · Koyo", helper: "Danh mục rõ ràng theo nhóm sản phẩm" },
   { label: "Năng lực kỹ thuật", value: "Đối chiếu theo cụm máy", helper: "mã, ảnh tem, tải và môi trường chạy" },
-  { label: "Ứng dụng nhà máy", value: "Bảo trì & thay thế", helper: "triển khai trọng tâm cho NTN, Tsubaki, NOK, Soho" },
+  { label: "Ứng dụng nhà máy", value: "Bảo trì & thay thế", helper: "Phù hợp nhu cầu bảo trì và thay thế" },
 ];
 
 const brandLogoById = new Map(brandLogos.map((brand) => [brand.id, brand]));
@@ -114,8 +114,8 @@ const trustArchitecture = [
     Icon: ShieldCheck,
   },
   {
-    title: "Cấu trúc thương hiệu rõ",
-    description: "NTN/Tsubaki là trục truyền thông chính; Koyo là phương án chính thức cho vòng bi; NOK/Soho là nhóm triển khai trọng tâm.",
+    title: "Danh mục thương hiệu rõ ràng",
+    description: "THL phân phối chính thức NTN, Tsubaki, Koyo; đồng thời cung cấp NOK và Soho theo nhu cầu ứng dụng.",
     Icon: BadgeCheck,
   },
   {
@@ -138,7 +138,7 @@ const processCards = [
   },
   {
     title: "Đối chiếu kỹ thuật",
-    description: "Khoanh đúng NTN, Tsubaki, Koyo hoặc nhóm triển khai theo điều kiện vận hành.",
+    description: "Đối chiếu đúng NTN, Tsubaki, Koyo hoặc nhóm phù hợp theo điều kiện vận hành.",
     Icon: Search,
   },
   {
@@ -253,7 +253,7 @@ export default function Home() {
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-wide text-blue-100">Hệ danh mục Nhật Bản</p>
-                  <h2 className="mt-2 font-heading text-2xl font-bold text-white">NTN + Tsubaki là hai trụ cột</h2>
+                  <h2 className="mt-2 font-heading text-2xl font-bold text-white">Danh mục thương hiệu chính hãng</h2>
                 </div>
                 <div className="rounded-md bg-blue-500 px-3 py-1 text-xs font-bold text-white">Chính thức</div>
               </div>
@@ -271,7 +271,7 @@ export default function Home() {
               </div>
 
               <div className="mt-5 rounded-lg border border-white/12 bg-white p-3 shadow-[0_18px_40px_-32px_rgba(15,23,42,0.45)]">
-                <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Hệ thương hiệu triển khai</p>
+                <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Hệ thương hiệu cung ứng</p>
                 <div className="mt-2 grid grid-cols-5 gap-2">
                   {brandLogos.map((brand) => {
                     const theme = getBrandTheme(brand.id);
@@ -316,9 +316,9 @@ export default function Home() {
         <div className="page-shell space-y-8">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <SectionTitle
-              eyebrow="Hai thương hiệu chủ lực"
-              title="NTN và Tsubaki là trục chính của danh mục THL"
-              description="Trang chủ ưu tiên NTN và Tsubaki ở tầng truyền thông chính. Koyo vẫn là thương hiệu phân phối chính thức trong nhóm vòng bi, còn NOK và Soho là nhóm triển khai trọng tâm theo ứng dụng."
+              eyebrow="Thương hiệu chính hãng"
+              title="Danh mục thương hiệu phù hợp từng nhu cầu vận hành"
+              description="THL phân phối chính thức NTN, Tsubaki, Koyo và cung cấp thêm NOK, Soho theo yêu cầu ứng dụng thực tế tại nhà máy."
             />
             <Button asChild variant="outline" className="w-fit border-blue-200 text-slate-800 hover:bg-blue-50">
               <Link href="/san-pham">
@@ -348,7 +348,7 @@ export default function Home() {
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/78 via-slate-950/15 to-transparent" />
                         <span className="absolute left-4 top-4 rounded-full border border-white/30 bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white backdrop-blur">
-                          Thương hiệu chủ lực
+                          Thương hiệu chính
                         </span>
                         {brand ? (
                           <div className="absolute bottom-4 left-4 flex h-16 w-40 items-center justify-center rounded-md border border-white/20 bg-white p-3 shadow-[0_18px_42px_-28px_rgba(15,23,42,0.7)]">
@@ -359,7 +359,7 @@ export default function Home() {
                       <CardContent className="flex flex-col justify-between gap-6 p-6">
                         <div className="space-y-3">
                           <p className={`text-xs font-semibold uppercase tracking-wide ${group.slug === "ntn" ? "text-blue-200" : "text-sky-200"}`}>
-                            {brandDescriptions[group.slug] ?? "Thương hiệu chủ lực"}
+                            {brandDescriptions[group.slug] ?? "Thương hiệu chính hãng"}
                           </p>
                           <h3 className="font-heading text-3xl font-bold text-white">{group.name}</h3>
                           <p className="text-sm leading-relaxed text-slate-300">{group.detailDescription}</p>
@@ -592,7 +592,7 @@ export default function Home() {
                 Gửi mã, ảnh tem hoặc mô tả cụm máy cho THL
               </h2>
               <p className="text-sm leading-relaxed text-slate-300 sm:text-base">
-                THL đối chiếu theo điều kiện vận hành thực tế để đề xuất đúng nhóm hàng: NTN, Tsubaki là trục chính; Koyo là phương án chính thức cho vòng bi; NOK và Soho cho nhu cầu triển khai theo ứng dụng.
+                THL đối chiếu theo điều kiện vận hành thực tế để đề xuất đúng nhóm hàng: NTN, Tsubaki, Koyo cho danh mục chính hãng và NOK, Soho cho nhu cầu ứng dụng phù hợp.
               </p>
               <div className="flex flex-wrap gap-2 pt-1">
                 {productBenefitBullets.map((item) => (

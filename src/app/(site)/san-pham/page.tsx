@@ -13,7 +13,7 @@ import { Card, CardContent } from "@/components/ui/card";
 export const metadata = createPageMetadata({
   title: "Danh mục vật tư truyền động chính hãng THL",
   description:
-    "Danh mục vật tư truyền động công nghiệp của THL với NTN, Tsubaki là trục chủ lực truyền thông, Koyo là thương hiệu phân phối chính thức theo nhóm vòng bi, cùng NOK và Soho theo từng ứng dụng.",
+    "Danh mục vật tư truyền động công nghiệp của THL gồm NTN, Tsubaki, Koyo và các nhóm ứng dụng NOK, Soho cho nhu cầu vận hành nhà máy.",
   path: "/san-pham",
 });
 
@@ -42,7 +42,7 @@ function ProductCard({ slug, layout = "horizontal" }: { slug: string; layout?: "
           />
           <div className={isVertical ? "absolute inset-0 bg-gradient-to-t from-slate-950/45 via-slate-950/12 to-transparent" : "absolute inset-0 bg-gradient-to-t from-slate-950/50 to-transparent md:bg-slate-950/10"} />
           <span className="absolute left-3 top-3 rounded-md border border-white/30 bg-white/15 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-white backdrop-blur">
-            {isCore ? "Chủ lực" : "Triển khai"}
+            {isCore ? "Chính" : "Ứng dụng"}
           </span>
         </div>
 
@@ -94,7 +94,7 @@ export default function ProductsPage() {
   const pageSchema = createWebPageSchema({
     title: "Danh mục vật tư truyền động chính hãng THL",
     description:
-      "Danh mục vật tư truyền động công nghiệp của THL với NTN, Tsubaki là trục chủ lực truyền thông, Koyo là thương hiệu phân phối chính thức theo nhóm vòng bi, cùng NOK và Soho theo từng ứng dụng.",
+      "Danh mục vật tư truyền động công nghiệp của THL gồm NTN, Tsubaki, Koyo và các nhóm ứng dụng NOK, Soho cho nhu cầu vận hành nhà máy.",
     path: "/san-pham",
     type: "CollectionPage",
   });
@@ -115,15 +115,15 @@ export default function ProductsPage() {
               <div className="space-y-6 p-6 sm:p-8 lg:p-10">
                 <SectionTitle
                   eyebrow="Danh mục sản phẩm"
-                  title="NTN và Tsubaki là hai thương hiệu chủ lực trong danh mục THL"
-                  description="THL tổ chức danh mục theo hệ vật tư truyền động Nhật Bản chính hãng: NTN cho vòng bi và cụm quay, Tsubaki cho xích và cơ cấu truyền động; Koyo là phương án phân phối chính thức cho nhóm vòng bi, NOK và Soho triển khai theo ứng dụng."
+                  title="Danh mục vật tư truyền động chính hãng cho nhà máy"
+                  description="THL tổ chức danh mục theo hệ vật tư truyền động Nhật Bản chính hãng: NTN cho vòng bi và cụm quay, Tsubaki cho xích và cơ cấu truyền động; Koyo cho nhóm vòng bi, cùng NOK và Soho theo từng ứng dụng."
                 />
                 <p className="max-w-2xl text-sm leading-relaxed text-slate-700 sm:text-base">
-                  Trang sản phẩm được chia theo vai trò phân phối và nhóm ứng dụng để bộ phận bảo trì, kỹ thuật và mua hàng khoanh nhanh đúng thương hiệu trước khi đi vào chi tiết mã hàng.
+                  Trang sản phẩm được chia theo nhóm thương hiệu và ứng dụng để bộ phận bảo trì, kỹ thuật và mua hàng khoanh nhanh đúng hướng trước khi đi vào chi tiết mã hàng.
                 </p>
                 <div className="grid max-w-xl gap-3 sm:grid-cols-3">
                   <div className="rounded-md border border-slate-200 bg-slate-50 px-4 py-3">
-                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Trục chính</p>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Thương hiệu chính</p>
                     <p className="mt-1 text-sm font-semibold text-slate-950">NTN và Tsubaki</p>
                   </div>
                   <div className="rounded-md border border-slate-200 bg-slate-50 px-4 py-3">
@@ -131,7 +131,7 @@ export default function ProductsPage() {
                     <p className="mt-1 text-sm font-semibold text-slate-950">Koyo theo nhóm vòng bi</p>
                   </div>
                   <div className="rounded-md border border-slate-200 bg-slate-50 px-4 py-3">
-                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Triển khai theo ứng dụng</p>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Bổ sung theo ứng dụng</p>
                     <p className="mt-1 text-sm font-semibold text-slate-950">NOK và Soho</p>
                   </div>
                 </div>
@@ -155,7 +155,7 @@ export default function ProductsPage() {
                 <div className="absolute bottom-4 left-4 right-4 rounded-lg border border-white/20 bg-slate-950/65 px-4 py-3 backdrop-blur">
                   <p className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-100">Danh mục chính hãng</p>
                   <p className="mt-2 text-sm leading-relaxed text-white/90">
-                    Ưu tiên NTN và Tsubaki ở tầng truyền thông chính, đồng thời giữ Koyo, NOK và Soho trong cấu trúc tư vấn theo ứng dụng thực tế.
+                    Danh mục được trình bày rõ theo nhóm sản phẩm và nhu cầu ứng dụng để rút ngắn thời gian đối chiếu trước khi đặt hàng.
                   </p>
                 </div>
               </div>
@@ -168,9 +168,9 @@ export default function ProductsPage() {
           <div className="page-shell space-y-10">
           <div className="space-y-5">
             <SectionTitle
-              eyebrow="Hai thương hiệu chủ lực"
-              title="NTN và Tsubaki được tách thành tầng ưu tiên riêng"
-              description="THL trình bày hai thương hiệu chủ lực thành một khối riêng để phản ánh đúng vai trò phân phối và trọng tâm danh mục hiện tại."
+              eyebrow="Thương hiệu chính"
+              title="NTN và Tsubaki cho nhóm sản phẩm dùng nhiều"
+              description="Hai thương hiệu này được trình bày riêng để người dùng tra cứu nhanh nhóm vòng bi và truyền động phổ biến trong nhà máy."
             />
             <div className="grid gap-5 lg:grid-cols-2">
               {coreProducts.map((group) => (
@@ -181,7 +181,7 @@ export default function ProductsPage() {
 
           <div className="space-y-5">
             <SectionTitle
-              eyebrow="Nhóm thương hiệu triển khai"
+              eyebrow="Nhóm bổ sung theo ứng dụng"
               title="Koyo, NOK và Soho mở rộng phương án theo ứng dụng"
               description="Koyo được giữ là phương án phân phối chính thức trong nhóm vòng bi và gối đỡ; NOK và Soho hỗ trợ nhu cầu làm kín, truyền động theo điều kiện vận hành thực tế."
             />
