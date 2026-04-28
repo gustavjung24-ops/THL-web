@@ -1,24 +1,97 @@
 "use client";
 
-import Link from "next/link";
-import { Search } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Search, X } from "lucide-react";
 
 export function AssistantBubble() {
+  const [open, setOpen] = useState(false);
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const onPointerDown = (event: PointerEvent) => {
+      if (!wrapperRef.current) {
+        return;
+      }
+
+      if (!wrapperRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, []);
+
   return (
-    <div className="fixed right-4 bottom-6 z-50 hidden md:block lg:right-5">
-      <Link
-        href="/tra-ma-bao-gia"
-        className="block w-[320px] rounded-xl border border-slate-200 bg-white/95 p-3 text-slate-900 shadow-[0_18px_44px_-28px_rgba(15,23,42,0.45)] backdrop-blur transition hover:-translate-y-0.5 hover:border-blue-300 hover:shadow-[0_20px_48px_-28px_rgba(15,23,42,0.5)]"
-        aria-label="Tìm sản phẩm theo mã hoặc kích thước"
-        title="Tìm sản phẩm"
-      >
-        <p className="text-xs font-semibold uppercase tracking-wide text-blue-800">Tìm sản phẩm</p>
-        <div className="mt-2 flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-600">
-          <Search className="size-4 text-slate-500" />
-          <span>Mã SP / Kích thước / Ứng dụng...</span>
+    <div
+      ref={wrapperRef}
+      className="fixed right-4 bottom-[calc(6.2rem+env(safe-area-inset-bottom))] z-50 lg:right-5 lg:bottom-6"
+    >
+      {open ? (
+        <div className="mb-3 w-[min(92vw,360px)] overflow-hidden rounded-xl border border-[#008fd3]/30 bg-white shadow-[0_24px_52px_-28px_rgba(15,23,42,0.45)]">
+          <div className="flex items-center justify-between border-b border-[#008fd3]/20 bg-gradient-to-r from-[#e7f7ff] to-white px-3 py-2">
+            <p className="text-xs font-semibold uppercase tracking-wide text-[#00699f]">Tra ma san pham</p>
+            <button
+              type="button"
+              onClick={() => setOpen(false)}
+              className="rounded-md p-1.5 text-slate-500 transition hover:bg-slate-100 hover:text-slate-800"
+              aria-label="Dong bang tra ma"
+              title="Dong"
+            >
+              <X className="size-4" />
+            </button>
+          </div>
+
+          <div className="space-y-2.5 p-3">
+            <div className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2">
+              <label htmlFor="quick-lookup-keyword" className="mb-1 block text-[11px] font-semibold uppercase tracking-wide text-slate-600">
+                Tu khoa tim
+              </label>
+              <div className="flex items-center gap-2 text-sm text-slate-700">
+                <Search className="size-4 text-slate-500" />
+                <input
+                  id="quick-lookup-keyword"
+                  type="text"
+                  placeholder="VD: 6204, 35x72x17, vong bi"
+                  className="w-full bg-transparent text-sm outline-none placeholder:text-slate-400"
+                />
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              <span className="rounded-full border border-[#008fd3]/25 bg-[#e7f7ff] px-2.5 py-1 text-[11px] font-medium text-[#00699f]">Ma SP</span>
+              <span className="rounded-full border border-[#008fd3]/25 bg-[#e7f7ff] px-2.5 py-1 text-[11px] font-medium text-[#00699f]">Kich thuoc</span>
+              <span className="rounded-full border border-[#008fd3]/25 bg-[#e7f7ff] px-2.5 py-1 text-[11px] font-medium text-[#00699f]">Ung dung</span>
+              <span className="rounded-full border border-[#008fd3]/25 bg-[#e7f7ff] px-2.5 py-1 text-[11px] font-medium text-[#00699f]">Thuong hieu</span>
+            </div>
+
+            <p className="text-[11px] leading-relaxed text-slate-500">
+              Ban tra nay dang la khung UI. Du lieu danh muc va logic tim se gan sau khi ban cung cap.
+            </p>
+          </div>
         </div>
-        <p className="mt-2 text-[11px] text-slate-500">Ô tìm nhanh tạm thời, sẽ nâng cấp thành pop tra mã ở bước sau.</p>
-      </Link>
+      ) : null}
+
+      <button
+        type="button"
+        onClick={() => setOpen((prev) => !prev)}
+        className="flex h-12 w-12 items-center justify-center rounded-xl border border-[#008fd3]/35 bg-[#008fd3] text-white shadow-[0_14px_34px_-20px_rgba(0,143,211,0.85)] transition hover:-translate-y-0.5 hover:bg-[#007db8]"
+        aria-label={open ? "Dong pop tra ma" : "Mo pop tra ma"}
+        title="Tra ma san pham"
+      >
+        {open ? <X className="size-5" /> : <Search className="size-5" />}
+      </button>
     </div>
   );
 }
