@@ -203,18 +203,14 @@ export default function Home() {
       <StructuredData data={[createOrganizationSchema(), createWebSiteSchema(), pageSchema, breadcrumbSchema]} />
       <div className="overflow-x-hidden bg-white">
       <section className="relative isolate overflow-hidden bg-slate-950 text-white">
-        <video
+        <Image
+          src="/images/cards/products/ntn.png"
+          alt="Cụm vật tư truyền động công nghiệp gồm vòng bi, trục và bánh răng"
+          fill
+          priority
+          sizes="100vw"
           className="absolute inset-0 h-full w-full object-cover"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          poster="/images/cards/products/ntn.png"
-          aria-label="Không gian nhà máy và vật tư truyền động công nghiệp"
-        >
-          <source src="/videos/hero-industrial.mp4" type="video/mp4" />
-        </video>
+        />
         <div className="absolute inset-0 bg-slate-950/66" />
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/84 to-slate-950/35" />
 
