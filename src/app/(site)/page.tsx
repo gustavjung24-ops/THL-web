@@ -210,7 +210,7 @@ export default function Home() {
           loop
           playsInline
           preload="metadata"
-          poster="/images/backgrounds/he-sinh-thai-home.jpeg"
+          poster="/images/cards/products/ntn.png"
           aria-label="Không gian nhà máy và vật tư truyền động công nghiệp"
         >
           <source src="/videos/hero-industrial.mp4" type="video/mp4" />

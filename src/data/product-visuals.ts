@@ -7,23 +7,23 @@ type ProductVisual = {
 
 const productVisualMeta: Record<string, { fallback: string; imageAlt: string }> = {
   ntn: {
-    fallback: "/images/cards/product-vong-bi.webp",
+    fallback: "/images/cards/products/ntn.png",
     imageAlt: "Kỹ thuật viên kiểm tra vòng bi NTN trong xưởng công nghiệp",
   },
   tsubaki: {
-    fallback: "/images/cards/product-xich-cong-nghiep.jpg",
+    fallback: "/images/cards/products/tsubaki.png",
     imageAlt: "Xích công nghiệp Tsubaki dùng cho truyền động và băng tải",
   },
   koyo: {
-    fallback: "/images/cards/product-goi-do.webp",
+    fallback: "/images/cards/products/koyo.png",
     imageAlt: "Cụm vòng bi và gối đỡ Koyo trong dây chuyền công nghiệp",
   },
   nok: {
-    fallback: "/images/cards/product-phot-chan-dau.webp",
+    fallback: "/images/cards/products/nok.png",
     imageAlt: "Phớt chặn dầu NOK dùng cho cụm trục và hộp số công nghiệp",
   },
   soho: {
-    fallback: "/images/backgrounds/final-cta-industrial.png",
+    fallback: "/images/cards/products/soho.png",
     imageAlt: "Khu vực bảo trì nhà máy dùng vật tư truyền động Soho",
   },
 };
