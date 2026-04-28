@@ -38,7 +38,7 @@ export function SiteFooter() {
           </p>
           <p className="inline-flex items-center gap-1.5 text-xs font-medium text-blue-800">
             <ShieldCheck className="size-3.5" />
-            Đầu mối tiếp nhận yêu cầu kỹ thuật và thương mại của Công Ty TNHH Tân Hòa Lợi.
+            Trang web P.Kinh Doanh của Công Ty TNHH Tân Hòa Lợi.
           </p>
         </div>
 
