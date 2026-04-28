@@ -27,6 +27,20 @@ type NtnSearchPayload = {
 
 type LoadState = "idle" | "loading" | "ready" | "error";
 
+type FilterValues = {
+  code: string;
+  innerDiameter: string;
+  outerDiameter: string;
+  thickness: string;
+};
+
+const defaultFilters: FilterValues = {
+  code: "",
+  innerDiameter: "",
+  outerDiameter: "",
+  thickness: "",
+};
+
 function parseNumericFilter(value: string): number | null {
   const normalized = value.trim().replace(",", ".");
 
@@ -40,10 +54,6 @@ function parseNumericFilter(value: string): number | null {
 
 function normalizeCode(value: string): string {
   return value.toUpperCase().replace(/[^A-Z0-9]/g, "");
-}
-
-function normalizeText(value: string): string {
-  return value.trim().toLowerCase();
 }
 
 function getCodeMatchScore(product: NtnSearchProduct, query: string): number {
@@ -84,15 +94,37 @@ function buildApplicationLabel(product: NtnSearchProduct): string {
   return `${application} - ${detail}`;
 }
 
+function hasAnyFilter(filters: FilterValues | null): boolean {
+  if (!filters) {
+    return false;
+  }
+
+  return Object.values(filters).some((value) => value.trim().length > 0);
+}
+
+function isSameFilters(left: FilterValues | null, right: FilterValues | null): boolean {
+  if (!left && !right) {
+    return true;
+  }
+
+  if (!left || !right) {
+    return false;
+  }
+
+  return (
+    left.code === right.code &&
+    left.innerDiameter === right.innerDiameter &&
+    left.outerDiameter === right.outerDiameter &&
+    left.thickness === right.thickness
+  );
+}
+
 export function AssistantBubble() {
   const [open, setOpen] = useState(false);
   const [loadState, setLoadState] = useState<LoadState>("idle");
   const [products, setProducts] = useState<NtnSearchProduct[]>([]);
-  const [datasetTotal, setDatasetTotal] = useState(0);
-  const [codeFilter, setCodeFilter] = useState("");
-  const [innerDiameterFilter, setInnerDiameterFilter] = useState("");
-  const [outerDiameterFilter, setOuterDiameterFilter] = useState("");
-  const [thicknessFilter, setThicknessFilter] = useState("");
+  const [filters, setFilters] = useState<FilterValues>(defaultFilters);
+  const [appliedFilters, setAppliedFilters] = useState<FilterValues | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -145,7 +177,6 @@ export function AssistantBubble() {
 
         const nextProducts = Array.isArray(payload.products) ? payload.products : [];
         setProducts(nextProducts);
-        setDatasetTotal(payload.meta?.total ?? nextProducts.length);
         setLoadState("ready");
       } catch {
         if (!isActive) {
@@ -163,15 +194,13 @@ export function AssistantBubble() {
     };
   }, [loadState]);
 
-  const codeQuery = codeFilter.trim();
-  const innerDiameter = parseNumericFilter(innerDiameterFilter);
-  const outerDiameter = parseNumericFilter(outerDiameterFilter);
-  const thickness = parseNumericFilter(thicknessFilter);
-  const hasFilters =
-    codeQuery.length > 0 ||
-    innerDiameter !== null ||
-    outerDiameter !== null ||
-    thickness !== null;
+  const codeQuery = appliedFilters?.code.trim() ?? "";
+  const innerDiameter = parseNumericFilter(appliedFilters?.innerDiameter ?? "");
+  const outerDiameter = parseNumericFilter(appliedFilters?.outerDiameter ?? "");
+  const thickness = parseNumericFilter(appliedFilters?.thickness ?? "");
+  const hasFilters = hasAnyFilter(appliedFilters);
+  const hasDraftFilters = hasAnyFilter(filters);
+  const hasPendingChanges = !isSameFilters(filters, appliedFilters);
 
   const matchedProducts = products
     .filter((product) => {
@@ -215,13 +244,38 @@ export function AssistantBubble() {
     });
 
   const visibleProducts = matchedProducts.slice(0, 20);
-  const previewCodes = visibleProducts.slice(0, 5).map((product) => product.code).join(", ");
+
+  function updateFilter<K extends keyof FilterValues>(key: K, value: FilterValues[K]) {
+    setFilters((current) => ({
+      ...current,
+      [key]: value,
+    }));
+  }
+
+  function applyFilters() {
+    if (!hasDraftFilters) {
+      setAppliedFilters(null);
+      return;
+    }
+
+    setAppliedFilters({ ...filters });
+  }
 
   function clearFilters() {
-    setCodeFilter("");
-    setInnerDiameterFilter("");
-    setOuterDiameterFilter("");
-    setThicknessFilter("");
+    setFilters(defaultFilters);
+    setAppliedFilters(null);
+  }
+
+  function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
+    if (event.key !== "Enter") {
+      return;
+    }
+
+    event.preventDefault();
+
+    if (loadState === "ready") {
+      applyFilters();
+    }
   }
 
   return (
@@ -234,7 +288,7 @@ export function AssistantBubble() {
           <div className="flex items-start justify-between gap-3 border-b border-[#008fd3]/20 bg-gradient-to-r from-[#e7f7ff] to-white px-3 py-2">
             <div>
               <p className="text-xs font-semibold uppercase tracking-wide text-[#00699f]">Tra ma san pham NTN</p>
-              <p className="mt-0.5 text-[11px] text-slate-500">Bo loc du lieu that, khong dung AI.</p>
+              <p className="mt-0.5 text-[11px] text-slate-500">Nhap ma hoac thong so roi bam Xem ket qua.</p>
             </div>
             <button
               type="button"
@@ -256,8 +310,9 @@ export function AssistantBubble() {
                   <input
                     id="quick-lookup-keyword"
                     type="text"
-                    value={codeFilter}
-                    onChange={(event) => setCodeFilter(event.target.value)}
+                    value={filters.code}
+                    onChange={(event) => updateFilter("code", event.target.value)}
+                    onKeyDown={handleKeyDown}
                     placeholder="Nhap 6 de goi y 6xxx"
                     className="w-full bg-transparent text-[13px] font-medium outline-none placeholder:text-slate-400"
                   />
@@ -269,8 +324,9 @@ export function AssistantBubble() {
                 <input
                   type="text"
                   inputMode="decimal"
-                  value={innerDiameterFilter}
-                  onChange={(event) => setInnerDiameterFilter(event.target.value)}
+                  value={filters.innerDiameter}
+                  onChange={(event) => updateFilter("innerDiameter", event.target.value)}
+                  onKeyDown={handleKeyDown}
                   placeholder="20"
                   className="w-full bg-transparent text-[13px] font-medium text-slate-700 outline-none placeholder:text-slate-400"
                 />
@@ -281,8 +337,9 @@ export function AssistantBubble() {
                 <input
                   type="text"
                   inputMode="decimal"
-                  value={outerDiameterFilter}
-                  onChange={(event) => setOuterDiameterFilter(event.target.value)}
+                  value={filters.outerDiameter}
+                  onChange={(event) => updateFilter("outerDiameter", event.target.value)}
+                  onKeyDown={handleKeyDown}
                   placeholder="47"
                   className="w-full bg-transparent text-[13px] font-medium text-slate-700 outline-none placeholder:text-slate-400"
                 />
@@ -293,8 +350,9 @@ export function AssistantBubble() {
                 <input
                   type="text"
                   inputMode="decimal"
-                  value={thicknessFilter}
-                  onChange={(event) => setThicknessFilter(event.target.value)}
+                  value={filters.thickness}
+                  onChange={(event) => updateFilter("thickness", event.target.value)}
+                  onKeyDown={handleKeyDown}
                   placeholder="14"
                   className="w-full bg-transparent text-[13px] font-medium text-slate-700 outline-none placeholder:text-slate-400"
                 />
@@ -302,60 +360,67 @@ export function AssistantBubble() {
             </div>
 
             <div className="flex items-center justify-between gap-2">
-              <div className="flex flex-wrap gap-2">
-                <span className="rounded-full border border-[#008fd3]/25 bg-[#e7f7ff] px-2.5 py-1 text-[11px] font-medium text-[#00699f]">
-                  {datasetTotal || products.length} ma NTN
-                </span>
-                <span className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-medium text-slate-600">
-                  Ket qua: {loadState === "ready" && hasFilters ? matchedProducts.length : hasFilters ? "..." : 0}
-                </span>
-              </div>
-
-              {hasFilters ? (
+              <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  onClick={clearFilters}
-                  className="text-[11px] font-semibold text-[#00699f] transition hover:text-[#00527d]"
+                  onClick={applyFilters}
+                  disabled={loadState !== "ready" || !hasDraftFilters}
+                  className="inline-flex h-8 items-center justify-center rounded-md bg-[#008fd3] px-3 text-[12px] font-semibold text-white transition hover:bg-[#007db8] disabled:cursor-not-allowed disabled:bg-slate-300"
                 >
-                  Xoa loc
+                  {loadState === "loading" ? (
+                    <>
+                      <LoaderCircle className="mr-1 size-3.5 animate-spin" />
+                      Dang tai
+                    </>
+                  ) : (
+                    "Xem ket qua"
+                  )}
                 </button>
+
+                {hasDraftFilters ? (
+                  <button
+                    type="button"
+                    onClick={clearFilters}
+                    className="text-[11px] font-semibold text-[#00699f] transition hover:text-[#00527d]"
+                  >
+                    Xoa loc
+                  </button>
+                ) : null}
+              </div>
+
+              {hasFilters && !hasPendingChanges ? (
+                <span className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-medium text-slate-600">
+                  {matchedProducts.length} ket qua
+                </span>
               ) : null}
             </div>
 
-            {loadState === "ready" && codeQuery.length > 0 && visibleProducts.length > 0 ? (
-              <div className="rounded-lg border border-[#008fd3]/15 bg-[#f4fbff] px-2.5 py-2 text-[11px] leading-relaxed text-slate-600">
-                Dang doan theo dau ma <span className="font-semibold text-[#00699f]">{codeQuery}</span>:
-                <span className="ml-1 font-medium text-slate-800">{previewCodes}</span>
-              </div>
-            ) : null}
-
-            {loadState === "loading" ? (
-              <div className="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-2 text-[11px] text-slate-600">
-                <LoaderCircle className="size-3.5 animate-spin text-[#00699f]" />
-                Dang tai du lieu NTN...
-              </div>
-            ) : null}
-
             {loadState === "error" ? (
-              <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-3 text-sm text-red-700">
-                Khong tai duoc du lieu tra ma NTN. Vui long thu tai lai trang.
+              <div className="rounded-lg border border-red-200 bg-red-50 px-2.5 py-2 text-[11px] text-red-700">
+                Khong tai duoc du lieu NTN. Vui long thu lai.
               </div>
             ) : null}
 
-            {loadState === "ready" && !hasFilters ? (
+            {loadState === "ready" && !hasDraftFilters ? (
               <div className="rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-2 text-[11px] leading-relaxed text-slate-600">
-                Nhap 1 dau ma nhu <span className="font-semibold text-slate-800">6</span> de goi y cac ma bat dau bang 6,
-                sau do loc tiep bang d / D / B-T.
+                Vi du: nhap <span className="font-semibold text-slate-800">6</span> de ra nhom ma bat dau bang 6, hoac
+                loc truc tiep theo d / D / B-T.
               </div>
             ) : null}
 
-            {loadState === "ready" && hasFilters && visibleProducts.length === 0 ? (
+            {hasDraftFilters && hasPendingChanges ? (
+              <div className="rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-2 text-[11px] text-slate-600">
+                Bam <span className="font-semibold text-slate-800">Xem ket qua</span> de cap nhat danh sach.
+              </div>
+            ) : null}
+
+            {loadState === "ready" && hasFilters && !hasPendingChanges && visibleProducts.length === 0 ? (
               <div className="rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-2 text-[11px] text-slate-600">
                 Chua tim thay ma phu hop. Thu doi ma SP hoac giam bot dieu kien kich thuoc.
               </div>
             ) : null}
 
-            {loadState === "ready" && hasFilters && visibleProducts.length > 0 ? (
+            {loadState === "ready" && hasFilters && !hasPendingChanges && visibleProducts.length > 0 ? (
               <div className="space-y-2">
                 {matchedProducts.length > visibleProducts.length ? (
                   <p className="text-[11px] leading-relaxed text-slate-500">
