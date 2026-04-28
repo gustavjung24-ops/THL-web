@@ -26,6 +26,18 @@
   }
 }
 
+@keyframes ntn-hero-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 .chat-bubble-pulse {
   animation: chat-bubble-breathe 3s ease-in-out infinite;
 }
@@ -151,5 +163,15 @@
 
   .jp-eyebrow {
     @apply inline-flex rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-blue-900;
+  }
+
+  .hero-ntn-title {
+    background-image: linear-gradient(120deg, #e0f2fe 0%, #7dd3fc 18%, #38bdf8 34%, #60a5fa 52%, #2563eb 68%, #93c5fd 84%, #eff6ff 100%);
+    background-size: 220% 220%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: ntn-hero-shift 8s linear infinite;
+    text-shadow: 0 0 24px rgba(59, 130, 246, 0.18);
   }
 }

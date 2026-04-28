@@ -223,12 +223,9 @@ export default function Home() {
             <p className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-blue-100 backdrop-blur">
               Nhà phân phối chính thức NTN, Tsubaki, Koyo
             </p>
-            <h1 className="font-heading text-balance text-4xl font-bold leading-tight sm:text-5xl lg:text-[3.25rem]">
+            <h1 className="hero-ntn-title font-heading text-balance text-4xl font-bold leading-tight sm:text-5xl lg:text-[3.25rem]">
               Vật tư truyền động Nhật Bản cho nhà máy
             </h1>
-            <p className="max-w-2xl text-base leading-relaxed text-slate-100 sm:text-lg">
-              THL phân phối chính thức NTN, Tsubaki và Koyo. Website giữ trọng tâm triển khai NTN, Tsubaki, NOK, Soho; Koyo được giới thiệu ở tầng hỗ trợ truyền thông nhưng vẫn là phương án chính thức cho nhóm vòng bi, gối đỡ.
-            </p>
 
             <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Button asChild className="h-11 bg-blue-700 px-5 text-white hover:bg-blue-800">

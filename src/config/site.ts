@@ -19,6 +19,7 @@ export const mainMenu = [
   { label: "Giới thiệu", href: "/gioi-thieu" },
   { label: "Sản phẩm", href: "/san-pham" },
   { label: "Giải pháp theo khách hàng", href: "/giai-phap-theo-khach-hang" },
+  { label: "Tuyển dụng", href: "/tuyen-dung" },
   { label: "Yêu cầu kỹ thuật", href: "/tra-ma-bao-gia" },
   { label: "Kiến thức", href: "/kien-thuc" },
   { label: "Liên hệ", href: "/lien-he" },
@@ -34,6 +35,6 @@ export const footerMenu = [
 
 export const quickActions = [
   { label: "Gửi yêu cầu kỹ thuật", href: "/tra-ma-bao-gia" },
-  { label: "Zalo kinh doanh", href: siteConfig.zaloLink, external: true },
+  { label: "Tuyển dụng", href: "/tuyen-dung" },
   { label: "Liên hệ B2B", href: siteConfig.phoneHref },
 ] as const;

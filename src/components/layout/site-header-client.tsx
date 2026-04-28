@@ -24,6 +24,7 @@ const desktopMenuLabels: Record<string, string> = {
   "/gioi-thieu": "Giới thiệu",
   "/san-pham": "Sản phẩm",
   "/giai-phap-theo-khach-hang": "Giải pháp",
+  "/tuyen-dung": "Tuyển dụng",
   "/tra-ma-bao-gia": "Yêu cầu",
   "/kien-thuc": "Kiến thức",
   "/lien-he": "Liên hệ",
