@@ -86,11 +86,12 @@ export function AssistantBubble() {
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
-        className="flex h-12 w-12 items-center justify-center rounded-xl border border-[#008fd3]/35 bg-[#008fd3] text-white shadow-[0_14px_34px_-20px_rgba(0,143,211,0.85)] transition hover:-translate-y-0.5 hover:bg-[#007db8]"
+        className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[#008fd3]/35 bg-[#008fd3] text-white shadow-[0_14px_34px_-20px_rgba(0,143,211,0.85)] transition hover:-translate-y-0.5 hover:bg-[#007db8] sm:w-auto sm:gap-1.5 sm:px-3"
         aria-label={open ? "Dong pop tra ma" : "Mo pop tra ma"}
         title="Tra ma san pham"
       >
-        {open ? <X className="size-5" /> : <Search className="size-5" />}
+        <span className="hidden text-xs font-semibold uppercase tracking-wide sm:inline">Tim san pham</span>
+        {open ? <X className="size-4" /> : <Search className="size-4" />}
       </button>
     </div>
   );
