@@ -37,6 +37,7 @@ Tập trung vào tra mã nhanh, tiếp nhận nhu cầu và hỗ trợ chọn đ
 | `/kien-thuc` | Bài viết kỹ thuật |
 | `/gioi-thieu` | Giới thiệu |
 | `/lien-he` | Liên hệ |
+| `/studio` | Redirect đến Sanity Studio riêng khi cấu hình `STUDIO_EXTERNAL_URL` |
 
 ---
 
@@ -84,12 +85,16 @@ FORM_MAIL_FROM="THL B2B <noreply@mail.your-domain.com>"
 
 # Khuyến nghị để logo trong email dùng đúng domain live
 FORM_ASSET_BASE_URL=https://luanphutung.vn
+
+# Tuỳ chọn khi tách Studio khỏi app Cloudflare chính
+STUDIO_EXTERNAL_URL=https://studio.your-domain.com
 ```
 
 > **Lưu ý:**
 > - `ASSISTANT_PROVIDER=gemini` → dùng Gemini, tự fallback về OpenAI nếu Gemini lỗi.
 > - Thiếu API key → site vẫn chạy, chatbot trả lỗi graceful.
 > - `FORM_MAIL_FROM` không nên dùng `onboarding@resend.dev` khi chạy production. Hãy verify domain gửi trong Resend trước khi deploy.
+> - Khi giữ web chính trên Cloudflare, nên tách Sanity Studio sang URL riêng rồi đặt `STUDIO_EXTERNAL_URL`; không nên embed `next-sanity/studio` trực tiếp vào cùng worker.
 
 ---
 
@@ -132,6 +137,12 @@ Hoặc import repo từ Vercel dashboard.
 
 Repo này đã được chuẩn bị để deploy theo adapter OpenNext của Cloudflare, không dùng `next-on-pages` cũ nữa.
 
+Với Cloudflare, phương án ổn định để vẫn giữ Studio là:
+
+1. Web chính chạy trên Cloudflare Workers.
+2. Sanity Studio deploy riêng bằng `pnpm studio:deploy` hoặc host ở subdomain riêng.
+3. Route `/studio` của web chính chỉ redirect sang `STUDIO_EXTERNAL_URL`.
+
 1. Cài dependencies mới:
 
 ```bash
@@ -147,8 +158,25 @@ RESEND_API_KEY=...
 FORM_MAIL_TO=khuongbinh.info@gmail.com
 FORM_MAIL_FROM=THL B2B <noreply@mail.your-domain.com>
 FORM_ASSET_BASE_URL=https://luanphutung.vn
+STUDIO_EXTERNAL_URL=https://studio.your-domain.com
 OPENAI_API_KEY=... # hoặc GEMINI_API_KEY nếu dùng Gemini
 ```
+
+### Sanity Studio riêng
+
+Chạy local:
+
+```bash
+pnpm studio:dev
+```
+
+Deploy Studio riêng:
+
+```bash
+pnpm studio:deploy
+```
+
+Sau khi có URL Studio riêng, set `STUDIO_EXTERNAL_URL` trên Cloudflare để `/studio` tự chuyển hướng sang đó.
 
 4. Preview local bằng runtime Cloudflare:
 
