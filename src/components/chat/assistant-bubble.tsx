@@ -134,35 +134,25 @@ export function AssistantBubble() {
   }, []);
 
   useEffect(() => {
-    if (loadState !== "idle") {
-      return;
-    }
-
-    let isActive = true;
+    let cancelled = false;
 
     const loadProducts = async () => {
       setLoadState("loading");
 
       try {
         const response = await fetch("/ntn-product-search.json");
-        const payload = (await response.json()) as NtnSearchPayload;
-
         if (!response.ok) {
           throw new Error("Cannot load NTN product search data.");
         }
+        const payload = (await response.json()) as NtnSearchPayload;
 
-        if (!isActive) {
-          return;
-        }
+        if (cancelled) return;
 
         const nextProducts = Array.isArray(payload.products) ? payload.products : [];
         setProducts(nextProducts);
         setLoadState("ready");
       } catch {
-        if (!isActive) {
-          return;
-        }
-
+        if (cancelled) return;
         setLoadState("error");
       }
     };
@@ -170,9 +160,9 @@ export function AssistantBubble() {
     void loadProducts();
 
     return () => {
-      isActive = false;
+      cancelled = true;
     };
-  }, [loadState]);
+  }, []);
 
   const codeQuery = filters.code.trim();
   const innerDiameter = parseNumericFilter(filters.innerDiameter);
