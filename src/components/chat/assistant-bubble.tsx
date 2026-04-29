@@ -224,8 +224,8 @@ export function AssistantBubble() {
               type="button"
               onClick={() => setOpen(false)}
               className="rounded-md p-1.5 text-slate-500 transition hover:bg-slate-100 hover:text-slate-800"
-              aria-label="Dong bang tra ma"
-              title="Dong"
+              aria-label="Đóng bảng tra mã"
+              title="Đóng"
             >
               <X className="size-4" />
             </button>
@@ -351,7 +351,7 @@ export function AssistantBubble() {
                     >
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0">
-                          <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">Ma SP</p>
+                          <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-500">Mã SP</p>
                           <p className="truncate text-sm font-semibold text-slate-900">{product.code}</p>
                         </div>
                         <span className="rounded-full border border-[#008fd3]/20 bg-[#e7f7ff] px-2 py-1 text-[10px] font-medium text-[#00699f]">
@@ -361,9 +361,9 @@ export function AssistantBubble() {
 
                       <div className="mt-1.5 space-y-1 text-[13px] text-slate-700">
                         <p>
-                          <span className="font-semibold text-slate-900">Ung dung may:</span> {buildApplicationLabel(product)}
+                          <span className="font-semibold text-slate-900">Ứng dụng máy:</span> {buildApplicationLabel(product)}
                         </p>
-                        <p className="text-xs text-slate-500">Kich thuoc goc: {product.size_text}</p>
+                        <p className="text-xs text-slate-500">Kích thước gốc: {product.size_text}</p>
                       </div>
                     </div>
                   ))}
@@ -378,10 +378,10 @@ export function AssistantBubble() {
         type="button"
         onClick={() => setOpen((prev) => !prev)}
         className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[#008fd3]/35 bg-[#008fd3] text-white shadow-[0_14px_34px_-20px_rgba(0,143,211,0.85)] transition hover:-translate-y-0.5 hover:bg-[#007db8] sm:w-auto sm:gap-1.5 sm:px-3"
-        aria-label={open ? "Dong pop tra ma" : "Mo pop tra ma"}
-        title="Tra ma san pham"
+        aria-label={open ? "Đóng popup tra mã" : "Mở popup tra mã"}
+        title="Tra mã sản phẩm"
       >
-        <span className="hidden text-xs font-semibold uppercase tracking-wide sm:inline">Tim san pham</span>
+        <span className="hidden text-xs font-semibold uppercase tracking-wide sm:inline">Tìm sản phẩm</span>
         {open ? <X className="size-4" /> : <Search className="size-4" />}
       </button>
     </div>
