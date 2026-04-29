@@ -41,3 +41,10 @@ Using secrets defined in .dev.vars
  ✓ Compiled in 472ms (1273 modules)
  ✓ Compiled in 406ms (1273 modules)
  ✓ Compiled in 196ms (599 modules)
+ GET /tuyen-dung?vi-tri=Logistics 200 in 186ms
+ GET /tuyen-dung?vi-tri=Logistics 200 in 73ms
+ ✓ Compiled in 541ms (1273 modules)
+ GET /lien-he 200 in 153ms
+ ✓ Compiled in 425ms (1257 modules)
+ ○ Compiling /_error ...
+ GET /lien-he 500 in 12ms

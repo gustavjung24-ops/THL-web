@@ -18,3 +18,29 @@
 <w>  at file dependencies f:\1_A_Disk_D\THL\Web_Site\thl-web\node_modules\next\dist\build\webpack\loaders\next-swc-loader.js
 <w>  at file f:\1_A_Disk_D\THL\Web_Site\thl-web\node_modules\next\dist\build\webpack\loaders\next-swc-loader.js
 <w>  at resolve commonjs f:\1_A_Disk_D\THL\Web_Site\thl-web\node_modules\next\dist\build\webpack\loaders\next-swc-loader.js
+ ⨯ ./src/components/recruitment/recruitment-jobs-panel.tsx
+Error: Failed to read source code from f:\1_A_Disk_D\THL\Web_Site\thl-web\src\components\recruitment\recruitment-jobs-panel.tsx
+
+Caused by:
+    The system cannot find the file specified. (os error 2)
+
+Import trace for requested module:
+./src/components/recruitment/recruitment-jobs-panel.tsx
+ ⨯ ./src/components/recruitment/recruitment-jobs-panel.tsx
+Error: Failed to read source code from f:\1_A_Disk_D\THL\Web_Site\thl-web\src\components\recruitment\recruitment-jobs-panel.tsx
+
+Caused by:
+    The system cannot find the file specified. (os error 2)
+
+Import trace for requested module:
+./src/components/recruitment/recruitment-jobs-panel.tsx
+./src/app/(site)/tuyen-dung/page.tsx
+ ⨯ ./src/components/recruitment/recruitment-jobs-panel.tsx
+Error: Failed to read source code from f:\1_A_Disk_D\THL\Web_Site\thl-web\src\components\recruitment\recruitment-jobs-panel.tsx
+
+Caused by:
+    The system cannot find the file specified. (os error 2)
+
+Import trace for requested module:
+./src/components/recruitment/recruitment-jobs-panel.tsx
+./src/app/(site)/tuyen-dung/page.tsx

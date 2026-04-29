@@ -2,7 +2,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { recruitmentJobs } from "@/data/recruitment-content";
 import { recruitmentSubmitSchema, type RecruitmentSubmitValues } from "@/lib/forms/form-schemas";
@@ -24,8 +23,11 @@ const defaultValues: RecruitmentSubmitValues = {
   uploadedFiles: [],
 };
 
-export function RecruitmentForm() {
-  const searchParams = useSearchParams();
+type RecruitmentFormProps = {
+  selectedJob?: string;
+};
+
+export function RecruitmentForm({ selectedJob }: RecruitmentFormProps) {
   const [uploadedFiles, setUploadedFiles] = useState<UploadedImage[]>([]);
   const [submitMessage, setSubmitMessage] = useState("");
   const [submitError, setSubmitError] = useState("");
@@ -45,18 +47,17 @@ export function RecruitmentForm() {
   const selectedPosition = watch("position");
 
   useEffect(() => {
-    const prefilledPosition = searchParams.get("vi-tri");
-    if (!prefilledPosition) {
+    if (!selectedJob) {
       return;
     }
 
-    const matchedPosition = recruitmentJobs.find((job) => job.title === prefilledPosition);
+    const matchedPosition = recruitmentJobs.find((job) => job.title === selectedJob);
     if (!matchedPosition) {
       return;
     }
 
     setValue("position", matchedPosition.title, { shouldDirty: true, shouldValidate: true });
-  }, [searchParams, setValue]);
+  }, [selectedJob, setValue]);
 
   async function onUploadChange(event: React.ChangeEvent<HTMLInputElement>) {
     const fileList = event.target.files;

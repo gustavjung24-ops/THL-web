@@ -3,13 +3,13 @@ export type RecruitmentGroup = "Kinh doanh" | "Văn phòng" | "Vận hành";
 export type RecruitmentJob = {
   id: string;
   title: string;
-  group: RecruitmentGroup;
-  salary: string;
-  area: string;
+  category: RecruitmentGroup;
+  income: string;
+  locations: string;
   image: string;
   imageAlt: string;
-  shortDescription: string;
-  responsibilities: string[];
+  summary: string;
+  description: string[];
   requirements: string[];
   benefits: string[];
 };
@@ -28,14 +28,14 @@ export const recruitmentJobs: RecruitmentJob[] = [
   {
     id: "kinh-doanh",
     title: "Đại diện Kinh doanh",
-    group: "Kinh doanh",
-    salary: "10 - 25 triệu/tháng",
-    area: "TP.HCM, Cần Thơ, Bình Dương, Đà Nẵng, Hà Nội",
+    category: "Kinh doanh",
+    income: "10 - 25 triệu/tháng",
+    locations: "TP.HCM, Cần Thơ, Bình Dương, Đà Nẵng, Hà Nội",
     image: "/images/tuyen-dung/tuyen-dung-kinh-doanh.png",
     imageAlt: "Vị trí Đại diện Kinh doanh B2B vật tư công nghiệp tại THL",
-    shortDescription:
+    summary:
       "Phát triển khách hàng B2B nhà máy, xưởng cơ khí, bảo trì, mua hàng và nhà thầu cơ điện theo khu vực phụ trách.",
-    responsibilities: [
+    description: [
       "Phát triển khách hàng B2B trong nhóm nhà máy, xưởng cơ khí, bảo trì, mua hàng và nhà thầu cơ điện.",
       "Tư vấn các nhóm vật tư truyền động công nghiệp như vòng bi, xích công nghiệp, dây đai, phớt, gối đỡ và các sản phẩm liên quan.",
       "Tiếp nhận mã hàng, ảnh tem, yêu cầu kỹ thuật từ khách hàng và phối hợp nội bộ để báo giá.",
@@ -60,14 +60,14 @@ export const recruitmentJobs: RecruitmentJob[] = [
   {
     id: "ke-toan",
     title: "Kế toán Tổng hợp",
-    group: "Văn phòng",
-    salary: "Thỏa thuận",
-    area: "TP.HCM",
+    category: "Văn phòng",
+    income: "Thỏa thuận",
+    locations: "TP.HCM",
     image: "/images/tuyen-dung/tuyen-dung-ke-toan.png",
     imageAlt: "Vị trí Kế toán Tổng hợp tại THL",
-    shortDescription:
+    summary:
       "Theo dõi chứng từ, công nợ, nhập xuất tồn và phối hợp với các bộ phận để đảm bảo số liệu chính xác.",
-    responsibilities: [
+    description: [
       "Theo dõi chứng từ kế toán, hóa đơn, phiếu thu, phiếu chi, công nợ và các nghiệp vụ phát sinh.",
       "Quản lý công nợ khách hàng, nhà cung cấp và phối hợp với bộ phận kinh doanh khi cần đối chiếu.",
       "Theo dõi nhập xuất tồn hàng hóa, hỗ trợ kiểm tra số liệu kho khi cần.",
@@ -91,14 +91,14 @@ export const recruitmentJobs: RecruitmentJob[] = [
   {
     id: "logistics",
     title: "Logistics",
-    group: "Vận hành",
-    salary: "Thỏa thuận",
-    area: "TP.HCM",
+    category: "Vận hành",
+    income: "Thỏa thuận",
+    locations: "TP.HCM",
     image: "/images/tuyen-dung/tuyen-dung-logistics.png",
     imageAlt: "Vị trí Logistics điều phối đơn hàng công nghiệp tại THL",
-    shortDescription:
+    summary:
       "Theo dõi đơn hàng, điều phối giao nhận và phối hợp kho - kinh doanh - nhà cung cấp để đảm bảo tiến độ.",
-    responsibilities: [
+    description: [
       "Theo dõi đơn hàng, tiến độ giao nhận, vận chuyển và xử lý các vấn đề phát sinh.",
       "Phối hợp với kho, kinh doanh và nhà cung cấp để đảm bảo hàng hóa giao đúng thời gian.",
       "Quản lý chứng từ giao hàng, phiếu xuất, phiếu nhận và thông tin vận chuyển.",
@@ -122,14 +122,14 @@ export const recruitmentJobs: RecruitmentJob[] = [
   {
     id: "kho-giao-nhan",
     title: "Kho & Giao nhận",
-    group: "Vận hành",
-    salary: "Thỏa thuận",
-    area: "TP.HCM",
+    category: "Vận hành",
+    income: "Thỏa thuận",
+    locations: "TP.HCM",
     image: "/images/tuyen-dung/tuyen-dung-kho-giao-nhan.png",
     imageAlt: "Vị trí Kho và Giao nhận hàng hóa công nghiệp tại THL",
-    shortDescription:
+    summary:
       "Nhận hàng, soạn hàng, đóng gói và phối hợp giao nhận theo đúng quy trình để đảm bảo đơn hàng chính xác.",
-    responsibilities: [
+    description: [
       "Nhận hàng, kiểm hàng, sắp xếp hàng hóa trong kho.",
       "Soạn hàng, đóng gói, dán thông tin đơn hàng và bàn giao cho bộ phận giao nhận/vận chuyển.",
       "Thực hiện giao hàng theo phân công khi cần.",
