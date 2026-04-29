@@ -1,0 +1,40 @@
+
+> thl-web@0.1.0 dev
+> next dev --port 3000
+
+  ▲ Next.js 14.2.5
+  - Local:        http://localhost:3000
+  - Environments: .env.local
+
+ ✓ Starting...
+Using secrets defined in .dev.vars
+Using secrets defined in .dev.vars
+Using secrets defined in .dev.vars
+ ✓ Ready in 2.4s
+ ○ Compiling / ...
+ ✓ Compiled / in 3.3s (965 modules)
+ ✓ Compiled in 427ms (442 modules)
+ GET / 200 in 3806ms
+ ○ Compiling /favicon.ico ...
+ ✓ Compiled /favicon.ico in 1605ms (535 modules)
+ GET /favicon.ico 200 in 1667ms
+ ✓ Compiled /_not-found in 152ms (964 modules)
+ GET /tuyen-dung 404 in 62ms
+ GET /tuyen-dung 404 in 65ms
+ GET /tuyen-dung 404 in 30ms
+ ✓ Compiled in 284ms (444 modules)
+ ✓ Compiled in 321ms (934 modules)
+ GET /tuyen-dung 404 in 417ms
+ GET / 200 in 113ms
+ ✓ Compiled in 201ms (444 modules)
+ ✓ Compiled in 171ms (444 modules)
+ ○ Compiling /lien-he ...
+ ✓ Compiled /lien-he in 825ms (1110 modules)
+ ✓ Compiled in 530ms (1123 modules)
+ ✓ Compiled in 153ms (1107 modules)
+ ✓ Compiled in 144ms (527 modules)
+ ✓ Compiled in 214ms (1123 modules)
+ ✓ Compiled in 166ms (527 modules)
+ ○ Compiling /tuyen-dung ...
+ ✓ Compiled /tuyen-dung in 693ms (1257 modules)
+ ✓ Compiled in 345ms (1273 modules)
