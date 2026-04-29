@@ -147,9 +147,6 @@ export default function RecruitmentPage() {
             THL tìm kiếm những người nghiêm túc, chịu học, có trách nhiệm và muốn gắn bó lâu dài.
           </p>
           <div className="mt-4 flex flex-col gap-2.5 sm:flex-row">
-            <Button asChild className="bg-blue-800 text-white hover:bg-blue-900">
-              <Link href="#ung-tuyen">Gửi thông tin ứng tuyển</Link>
-            </Button>
             <Button asChild variant="outline" className="border-blue-200 text-blue-800 hover:bg-blue-50">
               <a href={siteConfig.zaloLink} target="_blank" rel="noreferrer">
                 Trao đổi với bộ phận tuyển dụng
