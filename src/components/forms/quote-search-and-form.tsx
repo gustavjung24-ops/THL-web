@@ -65,19 +65,19 @@ export function QuoteSearchAndForm() {
       {selectedProduct ? (
         <div className="fixed inset-x-2 bottom-20 z-40 rounded-[22px] border border-blue-300 bg-[#0b2f56]/96 p-4 text-white shadow-[0_20px_40px_-20px_rgba(8,37,70,0.92)] backdrop-blur md:hidden">
           <p className="text-[32px] leading-none font-semibold opacity-[0.02] absolute right-4 top-2 select-none">THL</p>
-          <p className="relative text-[30px] font-semibold leading-none">Da chon 1 san pham</p>
+          <p className="relative text-[30px] font-semibold leading-none">Đã chọn 1 sản phẩm</p>
           <p className="relative mt-1 text-[38px] font-bold tracking-tight text-blue-100">{selectedProduct.productCode}</p>
           <div className="relative mt-4 flex flex-col gap-2.5 pr-16">
             <Button type="button" className="h-12 rounded-xl bg-[#1e73c8] text-base font-semibold hover:bg-[#155ea9]" onClick={scrollToForm}>
-              <ArrowDownCircle className="mr-2 size-4" /> Chon cach gui bao gia
+              <ArrowDownCircle className="mr-2 size-4" /> Chọn cách gửi báo giá
             </Button>
             <Button type="button" variant="outline" className="h-12 rounded-xl border-blue-300 bg-white text-base font-semibold text-slate-500 hover:bg-slate-100" onClick={clearSelectedProduct}>
-              <X className="mr-2 size-4" /> Xoa chon
+              <X className="mr-2 size-4" /> Xóa chọn
             </Button>
             <a
               href="tel:0902964685"
               className="absolute -right-2 top-1/2 inline-flex size-16 -translate-y-1/2 items-center justify-center rounded-full bg-[#0d63bf] text-white shadow-[0_10px_28px_-12px_rgba(13,99,191,0.85)]"
-              aria-label="Goi tu van"
+              aria-label="Gọi tư vấn"
             >
               <PhoneCall className="size-7" />
             </a>
