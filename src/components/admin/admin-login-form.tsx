@@ -91,11 +91,11 @@ export function AdminLoginForm({ nextPath }: AdminLoginFormProps) {
           <div className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="admin-email">Email admin</Label>
-              <Input id="admin-email" value={email} onChange={(event) => setEmail(event.target.value)} />
+              <Input id="admin-email" type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} onBlur={(event) => setEmail(event.target.value)} />
             </div>
             <div className="space-y-2">
               <Label htmlFor="admin-password">Mật khẩu</Label>
-              <Input id="admin-password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} />
+              <Input id="admin-password" type="password" autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} onBlur={(event) => setPassword(event.target.value)} />
             </div>
             <Button type="button" className="w-full bg-blue-800 hover:bg-blue-900" onClick={requestOtp} disabled={loading || !email || !password}>
               {loading ? "Đang xử lý..." : "Nhận OTP"}
