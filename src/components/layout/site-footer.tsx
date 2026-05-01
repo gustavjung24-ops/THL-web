@@ -34,11 +34,11 @@ export function SiteFooter() {
           </Link>
           <p className="text-sm font-semibold leading-relaxed text-slate-800">{siteConfig.slogan}</p>
           <p className="text-sm leading-relaxed text-slate-600">
-            THL cung cấp vật tư truyền động công nghiệp chính hãng cho nhà máy, bộ phận bảo trì, kỹ thuật và mua hàng.
+            THL cung cấp vật tư truyền động công nghiệp chính hãng cho nhà máy, đội bảo trì, kỹ thuật và mua hàng doanh nghiệp.
           </p>
           <p className="inline-flex items-center gap-1.5 text-xs font-medium text-blue-800">
             <ShieldCheck className="size-3.5" />
-            Trang web P.Kinh Doanh của Công Ty TNHH Tân Hòa Lợi.
+            Kênh thông tin chính thức của bộ phận kinh doanh kỹ thuật THL.
           </p>
         </div>
 

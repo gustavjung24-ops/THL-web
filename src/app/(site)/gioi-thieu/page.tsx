@@ -25,8 +25,8 @@ const capabilityBlocks = [
     Icon: ShieldCheck,
   },
   {
-    title: "Danh mục triển khai có trọng tâm",
-    description: "THL phân phối chính thức NTN, Tsubaki, Koyo và cung cấp thêm NOK, Soho theo nhu cầu ứng dụng thực tế.",
+    title: "Danh mục 2 trụ cột + 3 hỗ trợ",
+    description: "THL tổ chức NTN và Tsubaki là trụ cột danh mục; Koyo, NOK và Soho là nhóm hỗ trợ theo ứng dụng thực tế.",
     Icon: BadgeCheck,
   },
   {
@@ -69,7 +69,7 @@ export default function AboutPage() {
                 description="Công Ty TNHH Tân Hòa Lợi cung cấp danh mục vật tư truyền động chính hãng cho nhà máy, với hệ thương hiệu rõ ràng theo từng nhóm sản phẩm và nhu cầu ứng dụng."
               />
               <p className="text-sm leading-relaxed text-slate-700 sm:text-base">
-                THL làm việc theo hướng doanh nghiệp B2B: tiếp nhận nhu cầu kỹ thuật, đối chiếu mã và ứng dụng, sau đó chuyển hướng báo giá rõ ràng để bộ phận bảo trì, kỹ thuật và mua hàng cùng kiểm tra.
+                THL vận hành theo mô hình B2B doanh nghiệp: tiếp nhận nhu cầu kỹ thuật, đối chiếu mã và ứng dụng, sau đó chuyển hướng báo giá rõ ràng để bộ phận bảo trì, kỹ thuật và mua hàng cùng kiểm tra.
               </p>
               <div className="grid max-w-md grid-cols-3 gap-2">
                 {brandLogos.slice(0, 3).map((brand) => (
@@ -86,7 +86,7 @@ export default function AboutPage() {
                   </Link>
                 </Button>
                 <Button asChild variant="outline" className="border-blue-200 text-blue-800 hover:bg-blue-50">
-                  <Link href="/tra-ma-bao-gia">Gửi yêu cầu kỹ thuật</Link>
+                  <Link href="/tra-ma-bao-gia">Tra mã nhanh</Link>
                 </Button>
               </div>
             </div>

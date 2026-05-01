@@ -55,11 +55,11 @@ export function getCoreBrandLogos() {
 }
 
 export const brandDescriptions: Record<string, string> = {
-  ntn: "Nhật Bản chính hãng · Vòng bi",
-  tsubaki: "Nhật Bản chính hãng · Xích truyền động",
-  koyo: "Phân phối chính thức · Vòng bi, gối đỡ",
-  nok: "Ứng dụng công nghiệp · Phớt làm kín",
-  soho: "Ứng dụng công nghiệp · Vật tư truyền động",
+  ntn: "Trụ cột Nhật Bản · Vòng bi",
+  tsubaki: "Trụ cột Nhật Bản · Xích truyền động",
+  koyo: "Hỗ trợ chính hãng · Vòng bi, gối đỡ",
+  nok: "Hỗ trợ ứng dụng · Phớt làm kín",
+  soho: "Hỗ trợ ứng dụng · Vật tư truyền động",
 };
 
 export const productGroupBrandMap: Record<string, string[]> = {

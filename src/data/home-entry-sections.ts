@@ -18,7 +18,7 @@ export const productEntryCards: HomeEntryCard[] = [
     slug: "ntn",
     title: "NTN",
     tier: "core",
-    description: "Thương hiệu chủ lực cho vòng bi, cụm quay, motor, bơm, quạt và hộp số trong nhà máy.",
+    description: "Thương hiệu trụ cột cho vòng bi, cụm quay, motor, bơm, quạt và hộp số trong nhà máy.",
     image: resolveProductCardImage("ntn", "/images/cards/products/ntn.png"),
     imagePrompt:
       "Kỹ thuật viên kiểm tra vòng bi NTN trong xưởng công nghiệp, máy móc và kệ vật tư phía sau, realistic industrial B2B photography, clean lighting, professional, no cartoon, no oversized logos, no poster-style collage, 16:9 aspect ratio",
@@ -31,7 +31,7 @@ export const productEntryCards: HomeEntryCard[] = [
     slug: "tsubaki",
     title: "Tsubaki",
     tier: "core",
-    description: "Thương hiệu chủ lực cho xích công nghiệp, nhông xích, băng tải xích và cơ cấu truyền động.",
+    description: "Thương hiệu trụ cột cho xích công nghiệp, nhông xích, băng tải xích và cơ cấu truyền động.",
     image: resolveProductCardImage("tsubaki", "/images/cards/products/tsubaki.png"),
     imagePrompt:
       "Cụm truyền động xích Tsubaki trên dây chuyền công nghiệp, thấy rõ xích và nhông đang lắp thực tế, realistic industrial B2B photography, clean lighting, professional, no cartoon, no oversized logos, no poster-style collage, 16:9 aspect ratio",
@@ -44,7 +44,7 @@ export const productEntryCards: HomeEntryCard[] = [
     slug: "koyo",
     title: "Koyo",
     tier: "supporting",
-    description: "Thương hiệu phân phối chính thức cho vòng bi, gối đỡ và cụm đỡ trục trong các phương án kỹ thuật theo ứng dụng.",
+    description: "Nhóm thương hiệu hỗ trợ cho vòng bi, gối đỡ và cụm đỡ trục theo từng phương án kỹ thuật.",
     image: resolveProductCardImage("koyo", "/images/cards/products/koyo.png"),
     imagePrompt:
       "Cụm vòng bi và gối đỡ Koyo gắn trên trục truyền động trong nhà máy, close-up rõ sản phẩm và bối cảnh ứng dụng thực tế, realistic industrial B2B photography, clean lighting, professional, no cartoon, no oversized logos, no poster-style collage, 16:9 aspect ratio",
@@ -57,7 +57,7 @@ export const productEntryCards: HomeEntryCard[] = [
     slug: "nok",
     title: "NOK",
     tier: "supporting",
-    description: "Nhóm triển khai trọng tâm cho phớt chặn dầu, cụm làm kín trục, hộp số và bơm công nghiệp.",
+    description: "Nhóm hỗ trợ ứng dụng cho phớt chặn dầu, cụm làm kín trục, hộp số và bơm công nghiệp.",
     image: resolveProductCardImage("nok", "/images/cards/products/nok.png"),
     imagePrompt:
       "Ảnh phớt chặn dầu NOK và vị trí làm kín trên trục máy công nghiệp, technical but realistic, clean background, realistic industrial B2B photography, clean lighting, professional, no cartoon, no oversized logos, no poster-style collage, 16:9 aspect ratio",
@@ -70,7 +70,7 @@ export const productEntryCards: HomeEntryCard[] = [
     slug: "soho",
     title: "Soho",
     tier: "supporting",
-    description: "Nhóm vật tư truyền động triển khai theo nhu cầu thay thế, phù hợp tiến độ và ngân sách vận hành.",
+    description: "Nhóm vật tư truyền động hỗ trợ theo nhu cầu thay thế, phù hợp tiến độ và ngân sách vận hành.",
     image: resolveProductCardImage("soho", "/images/cards/products/soho.png"),
     imagePrompt:
       "Khu vực bảo trì nhà máy với dây curoa và vật tư truyền động Soho được sắp xếp gọn trên bàn kỹ thuật, realistic industrial B2B photography, clean lighting, professional, no cartoon, no oversized logos, no poster-style collage, 16:9 aspect ratio",

@@ -34,14 +34,14 @@ export type CustomerRole = {
 
 export const heroContent = {
   eyebrow: "Nhà phân phối chính thức NTN, Tsubaki, Koyo",
-  heading: "Vật tư truyền động Nhật Bản chính hãng cho nhà máy",
+  heading: "Vật tư truyền động Nhật Bản cho vận hành nhà máy",
   subheading:
-    "THL là nhà phân phối chính thức của NTN, Tsubaki và Koyo. Danh mục được tổ chức rõ theo từng nhóm sản phẩm và ứng dụng để bộ phận bảo trì, kỹ thuật, mua hàng dễ tra cứu.",
+    "THL phân phối chính thức NTN, Tsubaki, Koyo và tổ chức danh mục theo 2 thương hiệu trụ cột cùng 3 thương hiệu hỗ trợ, giúp bảo trì, kỹ thuật và mua hàng kiểm tra nhanh theo đúng ứng dụng.",
 };
 
 export const trustBullets = [
   "Định vị rõ vai trò nhà phân phối chính thức cho NTN, Tsubaki và Koyo",
-  "Danh mục Nhật Bản chính hãng theo từng nhóm sản phẩm và ứng dụng",
+  "Danh mục 2 thương hiệu trụ cột cùng nhóm hỗ trợ theo ứng dụng",
   "Đối chiếu kỹ thuật theo mã, cụm máy và điều kiện vận hành thực tế",
   "Phối hợp được giữa bảo trì, kỹ thuật và mua hàng trong cùng quy trình B2B",
 ];
@@ -162,7 +162,7 @@ export const customerSegments: CustomerSegment[] = [
 ];
 
 export const whyContactBullets = [
-  "Làm việc trực tiếp với đội THL B2B",
+  "Làm việc trực tiếp với bộ phận THL B2B",
   "Đối chiếu trên danh mục phân phối chính thức NTN, Tsubaki, Koyo và nhóm triển khai trọng tâm",
   "Đối chiếu kỹ thuật trước khi chốt mã và báo giá",
   "Phối hợp được với bảo trì, kỹ thuật và mua hàng",
@@ -170,7 +170,7 @@ export const whyContactBullets = [
 ];
 
 export const whyContactDescription =
-  "Mục tiêu là giúp nhà máy xác định đúng nhóm hàng, đúng thương hiệu, đúng ứng dụng trước khi đặt vật tư.";
+  "Mục tiêu là giúp nhà máy xác định đúng thương hiệu, đúng ứng dụng và đúng hướng xử lý trước khi đặt vật tư.";
 
 export const supportProcess = [
   "Tiếp nhận mã cũ, ảnh tem, ảnh cụm máy hoặc kích thước đang có",

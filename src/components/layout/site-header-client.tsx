@@ -25,7 +25,7 @@ const desktopMenuLabels: Record<string, string> = {
   "/san-pham": "Sản phẩm",
   "/giai-phap-theo-khach-hang": "Giải pháp",
   "/tuyen-dung": "Tuyển dụng",
-  "/tra-ma-bao-gia": "Yêu cầu",
+  "/tra-ma-bao-gia": "Tra mã",
   "/kien-thuc": "Kiến thức",
   "/lien-he": "Liên hệ",
 };
@@ -134,7 +134,7 @@ export function SiteHeaderClient({ coreBrands }: SiteHeaderClientProps) {
                   <Button asChild className="bg-blue-800 hover:bg-blue-900">
                     <a href={siteConfig.phoneHref}>
                       <PhoneCall className="mr-2 size-4" />
-                      Liên hệ kinh doanh
+                      Liên hệ tư vấn
                     </a>
                   </Button>
                   <Button asChild variant="outline" className="border-blue-200 text-blue-800 hover:bg-blue-100">

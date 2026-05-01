@@ -18,7 +18,7 @@ import { siteConfig } from "@/config/site";
 import { brandDescriptions, brandLogos } from "@/data/brand-logos";
 import { industryApplications } from "@/data/industry-applications";
 import { getProductVisual, productBenefitBullets } from "@/data/product-visuals";
-import { productGroups, supportProcess, trustBullets } from "@/data/site-content";
+import { heroContent, productGroups, supportProcess, trustBullets } from "@/data/site-content";
 import { createPageMetadata } from "@/lib/seo";
 import { createBreadcrumbSchema, createOrganizationSchema, createWebPageSchema, createWebSiteSchema } from "@/lib/schema";
 import { StructuredData } from "@/components/shared/structured-data";
@@ -27,7 +27,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
 export const metadata = createPageMetadata({
-  title: "Nhà phân phối chính thức NTN, Tsubaki, Koyo",
+  title: "Nhà phân phối chính thức NTN, Tsubaki, Koyo | THL",
   description:
     "Công Ty TNHH Tân Hòa Lợi là nhà phân phối chính thức NTN, Tsubaki và Koyo cho hệ vật tư truyền động công nghiệp Nhật Bản.",
   path: "/",
@@ -41,13 +41,13 @@ const coreProducts = productGroups.filter((group) => group.slug === "ntn" || gro
 const supportingProducts = productGroups.filter((group) => group.slug !== "ntn" && group.slug !== "tsubaki");
 
 const heroStats = [
-  { value: "2", label: "thương hiệu Nhật Bản chính" },
-  { value: "3", label: "thương hiệu theo ứng dụng" },
+  { value: "2", label: "thương hiệu trụ cột" },
+  { value: "3", label: "thương hiệu hỗ trợ" },
   { value: "24h", label: "phản hồi B2B ưu tiên" },
 ];
 
 const heroFocusCards = [
-  { label: "Phân phối chính thức", value: "NTN · Tsubaki · Koyo", helper: "Danh mục rõ ràng theo nhóm sản phẩm" },
+  { label: "Phân phối chính thức", value: "NTN · Tsubaki · Koyo", helper: "Danh mục tách rõ theo vai trò thương hiệu" },
   { label: "Năng lực kỹ thuật", value: "Đối chiếu theo cụm máy", helper: "mã, ảnh tem, tải và môi trường chạy" },
   { label: "Ứng dụng nhà máy", value: "Bảo trì & thay thế", helper: "Phù hợp nhu cầu bảo trì và thay thế" },
 ];
@@ -217,23 +217,24 @@ export default function Home() {
         <div className="page-shell relative grid min-h-[620px] items-center gap-10 py-20 sm:min-h-[660px] lg:grid-cols-[0.94fr_1.06fr] lg:py-24">
           <div className="max-w-3xl space-y-6">
             <p className="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-blue-100 backdrop-blur">
-              Nhà phân phối chính thức NTN, Tsubaki, Koyo
+              {heroContent.eyebrow}
             </p>
             <h1 className="hero-ntn-title font-heading text-balance text-4xl font-bold leading-tight sm:text-5xl lg:text-[3.25rem]">
-              Vật tư truyền động Nhật Bản cho nhà máy
+              {heroContent.heading}
             </h1>
+            <p className="max-w-2xl text-sm leading-relaxed text-slate-200 sm:text-base">{heroContent.subheading}</p>
 
             <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Button asChild className="h-11 bg-blue-700 px-5 text-white hover:bg-blue-800">
-                <Link href="/san-pham">
+                <Link href="/tra-ma-bao-gia">
                   <BadgeCheck className="mr-2 size-4" />
-                  Xem danh mục
+                  Tra mã nhanh
                 </Link>
               </Button>
               <Button asChild variant="outline" className="h-11 border-white/30 bg-white/10 px-5 text-white hover:bg-white hover:text-slate-950">
                 <Link href="/lien-he">
                   <MessageCircle className="mr-2 size-4" />
-                  Liên hệ THL
+                  Liên hệ tư vấn
                 </Link>
               </Button>
             </div>
