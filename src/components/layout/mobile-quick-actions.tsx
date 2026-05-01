@@ -35,7 +35,7 @@ export function MobileQuickActions() {
           className="flex items-center justify-center gap-1 rounded-md bg-blue-800 px-2 py-2 text-xs font-semibold text-white"
         >
           <Search className="size-4" />
-          Gửi yêu cầu
+          Tra Mã
         </Link>
         <Link
           href="/tuyen-dung"

@@ -2,30 +2,30 @@ import { MessageCircle, PhoneCall } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { quoteGuideBullets } from "@/data/site-content";
 import { createPageMetadata } from "@/lib/seo";
-import { LeadForm } from "@/components/forms/lead-form";
+import { QuoteSearchAndForm } from "@/components/forms/quote-search-and-form";
 import { StructuredData } from "@/components/shared/structured-data";
 import { createBreadcrumbSchema, createWebPageSchema } from "@/lib/schema";
 import { SectionTitle } from "@/components/shared/section-title";
 import { Button } from "@/components/ui/button";
 
 export const metadata = createPageMetadata({
-  title: "Gửi yêu cầu kỹ thuật / báo giá",
+  title: "Tra mã & gửi yêu cầu kỹ thuật / báo giá",
   description:
-    "Gửi mã hàng, ảnh tem, kích thước hoặc mô tả cụm máy để THL đối chiếu đúng danh mục NTN, Tsubaki, Koyo và nhóm triển khai theo ứng dụng.",
+    "Tra mã đa thương hiệu theo mã, biến thể, kích thước và từ khóa; sau đó gửi yêu cầu kỹ thuật/báo giá ngay trên cùng trang.",
   path: "/tra-ma-bao-gia",
 });
 
 export default function QuotePage() {
   const pageSchema = createWebPageSchema({
-    title: "Gửi yêu cầu kỹ thuật / báo giá",
+    title: "Tra mã & gửi yêu cầu kỹ thuật / báo giá",
     description:
-      "Gửi mã hàng, ảnh tem, kích thước hoặc mô tả cụm máy để THL đối chiếu đúng danh mục NTN, Tsubaki, Koyo và nhóm triển khai theo ứng dụng.",
+      "Tra mã đa thương hiệu theo mã, biến thể, kích thước và từ khóa; sau đó gửi yêu cầu kỹ thuật/báo giá ngay trên cùng trang.",
     path: "/tra-ma-bao-gia",
   });
 
   const breadcrumbSchema = createBreadcrumbSchema([
     { name: "Trang chủ", path: "/" },
-    { name: "Yêu cầu kỹ thuật", path: "/tra-ma-bao-gia" },
+    { name: "Tra mã & báo giá", path: "/tra-ma-bao-gia" },
   ]);
 
   return (
@@ -35,9 +35,9 @@ export default function QuotePage() {
         <div className="page-shell space-y-8">
         <section className="space-y-5 rounded-lg border border-slate-200 bg-white p-6 shadow-[0_12px_32px_-26px_rgba(15,23,42,0.45)] sm:p-8">
           <SectionTitle
-            eyebrow="Yêu cầu kỹ thuật / báo giá"
-            title="Gửi thông tin để THL đối chiếu đúng nhóm vật tư"
-            description="Mã hàng, ảnh tem, kích thước, vị trí lắp và điều kiện vận hành giúp khoanh đúng NTN, Tsubaki, Koyo hoặc nhóm triển khai theo ứng dụng trước khi chuyển báo giá."
+            eyebrow="Tra mã đa thương hiệu"
+            title="Tra mã theo nhãn hàng hoặc tra ngẫu nhiên rồi gửi báo giá"
+            description="Hỗ trợ tra mã NTN, Koyo, Tsubaki, NOK, Mitsuba, Soho V-Belt theo mã chính, biến thể alias, kích thước và từ khóa; kết quả hiển thị gọn theo thương hiệu để chọn gửi báo giá nhanh."
           />
 
           <ul className="grid gap-2 text-sm leading-relaxed text-slate-700 sm:grid-cols-2">
@@ -64,9 +64,7 @@ export default function QuotePage() {
           </div>
         </section>
 
-        <section>
-          <LeadForm />
-        </section>
+        <QuoteSearchAndForm />
         </div>
 
         <a

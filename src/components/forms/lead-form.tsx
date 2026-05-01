@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { leadFormBottomNote, leadFormUploadHint, productGroups } from "@/data/site-content";
 import { leadSubmitSchema, type LeadSubmitValues } from "@/lib/forms/form-schemas";
@@ -31,7 +31,12 @@ const defaultValues: LeadSubmitValues = {
   notes: "",
 };
 
-export function LeadForm() {
+type LeadFormProps = {
+  prefillCode?: string;
+  prefillProductGroup?: string;
+};
+
+export function LeadForm({ prefillCode, prefillProductGroup }: LeadFormProps) {
   const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
   const [submitMessage, setSubmitMessage] = useState("");
   const [submitError, setSubmitError] = useState("");
@@ -50,6 +55,38 @@ export function LeadForm() {
 
   const selectedProductGroup = watch("productGroup");
   const selectedPriority = watch("priority");
+
+  useEffect(() => {
+    if (!prefillCode) {
+      return;
+    }
+
+    setValue("requestedCode", prefillCode, {
+      shouldDirty: true,
+      shouldTouch: true,
+      shouldValidate: true,
+    });
+  }, [prefillCode, setValue]);
+
+  useEffect(() => {
+    if (!prefillProductGroup) {
+      return;
+    }
+
+    const matchedGroup = productGroups.find(
+      (group) => group.name.toLowerCase() === prefillProductGroup.toLowerCase() || prefillProductGroup.includes(group.name),
+    );
+
+    if (!matchedGroup) {
+      return;
+    }
+
+    setValue("productGroup", matchedGroup.name, {
+      shouldDirty: true,
+      shouldTouch: true,
+      shouldValidate: true,
+    });
+  }, [prefillProductGroup, setValue]);
 
   async function onUploadChange(event: React.ChangeEvent<HTMLInputElement>) {
     const fileList = event.target.files;
