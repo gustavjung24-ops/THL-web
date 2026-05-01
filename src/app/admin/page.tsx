@@ -10,9 +10,9 @@ import { getAdminCookieName, getFixedSuperAdminEmail, getVerifiedAdminSession, h
 export const dynamic = "force-dynamic";
 
 const cards = [
-  { title: "Báo giá RFQ", description: "Đọc lead từ website, soạn draft và cập nhật trạng thái nội bộ.", href: "/admin/bao-gia", icon: FileSpreadsheet },
-  { title: "Phân quyền", description: "Tạo và quản lý tài khoản admin cấp dưới.", href: "/admin/phan-quyen", icon: Users },
-  { title: "Mail admin", description: "Gửi mail thủ công theo các luồng nội bộ và chăm sóc khách hàng.", href: "/admin/mail", icon: Mail },
+  { title: "Báo giá RFQ", description: "Xử lý RFQ, soạn báo giá và cập nhật trạng thái đơn nội bộ.", href: "/admin/bao-gia", icon: FileSpreadsheet },
+  { title: "Phân quyền", description: "Quản lý tài khoản cấp dưới và phân quyền vận hành trực tiếp trong admin.", href: "/admin/phan-quyen", icon: Users },
+  { title: "Mail admin", description: "Gửi mail thủ công từ các sender đã cấu hình và theo dõi luồng phản hồi nội bộ.", href: "/admin/mail", icon: Mail },
 ] as const;
 
 export default async function AdminIndexPage() {
@@ -35,7 +35,7 @@ export default async function AdminIndexPage() {
       section="tong-quan"
       sessionEmail={session.email}
       title="Admin THL Công Nghiệp"
-      description="Điểm vào quản trị cho báo giá, phân quyền và mail nội bộ theo mô hình SKF nhưng dùng dữ liệu THL."
+      description="Điểm vào quản trị cho báo giá, phân quyền và mail nội bộ."
       canManageUsers={canManageUsers}
       canSendMail={canSendMail}
       actions={
@@ -67,6 +67,29 @@ export default async function AdminIndexPage() {
           );
         })}
       </div>
+
+      <Card className="border-slate-200 bg-white shadow-sm">
+        <CardHeader>
+          <CardTitle>Trạng thái hệ thống</CardTitle>
+          <CardDescription>Những phần đã có và những phần đang được mở rộng trong admin.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-3 md:grid-cols-3">
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+              <p className="text-base font-semibold text-slate-900">Đã có</p>
+              <p className="mt-1 text-sm text-slate-600">Đăng nhập email + mật khẩu + OTP</p>
+            </div>
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+              <p className="text-base font-semibold text-slate-900">Đã có</p>
+              <p className="mt-1 text-sm text-slate-600">Xử lý RFQ và báo giá nội bộ qua web admin</p>
+            </div>
+            <div className="rounded-2xl border border-amber-300 bg-amber-50 p-4">
+              <p className="text-base font-semibold text-amber-900">Cần hạ tầng bổ sung</p>
+              <p className="mt-1 text-sm text-amber-800">Đọc inbox thật cần tích hợp Gmail API, IMAP hoặc webhook inbound riêng.</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
     </AdminShell>
   );
 }

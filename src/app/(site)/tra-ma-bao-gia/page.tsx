@@ -1,11 +1,9 @@
-import { MessageCircle, PhoneCall } from "lucide-react";
+import { MessageCircle, Search } from "lucide-react";
 import { siteConfig } from "@/config/site";
-import { quoteGuideBullets } from "@/data/site-content";
 import { createPageMetadata } from "@/lib/seo";
 import { QuoteSearchAndForm } from "@/components/forms/quote-search-and-form";
 import { StructuredData } from "@/components/shared/structured-data";
 import { createBreadcrumbSchema, createWebPageSchema } from "@/lib/schema";
-import { SectionTitle } from "@/components/shared/section-title";
 import { Button } from "@/components/ui/button";
 
 export const metadata = createPageMetadata({
@@ -33,38 +31,32 @@ export default function QuotePage() {
       <StructuredData data={[pageSchema, breadcrumbSchema]} />
       <div className="section-block">
         <div className="page-shell space-y-8">
-        <section className="space-y-5 rounded-lg border border-slate-200 bg-white p-6 shadow-[0_12px_32px_-26px_rgba(15,23,42,0.45)] sm:p-8">
-          <SectionTitle
-            eyebrow="Tra mã đa thương hiệu"
-            title="Tra mã theo nhãn hàng hoặc tra ngẫu nhiên rồi gửi báo giá"
-            description="Hỗ trợ tra mã NTN, Koyo, Tsubaki, NOK, Mitsuba, Soho V-Belt theo mã chính, biến thể alias, kích thước và từ khóa; kết quả hiển thị gọn theo thương hiệu để chọn gửi báo giá nhanh."
-          />
-
-          <ul className="grid gap-2 text-sm leading-relaxed text-slate-700 sm:grid-cols-2">
-            {quoteGuideBullets.map((tip) => (
-              <li key={tip} className="rounded-lg border border-slate-200 bg-slate-50 p-3">
-                {tip}
-              </li>
-            ))}
-          </ul>
+        <section className="space-y-4 rounded-2xl border border-blue-300 bg-gradient-to-r from-[#0e4f96] via-[#135ea9] to-[#0f4f95] p-6 text-white shadow-[0_18px_40px_-22px_rgba(15,52,95,0.75)] sm:p-8">
+          <span className="inline-flex rounded-full border border-blue-200/40 bg-blue-200/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-blue-100">
+            SKF Tool Style
+          </span>
+          <h1 className="text-3xl font-bold leading-tight">Tra Mã và Báo Giá</h1>
+          <p className="max-w-2xl text-sm text-blue-100 sm:text-base">Tra mã theo mã hoặc kích thước, sau đó chọn cách gửi báo giá theo kênh phù hợp.</p>
 
           <div className="flex flex-col gap-2 sm:flex-row">
-            <Button asChild variant="outline" className="border-blue-200 text-blue-800 hover:bg-blue-100">
-              <a href={siteConfig.zaloLink} target="_blank" rel="noreferrer">
-                <MessageCircle className="mr-2 size-4" />
-                Zalo kinh doanh
+            <Button asChild className="bg-white/10 text-white hover:bg-white/20">
+              <a href="#lookup-tool">
+                <Search className="mr-2 size-4" />
+                Tra mã ngay
               </a>
             </Button>
-            <Button asChild variant="outline" className="border-slate-300 text-slate-900 hover:bg-slate-50">
-              <a href={siteConfig.phoneHref}>
-                <PhoneCall className="mr-2 size-4" />
-                Liên hệ B2B
+            <Button asChild className="bg-red-600 text-white hover:bg-red-700">
+              <a href="#lead-form-anchor">
+                <MessageCircle className="mr-2 size-4" />
+                Gửi báo giá
               </a>
             </Button>
           </div>
         </section>
 
-        <QuoteSearchAndForm />
+        <section id="lookup-tool">
+          <QuoteSearchAndForm />
+        </section>
         </div>
 
         <a

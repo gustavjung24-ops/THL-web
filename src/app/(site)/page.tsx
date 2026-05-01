@@ -43,13 +43,13 @@ const supportingProducts = productGroups.filter((group) => group.slug !== "ntn" 
 const heroStats = [
   { value: "2", label: "thương hiệu trụ cột" },
   { value: "3", label: "thương hiệu hỗ trợ" },
-  { value: "24h", label: "phản hồi B2B ưu tiên" },
+  { value: "5+", label: "nhóm ngành ưu tiên" },
 ];
 
 const heroFocusCards = [
-  { label: "Phân phối chính thức", value: "NTN · Tsubaki · Koyo", helper: "Danh mục tách rõ theo vai trò thương hiệu" },
-  { label: "Năng lực kỹ thuật", value: "Đối chiếu theo cụm máy", helper: "mã, ảnh tem, tải và môi trường chạy" },
-  { label: "Ứng dụng nhà máy", value: "Bảo trì & thay thế", helper: "Phù hợp nhu cầu bảo trì và thay thế" },
+  { label: "Phân phối chính thức", value: "NTN · Tsubaki · Koyo", helper: "Tách rõ trụ cột và thương hiệu hỗ trợ theo ứng dụng" },
+  { label: "Đối chiếu kỹ thuật", value: "Theo cụm máy thực tế", helper: "mã cũ, ảnh tem, tải, tốc độ, môi trường vận hành" },
+  { label: "Triển khai B2B", value: "Bảo trì · Kỹ thuật · Mua hàng", helper: "Thông tin đủ để chốt phương án trước khi đặt vật tư" },
 ];
 
 const brandLogoById = new Map(brandLogos.map((brand) => [brand.id, brand]));
@@ -110,40 +110,40 @@ function getBrandTheme(brandId: string) {
 const trustArchitecture = [
   {
     title: "Nhà phân phối chính thức",
-    description: "THL phân phối chính thức NTN, Tsubaki, Koyo theo chuẩn danh mục Nhật Bản.",
+    description: "THL phân phối chính thức NTN, Tsubaki, Koyo cho nhu cầu vật tư truyền động trong môi trường nhà máy.",
     Icon: ShieldCheck,
   },
   {
-    title: "Danh mục thương hiệu rõ ràng",
-    description: "THL phân phối chính thức NTN, Tsubaki, Koyo; đồng thời cung cấp NOK và Soho theo nhu cầu ứng dụng.",
+    title: "Danh mục theo vai trò kỹ thuật",
+    description: "NTN và Tsubaki là trụ cột; Koyo, NOK, Soho hỗ trợ theo từng yêu cầu làm kín và truyền động.",
     Icon: BadgeCheck,
   },
   {
     title: "Đối chiếu kỹ thuật",
-    description: "Xử lý theo mã, ảnh tem, vị trí lắp và điều kiện vận hành.",
+    description: "Đối chiếu theo mã cũ, ảnh tem, vị trí lắp và điều kiện tải trước khi chuyển báo giá.",
     Icon: Search,
   },
   {
     title: "Phục vụ nhà máy toàn quốc",
-    description: "Phối hợp bảo trì, kỹ thuật và mua hàng trong quy trình B2B.",
+    description: "Phối hợp được với bảo trì, kỹ thuật và mua hàng để rút ngắn vòng xác nhận nội bộ.",
     Icon: Factory,
   },
 ];
 
 const processCards = [
   {
-    title: "Tiếp nhận thông tin",
-    description: "Mã cũ, ảnh tem, kích thước hoặc mô tả cụm máy đang cần thay.",
+    title: "Tiếp nhận dữ liệu đầu vào",
+    description: "Nhận mã cũ, ảnh tem, kích thước, triệu chứng hỏng hoặc mô tả cụm máy cần thay.",
     Icon: MessageCircle,
   },
   {
-    title: "Đối chiếu kỹ thuật",
-    description: "Đối chiếu đúng NTN, Tsubaki, Koyo hoặc nhóm phù hợp theo điều kiện vận hành.",
+    title: "Đối chiếu theo điều kiện chạy máy",
+    description: "Khoanh vùng thương hiệu và nhóm hàng phù hợp theo tải, tốc độ, môi trường và chu kỳ vận hành.",
     Icon: Search,
   },
   {
-    title: "Chuyển hướng báo giá",
-    description: "Tách rõ mã, ứng dụng và ghi chú để mua hàng xử lý rành mạch.",
+    title: "Bàn giao hồ sơ báo giá",
+    description: "Tách rõ mã, ứng dụng và ghi chú kỹ thuật để mua hàng xử lý nhanh, giảm trao đổi vòng lại.",
     Icon: ClipboardCheck,
   },
 ];
@@ -173,18 +173,18 @@ const whyChooseItems = [
 
 const capabilityItems = [
   {
-    title: "NTN cho cụm quay",
-    description: "Vòng bi, motor, bơm, quạt, hộp số và vị trí cần độ ổn định cao.",
+    title: "NTN cho cụm quay trọng tải cao",
+    description: "Ưu tiên cho vòng bi, motor, bơm, quạt và hộp số cần độ ổn định vận hành liên tục.",
     Icon: Wrench,
   },
   {
-    title: "Tsubaki cho truyền động",
-    description: "Xích công nghiệp, băng tải xích, nhông xích và cơ cấu chạy tải.",
+    title: "Tsubaki cho truyền động tải liên tục",
+    description: "Phù hợp xích công nghiệp, băng tải xích, nhông xích và cơ cấu chạy tải theo ca.",
     Icon: BadgeCheck,
   },
   {
-    title: "Koyo / NOK / Soho theo ứng dụng",
-    description: "Koyo là phương án phân phối chính thức cho vòng bi; NOK và Soho phục vụ các nhu cầu làm kín, truyền động theo thực tế vận hành.",
+    title: "Koyo / NOK / Soho cho bài toán bổ sung",
+    description: "Mở rộng phương án cho nhu cầu vòng bi, làm kín và thay thế theo tiến độ bảo trì tại xưởng.",
     Icon: Factory,
   },
 ];
@@ -318,8 +318,8 @@ export default function Home() {
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <SectionTitle
               eyebrow="Thương hiệu chính hãng"
-              title="Danh mục thương hiệu phù hợp từng nhu cầu vận hành"
-              description="THL phân phối chính thức NTN, Tsubaki, Koyo và cung cấp thêm NOK, Soho theo yêu cầu ứng dụng thực tế tại nhà máy."
+              title="Danh mục thương hiệu theo đúng vai trò vận hành"
+              description="Thiết kế danh mục theo tư duy nhà máy: thương hiệu trụ cột cho hạng mục chính, thương hiệu hỗ trợ cho yêu cầu chuyên biệt theo ứng dụng."
             />
             <Button asChild variant="outline" className="w-fit border-blue-200 text-slate-800 hover:bg-blue-50">
               <Link href="/san-pham">
@@ -349,7 +349,7 @@ export default function Home() {
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/78 via-slate-950/15 to-transparent" />
                         <span className="absolute left-4 top-4 rounded-full border border-white/30 bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white backdrop-blur">
-                          Thương hiệu chính
+                          Trụ cột danh mục
                         </span>
                         {brand ? (
                           <div className="absolute bottom-4 left-4 flex h-16 w-40 items-center justify-center rounded-md border border-white/20 bg-white p-3 shadow-[0_18px_42px_-28px_rgba(15,23,42,0.7)]">
@@ -360,7 +360,7 @@ export default function Home() {
                       <CardContent className="flex flex-col justify-between gap-6 p-6">
                         <div className="space-y-3">
                           <p className={`text-xs font-semibold uppercase tracking-wide ${group.slug === "ntn" ? "text-blue-200" : "text-sky-200"}`}>
-                            {brandDescriptions[group.slug] ?? "Thương hiệu chính hãng"}
+                            {brandDescriptions[group.slug] ?? "Danh mục chính hãng"}
                           </p>
                           <h3 className="font-heading text-3xl font-bold text-white">{group.name}</h3>
                           <p className="text-sm leading-relaxed text-slate-300">{group.detailDescription}</p>
@@ -437,8 +437,8 @@ export default function Home() {
         <div className="page-shell space-y-8">
           <SectionTitle
             eyebrow="Quy trình B2B"
-            title="Từ thông tin kỹ thuật đến phương án đặt hàng rõ ràng"
-            description="THL tách dữ liệu kỹ thuật, nhóm thương hiệu và ghi chú mua hàng để các bộ phận trong nhà máy cùng kiểm tra rành mạch."
+              title="Từ dữ liệu hiện trường đến phương án đặt hàng"
+              description="Quy trình tập trung vào đầu ra sử dụng được cho bảo trì, kỹ thuật và mua hàng, thay vì chỉ trả về tên sản phẩm chung chung."
           />
 
           <div className="grid gap-4 lg:grid-cols-3">
@@ -465,8 +465,8 @@ export default function Home() {
         <div className="page-shell space-y-8">
           <SectionTitle
             eyebrow="Ứng dụng theo ngành"
-            title="Khoanh vùng vật tư theo loại máy và điều kiện vận hành"
-            description="Các trang ứng dụng giúp xác định nhóm vật tư thường dùng cho máy gỗ, CNC, ép nhựa, bơm quạt, động cơ và băng tải trước khi chốt mã thay thế."
+              title="Khoanh vùng vật tư theo ngành, máy và chế độ tải"
+              description="Bám theo bối cảnh vận hành thực tế của từng nhóm ngành như gỗ, CNC, ép nhựa, bơm quạt và băng tải để giảm rủi ro chọn sai mã."
           />
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
@@ -505,8 +505,8 @@ export default function Home() {
         <div className="page-shell grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
           <SectionTitle
             eyebrow="Năng lực THL"
-            title="Đúng thương hiệu, đúng ứng dụng, đúng tiến độ bảo trì"
-            description="Mỗi yêu cầu được xử lý theo vai trò phân phối, mã hàng, vị trí lắp và điều kiện vận hành để giảm rủi ro đặt sai vật tư."
+              title="Đúng thương hiệu, đúng cụm máy, đúng tiến độ dừng máy"
+              description="Mỗi yêu cầu được xử lý theo vai trò phân phối, vị trí lắp và điều kiện chạy máy để giảm sai mã và giảm thời gian xác nhận nội bộ."
           />
 
           <div className="grid gap-4 sm:grid-cols-2">
@@ -529,13 +529,13 @@ export default function Home() {
             <div className="space-y-6">
               <div className="space-y-3">
                 <p className="inline-flex rounded-full border border-blue-300/30 bg-blue-300/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-blue-100">
-                  Hỗ trợ công nghiệp B2B
+                  Bộ phận kỹ thuật B2B
                 </p>
                 <h2 className="font-heading text-2xl font-bold leading-tight sm:text-3xl">
-                  Một đầu mối cho NTN, Tsubaki, Koyo và nhóm triển khai trọng tâm
+                  Một đầu mối xử lý nhu cầu vật tư truyền động cho nhà máy
                 </h2>
                 <p className="text-sm leading-relaxed text-slate-300 sm:text-base">
-                  Đội THL B2B tiếp nhận thông tin, đối chiếu kỹ thuật và chuyển hướng báo giá theo nhu cầu thực tế của nhà máy.
+                  THL tiếp nhận dữ liệu hiện trường, đối chiếu kỹ thuật và bàn giao hồ sơ báo giá rõ ràng theo nhu cầu từng bộ phận trong nhà máy.
                 </p>
               </div>
 
@@ -590,10 +590,10 @@ export default function Home() {
                 Làm rõ phương án trước khi đặt hàng
               </p>
               <h2 className="font-heading text-2xl font-bold text-white sm:text-3xl">
-                Gửi mã, ảnh tem hoặc mô tả cụm máy cho THL
+                Gửi mã, ảnh tem hoặc thông số cụm máy cho THL
               </h2>
               <p className="text-sm leading-relaxed text-slate-300 sm:text-base">
-                THL đối chiếu theo điều kiện vận hành thực tế để đề xuất đúng nhóm hàng: NTN, Tsubaki, Koyo cho danh mục chính hãng và NOK, Soho cho nhu cầu ứng dụng phù hợp.
+                THL khoanh vùng nhanh phương án phù hợp theo điều kiện vận hành, sau đó chuyển hướng báo giá có ghi chú kỹ thuật để đội mua hàng xử lý thuận hơn.
               </p>
               <div className="flex flex-wrap gap-2 pt-1">
                 {productBenefitBullets.map((item) => (
@@ -608,13 +608,13 @@ export default function Home() {
               <Button asChild className="h-11 bg-blue-700 px-5 text-white hover:bg-blue-600">
                 <Link href="/tra-ma-bao-gia">
                   <Search className="mr-2 size-4" />
-                  Gửi yêu cầu
+                  Tra mã và gửi yêu cầu
                 </Link>
               </Button>
               <Button asChild variant="outline" className="h-11 border-blue-300/40 bg-white/5 px-5 text-blue-100 hover:bg-white hover:text-slate-950">
                 <a href={siteConfig.phoneHref}>
                   <PhoneCall className="mr-2 size-4" />
-                  Liên hệ B2B
+                  Liên hệ tư vấn kỹ thuật
                 </a>
               </Button>
             </div>

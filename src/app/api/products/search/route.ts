@@ -6,6 +6,10 @@ export async function GET(request: Request) {
   const query = url.searchParams.get("q") ?? "";
   const brand = url.searchParams.get("brand") ?? "ALL";
   const group = url.searchParams.get("group") ?? "ALL";
+  const application = url.searchParams.get("application") ?? "";
+  const dInner = url.searchParams.get("d") ?? "";
+  const dOuter = url.searchParams.get("D") ?? "";
+  const bThickness = url.searchParams.get("BT") ?? "";
   const limit = Number(url.searchParams.get("limit") ?? "80");
 
   try {
@@ -13,6 +17,10 @@ export async function GET(request: Request) {
       query,
       brand,
       group,
+      application,
+      dInner,
+      dOuter,
+      bThickness,
       limit,
     });
 

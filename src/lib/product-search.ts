@@ -35,6 +35,10 @@ export type ProductSearchRequest = {
   query: string;
   brand: string;
   group: string;
+  application?: string;
+  dInner?: string;
+  dOuter?: string;
+  bThickness?: string;
   limit?: number;
 };
 
@@ -80,6 +84,10 @@ type IndexedProduct = {
   keywordCompacts: string[];
   dimensionCompacts: string[];
   textSearchPool: string[];
+  applicationCompact: string;
+  dInnerMm: number | null;
+  dOuterMm: number | null;
+  bThicknessMm: number | null;
 };
 
 type SearchCandidate = {
@@ -403,6 +411,11 @@ async function loadSearchIndex(): Promise<ProductSearchIndex> {
         keywordCompacts,
         dimensionCompacts,
         textSearchPool: buildTextPool(product, keywordList, aliasOriginals),
+        applicationCompact: normalizeCompact(readApplication(product)),
+        dInnerMm: parseDimensionValue(product.d_mm) ?? parseDimensionValue(product.shaft_d_mm),
+        dOuterMm: parseDimensionValue(product.D_mm) ?? parseDimensionValue(product.housing_D_mm),
+        bThicknessMm:
+          parseDimensionValue(product.B_mm) ?? parseDimensionValue(product.B_T_mm) ?? parseDimensionValue(product.width_B_mm),
       };
 
       products.push(indexedProduct);
@@ -558,13 +571,38 @@ function computeCandidate(item: IndexedProduct, queryCompact: string, queryToken
   return null;
 }
 
+function parseFilterNumber(input: string): number | null {
+  const parsed = Number(input.trim());
+  if (!Number.isFinite(parsed) || parsed <= 0) {
+    return null;
+  }
+  return parsed;
+}
+
+function approximatelyEqual(left: number, right: number): boolean {
+  return Math.abs(left - right) <= 0.25;
+}
+
 export async function searchProducts(request: ProductSearchRequest): Promise<ProductSearchResponse> {
   const query = toStr(request.query);
   const brand = normalizeBrand(request.brand);
   const group = normalizeGroup(request.group);
+  const application = toStr(request.application ?? "");
+  const dInnerFilter = parseFilterNumber(toStr(request.dInner ?? ""));
+  const dOuterFilter = parseFilterNumber(toStr(request.dOuter ?? ""));
+  const bThicknessFilter = parseFilterNumber(toStr(request.bThickness ?? ""));
   const limit = Math.max(1, Math.min(request.limit ?? 80, 250));
 
-  if (!query) {
+  const hasQuery = query.length > 0;
+  const hasAnyFilter =
+    brand !== "ALL" ||
+    group !== "ALL" ||
+    application.length > 0 ||
+    dInnerFilter !== null ||
+    dOuterFilter !== null ||
+    bThicknessFilter !== null;
+
+  if (!hasQuery && !hasAnyFilter) {
     return {
       query,
       brand,
@@ -576,6 +614,7 @@ export async function searchProducts(request: ProductSearchRequest): Promise<Pro
 
   const queryCompact = normalizeCompact(query);
   const queryTokens = tokenize(query);
+  const applicationCompact = normalizeCompact(application);
   const index = await loadSearchIndex();
 
   const candidates: SearchCandidate[] = [];
@@ -589,7 +628,32 @@ export async function searchProducts(request: ProductSearchRequest): Promise<Pro
       continue;
     }
 
-    const candidate = computeCandidate(item, queryCompact, queryTokens);
+    if (applicationCompact && !item.applicationCompact.includes(applicationCompact)) {
+      continue;
+    }
+
+    if (dInnerFilter !== null && (item.dInnerMm === null || !approximatelyEqual(item.dInnerMm, dInnerFilter))) {
+      continue;
+    }
+
+    if (dOuterFilter !== null && (item.dOuterMm === null || !approximatelyEqual(item.dOuterMm, dOuterFilter))) {
+      continue;
+    }
+
+    if (bThicknessFilter !== null && (item.bThicknessMm === null || !approximatelyEqual(item.bThicknessMm, bThicknessFilter))) {
+      continue;
+    }
+
+    const candidate = hasQuery
+      ? computeCandidate(item, queryCompact, queryTokens)
+      : {
+          item,
+          matchTier: 6,
+          matchedBy: "Khớp bộ lọc kỹ thuật",
+          matchedAlias: null,
+          keywordStrength: 0,
+          brandOrder: getBrandOrder(item.brand),
+        };
     if (!candidate) continue;
     candidates.push(candidate);
   }
@@ -653,4 +717,19 @@ export async function searchProducts(request: ProductSearchRequest): Promise<Pro
     total: mapped.length,
     groups: responseGroups,
   };
+}
+
+function parseDimensionValue(value: unknown): number | null {
+  if (typeof value === "number" && Number.isFinite(value) && value > 0) {
+    return value;
+  }
+
+  if (typeof value === "string") {
+    const parsed = Number(value.trim());
+    if (Number.isFinite(parsed) && parsed > 0) {
+      return parsed;
+    }
+  }
+
+  return null;
 }
