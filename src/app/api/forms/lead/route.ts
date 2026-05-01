@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { siteConfig } from "@/config/site";
+import { createQuoteRequestFromLead } from "@/lib/admin/quote-store";
 import { leadSubmitSchema } from "@/lib/forms/form-schemas";
 import { buildMailBrandHeaderHtml, getInternalRecipient, sendMail } from "@/lib/forms/mailer";
 
@@ -136,24 +137,20 @@ export async function POST(request: NextRequest) {
   }
 
   const payload = parsed.data;
+  const quoteRequest = await createQuoteRequestFromLead(payload);
+  let internalMailSent = true;
 
   try {
     await sendMail({
       to: getInternalRecipient(),
-      subject: `[THL B2B] Yêu cầu kỹ thuật - ${payload.fullName} - ${payload.productGroup}`,
+      subject: `[THL B2B] ${quoteRequest.id} - ${payload.fullName} - ${payload.productGroup}`,
       html: formatLeadInternalHtml(payload),
       text: formatLeadInternalText(payload),
       replyTo: payload.email,
     });
   } catch (error) {
+    internalMailSent = false;
     console.error("[forms/lead] send internal mail error:", error);
-    return NextResponse.json(
-      {
-        ok: false,
-        error: "THL đã nhận yêu cầu nhưng chưa gửi được email nội bộ. Vui lòng liên hệ trực tiếp qua số điện thoại.",
-      },
-      { status: 500 },
-    );
   }
 
   let autoReplySent = true;
@@ -171,8 +168,11 @@ export async function POST(request: NextRequest) {
 
   return NextResponse.json({
     ok: true,
-    message: autoReplySent
-      ? "THL đã tiếp nhận yêu cầu kỹ thuật. Đội THL B2B sẽ phản hồi chi tiết thủ công qua email hoặc điện thoại."
-      : "THL đã tiếp nhận yêu cầu kỹ thuật. Email xác nhận tự động tạm thời chưa gửi được, đội THL B2B vẫn sẽ phản hồi thủ công qua email hoặc điện thoại.",
+    quoteRequestId: quoteRequest.id,
+    message: !internalMailSent
+      ? "THL đã lưu yêu cầu kỹ thuật vào hệ thống nội bộ. Email nội bộ tạm thời chưa gửi được nhưng đội THL B2B vẫn có thể xử lý yêu cầu này."
+      : autoReplySent
+        ? "THL đã tiếp nhận yêu cầu kỹ thuật. Đội THL B2B sẽ phản hồi chi tiết thủ công qua email hoặc điện thoại."
+        : "THL đã tiếp nhận yêu cầu kỹ thuật. Email xác nhận tự động tạm thời chưa gửi được, đội THL B2B vẫn sẽ phản hồi thủ công qua email hoặc điện thoại.",
   });
 }

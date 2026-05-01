@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useMemo, useState } from "react";
-import { LoaderCircle, Search } from "lucide-react";
+import { CheckCircle2, LoaderCircle, Search, X } from "lucide-react";
 import type { ProductSearchItem, ProductSearchResponse } from "@/lib/product-search";
 import { Button } from "@/components/ui/button";
 
@@ -26,9 +26,11 @@ const groupOptions = [
 
 type MultiBrandProductLookupProps = {
   onPickProduct: (item: ProductSearchItem) => void;
+  selectedProduct: ProductSearchItem | null;
+  onClearSelection: () => void;
 };
 
-export function MultiBrandProductLookup({ onPickProduct }: MultiBrandProductLookupProps) {
+export function MultiBrandProductLookup({ onPickProduct, selectedProduct, onClearSelection }: MultiBrandProductLookupProps) {
   const [query, setQuery] = useState("");
   const [brand, setBrand] = useState("ALL");
   const [group, setGroup] = useState("ALL");
@@ -87,6 +89,18 @@ export function MultiBrandProductLookup({ onPickProduct }: MultiBrandProductLook
           Nhập mã, kích thước hoặc từ khóa như 6205ZZ, RS40, TC 30x47x7, UCP205, A50, SPA1000 để tra nhanh.
         </p>
       </div>
+
+      {selectedProduct ? (
+        <div className="flex flex-col gap-2 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 md:flex-row md:items-center md:justify-between">
+          <div className="space-y-1">
+            <p className="text-xs font-semibold uppercase tracking-wide text-blue-700">Mã đã chọn để gửi báo giá</p>
+            <p className="text-sm font-semibold text-blue-900">{selectedProduct.productCode} | {selectedProduct.brand} | {selectedProduct.group}</p>
+          </div>
+          <Button type="button" variant="outline" className="border-blue-300 text-blue-900" onClick={onClearSelection}>
+            <X className="mr-2 size-4" /> Bỏ chọn
+          </Button>
+        </div>
+      ) : null}
 
       <form className="space-y-3" onSubmit={onSubmit}>
         <div className="grid gap-3 md:grid-cols-[2fr,1fr,1fr,auto]">
@@ -156,6 +170,7 @@ export function MultiBrandProductLookup({ onPickProduct }: MultiBrandProductLook
           <div className="flex flex-wrap items-center gap-2 text-sm text-slate-600">
             <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1">{totalResults} kết quả</span>
             {brand === "ALL" ? <span>Tra ngẫu nhiên ưu tiên: NTN, Tsubaki, Soho, NOK.</span> : null}
+            {selectedProduct ? <span className="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-blue-800">Đang chọn: {selectedProduct.productCode}</span> : null}
           </div>
 
           {totalResults === 0 ? (
@@ -174,7 +189,11 @@ export function MultiBrandProductLookup({ onPickProduct }: MultiBrandProductLook
                 {brandGroup.items.map((item) => (
                   <article
                     key={`${item.brand}-${item.productCode}`}
-                    className="flex h-full flex-col rounded-lg border border-slate-200 bg-white p-4 shadow-[0_10px_24px_-22px_rgba(15,23,42,0.45)]"
+                    className={`flex h-full flex-col rounded-lg border bg-white p-4 shadow-[0_10px_24px_-22px_rgba(15,23,42,0.45)] ${
+                      selectedProduct?.productCode === item.productCode && selectedProduct?.brand === item.brand
+                        ? "border-blue-400 ring-2 ring-blue-100"
+                        : "border-slate-200"
+                    }`}
                   >
                     <div className="space-y-1">
                       <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Mã sản phẩm chính</p>
@@ -209,7 +228,13 @@ export function MultiBrandProductLookup({ onPickProduct }: MultiBrandProductLook
                       className="mt-4 w-full bg-blue-800 hover:bg-blue-900"
                       onClick={() => onPickProduct(item)}
                     >
-                      Gửi mã này để báo giá
+                      {selectedProduct?.productCode === item.productCode && selectedProduct?.brand === item.brand ? (
+                        <span className="inline-flex items-center gap-2">
+                          <CheckCircle2 className="size-4" /> Đã chọn mã này
+                        </span>
+                      ) : (
+                        "Chọn mã để gửi báo giá"
+                      )}
                     </Button>
                   </article>
                 ))}
