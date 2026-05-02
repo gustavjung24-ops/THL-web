@@ -215,7 +215,7 @@ export function QuoteSearchAndForm() {
                   <MessageCircle className="mr-2 size-4" /> Copy + mở Zalo
                 </Button>
                 <Button type="button" className="bg-blue-800 hover:bg-blue-900" onClick={scrollToForm}>
-                  <ArrowDownCircle className="mr-2 size-4" /> Điền form ngay
+                  <ArrowDownCircle className="mr-2 size-4" /> Gửi qua email
                 </Button>
               </div>
             </div>
@@ -260,7 +260,7 @@ export function QuoteSearchAndForm() {
               <MessageCircle className="mr-2 size-4" /> Copy + mở Zalo
             </Button>
             <Button type="button" className="h-12 rounded-xl bg-[#1e73c8] text-base font-semibold hover:bg-[#155ea9]" onClick={scrollToForm}>
-              <ArrowDownCircle className="mr-2 size-4" /> Chọn cách gửi báo giá
+              <ArrowDownCircle className="mr-2 size-4" /> Gửi qua email
             </Button>
             <Button type="button" variant="outline" className="h-12 rounded-xl border-blue-300 bg-white text-base font-semibold text-slate-500 hover:bg-slate-100" onClick={clearSelectedProducts}>
               <X className="mr-2 size-4" /> Xóa chọn
