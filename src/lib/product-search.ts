@@ -53,6 +53,7 @@ export type ProductSearchItem = {
   status: string;
   matchedBy: string;
   matchedAlias: string | null;
+  variantHints: string[];
 };
 
 export type ProductSearchGroup = {
@@ -698,6 +699,10 @@ export async function searchProducts(request: ProductSearchRequest): Promise<Pro
     status: candidate.item.status,
     matchedBy: candidate.matchedBy,
     matchedAlias: candidate.matchedAlias,
+    variantHints: candidate.item.aliasOriginals
+      .map((alias) => alias.trim())
+      .filter((alias) => alias.length > 0 && normalizeCompact(alias) !== normalizeCompact(candidate.item.productCode))
+      .slice(0, 4),
   }));
 
   const grouped = new Map<ProductBrand, ProductSearchItem[]>();

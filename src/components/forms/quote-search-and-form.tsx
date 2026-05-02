@@ -9,8 +9,10 @@ import { MultiBrandProductLookup } from "@/components/forms/multi-brand-product-
 import { Button } from "@/components/ui/button";
 
 export function QuoteSearchAndForm() {
-  const [selectedProduct, setSelectedProduct] = useState<ProductSearchItem | null>(null);
+  const [selectedProducts, setSelectedProducts] = useState<ProductSearchItem[]>([]);
   const [zaloHint, setZaloHint] = useState("");
+
+  const primarySelectedProduct = selectedProducts[0] ?? null;
 
   async function copyToClipboard(text: string): Promise<boolean> {
     try {
@@ -38,22 +40,27 @@ export function QuoteSearchAndForm() {
     }
   }
 
-  function buildQuickZaloMessage(item: ProductSearchItem) {
+  function buildQuickZaloMessage(items: ProductSearchItem[]) {
+    const codeLines = items.map((item, index) => `${index + 1}. ${item.productCode} | ${item.brand} | ${item.group}`);
+
     return [
       "THL B2B xin chao,",
-      "Em can bao gia nhanh theo ma sau:",
-      `- Ma: ${item.productCode}`,
-      `- Nhan hang: ${item.brand}`,
-      `- Nhom: ${item.group}`,
-      `- Ten goi y: ${item.displayName}`,
+      "Em can bao gia nhanh theo danh sach ma sau:",
+      ...codeLines,
+      "",
+      `Tong so ma: ${items.length}`,
       "Nho doi THL tu van va gui bao gia som.",
       `Nguon yeu cau: ${siteConfig.domain}/tra-ma-bao-gia`,
     ].join("\n");
   }
 
-  async function openQuickZalo(item: ProductSearchItem) {
+  async function openQuickZalo(items: ProductSearchItem[]) {
+    if (items.length === 0) {
+      return;
+    }
+
     const base = siteConfig.zaloLink?.trim() || "https://zalo.me/0902964685";
-    const message = buildQuickZaloMessage(item);
+    const message = buildQuickZaloMessage(items);
     const separator = base.includes("?") ? "&" : "?";
     const directUrl = `${base}${separator}text=${encodeURIComponent(message)}`;
     const copied = await copyToClipboard(message);
@@ -66,15 +73,46 @@ export function QuoteSearchAndForm() {
     );
   }
 
-  function handlePickProduct(item: ProductSearchItem) {
-    setSelectedProduct(item);
+  function handleToggleProduct(item: ProductSearchItem) {
+    setSelectedProducts((current) => {
+      const exists = current.some((selected) => selected.productCode === item.productCode && selected.brand === item.brand);
+      if (exists) {
+        return current.filter((selected) => !(selected.productCode === item.productCode && selected.brand === item.brand));
+      }
+      return [...current, item];
+    });
 
     const formAnchor = document.getElementById("lead-form-anchor");
     formAnchor?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
-  function clearSelectedProduct() {
-    setSelectedProduct(null);
+  function handleSetGroupSelection(items: ProductSearchItem[], shouldSelect: boolean) {
+    setSelectedProducts((current) => {
+      if (!shouldSelect) {
+        return current.filter(
+          (selected) => !items.some((item) => item.productCode === selected.productCode && item.brand === selected.brand),
+        );
+      }
+
+      const next = [...current];
+      for (const item of items) {
+        const exists = next.some((selected) => selected.productCode === item.productCode && selected.brand === item.brand);
+        if (!exists) {
+          next.push(item);
+        }
+      }
+      return next;
+    });
+  }
+
+  function removeSelectedProduct(item: ProductSearchItem) {
+    setSelectedProducts((current) =>
+      current.filter((selected) => !(selected.productCode === item.productCode && selected.brand === item.brand)),
+    );
+  }
+
+  function clearSelectedProducts() {
+    setSelectedProducts([]);
   }
 
   function scrollToForm() {
@@ -85,9 +123,10 @@ export function QuoteSearchAndForm() {
   return (
     <>
       <MultiBrandProductLookup
-        onPickProduct={handlePickProduct}
-        selectedProduct={selectedProduct}
-        onClearSelection={clearSelectedProduct}
+        onToggleProduct={handleToggleProduct}
+        onSetGroupSelection={handleSetGroupSelection}
+        selectedProducts={selectedProducts}
+        onClearSelections={clearSelectedProducts}
       />
 
       <section className="mt-5 rounded-xl border border-blue-200 bg-blue-50 p-4 text-blue-900">
@@ -98,42 +137,70 @@ export function QuoteSearchAndForm() {
         </p>
       </section>
 
-      {selectedProduct ? (
+      {selectedProducts.length > 0 ? (
         <div className="sticky top-20 z-20 mt-4 hidden rounded-xl border border-blue-200 bg-white/95 p-3 shadow-sm backdrop-blur md:block">
-          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-            <div className="space-y-1">
-              <p className="text-xs font-semibold uppercase tracking-wide text-blue-700">Mã đang chuẩn bị gửi báo giá</p>
-              <p className="text-sm font-semibold text-slate-900">{selectedProduct.productCode} | {selectedProduct.brand} | {selectedProduct.group}</p>
-              <p className="text-xs text-slate-600">{selectedProduct.displayName}</p>
+          <div className="flex flex-col gap-3">
+            <div className="flex items-start justify-between gap-3">
+              <div className="space-y-1">
+                <p className="text-xs font-semibold uppercase tracking-wide text-blue-700">Mã đang chuẩn bị gửi báo giá</p>
+                <p className="text-sm font-semibold text-slate-900">Đã chọn {selectedProducts.length} mã</p>
+              </div>
+              <div className="flex gap-2">
+                <Button type="button" variant="outline" onClick={clearSelectedProducts}>
+                  <X className="mr-2 size-4" /> Bỏ chọn
+                </Button>
+                <Button type="button" className="bg-emerald-600 hover:bg-emerald-700" onClick={() => openQuickZalo(selectedProducts)}>
+                  <MessageCircle className="mr-2 size-4" /> Gửi nhanh Zalo
+                </Button>
+                <Button type="button" className="bg-blue-800 hover:bg-blue-900" onClick={scrollToForm}>
+                  <ArrowDownCircle className="mr-2 size-4" /> Điền form ngay
+                </Button>
+              </div>
             </div>
-            <div className="flex gap-2">
-              <Button type="button" variant="outline" onClick={clearSelectedProduct}>
-                <X className="mr-2 size-4" /> Bỏ chọn
-              </Button>
-              <Button type="button" className="bg-emerald-600 hover:bg-emerald-700" onClick={() => openQuickZalo(selectedProduct)}>
-                <MessageCircle className="mr-2 size-4" /> Gửi nhanh Zalo
-              </Button>
-              <Button type="button" className="bg-blue-800 hover:bg-blue-900" onClick={scrollToForm}>
-                <ArrowDownCircle className="mr-2 size-4" /> Điền form ngay
-              </Button>
+
+            <div className="flex flex-wrap gap-2">
+              {selectedProducts.map((item) => (
+                <button
+                  key={`${item.brand}-${item.productCode}`}
+                  type="button"
+                  onClick={() => removeSelectedProduct(item)}
+                  className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-900 transition hover:bg-blue-100"
+                >
+                  <span>{item.productCode}</span>
+                  <span className="text-blue-600">{item.brand}</span>
+                  <X className="size-3.5" />
+                </button>
+              ))}
             </div>
           </div>
         </div>
       ) : null}
 
-      {selectedProduct ? (
+      {selectedProducts.length > 0 ? (
         <div className="fixed inset-x-2 bottom-20 z-40 rounded-[22px] border border-blue-300 bg-[#0b2f56]/96 p-4 text-white shadow-[0_20px_40px_-20px_rgba(8,37,70,0.92)] backdrop-blur md:hidden">
           <p className="text-[32px] leading-none font-semibold opacity-[0.02] absolute right-4 top-2 select-none">THL</p>
-          <p className="relative text-[30px] font-semibold leading-none">Đã chọn 1 sản phẩm</p>
-          <p className="relative mt-1 text-[38px] font-bold tracking-tight text-blue-100">{selectedProduct.productCode}</p>
-          <div className="relative mt-4 flex flex-col gap-2.5 pr-16">
-            <Button type="button" className="h-12 rounded-xl bg-emerald-600 text-base font-semibold hover:bg-emerald-700" onClick={() => openQuickZalo(selectedProduct)}>
+          <p className="relative text-[30px] font-semibold leading-none">Đã chọn {selectedProducts.length} sản phẩm</p>
+          <div className="relative mt-3 flex gap-2 overflow-x-auto pb-1 pr-16">
+            {selectedProducts.map((item) => (
+              <button
+                key={`${item.brand}-${item.productCode}`}
+                type="button"
+                onClick={() => removeSelectedProduct(item)}
+                className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-blue-200/40 bg-white/10 px-3 py-1.5 text-xs font-semibold text-blue-50"
+              >
+                <span>{item.productCode}</span>
+                <X className="size-3.5" />
+              </button>
+            ))}
+          </div>
+          <div className="relative mt-3 flex flex-col gap-2.5 pr-16">
+            <Button type="button" className="h-12 rounded-xl bg-emerald-600 text-base font-semibold hover:bg-emerald-700" onClick={() => openQuickZalo(selectedProducts)}>
               <MessageCircle className="mr-2 size-4" /> Gửi nhanh Zalo
             </Button>
             <Button type="button" className="h-12 rounded-xl bg-[#1e73c8] text-base font-semibold hover:bg-[#155ea9]" onClick={scrollToForm}>
               <ArrowDownCircle className="mr-2 size-4" /> Chọn cách gửi báo giá
             </Button>
-            <Button type="button" variant="outline" className="h-12 rounded-xl border-blue-300 bg-white text-base font-semibold text-slate-500 hover:bg-slate-100" onClick={clearSelectedProduct}>
+            <Button type="button" variant="outline" className="h-12 rounded-xl border-blue-300 bg-white text-base font-semibold text-slate-500 hover:bg-slate-100" onClick={clearSelectedProducts}>
               <X className="mr-2 size-4" /> Xóa chọn
             </Button>
             <a
@@ -151,8 +218,8 @@ export function QuoteSearchAndForm() {
 
       <section id="lead-form-anchor" className="scroll-mt-24">
         <LeadForm
-          prefillCode={selectedProduct?.productCode}
-          prefillProductGroup={selectedProduct?.brand}
+          prefillCodes={selectedProducts.map((item) => item.productCode).join(", ")}
+          prefillProductGroup={primarySelectedProduct?.brand}
         />
       </section>
     </>

@@ -33,10 +33,11 @@ const defaultValues: LeadSubmitValues = {
 
 type LeadFormProps = {
   prefillCode?: string;
+  prefillCodes?: string;
   prefillProductGroup?: string;
 };
 
-export function LeadForm({ prefillCode, prefillProductGroup }: LeadFormProps) {
+export function LeadForm({ prefillCode, prefillCodes, prefillProductGroup }: LeadFormProps) {
   const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
   const [submitMessage, setSubmitMessage] = useState("");
   const [submitError, setSubmitError] = useState("");
@@ -57,16 +58,17 @@ export function LeadForm({ prefillCode, prefillProductGroup }: LeadFormProps) {
   const selectedPriority = watch("priority");
 
   useEffect(() => {
-    if (!prefillCode) {
+    const requestedCodePrefill = prefillCodes || prefillCode;
+    if (!requestedCodePrefill) {
       return;
     }
 
-    setValue("requestedCode", prefillCode, {
+    setValue("requestedCode", requestedCodePrefill, {
       shouldDirty: true,
       shouldTouch: true,
       shouldValidate: true,
     });
-  }, [prefillCode, setValue]);
+  }, [prefillCode, prefillCodes, setValue]);
 
   useEffect(() => {
     if (!prefillProductGroup) {

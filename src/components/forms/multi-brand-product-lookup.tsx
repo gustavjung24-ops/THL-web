@@ -46,12 +46,17 @@ const quickHints = [
 ];
 
 type MultiBrandProductLookupProps = {
-  onPickProduct: (item: ProductSearchItem) => void;
-  selectedProduct: ProductSearchItem | null;
-  onClearSelection: () => void;
+  onToggleProduct: (item: ProductSearchItem) => void;
+  onSetGroupSelection: (items: ProductSearchItem[], shouldSelect: boolean) => void;
+  selectedProducts: ProductSearchItem[];
+  onClearSelections: () => void;
 };
 
-export function MultiBrandProductLookup({ onPickProduct, selectedProduct, onClearSelection }: MultiBrandProductLookupProps) {
+function getSelectionKey(item: ProductSearchItem): string {
+  return `${item.brand}::${item.productCode}`;
+}
+
+export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, selectedProducts, onClearSelections }: MultiBrandProductLookupProps) {
   const [query, setQuery] = useState("");
   const [brand, setBrand] = useState("ALL");
   const [group, setGroup] = useState("ALL");
@@ -62,6 +67,7 @@ export function MultiBrandProductLookup({ onPickProduct, selectedProduct, onClea
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [result, setResult] = useState<ProductSearchResponse | null>(null);
+  const [isQuickHintsExpanded, setIsQuickHintsExpanded] = useState(false);
 
   const canSearch =
     query.trim().length > 0 ||
@@ -125,6 +131,10 @@ export function MultiBrandProductLookup({ onPickProduct, selectedProduct, onClea
     return result.groups.reduce((acc, current) => acc + current.items.length, 0);
   }, [result]);
 
+  const selectedProductKeys = useMemo(() => new Set(selectedProducts.map((item) => getSelectionKey(item))), [selectedProducts]);
+  const hasMoreQuickHints = quickHints.length > 3;
+  const visibleQuickHints = isQuickHintsExpanded ? quickHints : quickHints.slice(0, 3);
+
   return (
     <section className="space-y-5 rounded-2xl border border-[#2d5f96] bg-[#082546] p-4 text-white shadow-[0_16px_36px_-24px_rgba(8,37,70,0.8)] sm:p-6">
       <div className="rounded-2xl border border-[#2d5f96] bg-[#0b2f56] p-4 sm:p-5">
@@ -164,15 +174,26 @@ export function MultiBrandProductLookup({ onPickProduct, selectedProduct, onClea
           <div className="space-y-2 rounded-xl border border-[#2d5f96] bg-[#0a2a4d] p-3">
             <div className="flex items-center justify-between gap-2">
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-blue-200">Gợi ý nhanh</p>
-              <button type="button" className="text-xs font-semibold text-blue-200 hover:text-white" onClick={() => setQuery("")}>Xóa mã</button>
+              <div className="flex items-center gap-3">
+                {hasMoreQuickHints ? (
+                  <button
+                    type="button"
+                    className="text-xs font-semibold text-blue-200 hover:text-white"
+                    onClick={() => setIsQuickHintsExpanded((current) => !current)}
+                  >
+                    {isQuickHintsExpanded ? "Thu gọn" : "Xem thêm"}
+                  </button>
+                ) : null}
+                <button type="button" className="text-xs font-semibold text-blue-200 hover:text-white" onClick={() => setQuery("")}>Xóa mã</button>
+              </div>
             </div>
-            <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
-              {quickHints.map((hint) => (
+            <div className="flex gap-1.5 overflow-x-auto whitespace-nowrap pb-1 sm:grid sm:grid-cols-2 sm:gap-2 sm:overflow-visible sm:whitespace-normal sm:pb-0 xl:grid-cols-4">
+              {visibleQuickHints.map((hint) => (
                 <button
                   key={hint.label}
                   type="button"
                   onClick={() => setQuery(hint.value)}
-                  className="rounded-full border border-[#2d5f96] bg-[#103964] px-3 py-1.5 text-left text-xs font-semibold text-blue-100 transition hover:bg-[#1a4f85]"
+                  className="shrink-0 rounded-full border border-[#2d5f96] bg-[#103964] px-2.5 py-1 text-left text-[11px] font-semibold text-blue-100 transition hover:bg-[#1a4f85] sm:px-3 sm:py-1.5 sm:text-xs"
                 >
                   {hint.label}
                 </button>
@@ -187,6 +208,21 @@ export function MultiBrandProductLookup({ onPickProduct, selectedProduct, onClea
                 Reset
               </Button>
             </div>
+
+            <label className="space-y-1">
+              <span className="text-xs font-semibold uppercase tracking-wide text-blue-200">Nhãn hàng</span>
+              <select
+                value={brand}
+                onChange={(event) => setBrand(event.target.value)}
+                className="h-11 w-full rounded-xl border border-[#2d5f96] bg-[#082546] px-3 text-sm text-white outline-none"
+              >
+                {brandOptions.map((option) => (
+                  <option key={option.value} value={option.value} className="bg-[#082546]">
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </label>
 
             <div className="grid gap-3 md:grid-cols-2">
               <label className="space-y-1">
@@ -255,33 +291,19 @@ export function MultiBrandProductLookup({ onPickProduct, selectedProduct, onClea
                 />
               </label>
             </div>
-
-            <label className="space-y-1">
-              <span className="text-xs font-semibold uppercase tracking-wide text-blue-200">Nhãn hàng</span>
-              <select
-                value={brand}
-                onChange={(event) => setBrand(event.target.value)}
-                className="h-11 w-full rounded-xl border border-[#2d5f96] bg-[#082546] px-3 text-sm text-white outline-none"
-              >
-                {brandOptions.map((option) => (
-                  <option key={option.value} value={option.value} className="bg-[#082546]">
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </label>
           </div>
         </form>
       </div>
 
-      {selectedProduct ? (
+      {selectedProducts.length > 0 ? (
         <div className="flex flex-col gap-2 rounded-xl border border-blue-300 bg-[#0f3968] px-4 py-3 md:flex-row md:items-center md:justify-between">
           <div className="space-y-1">
             <p className="text-xs font-semibold uppercase tracking-wide text-blue-100">Mã đã chọn để gửi báo giá</p>
-            <p className="text-sm font-semibold text-white">{selectedProduct.productCode} | {selectedProduct.brand} | {selectedProduct.group}</p>
+            <p className="text-sm font-semibold text-white">Đã chọn {selectedProducts.length} mã</p>
+            <p className="text-xs text-blue-100/90">{selectedProducts.map((item) => item.productCode).join(", ")}</p>
           </div>
-          <Button type="button" variant="outline" className="border-blue-300 bg-transparent text-blue-100 hover:bg-[#1a4f85]" onClick={onClearSelection}>
-            <X className="mr-2 size-4" /> Bỏ chọn
+          <Button type="button" variant="outline" className="border-blue-300 bg-transparent text-blue-100 hover:bg-[#1a4f85]" onClick={onClearSelections}>
+            <X className="mr-2 size-4" /> Xóa tất cả
           </Button>
         </div>
       ) : null}
@@ -295,7 +317,7 @@ export function MultiBrandProductLookup({ onPickProduct, selectedProduct, onClea
           <div className="space-y-4">
             <div className="flex flex-wrap items-center gap-2 text-sm text-blue-100">
               <span className="rounded-full border border-[#2d5f96] bg-[#103964] px-3 py-1">{totalResults} kết quả</span>
-              {selectedProduct ? <span className="rounded-full border border-blue-300 bg-blue-500/15 px-3 py-1">Đang chọn: {selectedProduct.productCode}</span> : null}
+              {selectedProducts.length > 0 ? <span className="rounded-full border border-blue-300 bg-blue-500/15 px-3 py-1">Đã chọn: {selectedProducts.length} mã</span> : null}
             </div>
 
             {totalResults === 0 ? (
@@ -306,17 +328,23 @@ export function MultiBrandProductLookup({ onPickProduct, selectedProduct, onClea
 
             {result.groups.map((brandGroup) => (
               <div key={brandGroup.brand} className="space-y-2">
-                {brand !== "ALL" ? null : <h4 className="text-sm font-semibold uppercase tracking-wide text-blue-200">{brandGroup.brand}</h4>}
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  {brand !== "ALL" ? <div /> : <h4 className="text-sm font-semibold uppercase tracking-wide text-blue-200">{brandGroup.brand}</h4>}
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="h-8 border-[#2d5f96] bg-transparent px-3 text-xs text-blue-100 hover:bg-[#103964]"
+                    onClick={() => onSetGroupSelection(brandGroup.items, !brandGroup.items.every((item) => selectedProductKeys.has(getSelectionKey(item))))}
+                  >
+                    {brandGroup.items.every((item) => selectedProductKeys.has(getSelectionKey(item))) ? "Bỏ chọn nhóm" : `Chọn tất cả ${brandGroup.items.length} mã`}
+                  </Button>
+                </div>
 
                 <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
                   {brandGroup.items.map((item) => (
                     <article
                       key={`${item.brand}-${item.productCode}`}
-                      className={`flex h-full flex-col rounded-xl border p-4 ${
-                        selectedProduct?.productCode === item.productCode && selectedProduct?.brand === item.brand
-                          ? "border-blue-300 bg-[#14508a]"
-                          : "border-[#2d5f96] bg-[#082546]"
-                      }`}
+                      className={`flex h-full flex-col rounded-xl border p-4 ${selectedProductKeys.has(getSelectionKey(item)) ? "border-blue-300 bg-[#14508a]" : "border-[#2d5f96] bg-[#082546]"}`}
                     >
                       <div className="space-y-1">
                         <p className="text-xs font-semibold uppercase tracking-wide text-blue-200">Mã sản phẩm</p>
@@ -329,6 +357,7 @@ export function MultiBrandProductLookup({ onPickProduct, selectedProduct, onClea
                         <p><span className="font-semibold text-white">Nhóm:</span> {item.group}</p>
                         <p><span className="font-semibold text-white">Kích thước:</span> {item.dimensions}</p>
                         <p><span className="font-semibold text-white">Ứng dụng:</span> {item.application}</p>
+                        {item.variantHints.length > 0 ? <p><span className="font-semibold text-white">Biến thể phụ:</span> {item.variantHints.join(", ")}</p> : null}
                       </div>
 
                       <p className="mt-2 text-xs text-blue-200">
@@ -336,11 +365,11 @@ export function MultiBrandProductLookup({ onPickProduct, selectedProduct, onClea
                         {item.matchedAlias ? `: ${item.matchedAlias}` : ""}
                       </p>
 
-                      <Button type="button" className="mt-4 w-full bg-[#1e73c8] hover:bg-[#155ea9]" onClick={() => onPickProduct(item)}>
-                        {selectedProduct?.productCode === item.productCode && selectedProduct?.brand === item.brand ? (
+                      <Button type="button" className="mt-4 w-full bg-[#1e73c8] hover:bg-[#155ea9]" onClick={() => onToggleProduct(item)}>
+                        {selectedProductKeys.has(getSelectionKey(item)) ? (
                           <span className="inline-flex items-center gap-2"><CheckCircle2 className="size-4" /> Đã chọn mã này</span>
                         ) : (
-                          "Chọn mã để gửi báo giá"
+                          "Thêm mã vào danh sách gửi báo giá"
                         )}
                       </Button>
                     </article>
