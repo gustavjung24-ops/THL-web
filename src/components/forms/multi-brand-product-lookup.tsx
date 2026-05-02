@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { CheckCircle2, ChevronDown, ChevronUp, LoaderCircle, Search, X } from "lucide-react";
 import type { ProductSearchItem, ProductSearchResponse, ProductSearchVariantSummary } from "@/lib/product-search";
 import { Button } from "@/components/ui/button";
@@ -83,6 +83,7 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
   const [result, setResult] = useState<ProductSearchResponse | null>(null);
   const [isQuickHintsExpanded, setIsQuickHintsExpanded] = useState(false);
   const [expandedVariantKeys, setExpandedVariantKeys] = useState<Record<string, boolean>>({});
+  const requestCounterRef = useRef(0);
 
   const canSearch =
     query.trim().length > 0 ||
@@ -93,12 +94,26 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
     dOuter.trim().length > 0 ||
     bThickness.trim().length > 0;
 
-  async function onSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  function normalizeDimensionInput(raw: string): string {
+    const normalized = raw.replace(/,/g, ".").replace(/[^0-9.]/g, "");
+    const firstDot = normalized.indexOf(".");
+    if (firstDot < 0) {
+      return normalized;
+    }
+
+    return `${normalized.slice(0, firstDot + 1)}${normalized.slice(firstDot + 1).replace(/\./g, "")}`;
+  }
+
+  const runSearch = useCallback(async () => {
     if (!canSearch) {
+      setResult(null);
+      setError("");
+      setLoading(false);
       return;
     }
 
+    const requestId = requestCounterRef.current + 1;
+    requestCounterRef.current = requestId;
     setLoading(true);
     setError("");
 
@@ -117,6 +132,10 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
       const response = await fetch(`/api/products/search?${params.toString()}`);
       const data = (await response.json()) as ProductSearchResponse & { error?: string };
 
+      if (requestId !== requestCounterRef.current) {
+        return;
+      }
+
       if (!response.ok) {
         setError(data.error ?? "Không thể tra mã lúc này. Vui lòng thử lại.");
         setResult(null);
@@ -125,12 +144,17 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
 
       setResult(data);
     } catch {
+      if (requestId !== requestCounterRef.current) {
+        return;
+      }
       setError("Không thể tra mã lúc này. Vui lòng thử lại.");
       setResult(null);
     } finally {
-      setLoading(false);
+      if (requestId === requestCounterRef.current) {
+        setLoading(false);
+      }
     }
-  }
+  }, [application, bThickness, brand, canSearch, dInner, dOuter, group, query]);
 
   function resetAdvancedFilters() {
     setBrand("ALL");
@@ -158,6 +182,21 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
     }));
   }
 
+  useEffect(() => {
+    if (!canSearch) {
+      setResult(null);
+      setError("");
+      setLoading(false);
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      void runSearch();
+    }, 280);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [application, bThickness, brand, canSearch, dInner, dOuter, group, query, runSearch]);
+
   return (
     <section className="space-y-5 rounded-2xl border border-[#2d5f96] bg-[#082546] p-4 text-white shadow-[0_16px_36px_-24px_rgba(8,37,70,0.8)] sm:p-6">
       <div className="rounded-2xl border border-[#2d5f96] bg-[#0b2f56] p-4 sm:p-5">
@@ -166,10 +205,10 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
           <span className="rounded-full border border-[#2d5f96] bg-[#11457f] px-3 py-1 text-xs font-semibold text-blue-100">Công cụ tra mã</span>
         </div>
 
-        <form className="space-y-4" onSubmit={onSubmit}>
+        <div className="space-y-4">
           <div className="space-y-2">
             <label htmlFor="lookup-query" className="text-sm font-semibold text-slate-100">Mã sản phẩm</label>
-            <div className="grid gap-2 md:grid-cols-[1fr,auto]">
+            <div className="space-y-2">
               <div className="flex items-center gap-2 rounded-xl border border-[#2d5f96] bg-[#082546] px-3 py-2.5">
                 <Search className="size-4 text-blue-200" />
                 <input
@@ -181,16 +220,15 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
                   className="w-full bg-transparent text-sm text-white outline-none placeholder:text-blue-200/60"
                 />
               </div>
-              <Button type="submit" className="h-11 bg-[#1e73c8] px-6 text-white hover:bg-[#155ea9]" disabled={!canSearch || loading}>
+              <p className="text-xs text-blue-200/80">
+                Tự lọc sau khi nhập hoặc đổi bộ lọc
                 {loading ? (
-                  <span className="inline-flex items-center gap-2">
-                    <LoaderCircle className="size-4 animate-spin" />
-                    Đang tra
+                  <span className="ml-2 inline-flex items-center gap-1 text-blue-100">
+                    <LoaderCircle className="size-3.5 animate-spin" />
+                    Đang cập nhật
                   </span>
-                ) : (
-                  "Tra mã"
-                )}
-              </Button>
+                ) : null}
+              </p>
             </div>
           </div>
 
@@ -281,10 +319,10 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
               <label className="space-y-1">
                 <span className="text-xs font-semibold uppercase tracking-wide text-blue-200">d (trong)</span>
                 <input
-                  type="number"
+                  type="text"
                   inputMode="decimal"
                   value={dInner}
-                  onChange={(event) => setDInner(event.target.value)}
+                  onChange={(event) => setDInner(normalizeDimensionInput(event.target.value))}
                   className="h-11 w-full rounded-xl border border-[#2d5f96] bg-[#082546] px-3 text-sm text-white outline-none"
                   placeholder="20"
                 />
@@ -293,10 +331,10 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
               <label className="space-y-1">
                 <span className="text-xs font-semibold uppercase tracking-wide text-blue-200">D (ngoài)</span>
                 <input
-                  type="number"
+                  type="text"
                   inputMode="decimal"
                   value={dOuter}
-                  onChange={(event) => setDOuter(event.target.value)}
+                  onChange={(event) => setDOuter(normalizeDimensionInput(event.target.value))}
                   className="h-11 w-full rounded-xl border border-[#2d5f96] bg-[#082546] px-3 text-sm text-white outline-none"
                   placeholder="52"
                 />
@@ -305,17 +343,17 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
               <label className="space-y-1 md:col-span-2">
                 <span className="text-xs font-semibold uppercase tracking-wide text-blue-200">B/T (dày)</span>
                 <input
-                  type="number"
+                  type="text"
                   inputMode="decimal"
                   value={bThickness}
-                  onChange={(event) => setBThickness(event.target.value)}
+                  onChange={(event) => setBThickness(normalizeDimensionInput(event.target.value))}
                   className="h-11 w-full rounded-xl border border-[#2d5f96] bg-[#082546] px-3 text-sm text-white outline-none"
                   placeholder="15"
                 />
               </label>
             </div>
           </div>
-        </form>
+        </div>
       </div>
 
       {selectedProducts.length > 0 ? (
