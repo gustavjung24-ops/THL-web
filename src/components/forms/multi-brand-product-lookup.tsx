@@ -1,8 +1,8 @@
 "use client";
 
 import { FormEvent, useMemo, useState } from "react";
-import { CheckCircle2, LoaderCircle, Search, X } from "lucide-react";
-import type { ProductSearchItem, ProductSearchResponse } from "@/lib/product-search";
+import { CheckCircle2, ChevronDown, ChevronUp, LoaderCircle, Search, X } from "lucide-react";
+import type { ProductSearchItem, ProductSearchResponse, ProductSearchVariantSummary } from "@/lib/product-search";
 import { Button } from "@/components/ui/button";
 
 const brandOptions = [
@@ -56,6 +56,20 @@ function getSelectionKey(item: ProductSearchItem): string {
   return `${item.brand}::${item.productCode}`;
 }
 
+function buildVariantProduct(baseItem: ProductSearchItem, variant: ProductSearchVariantSummary): ProductSearchItem {
+  return {
+    ...baseItem,
+    productCode: variant.productCode,
+    displayName: variant.displayName,
+    status: variant.status,
+    baseProductCode: variant.baseProductCode,
+    isVariant: variant.isVariant,
+    relatedVariants: baseItem.relatedVariants.filter((item) => item.productCode !== variant.productCode),
+    matchedBy: `Biến thể của dòng ${baseItem.baseProductCode}`,
+    matchedAlias: variant.productCode,
+  };
+}
+
 export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, selectedProducts, onClearSelections }: MultiBrandProductLookupProps) {
   const [query, setQuery] = useState("");
   const [brand, setBrand] = useState("ALL");
@@ -68,6 +82,7 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
   const [error, setError] = useState("");
   const [result, setResult] = useState<ProductSearchResponse | null>(null);
   const [isQuickHintsExpanded, setIsQuickHintsExpanded] = useState(false);
+  const [expandedVariantKeys, setExpandedVariantKeys] = useState<Record<string, boolean>>({});
 
   const canSearch =
     query.trim().length > 0 ||
@@ -134,6 +149,14 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
   const selectedProductKeys = useMemo(() => new Set(selectedProducts.map((item) => getSelectionKey(item))), [selectedProducts]);
   const hasMoreQuickHints = quickHints.length > 3;
   const visibleQuickHints = isQuickHintsExpanded ? quickHints : quickHints.slice(0, 3);
+
+  function toggleVariantPanel(item: ProductSearchItem) {
+    const itemKey = getSelectionKey(item);
+    setExpandedVariantKeys((current) => ({
+      ...current,
+      [itemKey]: !current[itemKey],
+    }));
+  }
 
   return (
     <section className="space-y-5 rounded-2xl border border-[#2d5f96] bg-[#082546] p-4 text-white shadow-[0_16px_36px_-24px_rgba(8,37,70,0.8)] sm:p-6">
@@ -357,13 +380,62 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
                         <p><span className="font-semibold text-white">Nhóm:</span> {item.group}</p>
                         <p><span className="font-semibold text-white">Kích thước:</span> {item.dimensions}</p>
                         <p><span className="font-semibold text-white">Ứng dụng:</span> {item.application}</p>
-                        {item.variantHints.length > 0 ? <p><span className="font-semibold text-white">Biến thể phụ:</span> {item.variantHints.join(", ")}</p> : null}
+                        {item.relatedVariants.length > 0 ? <p><span className="font-semibold text-white">Biến thể phụ:</span> {item.relatedVariants.length} mã</p> : null}
+                        {item.isVariant ? <p><span className="font-semibold text-white">Mã nền:</span> {item.baseProductCode}</p> : null}
                       </div>
 
                       <p className="mt-2 text-xs text-blue-200">
                         {item.matchedBy}
                         {item.matchedAlias ? `: ${item.matchedAlias}` : ""}
                       </p>
+
+                      {item.relatedVariants.length > 0 ? (
+                        <button
+                          type="button"
+                          onClick={() => toggleVariantPanel(item)}
+                          className="mt-3 inline-flex items-center gap-1.5 self-start text-xs font-semibold text-blue-200 transition hover:text-white"
+                        >
+                          {expandedVariantKeys[getSelectionKey(item)] ? <ChevronUp className="size-4" /> : <ChevronDown className="size-4" />}
+                          {expandedVariantKeys[getSelectionKey(item)] ? "Ẩn mã biến thể" : `Xem mã biến thể (${item.relatedVariants.length})`}
+                        </button>
+                      ) : null}
+
+                      {item.relatedVariants.length > 0 && expandedVariantKeys[getSelectionKey(item)] ? (
+                        <div className="mt-3 rounded-xl border border-[#2d5f96] bg-[#0a2a4d] p-3">
+                          <div className="space-y-2">
+                            {item.relatedVariants.map((variant) => {
+                              const variantItem = buildVariantProduct(item, variant);
+                              const isVariantSelected = selectedProductKeys.has(getSelectionKey(variantItem));
+
+                              return (
+                                <div key={`${item.brand}-${item.productCode}-${variant.productCode}`} className="flex flex-col gap-2 rounded-lg border border-[#2d5f96] bg-[#082546] p-3 sm:flex-row sm:items-center sm:justify-between">
+                                  <div className="flex items-start gap-3">
+                                    <input
+                                      type="checkbox"
+                                      checked={isVariantSelected}
+                                      onChange={() => onToggleProduct(variantItem)}
+                                      className="mt-0.5 size-4 rounded border-[#5584B5] bg-[#0A223B] text-[#2BAFFF]"
+                                      aria-label={`Chọn ${variant.productCode} để báo giá`}
+                                    />
+                                    <div className="min-w-0">
+                                      <p className="text-sm font-semibold text-white">{variant.productCode}</p>
+                                      <p className="text-xs text-blue-100">{variant.displayName}</p>
+                                      <p className="mt-0.5 text-xs text-blue-200">Cùng dòng với mã nền {item.baseProductCode}</p>
+                                    </div>
+                                  </div>
+                                  <Button
+                                    type="button"
+                                    className={isVariantSelected ? "h-8 rounded-lg bg-[#0E5DAA] px-3 text-white hover:bg-[#0C4E8E]" : "h-8 rounded-lg bg-[#1e73c8] px-3 text-white hover:bg-[#155ea9]"}
+                                    onClick={() => onToggleProduct(variantItem)}
+                                  >
+                                    {isVariantSelected ? "Đã chọn mã này" : "Chọn mã này"}
+                                  </Button>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      ) : null}
 
                       <Button type="button" className="mt-4 w-full bg-[#1e73c8] hover:bg-[#155ea9]" onClick={() => onToggleProduct(item)}>
                         {selectedProductKeys.has(getSelectionKey(item)) ? (

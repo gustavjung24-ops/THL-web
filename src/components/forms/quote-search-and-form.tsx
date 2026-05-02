@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 export function QuoteSearchAndForm() {
   const [selectedProducts, setSelectedProducts] = useState<ProductSearchItem[]>([]);
   const [zaloHint, setZaloHint] = useState("");
+  const [lastZaloMessage, setLastZaloMessage] = useState("");
 
   const primarySelectedProduct = selectedProducts[0] ?? null;
 
@@ -64,12 +65,26 @@ export function QuoteSearchAndForm() {
     const separator = base.includes("?") ? "&" : "?";
     const directUrl = `${base}${separator}text=${encodeURIComponent(message)}`;
     const copied = await copyToClipboard(message);
+    setLastZaloMessage(message);
 
     window.open(directUrl, "_blank", "noopener,noreferrer");
     setZaloHint(
       copied
-        ? "Da sao chep noi dung va mo Zalo. Neu app khong tu dien, chi can dan va bam Gui."
-        : "Da mo Zalo. Neu app khong tu dien, vui long sao chep noi dung mau va dan vao khung chat.",
+        ? "Đã copy nội dung và mở Zalo. Zalo từ web không tự dán vào ô chat, bạn chỉ cần bấm Dán rồi gửi."
+        : "Đã mở Zalo nhưng chưa copy được tự động. Dùng nút copy lại nội dung bên dưới rồi dán vào khung chat.",
+    );
+  }
+
+  async function copyLastZaloMessage() {
+    if (!lastZaloMessage) {
+      return;
+    }
+
+    const copied = await copyToClipboard(lastZaloMessage);
+    setZaloHint(
+      copied
+        ? "Đã copy lại nội dung Zalo. Mở khung chat và bấm Dán để gửi."
+        : "Chưa copy lại được tự động. Bạn có thể chép nội dung mẫu ngay bên dưới.",
     );
   }
 
@@ -150,7 +165,7 @@ export function QuoteSearchAndForm() {
                   <X className="mr-2 size-4" /> Bỏ chọn
                 </Button>
                 <Button type="button" className="bg-emerald-600 hover:bg-emerald-700" onClick={() => openQuickZalo(selectedProducts)}>
-                  <MessageCircle className="mr-2 size-4" /> Gửi nhanh Zalo
+                  <MessageCircle className="mr-2 size-4" /> Copy + mở Zalo
                 </Button>
                 <Button type="button" className="bg-blue-800 hover:bg-blue-900" onClick={scrollToForm}>
                   <ArrowDownCircle className="mr-2 size-4" /> Điền form ngay
@@ -195,7 +210,7 @@ export function QuoteSearchAndForm() {
           </div>
           <div className="relative mt-3 flex flex-col gap-2.5 pr-16">
             <Button type="button" className="h-12 rounded-xl bg-emerald-600 text-base font-semibold hover:bg-emerald-700" onClick={() => openQuickZalo(selectedProducts)}>
-              <MessageCircle className="mr-2 size-4" /> Gửi nhanh Zalo
+              <MessageCircle className="mr-2 size-4" /> Copy + mở Zalo
             </Button>
             <Button type="button" className="h-12 rounded-xl bg-[#1e73c8] text-base font-semibold hover:bg-[#155ea9]" onClick={scrollToForm}>
               <ArrowDownCircle className="mr-2 size-4" /> Chọn cách gửi báo giá
@@ -215,6 +230,32 @@ export function QuoteSearchAndForm() {
       ) : null}
 
       {zaloHint ? <p className="mt-3 text-xs text-emerald-700">{zaloHint}</p> : null}
+
+      {lastZaloMessage ? (
+        <section className="mt-3 rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-emerald-950">
+          <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+            <div className="space-y-1">
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-700">Fallback Zalo</p>
+              <p className="text-sm font-semibold">Zalo không hỗ trợ web tự dán sẵn vào ô chat</p>
+              <p className="text-xs text-emerald-800">Nội dung đã được chuẩn bị sẵn. Nếu Zalo chưa hiện sẵn tin nhắn, bấm copy lại rồi dán vào khung chat.</p>
+            </div>
+            <div className="flex gap-2">
+              <Button type="button" variant="outline" className="border-emerald-300 bg-white text-emerald-900 hover:bg-emerald-100" onClick={copyLastZaloMessage}>
+                Copy lại nội dung
+              </Button>
+              <Button type="button" className="bg-emerald-700 text-white hover:bg-emerald-800" onClick={() => window.open(siteConfig.zaloLink, "_blank", "noopener,noreferrer")}>
+                Mở lại Zalo
+              </Button>
+            </div>
+          </div>
+
+          <textarea
+            readOnly
+            value={lastZaloMessage}
+            className="mt-3 min-h-32 w-full rounded-xl border border-emerald-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none"
+          />
+        </section>
+      ) : null}
 
       <section id="lead-form-anchor" className="scroll-mt-24">
         <LeadForm

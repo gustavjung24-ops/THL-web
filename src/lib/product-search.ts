@@ -53,7 +53,17 @@ export type ProductSearchItem = {
   status: string;
   matchedBy: string;
   matchedAlias: string | null;
-  variantHints: string[];
+  baseProductCode: string;
+  isVariant: boolean;
+  relatedVariants: ProductSearchVariantSummary[];
+};
+
+export type ProductSearchVariantSummary = {
+  productCode: string;
+  displayName: string;
+  baseProductCode: string;
+  isVariant: boolean;
+  status: string;
 };
 
 export type ProductSearchGroup = {
@@ -89,6 +99,10 @@ type IndexedProduct = {
   dInnerMm: number | null;
   dOuterMm: number | null;
   bThicknessMm: number | null;
+  baseProductCode: string;
+  isVariant: boolean;
+  familyCompacts: Set<string>;
+  relatedVariants: ProductSearchVariantSummary[];
 };
 
 type SearchCandidate = {
@@ -345,6 +359,54 @@ function buildTextPool(product: UnknownRecord, keywords: string[], aliases: stri
   return pool.filter(Boolean).map(normalizeCompact).filter(Boolean);
 }
 
+function uniqueValues(values: string[]): string[] {
+  return values.filter((value, index, array) => value.length > 0 && array.indexOf(value) === index);
+}
+
+function parseVariantCodes(baseProductCode: string, rawVariants: string): string[] {
+  return uniqueValues(
+    [baseProductCode, ...rawVariants.split("|")]
+      .map((value) => value.trim())
+      .filter(Boolean),
+  );
+}
+
+function buildVariantDisplayName(baseDisplayName: string, brand: ProductBrand, category: string, productCode: string): string {
+  const cleanBaseName = toStr(baseDisplayName);
+  const descriptor = cleanBaseName.includes("–")
+    ? cleanBaseName.split("–").slice(1).join("–").trim()
+    : cleanBaseName.replace(/^\S+\s+\S+\s*/, "").trim();
+
+  if (descriptor) {
+    return `${brand} ${productCode} – ${descriptor}`;
+  }
+
+  return `${brand} ${productCode} – ${category}`;
+}
+
+function filterKeywordsForFamily(keywordList: string[], ownCode: string, familyCompacts: Set<string>): string[] {
+  const ownCompact = normalizeCompact(ownCode);
+
+  return keywordList.filter((keyword) => {
+    const compact = normalizeCompact(keyword);
+    if (!compact) {
+      return false;
+    }
+
+    if (compact === ownCompact) {
+      return true;
+    }
+
+    for (const familyCode of Array.from(familyCompacts)) {
+      if (familyCode !== ownCompact && (compact === familyCode || compact.endsWith(familyCode))) {
+        return false;
+      }
+    }
+
+    return true;
+  });
+}
+
 async function loadSearchIndex(): Promise<ProductSearchIndex> {
   if (cachedIndex) {
     return cachedIndex;
@@ -387,49 +449,70 @@ async function loadSearchIndex(): Promise<ProductSearchIndex> {
 
       const brand = mapProductBrand(toStr(product.brand));
       const group = mapProductGroup(product, brand);
-      const normalizedCode = toStr(product.normalized_code) || normalizeCompact(productCode);
-
-      const keywordList = extractKeywordList(product.search_keywords);
-      const productAliasSet = aliasesByTarget.get(normalizeCompact(productCode)) ?? new Set<string>();
-
-      const variants = toStr(product.variants)
-        .split("|")
-        .map((variant) => variant.trim())
-        .filter(Boolean);
-
-      for (const variant of variants) {
-        productAliasSet.add(variant);
-      }
-
-      const aliasOriginals = Array.from(productAliasSet);
-      const aliasCompacts = new Set(aliasOriginals.map(normalizeCompact).filter(Boolean));
-      const keywordCompacts = keywordList.map(normalizeCompact).filter(Boolean);
+      const category = toStr(product.category) || group;
+      const baseDisplayName = toStr(product.display_name) || `${brand} ${productCode}`;
+      const dimensions = readDimensions(product);
+      const application = readApplication(product);
+      const status = readStatus(product);
+      const priorityScore = parsePriority(product);
       const dimensionCompacts = collectDimensionTokens(product);
+      const dInnerMm = parseDimensionValue(product.d_mm) ?? parseDimensionValue(product.shaft_d_mm);
+      const dOuterMm = parseDimensionValue(product.D_mm) ?? parseDimensionValue(product.housing_D_mm);
+      const bThicknessMm =
+        parseDimensionValue(product.B_mm) ?? parseDimensionValue(product.B_T_mm) ?? parseDimensionValue(product.width_B_mm);
+      const familyCodes = parseVariantCodes(productCode, toStr(product.variants));
+      const familyCompacts = new Set(familyCodes.map(normalizeCompact).filter(Boolean));
+      const rawKeywordList = extractKeywordList(product.search_keywords);
+      const baseAliasSet = new Set(aliasesByTarget.get(normalizeCompact(productCode)) ?? []);
+      const familyItems: IndexedProduct[] = familyCodes.map((familyCode) => {
+        const isVariant = normalizeCompact(familyCode) !== normalizeCompact(productCode);
+        const displayName = isVariant
+          ? buildVariantDisplayName(baseDisplayName, brand, category, familyCode)
+          : baseDisplayName;
+        const keywordList = isVariant
+          ? [familyCode, `${brand} ${familyCode}`, displayName]
+          : filterKeywordsForFamily(rawKeywordList, familyCode, familyCompacts);
+        const aliasOriginals = isVariant ? [] : Array.from(baseAliasSet);
 
-      const indexedProduct: IndexedProduct = {
-        productCode,
-        normalizedCode,
-        displayName: toStr(product.display_name) || `${brand} ${productCode}`,
-        brand,
-        group,
-        category: toStr(product.category) || group,
-        dimensions: readDimensions(product),
-        application: readApplication(product),
-        status: readStatus(product),
-        priorityScore: parsePriority(product),
-        aliasOriginals,
-        aliasCompacts,
-        keywordCompacts,
-        dimensionCompacts,
-        textSearchPool: buildTextPool(product, keywordList, aliasOriginals),
-        applicationCompact: normalizeCompact(readApplication(product)),
-        dInnerMm: parseDimensionValue(product.d_mm) ?? parseDimensionValue(product.shaft_d_mm),
-        dOuterMm: parseDimensionValue(product.D_mm) ?? parseDimensionValue(product.housing_D_mm),
-        bThicknessMm:
-          parseDimensionValue(product.B_mm) ?? parseDimensionValue(product.B_T_mm) ?? parseDimensionValue(product.width_B_mm),
-      };
+        return {
+          productCode: familyCode,
+          normalizedCode: normalizeCompact(familyCode),
+          displayName,
+          brand,
+          group,
+          category,
+          dimensions,
+          application,
+          status,
+          priorityScore,
+          aliasOriginals,
+          aliasCompacts: new Set(aliasOriginals.map(normalizeCompact).filter(Boolean)),
+          keywordCompacts: keywordList.map(normalizeCompact).filter(Boolean),
+          dimensionCompacts,
+          textSearchPool: buildTextPool(product, keywordList, aliasOriginals).concat(normalizeCompact(displayName)),
+          applicationCompact: normalizeCompact(application),
+          dInnerMm,
+          dOuterMm,
+          bThicknessMm,
+          baseProductCode: productCode,
+          isVariant,
+          familyCompacts,
+          relatedVariants: [],
+        };
+      });
 
-      products.push(indexedProduct);
+      const variantSummaries: ProductSearchVariantSummary[] = familyItems.map((item) => ({
+        productCode: item.productCode,
+        displayName: item.displayName,
+        baseProductCode: item.baseProductCode,
+        isVariant: item.isVariant,
+        status: item.status,
+      }));
+
+      for (const familyItem of familyItems) {
+        familyItem.relatedVariants = variantSummaries.filter((variant) => variant.productCode !== familyItem.productCode);
+        products.push(familyItem);
+      }
     }
   }
 
@@ -511,8 +594,12 @@ function keywordStrength(item: IndexedProduct, queryCompact: string, queryTokens
 function computeCandidate(item: IndexedProduct, queryCompact: string, queryTokens: string[]): SearchCandidate | null {
   const productCodeCompact = normalizeCompact(item.productCode);
   const normalizedCodeCompact = normalizeCompact(item.normalizedCode);
-    const numericTokens = extractNumericTokens(queryTokens);
+  const numericTokens = extractNumericTokens(queryTokens);
   const chainLikeQuery = queryTokens.some((token) => token === "XICH" || token === "CHAIN");
+
+  if (queryCompact && item.familyCompacts.has(queryCompact) && queryCompact !== productCodeCompact && queryCompact !== normalizedCodeCompact) {
+    return null;
+  }
 
   if (queryCompact === productCodeCompact) {
     return {
@@ -626,6 +713,10 @@ export async function searchProducts(request: ProductSearchRequest): Promise<Pro
   const candidates: SearchCandidate[] = [];
 
   for (const item of index.products) {
+    if (!hasQuery && item.isVariant) {
+      continue;
+    }
+
     if (brand !== "ALL" && item.brand !== brand) {
       continue;
     }
@@ -699,10 +790,9 @@ export async function searchProducts(request: ProductSearchRequest): Promise<Pro
     status: candidate.item.status,
     matchedBy: candidate.matchedBy,
     matchedAlias: candidate.matchedAlias,
-    variantHints: candidate.item.aliasOriginals
-      .map((alias) => alias.trim())
-      .filter((alias) => alias.length > 0 && normalizeCompact(alias) !== normalizeCompact(candidate.item.productCode))
-      .slice(0, 4),
+    baseProductCode: candidate.item.baseProductCode,
+    isVariant: candidate.item.isVariant,
+    relatedVariants: candidate.item.relatedVariants,
   }));
 
   const grouped = new Map<ProductBrand, ProductSearchItem[]>();
