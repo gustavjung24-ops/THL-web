@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { AdminShell } from "@/components/admin/admin-shell";
+import { QuotePrintActions } from "@/components/admin/quote-print-actions";
 import { QuoteRequestEditor } from "@/components/admin/quote-request-editor";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -31,7 +32,7 @@ export default async function AdminQuoteDetailPage({ params }: { params: { id: s
       section="bao-gia"
       sessionEmail={session.email}
       title={quote.id}
-      description="Chi tiết quote request và editor draft báo giá nội bộ."
+      description={`Chi tiết quote request va editor draft bao gia noi bo. Nguon: ${quote.sourceType === "manual" ? "Manual" : "RFQ"}.`}
       canManageUsers={canManageUsers}
       canSendMail={canSendMail}
       actions={
@@ -43,7 +44,10 @@ export default async function AdminQuoteDetailPage({ params }: { params: { id: s
       <div className="grid gap-6 xl:grid-cols-[1.1fr,0.9fr]">
         <Card className="border-slate-200 bg-white shadow-sm">
           <CardHeader>
-            <CardTitle>Thông tin yêu cầu</CardTitle>
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <CardTitle>Thông tin yêu cầu</CardTitle>
+              <QuotePrintActions quote={quote} />
+            </div>
           </CardHeader>
           <CardContent className="space-y-4 text-sm text-slate-700">
             <div>
@@ -54,6 +58,8 @@ export default async function AdminQuoteDetailPage({ params }: { params: { id: s
               <p><span className="font-semibold text-slate-900">Khu vực:</span> {quote.customer.area}</p>
             </div>
             <div>
+              <p><span className="font-semibold text-slate-900">Nguồn:</span> {quote.sourceType === "manual" ? "Tạo thủ công trong admin" : "RFQ từ website"}</p>
+              <p><span className="font-semibold text-slate-900">Workflow:</span> {quote.sourceType === "manual" ? "draft -> sent -> follow_up -> won/lost/cancelled" : "new -> draft -> quoted -> sent -> closed"}</p>
               <p><span className="font-semibold text-slate-900">Nhóm vật tư:</span> {quote.productGroup}</p>
               <p><span className="font-semibold text-slate-900">Thiết bị / ứng dụng:</span> {quote.application || "Không cung cấp"}</p>
               <p><span className="font-semibold text-slate-900">Ưu tiên:</span> {quote.priority}</p>
@@ -64,10 +70,21 @@ export default async function AdminQuoteDetailPage({ params }: { params: { id: s
               {quote.items.map((item, index) => (
                 <div key={`${item.code}-${index}`} className="rounded-lg border border-slate-200 bg-slate-50 p-3">
                   <p><span className="font-semibold">Mã:</span> {item.code}</p>
+                  <p><span className="font-semibold">Tên:</span> {item.name || "Chưa nhập"}</p>
                   <p><span className="font-semibold">Số lượng:</span> {item.quantity || "Chưa ghi"}</p>
+                  <p><span className="font-semibold">Đơn vị:</span> {item.unit || "cái"}</p>
+                  <p><span className="font-semibold">Giá nội bộ:</span> {item.internalPrice.toLocaleString("vi-VN")} VND</p>
+                  <p><span className="font-semibold">Chiết khấu dòng:</span> {item.lineDiscountPercent}%</p>
                   <p><span className="font-semibold">Ghi chú item:</span> {item.note || "Không có"}</p>
                 </div>
               ))}
+            </div>
+            <div>
+              <p><span className="font-semibold text-slate-900">Tạm tính:</span> {quote.pricing.subtotal.toLocaleString("vi-VN")} VND</p>
+              <p><span className="font-semibold text-slate-900">Chiết khấu tổng:</span> {quote.pricing.totalDiscountPercent}%</p>
+              <p><span className="font-semibold text-slate-900">VAT:</span> {quote.pricing.vatPercent}%</p>
+              <p><span className="font-semibold text-slate-900">Phí vận chuyển:</span> {quote.pricing.shippingFee.toLocaleString("vi-VN")} VND</p>
+              <p><span className="font-semibold text-slate-900">Tổng cộng:</span> {quote.pricing.grandTotal.toLocaleString("vi-VN")} VND</p>
             </div>
           </CardContent>
         </Card>

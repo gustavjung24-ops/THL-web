@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 
-const BRAND_PRIORITY_ALL = ["NTN", "Tsubaki", "Soho V-Belt", "NOK"] as const;
+const DEFAULT_BRAND_PRIORITY = ["NTN", "Tsubaki", "Soho V-Belt", "NOK", "Koyo", "Mitsuba"] as const;
 
 const BRAND_MAP: Record<string, string> = {
   ALL: "ALL",
@@ -96,7 +96,6 @@ type SearchCandidate = {
   matchedBy: string;
   matchedAlias: string | null;
   keywordStrength: number;
-  brandOrder: number;
 };
 
 type ProductSearchIndex = {
@@ -275,8 +274,19 @@ function getAliasTargetCode(alias: UnknownRecord): string {
   );
 }
 
-function getBrandOrder(brand: ProductBrand): number {
-  const index = BRAND_PRIORITY_ALL.indexOf(brand as (typeof BRAND_PRIORITY_ALL)[number]);
+function getBrandOrder(brand: ProductBrand, productGroup: ProductGroupFilter): number {
+  const preferredByGroup: Partial<Record<ProductGroupFilter, ProductBrand>> = {
+    "Vòng bi": "NTN",
+    "Dây curoa": "Soho V-Belt",
+    "Xích công nghiệp": "Tsubaki",
+  };
+
+  const preferred = preferredByGroup[productGroup];
+  if (preferred && brand === preferred) {
+    return -1;
+  }
+
+  const index = DEFAULT_BRAND_PRIORITY.indexOf(brand as (typeof DEFAULT_BRAND_PRIORITY)[number]);
   return index >= 0 ? index : 10;
 }
 
@@ -510,7 +520,6 @@ function computeCandidate(item: IndexedProduct, queryCompact: string, queryToken
       matchedBy: "Khớp mã chính",
       matchedAlias: null,
       keywordStrength: 0,
-      brandOrder: getBrandOrder(item.brand),
     };
   }
 
@@ -521,7 +530,6 @@ function computeCandidate(item: IndexedProduct, queryCompact: string, queryToken
       matchedBy: "Khớp mã chuẩn hóa",
       matchedAlias: null,
       keywordStrength: 0,
-      brandOrder: getBrandOrder(item.brand),
     };
   }
 
@@ -541,7 +549,6 @@ function computeCandidate(item: IndexedProduct, queryCompact: string, queryToken
       matchedBy: "Khớp biến thể/alias",
       matchedAlias: exactAlias,
       keywordStrength: 0,
-      brandOrder: getBrandOrder(item.brand),
     };
   }
 
@@ -553,7 +560,6 @@ function computeCandidate(item: IndexedProduct, queryCompact: string, queryToken
       matchedBy: "Khớp từ khóa",
       matchedAlias: null,
       keywordStrength: strength,
-      brandOrder: getBrandOrder(item.brand),
     };
   }
 
@@ -564,7 +570,6 @@ function computeCandidate(item: IndexedProduct, queryCompact: string, queryToken
       matchedBy: "Khớp kích thước/thông số",
       matchedAlias: null,
       keywordStrength: 0,
-      brandOrder: getBrandOrder(item.brand),
     };
   }
 
@@ -652,7 +657,6 @@ export async function searchProducts(request: ProductSearchRequest): Promise<Pro
           matchedBy: "Khớp bộ lọc kỹ thuật",
           matchedAlias: null,
           keywordStrength: 0,
-          brandOrder: getBrandOrder(item.brand),
         };
     if (!candidate) continue;
     candidates.push(candidate);
@@ -663,8 +667,12 @@ export async function searchProducts(request: ProductSearchRequest): Promise<Pro
       return left.matchTier - right.matchTier;
     }
 
-    if (brand === "ALL" && left.brandOrder !== right.brandOrder) {
-      return left.brandOrder - right.brandOrder;
+    if (brand === "ALL") {
+      const leftOrder = getBrandOrder(left.item.brand, left.item.group);
+      const rightOrder = getBrandOrder(right.item.brand, right.item.group);
+      if (leftOrder !== rightOrder) {
+        return leftOrder - rightOrder;
+      }
     }
 
     if (left.keywordStrength !== right.keywordStrength) {
@@ -703,7 +711,7 @@ export async function searchProducts(request: ProductSearchRequest): Promise<Pro
   const groupOrder = mapped
     .map((item) => item.brand)
     .filter((value, index, values) => values.indexOf(value) === index)
-    .sort((left, right) => getBrandOrder(left) - getBrandOrder(right));
+    .sort((left, right) => getBrandOrder(left, group) - getBrandOrder(right, group));
 
   const responseGroups: ProductSearchGroup[] = groupOrder.map((brandName) => ({
     brand: brandName,
