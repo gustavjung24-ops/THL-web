@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getAdminCookieName, getFixedSuperAdminEmail, getVerifiedAdminSession, hasAdminPermission } from "@/lib/admin/auth";
 import { getQuoteRequestById } from "@/lib/admin/quote-store";
+import { getQuoteSourceLabel } from "@/lib/admin/quote-workflow";
 
 export const dynamic = "force-dynamic";
 
@@ -32,7 +33,7 @@ export default async function AdminQuoteDetailPage({ params }: { params: { id: s
       section="bao-gia"
       sessionEmail={session.email}
       title={quote.id}
-      description={`Chi tiết quote request va editor draft bao gia noi bo. Nguon: ${quote.sourceType === "manual" ? "Manual" : "RFQ"}.`}
+      description={`Chi tiết quote request và editor draft báo giá nội bộ. Nguồn: ${getQuoteSourceLabel(quote.sourceType)}.`}
       canManageUsers={canManageUsers}
       canSendMail={canSendMail}
       actions={

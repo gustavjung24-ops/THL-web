@@ -30,17 +30,17 @@ function itemLineTotal(quantity: string, price: number, discountPercent: number)
   return safeQty * safePrice * (1 - safeDiscount / 100);
 }
 
-function buildPrintHtml(quote: QuoteRequestRecord): string {
+function buildPrintHtml(quote: QuoteRequestRecord, origin: string): string {
   const now = new Date().toLocaleString("vi-VN");
-    const isManual = quote.sourceType === "manual";
-    const headerTitle = isManual ? "PHIEU BAO GIA CHU DONG" : "PHIEU XU LY RFQ WEBSITE";
-    const headerSubTitle = isManual
-      ? "Duoc tao chu dong trong admin de phuc vu co hoi ban hang truc tiep."
-      : "Duoc tiep nhan tu form tra ma/bao gia tren website. Can doi chieu va xu ly theo SLA RFQ.";
-    const infoBlockTitle = isManual ? "Thong tin co hoi" : "Thong tin yeu cau RFQ";
-    const noteLine = isManual
-      ? "Ghi chu xu ly: day la luong manual quote, uu tien cap nhat follow-up va ket qua won/lost."
-      : "Ghi chu xu ly: day la luong RFQ website, can xac nhan trang thai new/draft/quoted/sent/closed.";
+  const isManual = quote.sourceType === "manual";
+  const headerTitle = isManual ? "PHIẾU BÁO GIÁ CHỦ ĐỘNG" : "PHIẾU XỬ LÝ RFQ WEBSITE";
+  const headerSubTitle = isManual
+    ? "Được tạo chủ động trong admin để phục vụ cơ hội bán hàng trực tiếp."
+    : "Được tiếp nhận từ form tra mã/báo giá trên website. Cần đối chiếu và xử lý theo SLA RFQ.";
+  const infoBlockTitle = isManual ? "Thông tin cơ hội" : "Thông tin yêu cầu RFQ";
+  const noteLine = isManual
+    ? "Ghi chú xử lý: đây là luồng báo giá chủ động, ưu tiên cập nhật theo dõi và kết quả thắng/trượt."
+    : "Ghi chú xử lý: đây là luồng RFQ website, cần xác nhận trạng thái mới tiếp nhận/soạn báo giá/đã gửi/đã đóng.";
   const itemRows = quote.items
     .map((item, index) => {
       const lineTotal = itemLineTotal(item.quantity, item.internalPrice, item.lineDiscountPercent);
@@ -61,18 +61,20 @@ function buildPrintHtml(quote: QuoteRequestRecord): string {
     .join("");
 
   const logoPath = siteConfig.defaultOgImage || "/images/branding/og-industrial.svg";
+  const logoUrl = logoPath.startsWith("http") ? logoPath : `${origin}${logoPath}`;
   const companyName = siteConfig.brandName;
   const companyAddress = siteConfig.address;
   const companyPhone = siteConfig.phone;
   const companyDomain = siteConfig.domain;
   const companySupport = siteConfig.supportArea;
+  const companyWebsiteUrl = companyDomain.startsWith("http") ? companyDomain : `https://${companyDomain}`;
 
   return `
 <!doctype html>
 <html>
 <head>
   <meta charset="utf-8" />
-   <title>${headerTitle} ${escapeHtml(quote.id)}</title>
+  <title>${headerTitle} ${escapeHtml(quote.id)}</title>
   <style>
     body { font-family: Arial, sans-serif; color: #0f172a; margin: 24px; }
     h1 { margin: 0 0 8px 0; font-size: 24px; }
@@ -95,35 +97,35 @@ function buildPrintHtml(quote: QuoteRequestRecord): string {
 <body>
   <div class="letterhead">
     <div class="logo-box">
-      <img src="${escapeHtml(logoPath)}" alt="Logo doanh nghiep" />
+      <img src="${escapeHtml(logoUrl)}" alt="Logo doanh nghiệp" />
     </div>
     <div>
       <p class="company-name">${escapeHtml(companyName)}</p>
-      <p class="company-line">Website: ${escapeHtml(companyDomain)} | Hotline: ${escapeHtml(companyPhone)}</p>
-      <p class="company-line">Dia chi: ${escapeHtml(companyAddress)}</p>
-      <p class="company-line">Pham vi ho tro: ${escapeHtml(companySupport)}</p>
+      <p class="company-line">Website: ${escapeHtml(companyWebsiteUrl)} | Hotline: ${escapeHtml(companyPhone)}</p>
+      <p class="company-line">Địa chỉ: ${escapeHtml(companyAddress)}</p>
+      <p class="company-line">Phạm vi hỗ trợ: ${escapeHtml(companySupport)}</p>
     </div>
   </div>
-   <h1>${headerTitle}</h1>
-   <div class="meta">Ma: ${escapeHtml(quote.id)} | Nguon: ${escapeHtml(getQuoteSourceLabel(quote.sourceType))} | In luc: ${now}</div>
-   <div class="meta">${headerSubTitle}</div>
+  <h1>${headerTitle}</h1>
+  <div class="meta">Mã: ${escapeHtml(quote.id)} | Nguồn: ${escapeHtml(getQuoteSourceLabel(quote.sourceType))} | In lúc: ${now}</div>
+  <div class="meta">${headerSubTitle}</div>
 
   <div class="grid">
     <div class="block">
-      <strong>Thong tin khach hang</strong>
-      <p>Khach hang: ${escapeHtml(quote.customer.fullName)}</p>
+      <strong>Thông tin khách hàng</strong>
+      <p>Khách hàng: ${escapeHtml(quote.customer.fullName)}</p>
       <p>Email: ${escapeHtml(quote.customer.email || "")}</p>
-      <p>Dien thoai: ${escapeHtml(quote.customer.phone || "")}</p>
-      <p>Cong ty: ${escapeHtml(quote.customer.company || "")}</p>
-      <p>Khu vuc: ${escapeHtml(quote.customer.area || "")}</p>
+      <p>Điện thoại: ${escapeHtml(quote.customer.phone || "")}</p>
+      <p>Công ty: ${escapeHtml(quote.customer.company || "")}</p>
+      <p>Khu vực: ${escapeHtml(quote.customer.area || "")}</p>
     </div>
     <div class="block">
        <strong>${infoBlockTitle}</strong>
-      <p>Nhom vat tu: ${escapeHtml(quote.productGroup || "")}</p>
-      <p>Ung dung: ${escapeHtml(quote.application || "")}</p>
-      <p>Uu tien: ${escapeHtml(quote.priority || "")}</p>
-      <p>Ghi chu: ${escapeHtml(quote.notes || "")}</p>
-       <p>Trang thai: ${escapeHtml(getQuoteStatusLabel(quote.status))}</p>
+      <p>Nhóm vật tư: ${escapeHtml(quote.productGroup || "")}</p>
+      <p>Ứng dụng: ${escapeHtml(quote.application || "")}</p>
+      <p>Ưu tiên: ${escapeHtml(quote.priority || "")}</p>
+      <p>Ghi chú: ${escapeHtml(quote.notes || "")}</p>
+      <p>Trạng thái: ${escapeHtml(getQuoteStatusLabel(quote.status))}</p>
     </div>
   </div>
 
@@ -131,14 +133,14 @@ function buildPrintHtml(quote: QuoteRequestRecord): string {
     <thead>
       <tr>
         <th>STT</th>
-        <th>Ma</th>
-        <th>Ten hang</th>
+        <th>Mã</th>
+        <th>Tên hàng</th>
         <th>SL</th>
         <th>DV</th>
-        <th>Gia noi bo</th>
-        <th>CK dong</th>
-        <th>Thanh tien</th>
-        <th>Ghi chu</th>
+        <th>Giá nội bộ</th>
+        <th>CK dòng</th>
+        <th>Thành tiền</th>
+        <th>Ghi chú</th>
       </tr>
     </thead>
     <tbody>
@@ -147,12 +149,12 @@ function buildPrintHtml(quote: QuoteRequestRecord): string {
   </table>
 
   <div class="summary">
-    <p>Tam tinh: ${formatVnd(quote.pricing.subtotal)} VND</p>
-    <p>Chiet khau tong: ${quote.pricing.totalDiscountPercent}%</p>
+    <p>Tạm tính: ${formatVnd(quote.pricing.subtotal)} VND</p>
+    <p>Chiết khấu tổng: ${quote.pricing.totalDiscountPercent}%</p>
     <p>VAT: ${quote.pricing.vatPercent}%</p>
-    <p>Phi van chuyen: ${formatVnd(quote.pricing.shippingFee)} VND</p>
-    <p class="total">Tong cong: ${formatVnd(quote.pricing.grandTotal)} VND</p>
-     <p>${noteLine}</p>
+    <p>Phí vận chuyển: ${formatVnd(quote.pricing.shippingFee)} VND</p>
+    <p class="total">Tổng cộng: ${formatVnd(quote.pricing.grandTotal)} VND</p>
+    <p>${noteLine}</p>
   </div>
 </body>
 </html>
@@ -167,7 +169,7 @@ export function QuotePrintActions({ quote }: QuotePrintActionsProps) {
     }
 
     popup.document.open();
-    popup.document.write(buildPrintHtml(quote));
+    popup.document.write(buildPrintHtml(quote, window.location.origin));
     popup.document.close();
 
     popup.focus();
@@ -177,10 +179,10 @@ export function QuotePrintActions({ quote }: QuotePrintActionsProps) {
   return (
     <div className="flex flex-wrap gap-2">
       <Button type="button" variant="outline" onClick={openPrintDialog}>
-        In bao gia
+        In báo giá
       </Button>
       <Button type="button" className="bg-blue-800 hover:bg-blue-900" onClick={openPrintDialog}>
-        Xuat PDF
+        Xuất PDF
       </Button>
     </div>
   );

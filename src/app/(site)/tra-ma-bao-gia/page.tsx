@@ -33,7 +33,7 @@ export default function QuotePage() {
         <div className="page-shell space-y-8">
         <section className="space-y-4 rounded-2xl border border-blue-300 bg-gradient-to-r from-[#0e4f96] via-[#135ea9] to-[#0f4f95] p-6 text-white shadow-[0_18px_40px_-22px_rgba(15,52,95,0.75)] sm:p-8">
           <span className="inline-flex rounded-full border border-blue-200/40 bg-blue-200/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-blue-100">
-            SKF Tool Style
+            THL B2B Tool
           </span>
           <h1 className="text-3xl font-bold leading-tight">Tra Mã và Báo Giá</h1>
           <p className="max-w-2xl text-sm text-blue-100 sm:text-base">Tra mã theo mã hoặc kích thước, sau đó chọn cách gửi báo giá theo kênh phù hợp.</p>
