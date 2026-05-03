@@ -9,7 +9,8 @@ import {
   getAdminSessionMaxAgeSeconds,
 } from "@/lib/admin/auth";
 
-// Ensure .env.local/.env.production are loaded at runtime
+// Force Node.js runtime and ensure env is loaded
+export const runtime = "nodejs";
 loadEnvConfig(process.cwd());
 
 function normalizeNextPath(value: unknown) {
