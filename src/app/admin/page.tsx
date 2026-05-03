@@ -77,7 +77,7 @@ export default async function AdminIndexPage() {
           <div className="grid gap-3 md:grid-cols-3">
             <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
               <p className="text-base font-semibold text-slate-900">Đã có</p>
-              <p className="mt-1 text-sm text-slate-600">Đăng nhập email + mật khẩu + OTP</p>
+              <p className="mt-1 text-sm text-slate-600">Đăng nhập email + mật khẩu qua HttpOnly cookie</p>
             </div>
             <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
               <p className="text-base font-semibold text-slate-900">Đã có</p>

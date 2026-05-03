@@ -6,7 +6,6 @@ import type { ProductSearchItem, ProductSearchResponse, ProductSearchVariantSumm
 import { Button } from "@/components/ui/button";
 
 const brandOptions = [
-  { value: "ALL", label: "Tất cả nhãn hàng" },
   { value: "NTN", label: "NTN" },
   { value: "Koyo", label: "Koyo" },
   { value: "Tsubaki", label: "Tsubaki" },
@@ -16,7 +15,6 @@ const brandOptions = [
 ];
 
 const groupOptions = [
-  { value: "ALL", label: "Tất cả nhóm" },
   { value: "Vong bi", label: "Vòng bi" },
   { value: "Goi do / vong bi", label: "Gối đỡ / vòng bi" },
   { value: "Xich cong nghiep", label: "Xích công nghiệp" },
@@ -66,12 +64,13 @@ function buildVariantProduct(baseItem: ProductSearchItem, variant: ProductSearch
 
 export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, selectedProducts, onClearSelections }: MultiBrandProductLookupProps) {
   const [query, setQuery] = useState("");
-  const [brand, setBrand] = useState("ALL");
-  const [group, setGroup] = useState("ALL");
+  const [brand, setBrand] = useState("");
+  const [group, setGroup] = useState("");
   const [application, setApplication] = useState("");
   const [dInner, setDInner] = useState("");
   const [dOuter, setDOuter] = useState("");
   const [bThickness, setBThickness] = useState("");
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [result, setResult] = useState<ProductSearchResponse | null>(null);
@@ -81,8 +80,8 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
 
   const canSearch =
     query.trim().length > 0 ||
-    brand !== "ALL" ||
-    group !== "ALL" ||
+    brand !== "" ||
+    group !== "" ||
     application.trim().length > 0 ||
     dInner.trim().length > 0 ||
     dOuter.trim().length > 0 ||
@@ -114,8 +113,8 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
     try {
       const params = new URLSearchParams({
         q: query,
-        brand,
-        group,
+        brand: brand || "ALL",
+        group: group || "ALL",
         application,
         d: dInner,
         D: dOuter,
@@ -151,8 +150,8 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
   }, [application, bThickness, brand, canSearch, dInner, dOuter, group, query]);
 
   function resetAdvancedFilters() {
-    setBrand("ALL");
-    setGroup("ALL");
+    setBrand("");
+    setGroup("");
     setApplication("");
     setDInner("");
     setDOuter("");
@@ -196,12 +195,10 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
   const canLoadMore = effectiveVisibleCount < totalResults;
   const canCollapse = totalResults > LOAD_STEP && effectiveVisibleCount > LOAD_STEP;
 
-  const selectedBrandLabel = useMemo(() => brandOptions.find((option) => option.value === brand)?.label ?? brand, [brand]);
-  const selectedGroupLabel = useMemo(() => groupOptions.find((option) => option.value === group)?.label ?? group, [group]);
   const isOnlyBrandFilter =
-    brand !== "ALL" &&
+    brand !== "" &&
     query.trim().length === 0 &&
-    group === "ALL" &&
+    group === "" &&
     application.trim().length === 0 &&
     dInner.trim().length === 0 &&
     dOuter.trim().length === 0 &&
@@ -276,9 +273,9 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
 
           <div className="space-y-3 rounded-xl border border-[#2d5f96] bg-[#0a2a4d] p-3">
             <div className="flex items-center justify-between gap-3">
-              <p className="text-sm font-semibold text-slate-100">Lọc theo nhóm và kích thước d/D/B-T</p>
+              <p className="text-sm font-semibold text-slate-100">Bộ lọc tra mã</p>
               <Button type="button" variant="outline" className="border-[#2d5f96] bg-transparent text-blue-100 hover:bg-[#103964]" onClick={resetAdvancedFilters}>
-                Reset
+                Xóa tất cả
               </Button>
             </div>
 
@@ -291,7 +288,7 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
                     <button
                       key={option.value}
                       type="button"
-                      onClick={() => setBrand(option.value)}
+                      onClick={() => setBrand((current) => (current === option.value ? "" : option.value))}
                       className={`min-h-10 rounded-full border px-3 py-2 text-sm font-semibold transition ${
                         isActive
                           ? "border-blue-200 bg-[#1a4f85] text-white"
@@ -314,7 +311,7 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
                     <button
                       key={option.value}
                       type="button"
-                      onClick={() => setGroup(option.value)}
+                      onClick={() => setGroup((current) => (current === option.value ? "" : option.value))}
                       className={`min-h-10 rounded-full border px-3 py-2 text-sm font-semibold transition ${
                         isActive
                           ? "border-blue-200 bg-[#1a4f85] text-white"
@@ -328,73 +325,81 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
               </div>
             </div>
 
-            <div className="rounded-xl border border-[#2d5f96] bg-[#082546] p-3">
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-blue-200">Đang lọc</p>
-                <button type="button" className="text-xs font-semibold text-blue-200 hover:text-white" onClick={resetAdvancedFilters}>
-                  Xóa lọc
-                </button>
-              </div>
-              <div className="mt-2 flex flex-wrap gap-2 text-xs">
-                <span className="rounded-full border border-[#2d5f96] bg-[#103964] px-2.5 py-1 text-blue-100">Nhãn hàng: {selectedBrandLabel}</span>
-                <span className="rounded-full border border-[#2d5f96] bg-[#103964] px-2.5 py-1 text-blue-100">Nhóm: {selectedGroupLabel}</span>
-              </div>
+            <div className="flex flex-wrap items-center gap-2 text-xs">
+              {brand ? <span className="rounded-full border border-[#2d5f96] bg-[#103964] px-2.5 py-1 text-blue-100">Nhãn hàng: {brand}</span> : null}
+              {group ? <span className="rounded-full border border-[#2d5f96] bg-[#103964] px-2.5 py-1 text-blue-100">Nhóm: {groupOptions.find((option) => option.value === group)?.label ?? group}</span> : null}
+              {application ? <span className="rounded-full border border-[#2d5f96] bg-[#103964] px-2.5 py-1 text-blue-100">Ứng dụng: {applicationOptions.find((option) => option.value === application)?.label ?? application}</span> : null}
+              {dInner ? <span className="rounded-full border border-[#2d5f96] bg-[#103964] px-2.5 py-1 text-blue-100">d: {dInner}</span> : null}
+              {dOuter ? <span className="rounded-full border border-[#2d5f96] bg-[#103964] px-2.5 py-1 text-blue-100">D: {dOuter}</span> : null}
+              {bThickness ? <span className="rounded-full border border-[#2d5f96] bg-[#103964] px-2.5 py-1 text-blue-100">B/T: {bThickness}</span> : null}
             </div>
 
-            <div className="grid gap-3 md:grid-cols-2">
-              <label className="space-y-1">
-                <span className="text-xs font-semibold uppercase tracking-wide text-blue-200">Ứng dụng</span>
-                <select
-                  value={application}
-                  onChange={(event) => setApplication(event.target.value)}
-                  className="h-11 w-full rounded-xl border border-[#2d5f96] bg-[#082546] px-3 text-sm text-white outline-none"
-                >
-                  {applicationOptions.map((option) => (
-                    <option key={option.label} value={option.value} className="bg-[#082546]">
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            </div>
+            <button
+              type="button"
+              className="text-xs font-semibold uppercase tracking-wide text-blue-200 hover:text-white"
+              onClick={() => setShowAdvancedFilters((current) => !current)}
+            >
+              {showAdvancedFilters ? "Ẩn lọc nâng cao" : "Hiện lọc nâng cao"}
+            </button>
 
-            <div className="grid grid-cols-3 gap-2">
-              <label className="space-y-1">
-                <span className="text-xs font-semibold uppercase tracking-wide text-blue-200">d</span>
-                <input
-                  type="text"
-                  inputMode="decimal"
-                  value={dInner}
-                  onChange={(event) => setDInner(normalizeDimensionInput(event.target.value))}
-                  className="h-10 w-full rounded-lg border border-[#2d5f96] bg-[#082546] px-2.5 text-sm text-white outline-none"
-                  placeholder="d"
-                />
-              </label>
+            {showAdvancedFilters ? (
+              <>
+                <div className="grid gap-3 md:grid-cols-2">
+                  <label className="space-y-1">
+                    <span className="text-xs font-semibold uppercase tracking-wide text-blue-200">Ứng dụng</span>
+                    <select
+                      value={application}
+                      onChange={(event) => setApplication(event.target.value)}
+                      className="h-11 w-full rounded-xl border border-[#2d5f96] bg-[#082546] px-3 text-sm text-white outline-none"
+                    >
+                      {applicationOptions.map((option) => (
+                        <option key={option.label} value={option.value} className="bg-[#082546]">
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                </div>
 
-              <label className="space-y-1">
-                <span className="text-xs font-semibold uppercase tracking-wide text-blue-200">D</span>
-                <input
-                  type="text"
-                  inputMode="decimal"
-                  value={dOuter}
-                  onChange={(event) => setDOuter(normalizeDimensionInput(event.target.value))}
-                  className="h-10 w-full rounded-lg border border-[#2d5f96] bg-[#082546] px-2.5 text-sm text-white outline-none"
-                  placeholder="D"
-                />
-              </label>
+                <div className="grid grid-cols-3 gap-2">
+                  <label className="space-y-1">
+                    <span className="text-xs font-semibold uppercase tracking-wide text-blue-200">d</span>
+                    <input
+                      type="text"
+                      inputMode="decimal"
+                      value={dInner}
+                      onChange={(event) => setDInner(normalizeDimensionInput(event.target.value))}
+                      className="h-10 w-full rounded-lg border border-[#2d5f96] bg-[#082546] px-2.5 text-sm text-white outline-none"
+                      placeholder="d"
+                    />
+                  </label>
 
-              <label className="space-y-1">
-                <span className="text-xs font-semibold uppercase tracking-wide text-blue-200">B/T</span>
-                <input
-                  type="text"
-                  inputMode="decimal"
-                  value={bThickness}
-                  onChange={(event) => setBThickness(normalizeDimensionInput(event.target.value))}
-                  className="h-10 w-full rounded-lg border border-[#2d5f96] bg-[#082546] px-2.5 text-sm text-white outline-none"
-                  placeholder="B/T"
-                />
-              </label>
-            </div>
+                  <label className="space-y-1">
+                    <span className="text-xs font-semibold uppercase tracking-wide text-blue-200">D</span>
+                    <input
+                      type="text"
+                      inputMode="decimal"
+                      value={dOuter}
+                      onChange={(event) => setDOuter(normalizeDimensionInput(event.target.value))}
+                      className="h-10 w-full rounded-lg border border-[#2d5f96] bg-[#082546] px-2.5 text-sm text-white outline-none"
+                      placeholder="D"
+                    />
+                  </label>
+
+                  <label className="space-y-1">
+                    <span className="text-xs font-semibold uppercase tracking-wide text-blue-200">B/T</span>
+                    <input
+                      type="text"
+                      inputMode="decimal"
+                      value={bThickness}
+                      onChange={(event) => setBThickness(normalizeDimensionInput(event.target.value))}
+                      className="h-10 w-full rounded-lg border border-[#2d5f96] bg-[#082546] px-2.5 text-sm text-white outline-none"
+                      placeholder="B/T"
+                    />
+                  </label>
+                </div>
+              </>
+            ) : null}
           </div>
         </div>
       </div>
@@ -454,7 +459,7 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
             {visibleGroups.map((brandGroup) => (
               <div key={brandGroup.brand} className="space-y-2">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  {brand !== "ALL" ? <div /> : <h4 className="text-sm font-semibold uppercase tracking-wide text-blue-200">{brandGroup.brand}</h4>}
+                  {brand ? <div /> : <h4 className="text-sm font-semibold uppercase tracking-wide text-blue-200">{brandGroup.brand}</h4>}
                   <Button
                     type="button"
                     variant="outline"
