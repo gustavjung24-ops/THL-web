@@ -34,17 +34,6 @@ const applicationOptions = [
   { value: "Truc quay", label: "Trục quay" },
 ];
 
-const quickHints = [
-  { label: "Vòng bi: 6205", value: "6205" },
-  { label: "Vòng bi: 6308", value: "6308" },
-  { label: "Vòng bi: 22212", value: "22212" },
-  { label: "Vòng bi: NU308", value: "NU308" },
-  { label: "Gối đỡ: UCP208", value: "UCP208" },
-  { label: "Gối đỡ: UCF207", value: "UCF207" },
-  { label: "Phớt: 60X90X10", value: "60x90x10" },
-  { label: "Phớt: 90X100X26", value: "90x100x26" },
-];
-
 type MultiBrandProductLookupProps = {
   onToggleProduct: (item: ProductSearchItem) => void;
   onSetGroupSelection: (items: ProductSearchItem[], shouldSelect: boolean) => void;
@@ -84,7 +73,6 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [result, setResult] = useState<ProductSearchResponse | null>(null);
-  const [isQuickHintsExpanded, setIsQuickHintsExpanded] = useState(false);
   const [expandedVariantKeys, setExpandedVariantKeys] = useState<Record<string, boolean>>({});
   const requestCounterRef = useRef(0);
 
@@ -185,8 +173,6 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
     bThickness.trim().length === 0;
 
   const selectedProductKeys = useMemo(() => new Set(selectedProducts.map((item) => getSelectionKey(item))), [selectedProducts]);
-  const hasMoreQuickHints = quickHints.length > 3;
-  const visibleQuickHints = isQuickHintsExpanded ? quickHints : quickHints.slice(0, 3);
 
   function toggleVariantPanel(item: ProductSearchItem) {
     const itemKey = getSelectionKey(item);
@@ -243,36 +229,6 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
                   </span>
                 ) : null}
               </p>
-            </div>
-          </div>
-
-          <div className="space-y-2 rounded-xl border border-[#2d5f96] bg-[#0a2a4d] p-3">
-            <div className="flex items-center justify-between gap-2">
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-blue-200">Gợi ý nhanh</p>
-              <div className="flex items-center gap-3">
-                {hasMoreQuickHints ? (
-                  <button
-                    type="button"
-                    className="text-xs font-semibold text-blue-200 hover:text-white"
-                    onClick={() => setIsQuickHintsExpanded((current) => !current)}
-                  >
-                    {isQuickHintsExpanded ? "Thu gọn" : "Xem thêm"}
-                  </button>
-                ) : null}
-                <button type="button" className="text-xs font-semibold text-blue-200 hover:text-white" onClick={() => setQuery("")}>Xóa mã</button>
-              </div>
-            </div>
-            <div className="flex gap-1.5 overflow-x-auto whitespace-nowrap pb-1 sm:grid sm:grid-cols-2 sm:gap-2 sm:overflow-visible sm:whitespace-normal sm:pb-0 xl:grid-cols-4">
-              {visibleQuickHints.map((hint) => (
-                <button
-                  key={hint.label}
-                  type="button"
-                  onClick={() => setQuery(hint.value)}
-                  className="shrink-0 rounded-full border border-[#2d5f96] bg-[#103964] px-2.5 py-1 text-left text-[11px] font-semibold text-blue-100 transition hover:bg-[#1a4f85] sm:px-3 sm:py-1.5 sm:text-xs"
-                >
-                  {hint.label}
-                </button>
-              ))}
             </div>
           </div>
 
@@ -358,40 +314,42 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
                   ))}
                 </select>
               </label>
+            </div>
 
+            <div className="grid grid-cols-3 gap-2">
               <label className="space-y-1">
-                <span className="text-xs font-semibold uppercase tracking-wide text-blue-200">d (trong)</span>
+                <span className="text-xs font-semibold uppercase tracking-wide text-blue-200">d</span>
                 <input
                   type="text"
                   inputMode="decimal"
                   value={dInner}
                   onChange={(event) => setDInner(normalizeDimensionInput(event.target.value))}
-                  className="h-11 w-full rounded-xl border border-[#2d5f96] bg-[#082546] px-3 text-sm text-white outline-none"
-                  placeholder="20"
+                  className="h-10 w-full rounded-lg border border-[#2d5f96] bg-[#082546] px-2.5 text-sm text-white outline-none"
+                  placeholder="d"
                 />
               </label>
 
               <label className="space-y-1">
-                <span className="text-xs font-semibold uppercase tracking-wide text-blue-200">D (ngoài)</span>
+                <span className="text-xs font-semibold uppercase tracking-wide text-blue-200">D</span>
                 <input
                   type="text"
                   inputMode="decimal"
                   value={dOuter}
                   onChange={(event) => setDOuter(normalizeDimensionInput(event.target.value))}
-                  className="h-11 w-full rounded-xl border border-[#2d5f96] bg-[#082546] px-3 text-sm text-white outline-none"
-                  placeholder="52"
+                  className="h-10 w-full rounded-lg border border-[#2d5f96] bg-[#082546] px-2.5 text-sm text-white outline-none"
+                  placeholder="D"
                 />
               </label>
 
-              <label className="space-y-1 md:col-span-2">
-                <span className="text-xs font-semibold uppercase tracking-wide text-blue-200">B/T (dày)</span>
+              <label className="space-y-1">
+                <span className="text-xs font-semibold uppercase tracking-wide text-blue-200">B/T</span>
                 <input
                   type="text"
                   inputMode="decimal"
                   value={bThickness}
                   onChange={(event) => setBThickness(normalizeDimensionInput(event.target.value))}
-                  className="h-11 w-full rounded-xl border border-[#2d5f96] bg-[#082546] px-3 text-sm text-white outline-none"
-                  placeholder="15"
+                  className="h-10 w-full rounded-lg border border-[#2d5f96] bg-[#082546] px-2.5 text-sm text-white outline-none"
+                  placeholder="B/T"
                 />
               </label>
             </div>

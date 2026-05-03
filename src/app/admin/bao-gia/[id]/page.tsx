@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { AdminShell } from "@/components/admin/admin-shell";
 import { QuotePrintActions } from "@/components/admin/quote-print-actions";
+import { RfqQuoteEditor } from "@/components/admin/rfq-quote-editor";
 import { QuoteRequestEditor } from "@/components/admin/quote-request-editor";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -90,7 +91,7 @@ export default async function AdminQuoteDetailPage({ params }: { params: { id: s
           </CardContent>
         </Card>
 
-        <QuoteRequestEditor quote={quote} />
+        {quote.sourceType === "rfq" ? <RfqQuoteEditor quote={quote} /> : <QuoteRequestEditor quote={quote} />}
       </div>
     </AdminShell>
   );
