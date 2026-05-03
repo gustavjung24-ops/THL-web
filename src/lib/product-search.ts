@@ -205,13 +205,14 @@ function extractSuffix(baseProductCode: string, productCode: string): string {
   return codeCompact;
 }
 
-function hasReliableSource(source: string): boolean {
-  return source.length > 0;
+function hasReliableSourceEvidence(source: string, sourceUrl: string): boolean {
+  return source.length > 0 || sourceUrl.length > 0;
 }
 
 function classifyConfidence(input: {
   isVariant: boolean;
   source: string;
+  sourceUrl: string;
   isSourceVerifiedVariant: boolean;
   suffixCompact: string;
   blockedSuffixes: Set<string>;
@@ -221,6 +222,7 @@ function classifyConfidence(input: {
   const {
     isVariant,
     source,
+    sourceUrl,
     isSourceVerifiedVariant,
     suffixCompact,
     blockedSuffixes,
@@ -228,7 +230,7 @@ function classifyConfidence(input: {
     defaultConfidence,
   } = input;
 
-  const hasSource = hasReliableSource(source);
+  const hasSource = hasReliableSourceEvidence(source, sourceUrl);
   if (!hasSource) {
     return "manual_review";
   }
@@ -294,6 +296,27 @@ function parsePriority(product: UnknownRecord): number {
   if (priority === "NORMAL") return 60;
   if (priority === "LOW") return 40;
   return 50;
+}
+
+function readPublicVisible(value: unknown, fallback = true): boolean {
+  if (typeof value === "boolean") {
+    return value;
+  }
+
+  const raw = normalizeCompact(toStr(value));
+  if (!raw) {
+    return fallback;
+  }
+
+  if (raw === "FALSE" || raw === "0" || raw === "NO") {
+    return false;
+  }
+
+  if (raw === "TRUE" || raw === "1" || raw === "YES") {
+    return true;
+  }
+
+  return fallback;
 }
 
 function normalizeBrand(input: string): ProductBrand {
@@ -539,6 +562,10 @@ async function loadSearchIndex(): Promise<ProductSearchIndex> {
     const filePath = path.join(dataDirectory, fileName);
     const raw = await fs.readFile(filePath, "utf8");
     const parsed = JSON.parse(raw) as UnknownRecord;
+    const metadata = (parsed.metadata && typeof parsed.metadata === "object" ? (parsed.metadata as UnknownRecord) : {}) as UnknownRecord;
+    const metadataPublicVisible = readPublicVisible(metadata.public_visible, true);
+    const metadataVerificationStatus = normalizeCompact(toStr(metadata.verification_status));
+    const metadataImportStatus = normalizeCompact(toStr(metadata.import_status));
     const rawProducts = Array.isArray(parsed.products) ? (parsed.products as UnknownRecord[]) : [];
     const rawAliases = Array.isArray(parsed.aliases)
       ? (parsed.aliases as UnknownRecord[])
@@ -564,6 +591,14 @@ async function loadSearchIndex(): Promise<ProductSearchIndex> {
     for (const product of rawProducts) {
       const productCode = toStr(product.product_code);
       if (!productCode) continue;
+
+      const publicVisible = readPublicVisible(product.public_visible, metadataPublicVisible);
+      const verificationStatusCompact = normalizeCompact(toStr(product.verification_status) || metadataVerificationStatus);
+      const importStatusCompact = normalizeCompact(toStr(product.import_status) || metadataImportStatus);
+
+      if (!publicVisible || verificationStatusCompact === "GENERATEDREFERENCE" || importStatusCompact === "NOTPUBLIC") {
+        continue;
+      }
 
       const brand = mapProductBrand(toStr(product.brand));
       const group = mapProductGroup(product, brand);
@@ -608,6 +643,7 @@ async function loadSearchIndex(): Promise<ProductSearchIndex> {
         const computedConfidence = classifyConfidence({
           isVariant,
           source,
+          sourceUrl,
           isSourceVerifiedVariant: sourceVerifiedVariantCompacts.has(familyCodeCompact),
           suffixCompact,
           blockedSuffixes,
@@ -654,7 +690,7 @@ async function loadSearchIndex(): Promise<ProductSearchIndex> {
       });
 
       const variantSummaries: ProductSearchVariantSummary[] = familyItems
-        .filter((item) => item.isVariant && item.confidence !== "manual_review" && hasReliableSource(item.source))
+        .filter((item) => item.isVariant && item.confidence !== "manual_review" && hasReliableSourceEvidence(item.source, item.sourceUrl))
         .map((item) => ({
         productCode: item.productCode,
         displayName: item.displayName,
@@ -669,7 +705,10 @@ async function loadSearchIndex(): Promise<ProductSearchIndex> {
       for (const familyItem of familyItems) {
         familyItem.relatedVariants = variantSummaries.filter((variant) => variant.productCode !== familyItem.productCode);
 
-        const shouldExposeInPublic = !familyItem.isVariant || (familyItem.confidence !== "manual_review" && hasReliableSource(familyItem.source));
+        const hasSourceEvidence = hasReliableSourceEvidence(familyItem.source, familyItem.sourceUrl);
+        const isManualReviewWithoutSource = familyItem.confidence === "manual_review" && !hasSourceEvidence;
+        const shouldExposeInPublic =
+          (!familyItem.isVariant || (familyItem.confidence !== "manual_review" && hasSourceEvidence)) && !isManualReviewWithoutSource;
         if (shouldExposeInPublic) {
           products.push(familyItem);
         }

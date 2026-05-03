@@ -1,5 +1,4 @@
 import { MessageCircle, Search } from "lucide-react";
-import { siteConfig } from "@/config/site";
 import { createPageMetadata } from "@/lib/seo";
 import { QuoteSearchAndForm } from "@/components/forms/quote-search-and-form";
 import { StructuredData } from "@/components/shared/structured-data";
@@ -58,16 +57,6 @@ export default function QuotePage() {
           <QuoteSearchAndForm />
         </section>
         </div>
-
-        <a
-        href={siteConfig.zaloLink}
-        target="_blank"
-        rel="noreferrer"
-        className="fixed bottom-24 right-4 z-30 hidden items-center gap-2 rounded-full border border-blue-200 bg-blue-800 px-4 py-2 text-sm font-semibold text-white shadow-md hover:bg-blue-900 md:flex lg:bottom-6"
-      >
-        <MessageCircle className="size-4" />
-        Zalo kinh doanh
-        </a>
       </div>
     </>
   );

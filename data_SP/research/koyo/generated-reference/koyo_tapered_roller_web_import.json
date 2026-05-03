@@ -2,6 +2,11 @@
   "metadata": {
     "brand": "Koyo",
     "series_family": "Tapered Roller Bearings – 302xx / 303xx / 322xx",
+    "verification_status": "generated_reference",
+    "import_status": "not_public",
+    "public_visible": false,
+    "confidence": "manual_review",
+    "usage": "generated_reference_only_do_not_use_for_public_search",
     "source": "Koyo / JTEKT Tapered Roller Bearing Catalog (ISO 355 / JIS B 1512-5)",
     "source_url": "https://koyo.jtekt.co.jp/en/support/catalog-download/",
     "generated_at": "2026-05-03",

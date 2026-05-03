@@ -2,6 +2,11 @@
   "metadata": {
     "brand": "Koyo",
     "series_family": "Deep Groove Ball Bearings – 60xx / 62xx / 63xx",
+    "verification_status": "generated_reference",
+    "import_status": "not_public",
+    "public_visible": false,
+    "confidence": "manual_review",
+    "usage": "generated_reference_only_do_not_use_for_public_search",
     "source": "Koyo / JTEKT Deep Groove Ball Bearing Catalog (ISO 15 standard dimensions)",
     "source_url": "https://koyo.jtekt.co.jp/en/support/catalog-download/",
     "generated_at": "2026-05-03",

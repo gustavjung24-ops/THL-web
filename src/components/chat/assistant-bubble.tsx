@@ -1,9 +1,16 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Search } from "lucide-react";
 
 export function AssistantBubble() {
+  const pathname = usePathname();
+
+  if (pathname === "/tra-ma-bao-gia") {
+    return null;
+  }
+
   return (
     <div className="fixed bottom-[calc(6.2rem+env(safe-area-inset-bottom))] right-4 z-50 lg:bottom-6 lg:right-5">
       <Link
