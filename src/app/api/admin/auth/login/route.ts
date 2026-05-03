@@ -1,4 +1,3 @@
-import { loadEnvConfig } from "@next/env";
 import { NextRequest, NextResponse } from "next/server";
 import { appendAdminAuditLog } from "@/lib/admin/audit-log";
 import { getAdminAccountByCredentialsFromStore } from "@/lib/admin/account-store";
@@ -11,7 +10,14 @@ import {
 
 // Force Node.js runtime and ensure env is loaded
 export const runtime = "nodejs";
-loadEnvConfig(process.cwd());
+
+function logAdminEnvPresence() {
+  console.info("[admin/auth/login] env presence", {
+    ADMIN_SECRET: Boolean(process.env.ADMIN_SECRET?.trim()),
+    ADMIN_OWNER_EMAIL: Boolean(process.env.ADMIN_OWNER_EMAIL?.trim()),
+    ADMIN_OWNER_PASSWORD: Boolean(process.env.ADMIN_OWNER_PASSWORD?.trim()),
+  });
+}
 
 function normalizeNextPath(value: unknown) {
   return typeof value === "string" && value.startsWith("/") ? value : "/admin";
@@ -72,6 +78,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     const message = error instanceof Error ? error.message : "";
     if (message.includes("required")) {
+      logAdminEnvPresence();
       return NextResponse.json(
         {
           ok: false,
