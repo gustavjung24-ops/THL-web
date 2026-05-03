@@ -34,6 +34,8 @@ const applicationOptions = [
   { value: "Truc quay", label: "Trục quay" },
 ];
 
+const LOAD_STEP = 20;
+
 type MultiBrandProductLookupProps = {
   onToggleProduct: (item: ProductSearchItem) => void;
   onSetGroupSelection: (items: ProductSearchItem[], shouldSelect: boolean) => void;
@@ -73,6 +75,7 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [result, setResult] = useState<ProductSearchResponse | null>(null);
+  const [visibleCount, setVisibleCount] = useState(LOAD_STEP);
   const [expandedVariantKeys, setExpandedVariantKeys] = useState<Record<string, boolean>>({});
   const requestCounterRef = useRef(0);
 
@@ -161,6 +164,38 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
     return result.groups.reduce((acc, current) => acc + current.items.length, 0);
   }, [result]);
 
+  const effectiveVisibleCount = useMemo(() => Math.min(visibleCount, totalResults), [totalResults, visibleCount]);
+
+  const visibleGroups = useMemo(() => {
+    if (!result) {
+      return [] as ProductSearchResponse["groups"];
+    }
+
+    let remaining = effectiveVisibleCount;
+    const groups: ProductSearchResponse["groups"] = [];
+
+    for (const brandGroup of result.groups) {
+      if (remaining <= 0) {
+        break;
+      }
+
+      const visibleItems = brandGroup.items.slice(0, remaining);
+      if (visibleItems.length > 0) {
+        groups.push({
+          ...brandGroup,
+          items: visibleItems,
+        });
+      }
+
+      remaining -= visibleItems.length;
+    }
+
+    return groups;
+  }, [effectiveVisibleCount, result]);
+
+  const canLoadMore = effectiveVisibleCount < totalResults;
+  const canCollapse = totalResults > LOAD_STEP && effectiveVisibleCount > LOAD_STEP;
+
   const selectedBrandLabel = useMemo(() => brandOptions.find((option) => option.value === brand)?.label ?? brand, [brand]);
   const selectedGroupLabel = useMemo(() => groupOptions.find((option) => option.value === group)?.label ?? group, [group]);
   const isOnlyBrandFilter =
@@ -171,6 +206,9 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
     dInner.trim().length === 0 &&
     dOuter.trim().length === 0 &&
     bThickness.trim().length === 0;
+
+  const isKoyoBrand = brand === "Koyo";
+  const isKoyoCommonBearingQuery = isKoyoBrand && /^6[023]/i.test(query.trim());
 
   const selectedProductKeys = useMemo(() => new Set(selectedProducts.map((item) => getSelectionKey(item))), [selectedProducts]);
 
@@ -196,6 +234,10 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
 
     return () => window.clearTimeout(timeoutId);
   }, [application, bThickness, brand, canSearch, dInner, dOuter, group, query, runSearch]);
+
+  useEffect(() => {
+    setVisibleCount(LOAD_STEP);
+  }, [application, bThickness, brand, dInner, dOuter, group, query]);
 
   return (
     <section className="space-y-5 rounded-2xl border border-[#2d5f96] bg-[#082546] p-4 text-white shadow-[0_16px_36px_-24px_rgba(8,37,70,0.8)] sm:p-6">
@@ -373,26 +415,43 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
       <section className="space-y-3 rounded-2xl border border-[#2d5f96] bg-[#0b2f56] p-4">
         <h3 className="text-lg font-semibold text-white">Kết quả tra mã</h3>
 
+        {isKoyoBrand && query.trim() === "" ? (
+          <div className="rounded-md border border-blue-400/30 bg-blue-500/10 px-3 py-2 text-sm text-blue-100">
+            Koyo hiện có dữ liệu nhóm gối đỡ / insert: UC, UCP, UCF, UCFL. Nhóm vòng bi phổ thông 60xx/62xx/63xx đang được bổ sung.
+          </div>
+        ) : null}
+
+        {isKoyoCommonBearingQuery ? (
+          <div className="rounded-md border border-amber-400/30 bg-amber-500/10 px-3 py-2 text-sm text-amber-100">
+            Chưa có dữ liệu Koyo cho nhóm vòng bi phổ thông 60xx/62xx/63xx. Vui lòng gửi mã hoặc ảnh tem để kiểm tra thêm.
+          </div>
+        ) : null}
+
         {error ? <div className="rounded-md border border-red-300/40 bg-red-500/10 px-3 py-2 text-sm text-red-100">{error}</div> : null}
 
         {result ? (
           <div className="space-y-4">
             <div className="flex flex-wrap items-center gap-2 text-sm text-blue-100">
               <span className="rounded-full border border-[#2d5f96] bg-[#103964] px-3 py-1">{totalResults} kết quả</span>
+              {totalResults > 0 ? <span className="text-xs text-blue-200/90">Đang hiển thị {effectiveVisibleCount}/{totalResults} mã</span> : null}
               {selectedProducts.length > 0 ? <span className="rounded-full border border-blue-300 bg-blue-500/15 px-3 py-1">Đã chọn: {selectedProducts.length} mã</span> : null}
             </div>
 
             {totalResults === 0 ? (
               <div className="rounded-md border border-[#2d5f96] bg-[#082546] px-3 py-2 text-sm text-blue-100">
-                {isOnlyBrandFilter
-                  ? "Chưa có dữ liệu cho nhãn hàng này trong bộ tra mã hiện tại."
-                  : query.trim().length > 0
-                    ? "Chưa tìm thấy mã phù hợp trong dữ liệu hiện có. Anh/chị có thể gửi mã hoặc ảnh tem để kiểm tra thêm."
-                    : "Không có kết quả phù hợp. Thử bỏ bớt điều kiện hoặc đổi nhóm/ứng dụng."}
+                {isKoyoCommonBearingQuery
+                  ? "Chưa có dữ liệu Koyo cho nhóm vòng bi phổ thông 60xx/62xx/63xx. Vui lòng gửi mã hoặc ảnh tem để kiểm tra thêm."
+                  : isOnlyBrandFilter && isKoyoBrand
+                    ? "Koyo hiện có dữ liệu nhóm gối đỡ / insert: UC, UCP, UCF, UCFL. Nhóm vòng bi phổ thông 60xx/62xx/63xx đang được bổ sung."
+                    : isOnlyBrandFilter
+                      ? "Chưa có dữ liệu cho nhãn hàng này trong bộ tra mã hiện tại."
+                      : query.trim().length > 0
+                        ? "Chưa tìm thấy mã phù hợp trong dữ liệu hiện có. Anh/chị có thể gửi mã hoặc ảnh tem để kiểm tra thêm."
+                        : "Không có kết quả phù hợp. Thử bỏ bớt điều kiện hoặc đổi nhóm/ứng dụng."}
               </div>
             ) : null}
 
-            {result.groups.map((brandGroup) => (
+            {visibleGroups.map((brandGroup) => (
               <div key={brandGroup.brand} className="space-y-2">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   {brand !== "ALL" ? <div /> : <h4 className="text-sm font-semibold uppercase tracking-wide text-blue-200">{brandGroup.brand}</h4>}
@@ -402,7 +461,7 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
                     className="h-8 border-[#2d5f96] bg-transparent px-3 text-xs text-blue-100 hover:bg-[#103964]"
                     onClick={() => onSetGroupSelection(brandGroup.items, !brandGroup.items.every((item) => selectedProductKeys.has(getSelectionKey(item))))}
                   >
-                    {brandGroup.items.every((item) => selectedProductKeys.has(getSelectionKey(item))) ? "Bỏ chọn nhóm" : `Chọn tất cả ${brandGroup.items.length} mã`}
+                    {brandGroup.items.every((item) => selectedProductKeys.has(getSelectionKey(item))) ? "Bỏ chọn kết quả đang hiển thị" : `Chọn ${brandGroup.items.length} mã đang hiển thị`}
                   </Button>
                 </div>
 
@@ -503,6 +562,34 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
                 </div>
               </div>
             ))}
+
+            {totalResults > LOAD_STEP ? (
+              <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-[#2d5f96] bg-[#082546] p-3">
+                <p className="text-xs text-blue-200/90">Đang hiển thị {effectiveVisibleCount}/{totalResults} mã</p>
+                <div className="flex flex-wrap items-center gap-2">
+                  {canCollapse ? (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="min-h-10 border-[#2d5f96] bg-transparent px-3 text-sm text-blue-100 hover:bg-[#103964]"
+                      onClick={() => setVisibleCount(LOAD_STEP)}
+                    >
+                      Thu gọn
+                    </Button>
+                  ) : null}
+
+                  {canLoadMore ? (
+                    <Button
+                      type="button"
+                      className="min-h-10 bg-[#1e73c8] px-4 text-sm text-white hover:bg-[#155ea9]"
+                      onClick={() => setVisibleCount((current) => current + LOAD_STEP)}
+                    >
+                      Xem thêm 20 mã
+                    </Button>
+                  ) : null}
+                </div>
+              </div>
+            ) : null}
           </div>
         ) : (
           <p className="text-sm text-blue-100">Nhập mã hoặc chọn bộ lọc kỹ thuật để bắt đầu.</p>

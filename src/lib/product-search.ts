@@ -1,4 +1,4 @@
-import fs from "node:fs/promises";
+﻿import fs from "node:fs/promises";
 import path from "node:path";
 import brandSuffixPolicyData from "@/data/catalog/brand-suffix-policy.json";
 
@@ -341,9 +341,9 @@ function mapProductGroup(product: UnknownRecord, brand: ProductBrand): ProductGr
     return "Gối đỡ / vòng bi";
   }
 
-  if (brand === "Koyo") {
-    return "Gối đỡ / vòng bi";
-  }
+    if (brand === "Koyo" && clues.includes("UNIT")) {
+      return "Gối đỡ / vòng bi";
+    }
 
   return "Vòng bi";
 }
@@ -596,11 +596,16 @@ async function loadSearchIndex(): Promise<ProductSearchIndex> {
       const familyCompacts = new Set(familyCodes.map(normalizeCompact).filter(Boolean));
       const rawKeywordList = extractKeywordList(product.search_keywords);
       const baseAliasSet = new Set(aliasesByTarget.get(normalizeCompact(productCode)) ?? []);
+      const rawConfidenceOverride = toStr(product.confidence_override);
+      const confidenceOverride: VariantConfidence | null =
+        rawConfidenceOverride === "manual_review" || rawConfidenceOverride === "suggested"
+          ? (rawConfidenceOverride as VariantConfidence)
+          : null;
       const familyItems: IndexedProduct[] = familyCodes.map((familyCode) => {
         const isVariant = normalizeCompact(familyCode) !== normalizeCompact(productCode);
         const familyCodeCompact = normalizeCompact(familyCode);
         const suffixCompact = extractSuffix(productCode, familyCode);
-        const confidence = classifyConfidence({
+        const computedConfidence = classifyConfidence({
           isVariant,
           source,
           isSourceVerifiedVariant: sourceVerifiedVariantCompacts.has(familyCodeCompact),
@@ -609,6 +614,7 @@ async function loadSearchIndex(): Promise<ProductSearchIndex> {
           allowedSuffixes,
           defaultConfidence,
         });
+        const confidence = confidenceOverride ?? computedConfidence;
         const displayName = isVariant
           ? buildVariantDisplayName(baseDisplayName, brand, category, familyCode)
           : baseDisplayName;
