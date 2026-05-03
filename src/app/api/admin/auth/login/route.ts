@@ -1,3 +1,4 @@
+import { loadEnvConfig } from "@next/env";
 import { NextRequest, NextResponse } from "next/server";
 import { appendAdminAuditLog } from "@/lib/admin/audit-log";
 import { getAdminAccountByCredentialsFromStore } from "@/lib/admin/account-store";
@@ -7,6 +8,9 @@ import {
   getAdminCookieOptions,
   getAdminSessionMaxAgeSeconds,
 } from "@/lib/admin/auth";
+
+// Ensure .env.local/.env.production are loaded at runtime
+loadEnvConfig(process.cwd());
 
 function normalizeNextPath(value: unknown) {
   return typeof value === "string" && value.startsWith("/") ? value : "/admin";
