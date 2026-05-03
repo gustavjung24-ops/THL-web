@@ -173,6 +173,17 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
     return result.groups.reduce((acc, current) => acc + current.items.length, 0);
   }, [result]);
 
+  const selectedBrandLabel = useMemo(() => brandOptions.find((option) => option.value === brand)?.label ?? brand, [brand]);
+  const selectedGroupLabel = useMemo(() => groupOptions.find((option) => option.value === group)?.label ?? group, [group]);
+  const isOnlyBrandFilter =
+    brand !== "ALL" &&
+    query.trim().length === 0 &&
+    group === "ALL" &&
+    application.trim().length === 0 &&
+    dInner.trim().length === 0 &&
+    dOuter.trim().length === 0 &&
+    bThickness.trim().length === 0;
+
   const selectedProductKeys = useMemo(() => new Set(selectedProducts.map((item) => getSelectionKey(item))), [selectedProducts]);
   const hasMoreQuickHints = quickHints.length > 3;
   const visibleQuickHints = isQuickHintsExpanded ? quickHints : quickHints.slice(0, 3);
@@ -273,37 +284,66 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
               </Button>
             </div>
 
-            <label className="space-y-1">
+            <div className="space-y-1.5">
               <span className="text-xs font-semibold uppercase tracking-wide text-blue-200">Nhãn hàng</span>
-              <select
-                value={brand}
-                onChange={(event) => setBrand(event.target.value)}
-                className="h-11 w-full rounded-xl border border-[#2d5f96] bg-[#082546] px-3 text-sm text-white outline-none"
-              >
-                {brandOptions.map((option) => (
-                  <option key={option.value} value={option.value} className="bg-[#082546]">
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </label>
+              <div className="flex flex-wrap gap-2">
+                {brandOptions.map((option) => {
+                  const isActive = brand === option.value;
+                  return (
+                    <button
+                      key={option.value}
+                      type="button"
+                      onClick={() => setBrand(option.value)}
+                      className={`min-h-10 rounded-full border px-3 py-2 text-sm font-semibold transition ${
+                        isActive
+                          ? "border-blue-200 bg-[#1a4f85] text-white"
+                          : "border-[#2d5f96] bg-[#082546] text-blue-100 hover:bg-[#103964]"
+                      }`}
+                    >
+                      {option.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="space-y-1.5">
+              <span className="text-xs font-semibold uppercase tracking-wide text-blue-200">Nhóm sản phẩm</span>
+              <div className="flex flex-wrap gap-2">
+                {groupOptions.map((option) => {
+                  const isActive = group === option.value;
+                  return (
+                    <button
+                      key={option.value}
+                      type="button"
+                      onClick={() => setGroup(option.value)}
+                      className={`min-h-10 rounded-full border px-3 py-2 text-sm font-semibold transition ${
+                        isActive
+                          ? "border-blue-200 bg-[#1a4f85] text-white"
+                          : "border-[#2d5f96] bg-[#082546] text-blue-100 hover:bg-[#103964]"
+                      }`}
+                    >
+                      {option.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="rounded-xl border border-[#2d5f96] bg-[#082546] p-3">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-blue-200">Đang lọc</p>
+                <button type="button" className="text-xs font-semibold text-blue-200 hover:text-white" onClick={resetAdvancedFilters}>
+                  Xóa lọc
+                </button>
+              </div>
+              <div className="mt-2 flex flex-wrap gap-2 text-xs">
+                <span className="rounded-full border border-[#2d5f96] bg-[#103964] px-2.5 py-1 text-blue-100">Nhãn hàng: {selectedBrandLabel}</span>
+                <span className="rounded-full border border-[#2d5f96] bg-[#103964] px-2.5 py-1 text-blue-100">Nhóm: {selectedGroupLabel}</span>
+              </div>
+            </div>
 
             <div className="grid gap-3 md:grid-cols-2">
-              <label className="space-y-1">
-                <span className="text-xs font-semibold uppercase tracking-wide text-blue-200">Nhóm sản phẩm</span>
-                <select
-                  value={group}
-                  onChange={(event) => setGroup(event.target.value)}
-                  className="h-11 w-full rounded-xl border border-[#2d5f96] bg-[#082546] px-3 text-sm text-white outline-none"
-                >
-                  {groupOptions.map((option) => (
-                    <option key={option.value} value={option.value} className="bg-[#082546]">
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              </label>
-
               <label className="space-y-1">
                 <span className="text-xs font-semibold uppercase tracking-wide text-blue-200">Ứng dụng</span>
                 <select
@@ -386,7 +426,11 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
 
             {totalResults === 0 ? (
               <div className="rounded-md border border-[#2d5f96] bg-[#082546] px-3 py-2 text-sm text-blue-100">
-                Không có kết quả phù hợp. Thử bỏ bớt điều kiện hoặc đổi nhóm/ứng dụng.
+                {isOnlyBrandFilter
+                  ? "Chưa có dữ liệu cho nhãn hàng này trong bộ tra mã hiện tại."
+                  : query.trim().length > 0
+                    ? "Chưa tìm thấy mã phù hợp trong dữ liệu hiện có. Anh/chị có thể gửi mã hoặc ảnh tem để kiểm tra thêm."
+                    : "Không có kết quả phù hợp. Thử bỏ bớt điều kiện hoặc đổi nhóm/ứng dụng."}
               </div>
             ) : null}
 

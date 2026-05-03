@@ -10,6 +10,8 @@ const BRAND_MAP: Record<string, string> = {
   NTN: "NTN",
   KOYO: "Koyo",
   KOYOJTEKT: "Koyo",
+  JTEKT: "Koyo",
+  KOYOJTEKTCORP: "Koyo",
   TSUBAKI: "Tsubaki",
   NOK: "NOK",
   MITSUBA: "Mitsuba",
@@ -309,7 +311,7 @@ function mapProductBrand(rawBrand: string): ProductBrand {
   if (normalized.includes("SOHO")) return "Soho V-Belt";
   if (normalized.includes("MITSUBA")) return "Mitsuba";
   if (normalized.includes("TSUBAKI")) return "Tsubaki";
-  if (normalized.includes("KOYO")) return "Koyo";
+  if (normalized.includes("KOYO") || normalized.includes("JTEKT")) return "Koyo";
   if (normalized.includes("NOK")) return "NOK";
   return "NTN";
 }

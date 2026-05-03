@@ -57,34 +57,6 @@ export function QuoteSearchAndForm() {
     ].join("\n");
   }
 
-  async function shareViaDevice(message: string): Promise<boolean> {
-    if (typeof navigator === "undefined" || typeof navigator.share !== "function") {
-      return false;
-    }
-
-    try {
-      await navigator.share({
-        title: "Yêu cầu báo giá THL",
-        text: message,
-        url: siteConfig.zaloLink,
-      });
-      return true;
-    } catch (error) {
-      if (error instanceof DOMException && error.name === "AbortError") {
-        return true;
-      }
-      return false;
-    }
-  }
-
-  function isMobileLikeDevice(): boolean {
-    if (typeof window === "undefined") {
-      return false;
-    }
-
-    return window.matchMedia("(max-width: 767px)").matches || /Android|iPhone|iPad|iPod/i.test(window.navigator.userAgent);
-  }
-
   async function openQuickZalo(items: ProductSearchItem[]) {
     if (items.length === 0) {
       return;
@@ -92,25 +64,15 @@ export function QuoteSearchAndForm() {
 
     const base = siteConfig.zaloLink?.trim() || "https://zalo.me/0902964685";
     const message = buildQuickZaloMessage(items);
-    const separator = base.includes("?") ? "&" : "?";
-    const directUrl = `${base}${separator}text=${encodeURIComponent(message)}`;
     setLastZaloMessage(message);
 
-    if (isMobileLikeDevice()) {
-      const shared = await shareViaDevice(message);
-      if (shared) {
-        setZaloHint("Đã mở menu chia sẻ của máy. Nếu thấy Zalo, chọn Zalo để gửi nhanh nội dung.");
-        return;
-      }
-    }
-
     const copied = await copyToClipboard(message);
-    setPendingZaloUrl(directUrl);
+    setPendingZaloUrl(base);
     setIsZaloGuideOpen(true);
 
     setZaloHint(
       copied
-        ? "Đã copy nội dung. Bấm nút lớn để mở Zalo rồi dán vào khung chat."
+        ? "Đã copy nội dung yêu cầu. Anh/chị chỉ cần mở Zalo, dán nội dung và gửi."
         : "Chưa copy được tự động. Dùng nút copy lại nội dung trong popup rồi mở Zalo.",
     );
   }
@@ -282,8 +244,8 @@ export function QuoteSearchAndForm() {
             <div className="flex items-start justify-between gap-3">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.16em] text-emerald-700">Bước gửi Zalo</p>
-                <h3 className="mt-2 text-xl font-semibold text-slate-950">Nội dung đã được copy</h3>
-                <p className="mt-1 text-sm text-slate-600">Bước tiếp theo là mở Zalo. Khi vào khung chat, bạn chỉ cần bấm Dán rồi gửi.</p>
+                <h3 className="mt-2 text-xl font-semibold text-slate-950">Đã copy nội dung yêu cầu</h3>
+                <p className="mt-1 text-sm text-slate-600">Đã copy nội dung yêu cầu. Anh/chị chỉ cần mở Zalo, dán nội dung và gửi.</p>
               </div>
               <Button type="button" variant="outline" className="border-slate-200 text-slate-600 hover:bg-slate-100" onClick={() => setIsZaloGuideOpen(false)}>
                 <X className="size-4" />
@@ -294,14 +256,14 @@ export function QuoteSearchAndForm() {
               <p className="text-sm font-semibold text-emerald-950">Luồng thao tác</p>
               <ol className="mt-2 space-y-1 text-sm text-emerald-900">
                 <li>1. Nội dung báo giá đã được copy sẵn.</li>
-                <li>2. Bấm nút bên dưới để mở Zalo.</li>
+                <li>2. Bấm nút Mở Zalo ở bên dưới.</li>
                 <li>3. Trong ô chat Zalo, bấm Dán rồi gửi.</li>
               </ol>
             </div>
 
             <div className="mt-5 flex flex-col gap-3 sm:flex-row">
               <Button type="button" className="h-12 flex-1 bg-emerald-600 text-base font-semibold text-white hover:bg-emerald-700" onClick={openPendingZalo}>
-                <MessageCircle className="mr-2 size-5" /> Đã copy, bấm mở Zalo
+                <MessageCircle className="mr-2 size-5" /> Mở Zalo
               </Button>
               <Button type="button" variant="outline" className="h-12 border-emerald-300 bg-white text-emerald-900 hover:bg-emerald-100" onClick={copyLastZaloMessage}>
                 Copy lại nội dung
