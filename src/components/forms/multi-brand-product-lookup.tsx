@@ -64,6 +64,9 @@ function buildVariantProduct(baseItem: ProductSearchItem, variant: ProductSearch
     status: variant.status,
     baseProductCode: variant.baseProductCode,
     isVariant: variant.isVariant,
+    confidence: variant.confidence,
+    source: variant.source,
+    sourceUrl: variant.sourceUrl,
     relatedVariants: baseItem.relatedVariants.filter((item) => item.productCode !== variant.productCode),
     matchedBy: `Biến thể của dòng ${baseItem.baseProductCode}`,
     matchedAlias: variant.productCode,
@@ -427,6 +430,12 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
                         {item.matchedAlias ? `: ${item.matchedAlias}` : ""}
                       </p>
 
+                      {item.confidence === "manual_review" ? (
+                        <p className="mt-2 rounded-md border border-amber-300/50 bg-amber-500/15 px-2 py-1 text-xs text-amber-100">
+                          Cần xác minh theo catalog hoặc ảnh tem trước khi báo giá.
+                        </p>
+                      ) : null}
+
                       {item.relatedVariants.length > 0 ? (
                         <button
                           type="button"
@@ -459,6 +468,11 @@ export function MultiBrandProductLookup({ onToggleProduct, onSetGroupSelection, 
                                       <p className="text-sm font-semibold text-white">{variant.productCode}</p>
                                       <p className="text-xs text-blue-100">{variant.displayName}</p>
                                       <p className="mt-0.5 text-xs text-blue-200">Cùng dòng với mã nền {item.baseProductCode}</p>
+                                      {variant.confidence === "manual_review" ? (
+                                        <p className="mt-1 rounded-md border border-amber-300/50 bg-amber-500/15 px-2 py-1 text-xs text-amber-100">
+                                          Cần xác minh theo catalog hoặc ảnh tem trước khi báo giá.
+                                        </p>
+                                      ) : null}
                                     </div>
                                   </div>
                                   <Button

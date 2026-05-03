@@ -35,6 +35,14 @@
       "note": "Nhóm triển khai trọng tâm cho phớt chặn dầu và làm kín trục, cần xác minh kích thước và kiểu môi."
     },
     {
+      "brand": "MITSUBA",
+      "status": "active",
+      "sell_allowed": true,
+      "priority": 3,
+      "product_groups": ["belts"],
+      "note": "Nhóm dây curoa Mitsuba theo dữ liệu nhập có nguồn; cần đối chiếu mã in dây, profile và chiều dài trước khi chốt báo giá."
+    },
+    {
       "brand": "SOHO",
       "status": "active",
       "sell_allowed": true,

@@ -24,9 +24,10 @@
       "seal_or_shield": "2RS",
       "clearance": "C3",
       "applications": ["electric motor", "pump", "gearbox"],
-      "confusion_note": "2RS phù hợp môi trường có bụi hoặc ẩm hơn ZZ, cần xác nhận tốc độ và nhiệt vận hành.",
+      "confusion_note": "Can xac minh lai theo catalog NTN chinh thuc/anh tem truoc khi bao gia; khong coi la ma verified mac dinh.",
+      "evidence_status": "manual_review",
       "allowed_to_sell": true,
-      "manual_confirmation_required": false
+      "manual_confirmation_required": true
     },
     {
       "id": "CAT-002",
