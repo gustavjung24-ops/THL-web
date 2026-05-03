@@ -1,10 +1,31 @@
 import { NextResponse } from "next/server";
 import { appendAdminAuditLog } from "@/lib/admin/audit-log";
 import { requireAdminApiPermission } from "@/lib/admin/api-auth";
-import { createManualQuoteRequest } from "@/lib/admin/quote-store";
+import { createEmptyProactiveQuote } from "@/lib/admin/proactive-quote";
+import { getProactiveQuoteById, listProactiveQuotes, upsertProactiveQuote } from "@/lib/admin/proactive-quote-store";
 
 function str(input: unknown) {
   return typeof input === "string" ? input.trim() : "";
+}
+
+export async function GET(request: Request) {
+  const auth = await requireAdminApiPermission(request, "quotes:read");
+  if (auth.error) {
+    return auth.error;
+  }
+
+  const url = new URL(request.url);
+  const quoteId = str(url.searchParams.get("id"));
+  if (quoteId) {
+    const quote = await getProactiveQuoteById(quoteId);
+    if (!quote) {
+      return NextResponse.json({ ok: false, error: "Không tìm thấy báo giá chủ động." }, { status: 404 });
+    }
+    return NextResponse.json({ ok: true, quote });
+  }
+
+  const quotes = await listProactiveQuotes();
+  return NextResponse.json({ ok: true, quotes });
 }
 
 export async function POST(request: Request) {
@@ -15,44 +36,69 @@ export async function POST(request: Request) {
 
   const body = (await request.json().catch(() => null)) as Record<string, unknown> | null;
   if (!body) {
-    return NextResponse.json({ ok: false, error: "Payload tao bao gia khong hop le." }, { status: 400 });
+    return NextResponse.json({ ok: false, error: "Payload báo giá không hợp lệ." }, { status: 400 });
   }
 
-  const fullName = str(body.fullName);
-  const requestedCode = str(body.requestedCode);
-  const productGroup = str(body.productGroup);
+  let quoteInput: unknown = body.quote;
 
-  if (!fullName || !requestedCode || !productGroup) {
+  if (!quoteInput) {
+    const fallback = createEmptyProactiveQuote();
+    quoteInput = {
+      ...fallback,
+      customer: {
+        ...fallback.customer,
+        name: str(body.fullName),
+        email: str(body.email),
+        phoneOrZalo: str(body.phone),
+        company: str(body.company),
+        province: str(body.area),
+      },
+      source_type: "manual",
+      note: str(body.notes),
+      items: [
+        {
+          brand: "",
+          code: str(body.requestedCode),
+          normalizedCode: str(body.requestedCode),
+          name: "",
+          productGroup: str(body.productGroup),
+          productGroupLabel: str(body.productGroup),
+          quantity: Number(str(body.quantity) || "1") || 1,
+          internalPrice: null,
+          lineDiscountPercent: 0,
+          note: str(body.notes),
+          source: "manual_admin",
+          confidence: "manual_review",
+          priceStatus: "manual_review",
+          sourceUrl: "",
+        },
+      ],
+    };
+  }
+
+  try {
+    const quote = await upsertProactiveQuote(quoteInput);
+
+    await appendAdminAuditLog({
+      actorEmail: auth.session.email,
+      action: "quote.updated",
+      targetId: quote.quote_id,
+      message: "Upsert bao gia chu dong",
+      meta: {
+        sourceType: quote.source_type,
+        status: quote.status,
+        items: quote.items.length,
+      },
+    });
+
+    return NextResponse.json({ ok: true, quote });
+  } catch (error) {
     return NextResponse.json(
-      { ok: false, error: "Can nhap ten khach hang, nhom vat tu va ma can bao gia." },
-      { status: 400 },
+      {
+        ok: false,
+        error: error instanceof Error ? error.message : "Không lưu được báo giá chủ động.",
+      },
+      { status: 500 },
     );
   }
-
-  const quote = await createManualQuoteRequest({
-    fullName,
-    email: str(body.email),
-    phone: str(body.phone),
-    company: str(body.company),
-    area: str(body.area),
-    productGroup,
-    requestedCode,
-    application: str(body.application),
-    quantity: str(body.quantity),
-    priority: str(body.priority),
-    notes: str(body.notes),
-  });
-
-  await appendAdminAuditLog({
-    actorEmail: auth.session.email,
-    action: "quote.updated",
-    targetId: quote.id,
-    message: "Tao bao gia chu dong",
-    meta: {
-      sourceType: quote.sourceType,
-      status: quote.status,
-    },
-  });
-
-  return NextResponse.json({ ok: true, quote });
 }

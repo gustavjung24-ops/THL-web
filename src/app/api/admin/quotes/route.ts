@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { requireAdminApiPermission } from "@/lib/admin/api-auth";
-import { listProactiveQuotes } from "@/lib/admin/proactive-quote";
+import { listProactiveQuotes } from "@/lib/admin/proactive-quote-store";
 
 export async function GET(request: Request) {
   const auth = await requireAdminApiPermission(request, "quotes:read");

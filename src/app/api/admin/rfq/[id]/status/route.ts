@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { appendAdminAuditLog } from "@/lib/admin/audit-log";
 import { requireAdminApiPermission } from "@/lib/admin/api-auth";
 import { RFQ_WORKFLOW_STATUSES, type QuoteRequestStatus } from "@/lib/admin/quote-workflow";
-import { updateRfqStatus } from "@/lib/admin/proactive-quote";
+import { updateRfqStatus } from "@/lib/admin/rfq-requests";
 
 export async function POST(request: Request, { params }: { params: { id: string } }) {
   const auth = await requireAdminApiPermission(request, "quotes:status");

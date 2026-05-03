@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { requireAdminApiPermission } from "@/lib/admin/api-auth";
-import { listRfqRequests } from "@/lib/admin/proactive-quote";
+import { listRfqRequests } from "@/lib/admin/rfq-requests";
 
 export async function GET(request: Request) {
   const auth = await requireAdminApiPermission(request, "quotes:read");
