@@ -1,1 +1,44 @@
-[]
+[
+  {
+    "id": "Q-THL-20260503-446F5C47",
+    "createdAt": "2026-05-03T13:22:22.520Z",
+    "updatedAt": "2026-05-03T13:22:22.520Z",
+    "source": "admin-manual",
+    "channel": "admin",
+    "sourceType": "manual",
+    "status": "draft",
+    "customer": {
+      "fullName": "fdsf",
+      "email": "",
+      "phone": "",
+      "company": "",
+      "area": ""
+    },
+    "productGroup": "adsd",
+    "application": "",
+    "priority": "Binh thuong theo ke hoach",
+    "notes": "",
+    "uploadedFiles": [],
+    "items": [
+      {
+        "code": "ádasdasd",
+        "name": "",
+        "quantity": "",
+        "unit": "cái",
+        "internalPrice": 0,
+        "lineDiscountPercent": 0,
+        "note": ""
+      }
+    ],
+    "pricing": {
+      "currency": "VND",
+      "subtotal": 0,
+      "totalDiscountPercent": 0,
+      "vatPercent": 10,
+      "shippingFee": 0,
+      "grandTotal": 0
+    },
+    "internalSummary": "",
+    "draftMessage": ""
+  }
+]

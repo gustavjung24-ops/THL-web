@@ -1,0 +1,21 @@
+[
+  {
+    "id": "2b725509-b0ed-4ff6-9186-c5585fcad9bc",
+    "createdAt": "2026-05-03T13:22:22.521Z",
+    "actorEmail": "khuongbinh.info@gmail.com",
+    "action": "quote.updated",
+    "targetId": "Q-THL-20260503-446F5C47",
+    "message": "Tao bao gia chu dong",
+    "meta": {
+      "sourceType": "manual",
+      "status": "draft"
+    }
+  },
+  {
+    "id": "47bbb4a1-e2c0-4674-8925-16036fe7cfae",
+    "createdAt": "2026-05-03T13:21:38.286Z",
+    "actorEmail": "khuongbinh.info@gmail.com",
+    "action": "auth.otp_verified",
+    "message": "Dang nhap admin thanh cong"
+  }
+]
