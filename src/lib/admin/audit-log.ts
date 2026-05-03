@@ -30,18 +30,23 @@ const AUDIT_FILE = "admin-audit-log.json";
 const MAX_LOG_ITEMS = 2000;
 
 export async function appendAdminAuditLog(input: Omit<AdminAuditRecord, "id" | "createdAt">) {
-  const current = await readJsonFile<AdminAuditRecord[]>(AUDIT_FILE, []);
-  const next: AdminAuditRecord = {
-    id: randomUUID(),
-    createdAt: new Date().toISOString(),
-    actorEmail: input.actorEmail,
-    action: input.action,
-    targetId: input.targetId,
-    message: input.message,
-    meta: input.meta,
-  };
+  try {
+    const current = await readJsonFile<AdminAuditRecord[]>(AUDIT_FILE, []);
+    const next: AdminAuditRecord = {
+      id: randomUUID(),
+      createdAt: new Date().toISOString(),
+      actorEmail: input.actorEmail,
+      action: input.action,
+      targetId: input.targetId,
+      message: input.message,
+      meta: input.meta,
+    };
 
-  const merged = [next, ...current].slice(0, MAX_LOG_ITEMS);
-  await writeJsonFile(AUDIT_FILE, merged);
-  return next;
+    const merged = [next, ...current].slice(0, MAX_LOG_ITEMS);
+    await writeJsonFile(AUDIT_FILE, merged);
+    return next;
+  } catch (error) {
+    console.warn("[admin/audit] skip audit write", error);
+    return null;
+  }
 }
