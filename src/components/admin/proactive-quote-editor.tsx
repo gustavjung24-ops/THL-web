@@ -401,14 +401,46 @@ export function ProactiveQuoteEditor({ initialQuote }: Props) {
   }
 
   function printPdf() {
-    const popup = openHtmlPrint();
-    if (!popup) {
+    if (quote.items.length === 0) {
+      setFeedback("Vui lòng thêm ít nhất 1 sản phẩm trước khi in.");
       return;
     }
 
-    setTimeout(() => {
-      popup.print();
-    }, 350);
+    const iframe = document.createElement("iframe");
+    iframe.style.position = "fixed";
+    iframe.style.right = "0";
+    iframe.style.bottom = "0";
+    iframe.style.width = "0";
+    iframe.style.height = "0";
+    iframe.style.border = "0";
+    iframe.style.visibility = "hidden";
+
+    const printableHtml = buildPrintHtml({
+      ...quote,
+      subtotal: calculated.totals.subtotal,
+      total: calculated.totals.grandTotal,
+    });
+
+    iframe.onload = () => {
+      const frameWindow = iframe.contentWindow;
+      if (!frameWindow) {
+        setFeedback("Không thể mở trình in PDF.");
+        document.body.removeChild(iframe);
+        return;
+      }
+
+      frameWindow.focus();
+      frameWindow.print();
+
+      window.setTimeout(() => {
+        if (document.body.contains(iframe)) {
+          document.body.removeChild(iframe);
+        }
+      }, 1500);
+    };
+
+    document.body.appendChild(iframe);
+    iframe.srcdoc = printableHtml;
   }
 
   return (
