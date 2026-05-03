@@ -1,7 +1,3 @@
-import { loadEnvConfig } from "@next/env";
-
-loadEnvConfig(process.cwd());
-
 const textEncoder = new TextEncoder();
 const textDecoder = new TextDecoder();
 
